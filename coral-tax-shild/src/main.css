@@ -1,0 +1,122 @@
+#tax-shild {
+	display: flex;
+	justify-content: flex-end;
+	position: relative;
+}
+
+#tax-shild .content-wrapper {
+	border-radius: 8px 4px 0px 8px;
+	background: #F9B515;
+	width: fit-content;
+	font-size: 12px;
+	color: #fff;
+	max-height: 41px;
+	padding: 8px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	margin: 0 -20px 0 0;
+	cursor: pointer;
+}
+
+#tax-shild .content-wrapper > p {
+	margin: 0;
+}
+
+#tax-shild [data-popower] > svg {
+	width: 12px;
+	height: 12px;
+}
+
+#tax-shild:after {
+	content: '';
+	position: absolute;
+	bottom: -6px;
+	right: -20px;
+	width: 8px;
+	height: 6px;
+	background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='9' height='6' viewBox='0 0 9 6' fill='none'%3E%3Cpath d='M8.12012 0H0.120117V6L8.12012 0Z' fill='%23EAB63C'/%3E%3C/svg%3E");
+	background-repeat: no-repeat;
+	background-position: 50%;
+	background-size: cover;
+}
+
+@media (max-width: 768px) {
+	#tax-shild {
+		width: 100%;
+		position: absolute;
+		top: 0;
+		right: 0;
+	}
+}
+
+
+.tooltiptext {
+	visibility: hidden;
+	min-width: 336px;
+	background-color: #fff;
+	color: #000;
+	text-align: center;
+	border-radius: 6px;
+	padding: 12px;
+	font-size: 12px;
+	box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+
+	@media (max-width: 768px) {
+		width: min(100%, 336px);
+		min-width: unset;
+	}
+
+	position: absolute;
+	z-index: 1;
+	bottom: 120%;
+	right: -20px;
+
+
+	opacity: 0;
+	transform: translateY(3px);
+	transition: all 0.3s;
+}
+
+.tooltiptext:after {
+	content: '';
+	background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='8' viewBox='0 0 16 8' fill='none'%3E%3Cpath d='M0 0H8H16L9.41421 6.58579C8.63316 7.36684 7.36684 7.36684 6.58579 6.58579L0 0Z' fill='white'/%3E%3C/svg%3E");
+	width: 16px;
+	height: 8px;
+	position: absolute;
+	bottom: -8px;
+	right: 25px;
+}
+
+#tax-shild:hover .tooltiptext {
+	visibility: visible;
+	opacity: 1;
+	transform: translateY(0);
+}
+
+.tooltiptext ul {
+	list-style: none;
+	margin: 0;
+	padding: 0;
+}
+
+.tooltiptext ul li {
+	padding-block: 12px;
+}
+
+.tooltiptext ul li:first-child {
+	padding-top: 0;
+}
+
+.tooltiptext ul li:last-child {
+	padding-bottom: 0;
+}
+
+.tooltiptext ul li:not(:last-child) {
+	border-bottom: 1px solid rgba(204, 214, 228, 0.60);
+}
+
+.tooltiptext ul li strong {
+	color: rgba(0, 146, 208, 1);
+}
+
