@@ -7,3 +7,4 @@
 +++sunmar-home-page-polish - Редактирование системных стилей главной Sunmar<br>
 +++sunmar-main-popup - Кастомный попап на главной Sunmar<br>
 +++sm-form-adaptive-height - Адаптивная высота iFrame для формы
++++dubai-tours-calendare - Генерация календаря для Туров в Дубай
