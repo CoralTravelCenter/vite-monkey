@@ -13,6 +13,7 @@
     "vite-plugin-monkey": "^3.5.1"
   },
   "dependencies": {
+    "dayjs": "^1.11.12",
     "tippy.js": "^6.3.7"
   }
 }

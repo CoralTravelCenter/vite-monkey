@@ -1,42 +1,26 @@
+import dayjs from 'dayjs'
+
+
 export class CalendarDays {
-  constructor(eventDay, monthIndex) {
-    this.eventDay = eventDay;
-    this.monthIndex = monthIndex;
-    this.year = new Date().getFullYear();
-    this.daysInMonth = new Date(this.year, this.monthIndex, 0).getDate();
-    this.firstDay = new Date(this.year, this.monthIndex, 1).getDay();
-    this.previousMonthDays = this.getPreviousMonthDays();
-  }
+	constructor(month) {
+		this.currentDate = dayjs(month);
+		this.days = Array.from({length: this.currentDate.daysInMonth()}, (_, index) => index + 1);
+		this.numOfDaysInPrevMonth = this.currentDate.subtract(1, 'month').daysInMonth();
+		this.firstDayOfCurrentMonth = this.currentDate.startOf('month').day()
+		this.prevMonthDays = Array.from({length: this.firstDayOfCurrentMonth}, (_, index) => this.numOfDaysInPrevMonth - index).reverse();
+		this.remainingDays = Array.from(
+			{length: 6 - this.currentDate.endOf('month').day()},
+			(_, index) => index + 1
+		)
+	}
 
-  getPreviousMonthDays() {
-    const previousMonthIndex = (this.monthIndex - 1 + 12) % 12;
-    const previousMonthDays = new Date(
-      this.year,
-      previousMonthIndex + 1,
-      0,
-    ).getDate();
-    return previousMonthDays - this.firstDay + 1;
-  }
+	render() {
+		const pannel = [...this.prevMonthDays, ...this.days, ...this.remainingDays];
 
-  render() {
-    const days = [];
-    let day = 1;
-
-    // Добавляем дни предыдущего месяца
-    for (let i = 0; i < this.firstDay; i++) {
-      days.push(`<span class="day">${this.previousMonthDays + i}</span>`);
-    }
-
-    // Добавляем дни месяца
-    for (let i = 0; i < this.daysInMonth; i++) {
-      if (i === this.eventDay - 1) {
-        days.push(`<span class="day active_event">${day}</span>`);
-      } else {
-        days.push(`<span class="day">${day}</span>`);
-      }
-      day++;
-    }
-
-    return days.join("");
-  }
+		return pannel.map(day => {
+			return `
+				<span class="day">${day}</span>
+			`
+		}).join('');
+	}
 }

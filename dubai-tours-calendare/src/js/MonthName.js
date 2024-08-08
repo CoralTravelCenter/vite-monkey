@@ -1,24 +1,15 @@
+import dayjs from 'dayjs'
+import 'dayjs/locale/ru.js'
+
+dayjs.locale('ru')
+
 export class MonthName {
-  #months = [
-    "Январь",
-    "Февраль",
-    "Март",
-    "Апрель",
-    "Май",
-    "Июнь",
-    "Июль",
-    "Август",
-    "Сентябрь",
-    "Октябрь",
-    "Ноябрь",
-    "Декабрь",
-  ];
+	constructor(month) {
+		this.monthIdx = dayjs(month).month();
+		this.monthName = dayjs().month(this.monthIdx).format('MMMM');
+	}
 
-  constructor(monthIndex) {
-    this.monthIndex = monthIndex;
-  }
-
-  render() {
-    return `<div class="js-month__name">${this.#months[this.monthIndex - 1]}</div>`;
-  }
+	render() {
+		return `<div class="js-month__name">${this.monthName}</div>`;
+	}
 }

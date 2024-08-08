@@ -1,49 +1,50 @@
 [data-calendar] {
-    display: flex;
-    padding: 1em;
-    gap: 1em;
+	display: flex;
+	padding: 1em;
+	gap: 1em;
 }
 
 .js-month {
-    display: flex;
-    flex-direction: column;
-    gap: 1em;
-    flex: 1;
-    padding: 2em 3em;
+	display: flex;
+	flex-direction: column;
+	gap: 1em;
+	flex: 1;
+	padding: 2em 3em;
 }
 
 .js-month__dayname-wrapper {
-    display: grid;
-    grid-template-columns: repeat(7, min-content);
-    gap: 1em;
+	display: grid;
+	grid-template-columns: repeat(7, min-content);
+	gap: 1em;
 }
 
 .js-month__day-wrapper {
-    display: grid;
-    grid-template-columns: repeat(7, min-content);
-    gap: 1em;
-    justify-items: center;
+	display: grid;
+	grid-template-columns: repeat(7, min-content);
+	gap: 1em;
+	justify-items: center;
 }
 
 .day,
 .js-month__day-name {
-    width: 1em;
-    height: 1em;
-    padding: 1em;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+	width: 1em;
+	height: 1em;
+	padding: 1em;
+	display: flex;
+	align-items: center;
+	justify-content: center;
 }
 
 .active_event {
-    background: #ff0000;
-    cursor: pointer;
+	background: #ff0000;
+	cursor: pointer;
 }
 
 .active_event.tooltip-open {
-    background: #cf0000;
+	background: #cf0000;
 }
 
 .js-month__name {
-    padding: 0.7em;
+	padding: 0.7em;
+	text-transform: capitalize;
 }
