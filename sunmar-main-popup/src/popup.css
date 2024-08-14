@@ -1,4 +1,4 @@
-sunmar-popup {
+pop-up {
 	font-family: inherit;
 	font-size: clamp(12px, 3vw, 14px);
 	position: fixed;
@@ -12,8 +12,8 @@ sunmar-popup {
 	align-items: start;
 	justify-content: center;
 }
-sunmar-popup:after {
-	content: '';
+pop-up:after {
+	content: "";
 	width: 100%;
 	height: 100%;
 	position: absolute;
@@ -26,10 +26,10 @@ sunmar-popup:after {
 	opacity: 0;
 	transition: opacity 0.3s ease;
 }
-sunmar-popup.js-show:after {
+pop-up.js-show:after {
 	opacity: 1;
 }
-sunmar-popup .content {
+pop-up .content {
 	overflow-y: auto;
 	overflow-x: hidden;
 	scroll-behavior: smooth;
@@ -39,12 +39,14 @@ sunmar-popup .content {
 	height: 100%;
 	display: grid;
 }
-sunmar-popup .content .content__body {
+pop-up .content .content__body {
 	margin-block: 3em;
 	margin-inline: 1em;
 	position: relative;
 	width: min(90%, 422px);
-	transition: transform 0.3s ease, opacity 0.3s ease;
+	transition:
+		transform 0.3s ease,
+		opacity 0.3s ease;
 	transform: translateY(-25%);
 	opacity: 0;
 	background: #fff;
@@ -54,17 +56,19 @@ sunmar-popup .content .content__body {
 	flex-direction: column;
 	gap: 1em;
 	justify-self: center;
-	box-shadow: 0 9px 28px 8px #0000000d, 0 3px 6px -4px #0000001f,
+	box-shadow:
+		0 9px 28px 8px #0000000d,
+		0 3px 6px -4px #0000001f,
 		0 6px 16px #00000014;
 }
-sunmar-popup .content .content__img > img {
+pop-up .content .content__img > img {
 	border-radius: 20px;
 	-webkit-mask-image: -webkit-radial-gradient(white, black);
 	max-width: 100%;
 	height: auto;
 	object-fit: cover;
 }
-sunmar-popup .content .content__conditions {
+pop-up .content .content__conditions {
 	--content_padding: 2em;
 	padding: 0 var(--content_padding) var(--content_padding)
 		var(--content_padding);
@@ -72,21 +76,28 @@ sunmar-popup .content .content__conditions {
 	flex-direction: column;
 	gap: 1em;
 }
-sunmar-popup .content .content__conditions h3 {
+pop-up .content .content__conditions h3 {
 	font-size: 2em;
 	margin: 0;
 	text-align: center;
-	font-weight: 500 !important;
 }
-sunmar-popup .content .content__conditions p {
+
+pop-up .content .content__conditions h5 {
+	font-size: 1.2em;
+	margin: 0;
+	text-align: center;
+	font-weight: 400 !important;
+}
+
+pop-up .content .content__conditions p {
 	font-size: 0.8em;
 	margin: 0;
 }
-sunmar-popup .content .content__conditions p:not(.attention) {
+pop-up .content .content__conditions p:not(.attention) {
 	text-align: center;
 	font-size: 1em;
 }
-sunmar-popup .content .content__conditions ul {
+pop-up .content .content__conditions ul {
 	padding-left: 2em;
 	gap: 0.3em;
 	display: flex;
@@ -94,13 +105,11 @@ sunmar-popup .content .content__conditions ul {
 	font-size: 1em;
 	margin: 0;
 }
-sunmar-popup button.close {
+pop-up button.close {
 	--btn-size: 40px;
 	position: absolute;
 	top: -20px;
 	right: -17px;
-	opacity: 0.9;
-	background: #fff;
 	border: none;
 	width: fit-content;
 	margin: 0;
@@ -115,16 +124,20 @@ sunmar-popup button.close {
 	justify-content: center;
 	z-index: 3;
 	opacity: 1;
+	background: url(https://b2ccdn.coral.ru/content/img/popup-cross.svg), #fff;
+	background-size: 60%;
+	background-repeat: no-repeat;
+	background-position: 50%;
 }
-sunmar-popup [data-close]:hover {
+pop-up [data-close]:hover {
 	cursor: pointer;
 	opacity: 1;
 }
-sunmar-popup [data-close] > svg {
+pop-up [data-close] > svg {
 	width: 50%;
 	height: 50%;
 }
-sunmar-popup .content .prime-btn {
+pop-up .content .prime-btn {
 	font-size: 16px;
 	line-height: 1.5;
 	padding: 11px 15px;
@@ -141,7 +154,7 @@ sunmar-popup .content .prime-btn {
 	justify-content: center;
 	border: none;
 }
-sunmar-popup .content .prime-btn:hover {
+pop-up .content .prime-btn:hover {
 	background: linear-gradient(
 		90deg,
 		rgb(216, 36, 42) 100%,
@@ -149,22 +162,22 @@ sunmar-popup .content .prime-btn:hover {
 	);
 }
 @media (max-width: 768px) {
-	sunmar-popup .content .content__body {
+	pop-up .content .content__body {
 		margin-inline-start: 1em;
 		margin-inline-end: 1.5em;
 	}
-	sunmar-popup button.close {
+	pop-up button.close {
 		top: -15px;
 		right: -15px;
 	}
 }
-sunmar-popup .img-wrapper {
+pop-up .img-wrapper {
 	position: relative;
 	border-top-left-radius: 20px;
 	border-top-right-radius: 20px;
 	overflow: hidden;
 }
-sunmar-popup .vimeo-video-box {
+pop-up .vimeo-video-box {
 	position: absolute;
 	top: 0;
 	left: 0;
@@ -174,11 +187,11 @@ sunmar-popup .vimeo-video-box {
 	transition: opacity 500ms ease;
 }
 
-sunmar-popup .vimeo-video-box.playback {
+pop-up .vimeo-video-box.playback {
 	opacity: 1;
 }
 
-sunmar-popup span.erid {
+pop-up span.erid {
 	position: absolute;
 	bottom: 1em;
 	text-align: center;
@@ -188,34 +201,34 @@ sunmar-popup span.erid {
 	z-index: 5;
 }
 
-sunmar-popup .condition-wrapper ul.collapse {
+pop-up .condition-wrapper ul.collapse {
 	display: none;
 }
 
-sunmar-popup .condition-wrapper {
+pop-up .condition-wrapper {
 	display: flex;
 	flex-direction: column;
 }
 
-sunmar-popup .condition-wrapper #conditions {
+pop-up .condition-wrapper #conditions {
 	background: transparent;
 	border: none;
 	cursor: pointer;
 	margin-inline: auto;
 }
 
-sunmar-popup .condition-wrapper #conditions.hidden {
+pop-up .condition-wrapper #conditions.hidden {
 	display: none;
 	pointer-events: none;
 }
 
-sunmar-popup [data-vimeo] {
+pop-up [data-vimeo] {
 	width: 100%;
 	height: 100%;
 	position: relative;
 }
 
-sunmar-popup [data-vimeo] > iframe {
+pop-up [data-vimeo] > iframe {
 	position: absolute;
 	top: 0;
 	left: 0;
@@ -223,16 +236,27 @@ sunmar-popup [data-vimeo] > iframe {
 	height: 100%;
 }
 
-sunmar-popup .img-wrapper .poster {
+pop-up .img-wrapper .poster {
 	max-height: 263px;
 }
 
-sunmar-popup .img-wrapper .poster > img {
+pop-up .img-wrapper .poster > img {
 	max-width: 100%;
 	height: 100%;
 	object-fit: cover;
 }
 
-sunmar-popup strong {
+pop-up strong.promo {
 	color: rgb(216, 36, 42);
+}
+
+pop-up[data-site="coral"] .content .prime-btn {
+	border-radius: 8px;
+	background: #0092d0;
+	max-width: 80%;
+	margin: 0 auto;
+}
+
+pop-up[data-site="coral"] strong.promo {
+	color: #0092d0;
 }
