@@ -5,6 +5,6 @@
 +++coral-tax-shild - Шильдик налога за номер в Бахрейне<br>
 +++redirect-to-new-site - Шильдик редиректа со старой версии сайта на новую Coral/Sunmar<br>
 +++sunmar-home-page-polish - Редактирование системных стилей главной Sunmar<br>
-+++sunmar-main-popup - Кастомный попап на главной Sunmar<br>
++++popup-management - Разработка тула для автоматизации попапов<br>
 +++sm-form-adaptive-height - Адаптивная высота iFrame для формы
 +++dubai-tours-calendare - Генерация календаря для Туров в Дубай

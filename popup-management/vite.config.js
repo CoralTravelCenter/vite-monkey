@@ -1,4 +1,6 @@
 import { defineConfig } from "vite";
+import { resolve } from "path";
+
 import monkey from "vite-plugin-monkey";
 
 // https://vitejs.dev/config/
@@ -13,4 +15,9 @@ export default defineConfig({
 			},
 		}),
 	],
+	resolve: {
+		alias: {
+			"@": resolve(__dirname, "./src"),
+		},
+	},
 });
