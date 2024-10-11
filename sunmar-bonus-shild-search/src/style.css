@@ -1,0 +1,28 @@
+a.bonus__card {
+    display: flex;
+    color:  #000;
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 400;
+    gap: 8px;
+    flex-shrink: 0;
+    align-items: center;
+    margin-left: 24px;
+    line-height: 19px; /* 118.75% */
+}
+
+a.bonus__card:hover {
+    color: rgb(64, 150, 255)
+}
+
+a.bonus__card svg {
+    width: 32px;
+    flex-shrink: 0;
+    aspect-ratio: 1;
+}
+
+/* mobile */
+a.bonus__card {
+    padding: 16px 16px 0 16px;
+    margin: 0;
+}
