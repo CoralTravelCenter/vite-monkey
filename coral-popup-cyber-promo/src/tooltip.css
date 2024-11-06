@@ -1,0 +1,58 @@
+[data-copy-code] {
+	width: 30px;
+	height: 30px;
+	background: transparent;
+	border-radius: 8px;
+	border: none;
+	padding: 0;
+	cursor: pointer;
+	transition: background var(--transtion);
+}
+[data-copy-code]:hover {
+	background: rgba(0, 0, 0, 0.06);
+}
+[custom-tooltip-component] {
+	position: absolute;
+	top: 8px;
+	right: 17px;
+	transform: scale(0.8);
+	opacity: 0;
+	gap: 8px;
+	transform-origin: center right;
+	padding-top: 50px;
+	transition: all 300ms ease;
+}
+[custom-tooltip-component] .tooltip-content {
+	border-radius: 8px;
+	background: white;
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: 8px;
+}
+[custom-tooltip-component] .tooltip-content:after {
+	content: '';
+	background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 24 24' fill='none' xmlns='http://www.w3.org/2000/svg' stroke='%23fff'%3E%3Cg stroke-width='0'/%3E%3Cg stroke-linecap='round' stroke-linejoin='round'/%3E%3Cpath d='m18.68 13.978-3.21-3.21-1.96-1.97a2.13 2.13 0 0 0-3.01 0l-5.18 5.18c-.68.68-.19 1.84.76 1.84h11.84c.96 0 1.44-1.16.76-1.84Z' fill='%23fff'/%3E%3C/svg%3E");
+	width: 24px;
+	height: 24px;
+	background-repeat: no-repeat;
+	background-size: contain;
+	background-position: center;
+	position: absolute;
+	top: 36px;
+	right: 20px;
+}
+[custom-tooltip-component] .tooltip-content > span {
+	display: block;
+	font-size: 12px;
+	padding: 8px;
+}
+[custom-tooltip-component] .tooltip-content > span [data-copy-code] {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+[custom-tooltip-component].js-active {
+	opacity: 1;
+	transform: scale(1);
+}

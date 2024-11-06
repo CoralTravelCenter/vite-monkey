@@ -7,4 +7,4 @@
 +++sunmar-home-page-polish - Редактирование системных стилей главной Sunmar<br>
 +++popup-management - Разработка тула для автоматизации попапов<br>
 +++sm-form-adaptive-height - Адаптивная высота iFrame для формы<br>
-+++dubai-tours-calendare - Генерация календаря для Туров в Дубай
++++coral-popup-cyber-promo - Промо акция к 08.11
