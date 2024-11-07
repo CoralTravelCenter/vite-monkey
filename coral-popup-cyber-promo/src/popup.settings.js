@@ -5,13 +5,13 @@ window.pop_up_manager_cyber = {
 	action: 'close',
 	discount_size: '3%',
 	poster: 'https://b2ccdn.coral.ru/content/cyber_popup_cover.webp',
-	erid: 'LjN8K2MCr',
+	erid: 'LjN8KTstE',
 	vimeo: '1025027952',
-	underline: 'Лучше воспользуйтесь нашим промокодом <strong>КИБЕР</strong> на скидку <strong>3%</strong> при бронировании тура и отеля онлайн на сайте.',
+	underline: 'Лучше воспользуйтесь нашим промокодом <strong>КИБЕР</strong> на скидку <strong>3%</strong> при бронировании тура или отеля онлайн на сайте.',
 	conditions: [
 		'Промокод: <strong class"promo">КИБЕР</strong> на скидку <strong>3%</strong>',
-		'<strong>Даты бронирования:</strong> c 8.11 по 11.11',
-		'<strong>Даты начала отдыха</strong>: с 8.11. по 20.12 и с 10.01 по 20.02',
+		'<strong>Даты бронирования:</strong> c 8.11.24 по 11.11.24',
+		'<strong>Даты начала отдыха</strong>: с 8.11.24 по 20.12.24 и с 10.01 по 20.02.24',
 		'<strong>Направления:</strong> все, кроме РФ, Абхазии и СНГ'
 	],
 	attention: [

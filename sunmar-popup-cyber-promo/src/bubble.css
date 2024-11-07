@@ -22,10 +22,10 @@ cyber-promo-trigger .icon {
 	display: flex;
 	align-items: center;
 	justify-content: center;
-	background: #8027B7;
-	filter: drop-shadow(1px 2px 6px rgba(96, 39, 183, 0.43));
+	background: var(--gradient_Primary_Hover, linear-gradient(245deg, #E7317D 15.84%, #D8242A 84.16%));
 	border-radius: 100%;
 }
+
 cyber-promo-trigger .icon .icon-text-mobile {
 	display: none;
 	margin: 0;

@@ -7,6 +7,15 @@ function timeUntilEndOfDay() {
 	return endOfDay.getTime() - now.getTime();
 }
 
+export function copyToClipboard(element) {
+	try {
+		navigator.clipboard.writeText(element.textContent);
+		console.log('Содержимое скопировано в буфер обмена!');
+	} catch (err) {
+		console.error('Ошибка при копировании: ', err);
+	}
+}
+
 export function isElementDefined(elementName, callback) {
 	if (customElements.get(elementName) === undefined) callback()
 }

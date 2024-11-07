@@ -1,5 +1,6 @@
 import './popup.settings.js';
 import './style.css';
+import './tooltip.css';
 import './bubble.css';
 import {CoralPopup} from "./popup.class.js";
 import {insertOnce, isElementDefined, mediaMatcher, runOncePerDay} from "./utils.js";
@@ -11,8 +12,8 @@ isElementDefined('cyber-promo-trigger', () => {
 })
 
 
-isElementDefined('coral-popup', () => {
-	customElements.define("coral-popup", CoralPopup);
+isElementDefined('sunmar-popup', () => {
+	customElements.define("sunmar-popup", CoralPopup);
 })
 
 const trigger = new CoralPromoShild();

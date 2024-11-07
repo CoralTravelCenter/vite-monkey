@@ -1,0 +1,13 @@
+section.hello-bar .contenu a {
+	display: block;
+	position: relative;
+}
+
+section.hello-bar .contenu a span {
+	position: absolute;
+	bottom: 8px;
+	right: 16px;
+	color: #fff;
+	font-family: inherit;
+	font-size: 10px;
+}
