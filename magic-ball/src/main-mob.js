@@ -2,20 +2,13 @@ import markup from './markup.html?raw'
 import mobileMarkup from './markup-mobile.html?raw'
 import './style.scss'
 
-function insertOnce(target, place, markup) {
-  if (target.hasAttribute('data-inserted')) return
+function insertOnce(target, place, markup, name) {
+  if (target.dataset.inserted === name) return
   target.insertAdjacentHTML(place, markup)
-  target.setAttribute('data-inserted', true)
+  target.setAttribute('data-inserted', name)
 }
 
-const userAgent = navigator.userAgent;
-const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(userAgent)
-
-if (isMobile) {
-  insertOnce(document.body, 'beforeend', mobileMarkup)
-} else {
-  insertOnce(document.body, 'beforeend', markup)
-}
+insertOnce(document.body, 'beforeend', mobileMarkup, 'ball')
 
 async function preloadScript(url, cb) {
   return new Promise(resolve => {
@@ -74,12 +67,6 @@ async function vimeoAutoPlay(observer_options = {}) {
 
 const blob = document.querySelector('#magic-ball')
 const content = document.querySelector('#magic-ball .content')
-const intro = document.querySelector('#magic-ball .intro-text')
-const joke = document.querySelector('#magic-ball .joke')
-const fakeCountry = document.querySelector('.fake-country')
-const predskazanie = document.querySelector('.predskazanie')
-const fakeText = document.querySelector('.fake-text')
-const link = document.querySelector('#go-to-promopage')
 const closeBtn = document.querySelector('#magic-ball .close')
 const predskazanieArr = [
   {
@@ -112,10 +99,6 @@ const predskazanieArr = [
   }
 ]
 
-
-const {name, description} = getRandomElement(predskazanieArr)
-fakeCountry.innerHTML = name
-fakeText.innerHTML = description
 vimeoAutoPlay()
 
 closeBtn.addEventListener('click', () => {
@@ -125,18 +108,23 @@ closeBtn.addEventListener('click', () => {
 
 content.addEventListener('click', (e) => {
   ym(96674199, 'reachGoal', 'ball', {'click': 'open'})
+  insertOnce(document.body, 'beforeend', markup, 'popup')
+  document.body.style.overflow = 'hidden'
+
+  const joke = document.querySelector('#magic-ball-popup .joke')
+  const fakeText = document.querySelector('.fake-text')
+  const link = document.querySelector('#go-to-promopage')
+  const fakeCountry = document.querySelector('#magic-ball-popup .fake-country')
+  const predskazanie = document.querySelector('#magic-ball-popup .predskazanie')
+  const {name, description} = getRandomElement(predskazanieArr)
+  fakeCountry.innerHTML = name
+  fakeText.innerHTML = description
 
   blob.classList.add('no-events')
-  setTimeout(() => {
-    intro.classList.add('invisible')
-    blob.classList.remove('darken')
-  }, 200)
 
   setTimeout(() => {
-    intro.classList.add('invisible')
     predskazanie.classList.add('visible')
-    blob.classList.add('darken')
-  }, 1200)
+  }, 200)
 
   setTimeout(() => {
     predskazanie.classList.remove('visible')
@@ -152,6 +140,8 @@ content.addEventListener('click', (e) => {
         }
       };
       ym(96674199, 'reachGoal', 'entry-point', yaParams);
+      document.body.style.overflow = 'auto'
+      document.querySelector('#magic-ball-popup').remove();
     });
-  }, 4000)
+  }, 3000)
 })
