@@ -1,67 +1,69 @@
 .welcome-to-app {
-    background: rgb(0, 107, 153);
-    display: flex;
-    align-items: center;
-    gap: 14px;
-    padding: 14px 16px;
+	background: rgb(0, 107, 153);
+	display: flex;
+	align-items: center;
+	gap: 14px;
+	padding: 16px;
 }
 
 .welcome-to-app.js-hidden {
-    display: none;
+	display: none;
 }
 
 .welcome-to-app__logo {
-    flex-shrink: 0;
+	flex-shrink: 0;
+	height: 40px;
 }
 
 .welcome-to-app__title {
-    font-size: 12px;
-    font-weight: 500;
-    line-height: 15px;
-    color: rgb(255, 255, 255);
+	font-size: 12px;
+	font-weight: 400;
+	line-height: 15px;
+	color: rgb(255, 255, 255);
 }
 
 .welcome-to-ap__download {
-    border: 1px solid #fff;
-    border-radius: 4px;
-    background: transparent;
-    color: rgb(255, 255, 255);
-    flex-shrink: 0;
-    display: grid;
-    column-gap: 6px;
-    padding: 4px 7px;
-    grid-template-columns: max-content auto;
+	border: 1px solid #fff;
+	border-radius: 4px;
+	background: transparent;
+	color: rgb(255, 255, 255);
+	flex-shrink: 0;
+	display: grid;
+	column-gap: 6px;
+	padding: 4px 7px;
+	grid-template-columns: max-content auto;
 }
 
 .welcome-to-ap__download span {
-    font-size: 7px;
-    grid-row: 1/2;
-    grid-column: 2/3;
-    text-align: left;
+	font-size: 7px;
+	grid-row: 1/2;
+	grid-column: 2/3;
+	text-align: left;
 }
 
 .welcome-to-ap__download svg {
-    grid-row: span 2;
+	grid-row: span 2;
+	align-self: center;
 }
 
 .welcome-to-ap__download .welcome-to-app__store {
-    font-size: 11px;
-    grid-row: 2/3;
-    grid-column: 2/3;
+	font-size: 11px;
+	grid-row: 2/3;
+	grid-column: 2/3;
 }
 
 .welcome-to-ap__download.js-hidden {
-    display: none;
+	display: none;
 }
 
 .welcome-to-app__close {
-    height: 100%;
-    width: 40px;
-    padding: 0;
-    background: transparent;
-    border: none;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-shrink: 0;
+	height: 100%;
+	width: 40px;
+	padding: 0;
+	background: transparent;
+	border: none;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	flex-shrink: 0;
 }
