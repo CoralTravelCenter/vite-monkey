@@ -50,7 +50,7 @@ function welcomeToAppInit() {
 	if (closeButton) closeButton.addEventListener('click', () => {
 		section && section.classList.add('js-hidden');
 		section.parentElement.parentElement.style.paddingTop = '116px'
-		mobileHambuergerMenuConainer.style.top = '56px'
+		mobileHambuergerMenuConainer.style.top = '106px'
 	})
 }
 
