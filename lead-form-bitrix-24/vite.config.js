@@ -9,8 +9,17 @@ export default defineConfig({
       userscript: {
         icon: 'https://vitejs.dev/logo.svg',
         namespace: 'npm/vite-plugin-monkey',
-        match: ['https://www.sunmar.ru/*'],
+        match: ['https://www.sunmar.ru/info-actions/'],
       },
     }),
   ],
+  css: {
+    preprocessorOptions: {
+      scss: {
+        api: 'modern-compiler' // or "modern"
+      }
+    }
+  }
 });
+
+

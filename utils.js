@@ -17,7 +17,7 @@ export async function hostReactAppReady(
 
 export async function waiteSelector(
 	selector,
-	timeout = 500,
+	timeout = 200,
 ) {
 	return new Promise((resolve) => {
 		const waiter = () => {

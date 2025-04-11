@@ -1,0 +1,22 @@
+.lead-form-bitrix-toogle {
+	border-radius: 16px;
+	border: 1px solid #077DAD;
+	background: #ECF3F9;
+	padding: 8px;
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	font-size: 16px;
+}
+
+.lead-form-bitrix-toogle[data-add-passeger] {
+	margin-top: 10px;
+}
+
+.b24-form-click-btn {
+	padding: 12px 20px;
+	border-radius: 12px;
+	background: var(--Buttons-color_Btn_Bg_Default, #0092D0);
+	color: #fff;
+	font-size: 16px;
+}
