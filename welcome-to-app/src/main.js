@@ -1,10 +1,12 @@
 import markup from './markup.html?raw'
 import './style.css'
+import {ReactDomObserver} from "../../utils.js";
 
 function triggerClick(e, mobileOS) {
   if (e.target.closest('.welcome-to-app__close')) return
 
-  ym(96674199, 'reachGoal', 'application', {
+
+  ym(215233, 'reachGoal', 'mobile_app_install', {
     page: location.pathname,
     store: mobileOS,
   })
@@ -46,44 +48,16 @@ function getMobileOS() {
 
 const mobileOS = getMobileOS()
 
-function observeElement(selector, onAppear, onDisappear) {
-  let isPresent = false
-  const observer = new MutationObserver(() => {
-    const element = document.querySelector(selector)
-    if (element && !isPresent) {
-      isPresent = true
-      onAppear == null ? void 0 : onAppear(element)
-    } else if (!element && isPresent) {
-      isPresent = false
-    }
-  })
-  observer.observe(document.body, {
-    childList: true,
-    subtree: true,
-  })
-  const initialElement = document.querySelector(selector)
-  if (initialElement) {
-    isPresent = true
-    onAppear == null ? void 0 : onAppear(initialElement)
-  }
-  return observer
-}
-
 function welcomeToAppInit() {
   const placeToInsert = document.querySelector('.header-mobile')
   placeToInsert.insertAdjacentHTML('beforebegin', markup)
 
   const mBanner = document?.querySelector('.welcome-to-app')
-  mBanner.parentElement.parentElement.style.paddingTop = '128px'
+  mBanner.parentElement.parentElement.style.paddingTop = '136px'
   mBanner.addEventListener('click', e => triggerClick(e, mobileOS))
 
-  // Метрика появления баннера
-  setTimeout(() => {
-    if (mBanner) ym(96674199, 'reachGoal', 'show')
-  }, 500)
+  if (mBanner) ym(215233, 'reachGoal', 'mobile_app_show', {'page': location.pathname, 'store': mobileOS})
 
-
-  let mobileHambuergerMenuConainer
   const downloadButtonApple = document.querySelector('.apple')
   const downloadButtonGoogle = document.querySelector('.google')
 
@@ -96,16 +70,23 @@ function welcomeToAppInit() {
       break
   }
 
-  observeElement('.mobile-hambuerger-menu-conainer', el => {
-    mobileHambuergerMenuConainer = el
-    mobileHambuergerMenuConainer.style.top = '128px'
-  })
-
   const closeButton = document?.querySelector('.welcome-to-app__close')
+
+  const observer = new ReactDomObserver('.mobile-hambuerger-menu-conainer', {
+    debug: true,
+    onAppear: el => {
+      !mBanner.classList.contains('js-hidden') ? el.style.top = '184px' : el.style.top = '113px'
+      closeButton.addEventListener('click', () => {
+        el.style.top = '113px'
+      })
+    }
+  })
+  observer.start()
+
   closeButton?.addEventListener('click', (e) => {
     mBanner && mBanner.classList.add('js-hidden')
-    mBanner.parentElement.parentElement.style.paddingTop = '56px'
-    if (mobileHambuergerMenuConainer) mobileHambuergerMenuConainer.style.top = '56px'
+    mBanner.parentElement.parentElement.style.paddingTop = '65px'
+    ym(215233, 'reachGoal', 'mobile_app_close', {'page': location.pathname, 'store': mobileOS})
   })
 }
 

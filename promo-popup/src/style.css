@@ -1,0 +1,331 @@
+.promo-bubble {
+    font-family: inherit;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+    padding: 7px 16px 7px 8px;
+    border: 1px solid rgba(0, 0, 0, 0.15);
+    border-radius: 40px;
+    width: fit-content;
+    cursor: pointer;
+    flex-shrink: 0;
+    transition: border-color 0.3s ease;
+}
+
+.promo-bubble:hover {
+    border-color: #66d1ff;
+}
+
+.promo-bubble .icon {
+    width: 32px;
+    height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgb(232 79 13);
+    border-radius: 100%;
+}
+
+.promo-bubble .icon .icon-text {
+    color: #fff;
+}
+
+.promo-bubble .icon .icon-text-mobile {
+    display: none;
+    margin: 0;
+    line-height: 1;
+    font-size: 12px;
+    color: #fff;
+    font-weight: 400;
+}
+
+.promo-bubble .icon .icon-text-desktop {
+    display: block;
+    margin: 0;
+    line-height: 1;
+    font-weight: 600;
+    font-size: 12px;
+    color: #fff;
+}
+
+.promo-bubble .icon > svg {
+    display: block;
+    width: 100%;
+    height: 100%;
+}
+
+.promo-bubble .text > p {
+    margin: 0;
+    line-height: 1;
+    font-weight: 600;
+    font-size: 12px;
+}
+
+@media (max-width: 768px) {
+    .promo-bubble .text {
+        display: none;
+    }
+
+    .promo-bubble .icon .icon-text-mobile {
+        display: block;
+    }
+
+    .promo-bubble .icon .icon-text-desktop {
+        display: block;
+    }
+
+    .promo-bubble {
+        padding: 0;
+        background: #e84f0e;
+        border: none;
+        margin-right: 0;
+        margin-left: 1em;
+    }
+}
+
+#coral-popup {
+    font-family: inherit;
+    font-size: clamp(12px, 3vw, 14px);
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 1000;
+    display: none;
+    align-items: start;
+    justify-content: center;
+}
+
+#coral-popup:after {
+    content: '';
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 98;
+    background: #0000007f;
+    -webkit-backdrop-filter: blur(3px);
+    backdrop-filter: blur(3px);
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+#coral-popup.js-show:after {
+    opacity: 1;
+}
+
+#coral-popup .content {
+    overflow-y: auto;
+    overflow-x: hidden;
+    scroll-behavior: smooth;
+    position: relative;
+    z-index: 99;
+    width: 100%;
+    height: 100%;
+    display: grid;
+}
+
+#coral-popup .content .content__body {
+    margin-block: 3em;
+    margin-inline: 1em;
+    position: relative;
+    width: min(90%, 422px);
+    transition: transform 0.3s ease, opacity 0.3s ease;
+    transform: translateY(-25%);
+    opacity: 0;
+    background: #fff;
+    height: fit-content;
+    border-radius: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 1em;
+    justify-self: center;
+    box-shadow: 0 9px 28px 8px #0000000d, 0 3px 6px -4px #0000001f,
+    0 6px 16px #00000014;
+}
+
+#coral-popup .content .content__img > img {
+    border-radius: 20px;
+    -webkit-mask-image: -webkit-radial-gradient(white, black);
+    max-width: 100%;
+    height: auto;
+    object-fit: cover;
+}
+
+#coral-popup .content .content__conditions {
+    --content_padding: 2em;
+    padding: 0 var(--content_padding) var(--content_padding) var(--content_padding);
+    display: flex;
+    flex-direction: column;
+    gap: 1em;
+}
+
+#coral-popup .content .content__conditions h3 {
+    font-size: 2em;
+    margin: 0;
+    text-align: center;
+    font-weight: 500 !important;
+}
+
+#coral-popup .content .content__conditions p {
+    font-size: 0.8em;
+    margin: 0;
+}
+
+#coral-popup .content .content__conditions p:not(.attention) {
+    text-align: center;
+    font-size: 1em;
+}
+
+#coral-popup .content .content__conditions p.underline {
+    font-size: 12px;
+}
+
+#coral-popup .content .content__conditions ul {
+    padding-left: 2em;
+    gap: 0.3em;
+    display: flex;
+    flex-direction: column;
+    font-size: 1em;
+    margin: 0;
+}
+
+#coral-popup button.close {
+    --btn-size: 40px;
+    position: absolute;
+    top: -20px;
+    right: -17px;
+    background: #fff;
+    border: none;
+    margin: 0;
+    padding: 0;
+    width: var(--btn-size);
+    flex-shrink: 0;
+    align-self: end;
+    height: var(--btn-size);
+    border-radius: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 3;
+    opacity: 1;
+}
+
+#coral-popup [data-close]:hover {
+    cursor: pointer;
+    opacity: 1;
+}
+
+#coral-popup [data-close] > svg {
+    width: 50%;
+    height: 50%;
+}
+
+#coral-popup .content .prime-btn {
+    font-size: 16px;
+    line-height: 1.5;
+    height: 48px;
+    padding: 11px 15px;
+    display: flex;
+    align-items: center;
+    min-width: 160px;
+    border-radius: 8px;
+    background: #0093d0;
+    color: #fff;
+    justify-content: center;
+    border: none;
+    transition: all 300ms ease;
+}
+
+#coral-popup .content .prime-btn:hover {
+    background: #66d1ff;
+}
+
+@media (max-width: 768px) {
+    #coral-popup .content .content__body {
+        margin-inline-start: 1em;
+        margin-inline-end: 1.5em;
+    }
+
+    #coral-popup button.close {
+        top: -15px;
+        right: -15px;
+    }
+}
+
+#coral-popup .img-wrapper {
+    position: relative;
+    border-top-left-radius: 20px;
+    border-top-right-radius: 20px;
+    overflow: hidden;
+}
+
+#coral-popup .vimeo-video-box {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+}
+
+#coral-popup .vimeo-video-box > span.erid {
+    position: absolute;
+    bottom: 1em;
+    text-align: center;
+    font-size: 0.8em;
+    width: 100%;
+    color: #fff;
+    z-index: 5;
+}
+
+#coral-popup .condition-wrapper ul.collapse {
+    display: none;
+}
+
+#coral-popup .condition-wrapper {
+    display: flex;
+    flex-direction: column;
+}
+
+#coral-popup .condition-wrapper #conditions {
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    margin-inline: auto;
+}
+
+#coral-popup .condition-wrapper #conditions.hidden {
+    display: none;
+    pointer-events: none;
+}
+
+#coral-popup [data-vimeo] {
+    width: 100%;
+    height: 100%;
+    position: relative;
+}
+
+#coral-popup [data-vimeo] > iframe {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+}
+
+#coral-popup .img-wrapper .poster {
+    max-height: 263px;
+}
+
+#coral-popup .img-wrapper .poster > img {
+    max-width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+#coral-popup .strong {
+    color: #0093d0;
+}
