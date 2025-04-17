@@ -1,5 +1,5 @@
 {
-  "name": "promo-popup",
+  "name": "sunmar-egei-quiz-2025",
   "private": true,
   "version": "0.0.0",
   "type": "module",
@@ -9,11 +9,8 @@
     "preview": "vite preview"
   },
   "devDependencies": {
+    "sass": "^1.86.3",
     "vite": "^5.2.12",
     "vite-plugin-monkey": "^4.0.0"
-  },
-  "dependencies": {
-    "dayjs": "^1.11.13",
-    "js-cookie": "^3.0.5"
   }
 }

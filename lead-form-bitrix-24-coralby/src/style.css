@@ -1,0 +1,36 @@
+.js-hidden {
+    display: none;
+    pointer-events: none;
+}
+
+button.b24-form-click-btn {
+    font-weight: 400 !important;
+    border-radius: 8px !important;
+    color: rgb(0 146 208) !important;
+    transition: background 0.3s ease;
+    position: relative;
+    font-size: 0 !important;
+    display: flex !important;
+}
+
+button.b24-form-click-btn:after {
+    content: "Запросить предложение";
+    color: #FFFFFF;
+    width: fit-content;
+    font-size: 14px;
+    font-family: inherit;
+}
+
+div.b24-form-click-btn-wrapper-430 > button:hover {
+    background-color: #66D1FF !important;
+}
+
+.b24-window-scrollable {
+    height: 50vh;
+}
+
+@media (max-width: 768px) {
+    button.b24-form-click-btn {
+        margin-left: 0 !important;
+    }
+}

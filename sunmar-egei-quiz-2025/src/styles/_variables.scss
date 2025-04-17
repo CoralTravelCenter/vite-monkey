@@ -1,0 +1,9 @@
+:root {
+  --question-fz: 32px;
+}
+
+@media (max-width: 768px) {
+  :root {
+    --question-fz: 20px;
+  }
+}

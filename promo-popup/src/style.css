@@ -181,7 +181,7 @@
 }
 
 #coral-popup .content .content__conditions p.underline {
-    font-size: 12px;
+    font-size: 14px;
 }
 
 #coral-popup .content .content__conditions ul {
@@ -235,6 +235,7 @@
     border-radius: 8px;
     background: #0093d0;
     color: #fff;
+    text-decoration: none;
     justify-content: center;
     border: none;
     transition: all 300ms ease;

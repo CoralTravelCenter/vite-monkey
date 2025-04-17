@@ -1,0 +1,16 @@
+#egeisk-quiz .prime-btn {
+  padding: var(--padding-padding_S, 15px) var(--padding-padding_XL, 32px);
+  border-radius: 40px;
+  background: var(--gradient_Primary, linear-gradient(245deg, var(--Gradient-color_Gradinet_Primary_Second, #D8242A) 15.84%, var(--Gradient-color_Gradient_Primary_First, #E7317D) 84.16%));
+  color: var(--Button-color_Bth_Text_Light, #FFF);
+  text-align: center;
+  font-size: var(--Font-Size-font_Size_N, 16px);
+  font-weight: 600;
+  width: fit-content;
+  border: none;
+  cursor: pointer;
+
+  @media (max-width: 768px) {
+    width: 100%;
+  }
+}

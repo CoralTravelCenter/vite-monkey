@@ -1,0 +1,44 @@
+#egeisk-quiz .screen {
+  overflow: hidden;
+  background: #fff;
+}
+
+#egeisk-quiz .screen:not(.final-screen) {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+#egeisk-quiz .screen__content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 32px;
+  text-align: center;
+
+  h2 {
+    font-size: 32px;
+    margin: 0;
+  }
+
+  h3 {
+    font-size: 28px;
+    width: 50%;
+    line-height: 1.3;
+
+    @media (max-width: 768px) {
+      width: 100%;
+    }
+  }
+
+  span {
+    font-size: 24px;
+  }
+}

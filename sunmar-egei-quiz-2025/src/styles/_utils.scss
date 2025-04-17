@@ -1,0 +1,20 @@
+#egeisk-quiz {
+  .js-hidden {
+    display: none;
+  }
+
+  .js-invisible {
+    visibility: hidden;
+    pointer-events: none;
+  }
+
+  .variant.js-false {
+    background: url("https://b2ccdn.sunmar.ru/content/quiz-false.png") no-repeat 95% center, #FEEEE7;
+    background-size: 15%;
+  }
+
+  .variant.js-true {
+    background: url("https://b2ccdn.sunmar.ru/content/quiz-true.png") no-repeat 95% center, #E7FEEC;
+    background-size: 15%;
+  }
+}

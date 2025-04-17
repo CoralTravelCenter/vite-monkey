@@ -1,6 +1,6 @@
 import markup from './markup.html?raw'
 import './style.css'
-import {ReactDomObserver} from "../../utils.js";
+import {hostReactAppReady, ReactDomObserver, waitForLibrary} from "../../utils.js";
 
 function triggerClick(e, mobileOS) {
   if (e.target.closest('.welcome-to-app__close')) return
@@ -56,7 +56,9 @@ function welcomeToAppInit() {
   mBanner.parentElement.parentElement.style.paddingTop = '136px'
   mBanner.addEventListener('click', e => triggerClick(e, mobileOS))
 
-  if (mBanner) ym(215233, 'reachGoal', 'mobile_app_show', {'page': location.pathname, 'store': mobileOS})
+  waitForLibrary(() => window.ym).then(() => {
+    ym(215233, 'reachGoal', 'mobile_app_show', {'page': location.pathname, 'store': mobileOS})
+  });
 
   const downloadButtonApple = document.querySelector('.apple')
   const downloadButtonGoogle = document.querySelector('.google')
@@ -73,7 +75,6 @@ function welcomeToAppInit() {
   const closeButton = document?.querySelector('.welcome-to-app__close')
 
   const observer = new ReactDomObserver('.mobile-hambuerger-menu-conainer', {
-    debug: true,
     onAppear: el => {
       !mBanner.classList.contains('js-hidden') ? el.style.top = '184px' : el.style.top = '113px'
       closeButton.addEventListener('click', () => {
@@ -90,4 +91,6 @@ function welcomeToAppInit() {
   })
 }
 
-if (isMobile && location.pathname !== '/') welcomeToAppInit()
+hostReactAppReady().then(() => {
+  if (isMobile && location.pathname !== '/') welcomeToAppInit()
+})
