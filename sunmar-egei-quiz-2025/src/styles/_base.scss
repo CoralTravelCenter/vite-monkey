@@ -1,10 +1,25 @@
 #egeisk-quiz {
-  max-width: 1370px;
-  width: calc(100% - 24px);
   margin: 0 auto;
   border-radius: 12px;
   overflow: hidden;
   position: relative;
-  margin-block: 32px;
   background: #FFF7E6;
+}
+
+section.quiz-section {
+  background: #FFF7E6;
+  width: 100vw;
+  position: relative;
+  left: 50%;
+  transform: translateX(-50%);
+  padding: 24px 0 16px 0;
+
+  .entry-screen {
+    max-width: 1370px;
+    width: calc(100% - 24px);
+    margin: 0 auto;
+    border-radius: 12px;
+    overflow: hidden;
+    position: relative;
+  }
 }

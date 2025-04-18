@@ -1,0 +1,46 @@
+.vimeo-video-box {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  z-index: 1;
+  background: url("https://b2ccdn.sunmar.ru/content/game desktop 2.webp");
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
+
+  @media (max-width: 768px) {
+    background: url("https://b2ccdn.sunmar.ru/content/game mobile 2.webp");
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover;
+  }
+
+  .vimeo-player {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    opacity: 0;
+    transition: opacity 1s;
+
+    iframe {
+      position: absolute;
+      width: 100%;
+      height: 200%;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+
+      @media (max-width: 768px) {
+        height: 300%;
+      }
+    }
+  }
+
+  .vimeo-player.playback {
+    opacity: 1;
+  }
+}

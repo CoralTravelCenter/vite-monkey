@@ -1,106 +1,145 @@
-<div id="egeisk-quiz" class="quiz">
-
+<section class="quiz-section">
     <div class="screen quiz-screen entry-screen">
         <div class="screen__content">
             <h2>
-                Что вы&nbsp;знаете об&nbsp;Эгейском побережье Турции?
+                Правда или вымысел?<br>
+                Сыграйте в&nbsp;нашу мини-игру и&nbsp;узнайте больше<br>
+                об&nbsp;Эгейском побережье Турции!
             </h2>
-            <span>Сыграйте в&nbsp;квиз и&nbsp;получите приз!</span>
-            <button class="prime-btn next-screen">Сыграть</button>
+            <span>В&nbsp;конце вас ждёт приз!</span>
+            <button class="prime-btn popup-trigger">Играть!</button>
+        </div>
+
+        <div class="vimeo-video-box">
+            <div
+                    class="vimeo-player hidden-on-mobile"
+                    data-vimeo-vid="1076648427"
+            ></div>
+            <div
+                    class="vimeo-player hidden-on-desktop"
+                    data-vimeo-vid="1076648447"
+            ></div>
         </div>
     </div>
+</section>
 
-    <div class="screen quiz-screen rule-screen js-invisible">
-        <div class="screen__content">
-            <h3>
-                Сыграйте в&nbsp;Правду или Ложь об&nbsp;Эгейском побережье Турции и&nbsp;получите приз! Проверим,
-                сможете&nbsp;ли вы&nbsp;отличить выдумку от&nbsp;факта.
-            </h3>
-            <button class="prime-btn next-screen">Сыграть</button>
-        </div>
-    </div>
-
-    <div class="screen quiz-screen questions-screen js-invisible">
-        <div class="question">
-            <div class="question__content">
-                <div class="question__headlines">
-                    <h3 data-question="0">
-                        Во&nbsp;второй половине мая вода в&nbsp;Эгейском море еще недостаточно прогрета для комфортного
-                        купания.
-                    </h3>
-                    <h3 data-question="1" class="js-hidden">
-                        В&nbsp;Эгейском регионе Турции находится одно из&nbsp;семи чудес света.
-                    </h3>
-                    <h3 data-question="2" class="js-hidden">
-                        В&nbsp;мае на&nbsp;Эгейском побережье Турции начинается высокий туристический сезон.
-                    </h3>
-                </div>
-                <div class="question__variants">
-                    <div class="variant" data-variant="true">Правда</div>
-                    <div class="variant" data-variant="false">Ложь</div>
-                    <div class="answers">
-                        <div class="answer js-hidden" data-answer="0">
-                            <span>Ложь:</span> Температура воды в&nbsp;это время года обычно около 22&deg;C, так что
-                            купаться в&nbsp;море
-                            уже приятно.
+<div class="modal micromodal-slide" id="modal-1" aria-hidden="true">
+    <div class="modal__overlay" tabindex="-1" data-micromodal-close>
+        <div class="modal__container" role="dialog" aria-modal="true" aria-labelledby="modal-1-title">
+            <main class="modal__content" id="modal-1-content">
+                <div id="egeisk-quiz" class="quiz">
+                    <button class="modal__close" aria-label="Close modal" data-custom-close="">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="30" height="31" viewBox="0 0 30 31" fill="none">
+                            <rect x="-0.509227" width="1.51211" height="39.5258" rx="0.756057"
+                                  transform="matrix(0.707101 -0.707113 0.707101 0.707113 0.850848 1.69949)"
+                                  fill="#FFFFFF" stroke="#FFFFFF" stroke-width="0.720161"/>
+                            <rect x="0.509227" width="1.51211" height="39.5258" rx="0.756057"
+                                  transform="matrix(-0.707101 -0.707113 -0.707101 0.707113 29.8693 2.41965)"
+                                  fill="#FFFFFF" stroke="#FFFFFF" stroke-width="0.720161"/>
+                        </svg>
+                    </button>
+                    <div class="screen quiz-screen questions-screen">
+                        <div class="question">
+                            <div class="question__content">
+                                <div class="question__headlines">
+                                    <h3 data-question="0">
+                                        Во&nbsp;второй половине мая вода в&nbsp;Эгейском море еще недостаточно прогрета
+                                        для
+                                        комфортного
+                                        купания.
+                                    </h3>
+                                    <h3 data-question="1" class="js-hidden">
+                                        В&nbsp;Эгейском регионе Турции находится одно из&nbsp;семи чудес света.
+                                    </h3>
+                                    <h3 data-question="2" class="js-hidden">
+                                        В&nbsp;мае на&nbsp;Эгейском побережье Турции начинается высокий туристический
+                                        сезон.
+                                    </h3>
+                                </div>
+                                <div class="question__variants">
+                                    <div class="variant" data-variant="true">Правда</div>
+                                    <div class="variant" data-variant="false">Ложь</div>
+                                    <div class="answers">
+                                        <div class="answer js-hidden" data-answer="0">
+                                            Температура воды в&nbsp;это время года обычно около 22&deg;C,
+                                            так что
+                                            купаться в&nbsp;море
+                                            уже приятно.
+                                        </div>
+                                        <div class="answer js-hidden" data-answer="1">
+                                            В&nbsp;античном Эфесе располагался знаменитый храм
+                                            Артемиды, чьи
+                                            руины
+                                            все еще можно увидеть при посещении города.
+                                        </div>
+                                        <div class="answer js-hidden" data-answer="2">
+                                            Благодаря комфортной температуре воды и&nbsp;воздуха, а&nbsp;также
+                                            разнообразию экскурсионных программ, май становится идеальным временем для
+                                            отдыха на&nbsp;Эгейском побережье Турции.
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="question__progress">
+                                    <span class="counter"><span>1</span> из 3 вопросов</span>
+                                    <button class="end-game end-before">Закончить и получить приз</button>
+                                    <div class="progress-bar">
+                                        <div class="fill"></div>
+                                    </div>
+                                </div>
+                                <button class="prime-btn next-question js-hidden">Следующий вопрос</button>
+                                <button class="prime-btn end-after js-hidden">Закончить и получить приз</button>
+                            </div>
+                            <div class="question__visual">
+                                <picture>
+                                    <source media="(max-width: 768px)"
+                                            srcset="https://b2ccdn.sunmar.ru/content/quiz-image-mob.webp">
+                                    <img src="https://b2ccdn.sunmar.ru/content/quiz-image.webp">
+                                </picture>
+                            </div>
                         </div>
-                        <div class="answer js-hidden" data-answer="1">
-                            <span>Правда:</span> В&nbsp;античном Эфесе располагался знаменитый храм Артемиды, чьи руины
-                            все еще можно увидеть при посещении города.
+                    </div>
+                    <div class="screen quiz-screen final-screen js-invisible">
+                        <div class="screen__content">
+                            <h3>Теперь вы&nbsp;знаете правду!<br> Проверите ее&nbsp;в&nbsp;реальной жизни?</h3>
+                            <p>Скидка на&nbsp;отдых на&nbsp;Эгейском побережье ждет вас!</p>
+                            <div class="buttons-container">
+                                <button class="prime-btn redirect-from-quiz">Выбрать тур</button>
+                                <button class="prime-btn blue-btn start-again">Пройти квиз ещё раз</button>
+                            </div>
+                            <div class="conditions">
+                                <h4>Условия акции</h4>
+                                <ul>
+                                    <li>
+                                        Промокод <strong class="promo">КВИЗ</strong> на&nbsp;скидку&nbsp;2%
+                                    </li>
+                                    <li><strong>Даты акции:</strong> 21.04-28.04</li>
+                                    <li><strong>Даты начала отдыха:</strong> 12.05-25.05</li>
+                                    <li><strong>Направления:</strong> Эгейское побережье Турции (Бодрум, Даламан, Измир)
+                                    </li>
+                                </ul>
+                                <p>
+                                    Чтобы воспользоваться промокодом, введите его в&nbsp;поле &laquo;Примечание к&nbsp;заказу&raquo;
+                                    или
+                                    сообщите менеджеру
+                                </p>
+                                <span>
+                                    * Акция не&nbsp;суммируется с&nbsp;другими акциями Sunmar<br>
+                                    ** На&nbsp;GDS билеты в&nbsp;составе пакетного тура скидка не&nbsp;распространяется<br>
+                                    *** Акция распространяется только на&nbsp;новые неоплаченные бронирования пакетных туров
+                                    или отелей на&nbsp;сайте sunmar.ru
+                                </span>
+                            </div>
                         </div>
-                        <div class="answer js-hidden" data-answer="2">
-                            <span>Ложь:</span> Несмотря на&nbsp;комфортную температуру, в&nbsp;мае туристический поток
-                            не&nbsp;такой большой, как летом, что делает отдых более спокойным и&nbsp;доступным.
+                        <div class="screen__visual">
+                            <picture>
+                                <source media="(max-width:768px )"
+                                        srcset="https://b2ccdn.sunmar.ru/content/quiz-end-screen-mob.webp">
+                                <img src="https://b2ccdn.sunmar.ru/content/quiz-end-screen.webp">
+                            </picture>
                         </div>
                     </div>
                 </div>
-                <div class="question__progress">
-                    <span class="counter"><span>1</span> из 3 вопросов</span>
-                    <button class="end-game end-before">Закончить и получить приз</button>
-                    <div class="progress-bar">
-                        <div class="fill"></div>
-                    </div>
-                </div>
-                <button class="prime-btn next-question js-hidden">Следующий вопрос</button>
-                <button class="prime-btn end-after js-hidden">Закончить и получить приз</button>
-            </div>
-            <div class="question__visual">
-                <picture>
-                    <source media="(max-width: 768px)" srcset="https://b2ccdn.sunmar.ru/content/quiz-image-mob.webp">
-                    <img src="https://b2ccdn.sunmar.ru/content/quiz-image.webp">
-                </picture>
-            </div>
-        </div>
-    </div>
-
-    <div class="screen quiz-screen final-screen js-invisible">
-        <div class="screen__content">
-            <h3>Теперь вы&nbsp;знаете правду!<br> Проверите ее&nbsp;в&nbsp;реальной жизни?</h3>
-            <p>Скидка на&nbsp;отдых на&nbsp;Эгейском побережье ждет вас!</p>
-            <button class="prime-btn start-again">Пройти квиз ещё раз</button>
-            <div class="conditions">
-                <h4>Условия акции</h4>
-                <ul>
-                    <li>
-                        Промокод <strong class="promo">КВИЗ</strong> на&nbsp;скидку&nbsp;2%
-                    </li>
-                    <li><strong>Даты акции:</strong> 21.04-28.04</li>
-                    <li><strong>Даты начала отдыха:</strong> 12.05-25.05</li>
-                    <li><strong>Направления:</strong> Эгейское побережье Турции (Бодрум, Даламан, Измир)</li>
-                </ul>
-                <p>Чтобы воспользоваться промокодом, введите его в&nbsp;поле &laquo;Примечание к&nbsp;заказу&raquo; или
-                    сообщите менеджеру</p>
-                <span>* Акция не&nbsp;суммируется с&nbsp;другими акциями Sunmar<br>
-** На&nbsp;GDS билеты в&nbsp;составе пакетного тура скидка не&nbsp;распространяется<br>
-*** Акция распространяется только на&nbsp;новые неоплаченные бронирования пакетных туров
-или отелей на&nbsp;сайте sunmar.ru</span>
-            </div>
-        </div>
-        <div class="screen__visual">
-            <picture>
-                <source media="(max-width:768px )" srcset="https://b2ccdn.sunmar.ru/content/quiz-end-screen-mob.webp">
-                <img src="https://b2ccdn.sunmar.ru/content/quiz-end-screen.webp">
-            </picture>
+            </main>
         </div>
     </div>
 </div>

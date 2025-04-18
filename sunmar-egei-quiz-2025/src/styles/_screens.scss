@@ -1,6 +1,5 @@
 #egeisk-quiz .screen {
   overflow: hidden;
-  background: #fff;
 }
 
 #egeisk-quiz .screen:not(.final-screen) {
@@ -13,6 +12,10 @@
   display: flex;
   align-items: center;
   justify-content: center;
+
+  @media (max-width: 768px) {
+    width: auto;
+  }
 }
 
 #egeisk-quiz .screen__content {
@@ -22,6 +25,7 @@
   justify-content: center;
   gap: 32px;
   text-align: center;
+  color: #fff;
 
   h2 {
     font-size: 32px;
@@ -40,5 +44,55 @@
 
   span {
     font-size: 24px;
+  }
+}
+
+.entry-screen {
+  max-width: 1370px;
+  width: calc(100% - 24px);
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  @media (max-width: 768px) {
+    min-height: 400px;
+  }
+
+
+  .screen__content {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 32px;
+    z-index: 2;
+    padding: 24px;
+
+    h2 {
+      font-size: 40px;
+      color: #fff;
+      margin: 0;
+      text-align: center;
+      font-weight: 400;
+
+      @media (max-width: 1024px) {
+        font-size: 32px;
+      }
+
+      @media (max-width: 768px) {
+        font-size: 24px;
+      }
+    }
+
+    span {
+      color: #fff;
+      font-size: 16px;
+    }
+
+    .prime-btn {
+      width: fit-content;
+    }
   }
 }
