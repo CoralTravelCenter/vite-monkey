@@ -11,6 +11,7 @@ button.b24-form-click-btn {
     position: relative;
     font-size: 0 !important;
     display: flex !important;
+    min-width: 210px !important;
 }
 
 button.b24-form-click-btn:after {
