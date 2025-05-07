@@ -46,6 +46,19 @@ export async function waitForLibrary(getterFn, timeout = 200) {
   });
 }
 
+export function getMobileOS() {
+  const userAgent = navigator.userAgent;
+  if (/android/i.test(userAgent)) return 'Google';
+  if (/iPad|iPhone|iPod/.test(userAgent)) return 'AppStore';
+  return 'other';
+}
+
+export function getBrand() {
+  if (location.host.includes('sunmar')) return 'sunmar';
+  if (location.host.includes('coral')) return 'coral';
+  return null;
+}
+
 
 export function mediaMatcher(size, callback) {
   const mobileWidthMediaQuery = window.matchMedia(`(max-width: ${size}px)`);
@@ -57,17 +70,17 @@ export function mediaMatcher(size, callback) {
 
 export const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)
 
-export function getMobileOS() {
-  const userAgent = navigator.userAgent
-  switch (true) {
-    case /android/i.test(userAgent):
-      return "android";
-    case /iPad|iPhone|iPod/.test(userAgent):
-      return "ios";
-    default:
-      return "other";
-  }
-}
+//export function getMobileOS() {
+//  const userAgent = navigator.userAgent
+//  switch (true) {
+//    case /android/i.test(userAgent):
+//      return "android";
+//    case /iPad|iPhone|iPod/.test(userAgent):
+//      return "ios";
+//    default:
+//      return "other";
+//  }
+//}
 
 export function copyToClipboard(text) {
   try {
@@ -214,43 +227,42 @@ export function watchIntersection(targets, options, yes_handler, no_handler) {
 }
 
 
-/**
- * Наблюдатель за появлением, исчезновением и мутациями конкретного DOM-элемента.
- */
 export class ReactDomObserver {
   /**
    * @param {string} selector - CSS-селектор DOM-элемента для отслеживания.
-   * @param {Object} [config={}] - Объект конфигурации.
-   * @param {boolean} [config.once=false] - Вызвать `onAppear` только один раз.
-   * @param {boolean} [config.debug=false] - Включить логирование.
-   * @param {boolean} [config.watchChild=false] - Следить за изменениями потомков.
-   * @param {boolean} [config.watchAttributes=false] - Следить за изменениями атрибутов.
-   * @param {boolean} [config.observeAttributes=false] - Включить слежку за атрибутами на корне.
-   * @param {boolean} [config.observeChildren=true] - Включить слежку за дочерними элементами (по умолчанию включено).
-   * @param {boolean} [config.observeCharacterData=false] - Включить наблюдение за текстовыми узлами.
-   * @param {string[]} [config.attributeFilter] - Фильтр по названиям атрибутов.
-   * @param {(el: HTMLElement) => void} [config.onAppear] - Колбэк при появлении элемента.
-   * @param {() => void} [config.onDisappear] - Колбэк при исчезновении элемента.
-   * @param {(el: HTMLElement, mutations: MutationRecord[]) => void} [config.onChildMutate] - Колбэк при изменении дочерних узлов.
-   * @param {(el: HTMLElement, mutations: MutationRecord[]) => void} [config.onAttributeMutation] - Колбэк при изменении атрибутов.
+   * @param {Object} [config={}]
+   * @param {boolean} [config.once=false]
+   * @param {boolean} [config.debug=false]
+   * @param {boolean} [config.watchChild=false]
+   * @param {boolean} [config.watchAttributes=false]
+   * @param {boolean} [config.watchCharacterData=false]
+   * @param {string[]} [config.attributeFilter]
+   * @param {(el: HTMLElement) => void} [config.onAppear]
+   * @param {() => void} [config.onDisappear]
+   * @param {(el: HTMLElement, mutations: MutationRecord[]) => void} [config.onChildMutate]
+   * @param {(el: HTMLElement, mutations: MutationRecord[]) => void} [config.onAttributeMutation]
+   * @param {(el: HTMLElement, mutations: MutationRecord[]) => void} [config.onCharacterData]
    */
   constructor(selector, config = {}) {
     this.selector = selector;
     this.once = !!config.once;
     this.debug = !!config.debug;
+    this.mutationCounter = 0;
 
     this.watchChild = !!config.watchChild;
     this.watchAttributes = !!config.watchAttributes;
+    this.watchCharacterData = !!config.watchCharacterData;
 
     this.onAppear = config.onAppear ?? null;
     this.onDisappear = config.onDisappear ?? null;
     this.onChildMutate = config.onChildMutate ?? null;
     this.onAttributeMutation = config.onAttributeMutation ?? null;
+    this.onCharacterData = config.onCharacterData ?? null;
 
     this.options = {
-      attributes: !!config.observeAttributes,
-      childList: config.observeChildren !== false,
-      characterData: !!config.observeCharacterData,
+      attributes: this.watchAttributes,
+      childList: this.watchChild,
+      characterData: this.watchCharacterData,
       subtree: true,
       attributeFilter: Array.isArray(config.attributeFilter) ? config.attributeFilter : undefined
     };
@@ -262,18 +274,15 @@ export class ReactDomObserver {
     this.globalObserver = new MutationObserver(this._handleMutations);
   }
 
-  /**
-   * Запускает наблюдение за элементом.
-   */
   start = () => {
     this._log('▶️ Start observing');
-    this.globalObserver.observe(document.body, this.options);
+    this.globalObserver.observe(document.body, {
+      childList: true,
+      subtree: true
+    });
     requestAnimationFrame(this._initialCheck);
   };
 
-  /**
-   * Останавливает наблюдение и отключает все наблюдатели.
-   */
   stop = () => {
     this._log('⏹️ Stop observing');
     this.globalObserver.disconnect();
@@ -300,11 +309,6 @@ export class ReactDomObserver {
     }
   };
 
-  /**
-   * Обрабатывает появление элемента.
-   * @param {HTMLElement} el
-   * @private
-   */
   _handleAppear = (el) => {
     this._log(`✅ Element appeared: ${this.selector}`);
     this.observed = true;
@@ -314,45 +318,55 @@ export class ReactDomObserver {
       if (this.once) this.triggeredOnce = true;
     }
 
-    if (this.watchChild || this.watchAttributes) {
+    if (this.watchChild || this.watchAttributes || this.watchCharacterData) {
       this._observeElementInternally(el);
     }
   };
 
-  /**
-   * Включает внутреннего наблюдателя на конкретный DOM-элемент.
-   * @param {HTMLElement} el
-   * @private
-   */
   _observeElementInternally = (el) => {
     if (this.elementObserver) return;
 
     this.elementObserver = new MutationObserver(mutations => {
-      for (const mutation of mutations) {
-        if (mutation.type === 'childList' && this.watchChild) {
-          this.onChildMutate?.(el, mutations);
-          break;
+      this._disconnectInternalObserver();
+
+      try {
+        this.mutationCounter++; // Увеличиваем при любом срабатывании
+
+        for (const mutation of mutations) {
+          switch (mutation.type) {
+            case 'childList':
+              if (this.watchChild) {
+                this._log(`👶 Child mutation #${this.mutationCounter}`);
+                this.onChildMutate?.(el, this.mutationCounter);
+                break;
+              }
+              break;
+            case 'attributes':
+              if (this.watchAttributes) {
+                this._log(`🧬 Attribute mutation #${this.mutationCounter}`);
+                this.onAttributeMutation?.(el, this.mutationCounter);
+                break;
+              }
+              break;
+            case 'characterData':
+              if (this.watchCharacterData) {
+                this._log(`✏️ Character data #${this.mutationCounter}`);
+                this.onCharacterData?.(el, this.mutationCounter);
+                break;
+              }
+              break;
+          }
         }
-        if (mutation.type === 'attributes' && this.watchAttributes) {
-          this.onAttributeMutation?.(el, mutations);
-          break;
-        }
+      } finally {
+        this._observeElementInternally(el);
       }
     });
 
-    this.elementObserver.observe(el, {
-      childList: this.watchChild,
-      attributes: this.watchAttributes,
-      subtree: false
-    });
 
+    this.elementObserver.observe(el, this.options);
     this._log('🔍 Internal observer set:', el);
   };
 
-  /**
-   * Отключает внутреннего наблюдателя.
-   * @private
-   */
   _disconnectInternalObserver = () => {
     if (this.elementObserver) {
       this.elementObserver.disconnect();
@@ -360,11 +374,6 @@ export class ReactDomObserver {
     }
   };
 
-  /**
-   * Логирование при включённом debug.
-   * @param {...any} args
-   * @private
-   */
   _log = (...args) => {
     if (this.debug) console.log('[DOMObserver]', ...args);
   };
@@ -374,5 +383,11 @@ export class ReactDomObserver {
 export function appendOnce(placeToAppend, element) {
   if (placeToAppend.hasAttribute('data-inserted')) return;
   placeToAppend.append(element)
+  placeToAppend.setAttribute('data-inserted', 'true')
+}
+
+export function insertOnce(placeToAppend, mode, element) {
+  if (placeToAppend.hasAttribute('data-inserted')) return;
+  placeToAppend.insertAdjacentHTML(mode, element)
   placeToAppend.setAttribute('data-inserted', 'true')
 }

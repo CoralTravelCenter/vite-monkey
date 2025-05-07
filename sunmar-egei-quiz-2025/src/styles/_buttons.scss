@@ -11,11 +11,21 @@
   cursor: pointer;
   text-decoration: none;
 
+  @media (hover: hover) {
+    background: var(--gradient_Primary_Hover, linear-gradient(245deg, var(--Gradient-color_Gradient_Primary_First, #E7317D) 15.84%, var(--Gradient-color_Gradinet_Primary_Second, #D8242A) 84.16%));
+  }
+
   @media (max-width: 768px) {
     width: 100%;
+    font-size: 13px;
+    padding: var(--padding-padding_S, 12px) var(--padding-padding_XL, 24px);
   }
 }
 
 .prime-btn.blue-btn {
-  background: #0E2855;
+  background: #0e2855;
+
+  @media (hover: hover) {
+    background: #12336C;
+  }
 }

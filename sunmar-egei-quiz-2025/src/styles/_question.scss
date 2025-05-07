@@ -31,6 +31,7 @@
 
       @media (max-width: 768px) {
         margin: 0 0 24px;
+        line-height: 1.2;
       }
     }
   }
@@ -71,7 +72,7 @@
       display: flex;
       gap: 16px;
       flex-direction: column;
-      margin-bottom: auto;
+      margin-bottom: 24px;
     }
 
     .variant {
@@ -80,15 +81,27 @@
       background: var(--Base-color_Base_Light_Gray, #F5F5F8);
       font-size: 16px;
       cursor: pointer;
+
+      @media (max-width: 768px) {
+        padding: 20px;
+      }
     }
 
     .answers {
       margin-top: 36px;
       grid-column: span 2;
 
+
       .answer {
         font-size: 16px;
+        @media (max-width: 768px) {
+          padding: 14px;
+        }
       }
     }
   }
+}
+
+#egeisk-quiz .question__variants .answers:has(.js-hidden) {
+  margin: 0;
 }

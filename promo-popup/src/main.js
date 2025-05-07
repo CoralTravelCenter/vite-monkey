@@ -1,7 +1,11 @@
 import './style.css'
 import dayjs from "dayjs";
+import isSameOrAfter from 'dayjs/plugin/isSameOrAfter'
+
+dayjs.extend(isSameOrAfter);
 import Cookies from "js-cookie";
-import {hostReactAppReady} from "../../utils.js";
+import {getBrand, hostReactAppReady, mediaMatcher} from "../../utils.js";
+
 
 /**
  * @typedef {Object} PromoPopupConfig
@@ -22,277 +26,251 @@ import {hostReactAppReady} from "../../utils.js";
 
 /** @type {PromoPopupConfig} */
 window.pop_up_manager = {
-  headline: "Скидка 3% на туры и отели",
+  headline: "",
   button: {
     text: "Продолжить бронирование",
-    action: null
+    action: 'close'
   },
-  discount_size: "3%",
-  symbol: "%",
-  poster: "https://b2ccdn.coral.ru/content/coral_popup_no_mark_04_04_25-2.webp",
+  discount_size: "",
+  symbol: "₽",
+  poster: "https://b2ccdn.sunmar.ru/content/sunmar_popup_no_mark.webp",
   erid: "Реклама &laquo;ООО Центрбронь&raquo; erid: 2W5zFHqDgo",
-  underline: "Чтобы воспользоваться промокодом, введите его в поле <b>«Примечание к заказу»</b> в пункте <b>«Другое»</b> или сообщите менеджеру",
+  underline: "Отправляйтесь в отпуск мечты<br> со скидкой до <strong>13 000 ₽*</strong> по промокоду <strong class='strong'>МАЙ.</strong><br> Мир ждет, чтобы вы его открыли!",
   conditions: [
-    "Промокод: <strong class=\"strong\">АПРЕЛЬ</strong> cкидка 3% на туры и отели",
-    "Даты акции: с&nbsp;04.04.2025 по&nbsp;09.04.2025",
-    "Даты начала отдыха: апрель&nbsp;&mdash; май 2025&nbsp;г.",
+    "Промокод: <strong class='strong'>МАЙ</strong>",
+    "Даты акции: с 29.04.2025 по 05.05.2025",
+    "Даты начала отдыха: май 2025 г.",
     "Направления: все, кроме России, Абхазии<br> и&nbsp;стран СНГ"
   ],
   attention: [
-    "*Скидка не суммируется с действующими акциями и программой лояльности CoralBonus<br>",
-    "**Скидка распространяется только на новые неоплаченные бронирования пакетных туров или отелей<br>",
-    "***Скидка по промокоду действует только при самостоятельном бронировании тура на coral.ru"
+    "<strong>Чтобы воспользоваться промокодом, введите его в поле «Примечание к заказу» или сообщите менеджеру</strong><br><br>",
+    "* Скидка 3&nbsp;000&nbsp;₽ на&nbsp;туры и&nbsp;отели от&nbsp;100&nbsp;000&nbsp;₽. Скидка 6&nbsp;000&nbsp;₽ на&nbsp;туры и&nbsp;отели от&nbsp;200&nbsp;000&nbsp;₽. Скидка 9&nbsp;000&nbsp;₽ на&nbsp;туры и&nbsp;отели от&nbsp;300&nbsp;000&nbsp;₽. Скидка 13&nbsp;000&nbsp;₽ на&nbsp;туры и&nbsp;отели от&nbsp;450&nbsp;000&nbsp;₽. Акция не&nbsp;суммируется с&nbsp;действующими акциями, программой лояльности SunmarBonus, рассрочками и&nbsp;картой рассрочки Халва. Акция распространяется только на&nbsp;новые неоплаченные бронирования пакетных туров или отелей. Акция по&nbsp;промокоду действует только при самостоятельном бронировании тура на&nbsp;sunmar.ru."
   ],
-  promo_start: "2025-04-16 11:58",
-  promo_end: "2025-04-16 13:20",
+  promo_start: "2025-04-29 13:17",
+  promo_end: "2025-05-05 23:30",
   autoplay: true,
   yMetrika: {
-    open: null,
+    open: [215233, 'reachGoal', 'pop_up', {'promocode': 'may'}],
     close: null
   }
 }
 
+const INSERT_PLACES = {
+  sunmar: {
+    desktop: {element: document.querySelector(".v2-left-part"), method: 'prepend'},
+    mobile: {element: document.querySelector(".right-group"), method: 'append'}
+  },
+  coral: {
+    desktop: {element: document.querySelector(".v2-left-part")?.parentElement, method: 'prepend'},
+    mobile: {element: document.querySelector(".right-group"), method: 'append'}
+  }
+};
+
+const BRAND = getBrand();
 
 class PromoPopup {
   constructor(config) {
-    this.config = config
-    this.popup = null
+    this.config = config;
+    this.popup = null;
+    this.cookieKey = `popup_shown_${config.erid || "default"}`;
   }
 
   init() {
-    if (!this.isTodayInRange()) return
+    const turnOn = dayjs().isSameOrAfter(dayjs(pop_up_manager.promo_start))
+    const turnOff = dayjs().isSameOrAfter(dayjs(pop_up_manager.promo_end))
 
-    this.renderBubble()
-    this.bindTrigger()
+    if (!turnOn || turnOff) return
+
+    this.renderBubble();
+    this.bindTrigger();
 
     if (this.config.autoplay && this.shouldShowToday()) {
-      this.showPopup()
-      this.markAsShown()
+      this.showPopup();
+      this.markAsShown();
     }
   }
 
-  isTodayInRange() {
-    const now = dayjs()
-    const startRaw = this.config.promo_start?.trim()
-    const endRaw = this.config.promo_end?.trim()
-
-    if (!startRaw || !endRaw) return false
-
-    const start = dayjs(startRaw, "YYYY-MM-DD HH:mm")
-    const end = dayjs(endRaw, "YYYY-MM-DD HH:mm")
-
-    return now.isAfter(start) && now.isBefore(end)
-  }
 
   shouldShowToday() {
-    const key = this.getCookieKey()
-    return !Cookies.get(key)
+    return !Cookies.get(this.cookieKey);
   }
 
   markAsShown() {
-    const key = this.getCookieKey()
-    const expires = dayjs().endOf("day").toDate()
-    Cookies.set(key, "1", {expires, path: "/"})
-  }
-
-  getCookieKey() {
-    const id = this.config.erid || "default"
-    return `popup_shown_${id}`
+    Cookies.set(this.cookieKey, "1", {expires: dayjs().endOf("day").toDate(), path: "/"});
   }
 
   renderBubble() {
-    const bubble = this.createBubble()
-    const isMobile = window.matchMedia("(max-width: 768px)").matches
-    const target = isMobile
-      ? document.querySelector(".right-group")
-      : document.querySelector(".header-logo")?.parentElement?.parentElement
-
-    if (target && !target.querySelector(".promo-bubble")) {
-      target.appendChild(bubble)
-    }
+    const bubble = this.createBubble();
+    mediaMatcher(992, isMobile => {
+      const place = isMobile ? INSERT_PLACES[BRAND]?.mobile : INSERT_PLACES[BRAND]?.desktop;
+      if (place && place.element && !place.element.querySelector(".promo-bubble")) {
+        place.method === 'prepend' ? place.element.prepend(bubble) : place.element.append(bubble);
+      }
+    });
   }
 
   createBubble() {
-    const bubble = document.createElement("div")
-    bubble.className = "promo-bubble"
+    const {symbol, discount_size} = this.config;
+    const bubble = document.createElement("div");
+    bubble.className = "promo-bubble";
 
-    const icon = document.createElement("div")
-    icon.className = "icon"
+    bubble.innerHTML = `
+      <div class="icon">
+        <div class="icon-text">${symbol}</div>
+      </div>
+      <div class="text">
+        <p>Получите <br> скидку ${discount_size}</p>
+      </div>
+    `;
 
-    const iconText = document.createElement("div")
-    iconText.className = "icon-text"
-    iconText.textContent = this.config.symbol
-
-    icon.appendChild(iconText)
-
-    const textWrap = document.createElement("div")
-    textWrap.className = "text"
-
-    const text = document.createElement("p")
-    text.innerHTML = `Получите <br> скидку ${this.config.discount_size}`
-
-    textWrap.appendChild(text)
-
-    bubble.append(icon, textWrap)
-    return bubble
+    return bubble;
   }
 
   createPopup() {
-    const wrap = document.createElement("div")
-    wrap.id = "coral-popup"
-    wrap.className = "coral-popup"
+    const wrap = document.createElement("div");
+    wrap.id = "coral-popup";
+    wrap.className = "coral-popup";
+    wrap.innerHTML = this.getPopupHtml();
 
-    const buttonHtml = this.getActionButton()
+    wrap.querySelectorAll("[data-close]").forEach(btn => btn.addEventListener("click", this.hidePopup));
+    document.addEventListener("keydown", this.onEscape);
+    document.body.addEventListener("click", this.onClickOutside);
 
-    wrap.innerHTML = `
-			<div class="content">
-				<div class="content__body">
-					<button class="close" data-close>
-						<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 14 14" fill="none">
-							<path fill-rule="evenodd" clip-rule="evenodd"
-								d="M3.63319 3.63243C3.80405 3.46158 4.08105 3.46158 4.25191 3.63243L7.00076 6.38128L9.7496 3.63243C9.92046 3.46158 10.1975 3.46158 10.3683 3.63243C10.5392 3.80329 10.5392 4.0803 10.3683 4.25115L7.61948 7L10.3683 9.74885C10.5392 9.9197 10.5392 10.1967 10.3683 10.3676C10.1975 10.5384 9.92046 10.5384 9.7496 10.3676L7.00076 7.61872L4.25191 10.3676C4.08105 10.5384 3.80405 10.5384 3.63319 10.3676C3.46234 10.1967 3.46234 9.9197 3.63319 9.74885L6.38204 7L3.63319 4.25115C3.46234 4.0803 3.46234 3.80329 3.63319 3.63243Z"
-								fill="#535353"></path>
-						</svg>
-					</button>
-					<div class="img-wrapper">
-						<div class="vimeo-video-box">
-							<span class="erid">${this.config.erid}</span>
-						</div>
-						<div class="poster">
-							<img src="${this.config.poster}" alt="Poster" />
-						</div>
-					</div>
-					<div class="content__conditions">
-						<h3>${this.config.headline}</h3>
-						<p class="underline">${this.config.underline}</p>
-						${buttonHtml}
-						<div class="condition-wrapper">
-							<ul>${this.config.conditions.map(c => `<li>${c}</li>`).join("")}</ul>
-						</div>
-						<p class="attention">${this.config.attention.join("")}</p>
-					</div>
-				</div>
-			</div>
-		`
-
-    // Закрытие по кнопке
-    wrap.querySelectorAll("[data-close]").forEach(btn => {
-      btn.addEventListener("click", () => {
-        this.track("close")
-        this.hidePopup()
-      })
-    })
-
-    // Закрытие по Esc
-    document.addEventListener("keydown", this._onEscape)
-
-    // Клик по ссылке-кнопке
-    const aBtn = wrap.querySelector("a.prime-btn")
+    const aBtn = wrap.querySelector("a.prime-btn");
     if (aBtn) {
       aBtn.addEventListener("click", e => {
-        e.preventDefault()
-        this.track("close")
-        window.open(aBtn.href, "_blank")
-        this.hidePopup()
-      })
+        e.preventDefault();
+        this.track("close");
+        window.open(aBtn.href, "_blank");
+        this.hidePopup();
+      });
     }
 
-    // Обработка клика вне
-    document.body.addEventListener("click", this._onClickInsidePopup)
+    this.popup = wrap;
+    return wrap;
+  }
 
-    this.popup = wrap
-    return wrap
+  getPopupHtml() {
+    const {headline, poster, erid, underline, conditions, attention} = this.config;
+    return `
+      <div class="content">
+        <div class="content__body">
+          <button class="close" data-close>
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 14 14" fill="none">
+              <path fill-rule="evenodd" clip-rule="evenodd"
+                d="M3.63319 3.63243C3.80405 3.46158 4.08105 3.46158 4.25191 3.63243L7.00076 6.38128L9.7496 3.63243C9.92046 3.46158 10.1975 3.46158 10.3683 3.63243C10.5392 3.80329 10.5392 4.0803 10.3683 4.25115L7.61948 7L10.3683 9.74885C10.5392 9.9197 10.5392 10.1967 10.3683 10.3676C10.1975 10.5384 9.92046 10.5384 9.7496 10.3676L7.00076 7.61872L4.25191 10.3676C4.08105 10.5384 3.80405 10.5384 3.63319 10.3676C3.46234 10.1967 3.46234 9.9197 3.63319 9.74885L6.38204 7L3.63319 4.25115C3.46234 4.0803 3.46234 3.80329 3.63319 3.63243Z"
+                fill="#535353"></path>
+            </svg>
+          </button>
+          <div class="img-wrapper">
+            <div class="vimeo-video-box">
+              <span class="erid">${erid}</span>
+            </div>
+            <div class="poster">
+              <img src="${poster}" alt="Poster" />
+            </div>
+          </div>
+          <div class="content__conditions">
+            <h3>${headline}</h3>
+            <p class="underline">${underline}</p>
+            <div class="condition-wrapper">
+              <ul>${conditions.map(c => `<li>${c}</li>`).join('')}</ul>
+            </div>
+            ${this.getActionButton()}
+            <p class="attention">${attention.join('')}</p>
+          </div>
+        </div>
+      </div>
+    `;
   }
 
   getActionButton() {
-    if (this.config.button.action) {
-      return `<a class="prime-btn" href="${this.config.button.action}" target="_blank" rel="noopener noreferrer">${this.config.button.text}</a>`
-    }
-    return `<button class="prime-btn" data-close>${this.config.button.text}</button>`
+    const {text, action} = this.config.button;
+    return action !== 'close'
+      ? `<a class="prime-btn" href="${action}" target="_blank" rel="noopener noreferrer">${text}</a>`
+      : `<button class="prime-btn" data-close>${text}</button>`;
   }
 
-  showPopup() {
+  showPopup = () => {
     if (!this.popup) {
-      this.popup = this.createPopup()
-      document.body.appendChild(this.popup)
+      this.popup = this.createPopup();
+      document.body.appendChild(this.popup);
     }
-    this.popup.style.display = "flex"
-    this.popup.classList.add("js-show")
-    document.body.style.overflow = "hidden"
+    this.popup.style.display = "flex";
+    this.popup.classList.add("js-show");
+    document.body.style.overflow = "hidden";
 
-    const body = this.popup.querySelector(".content__body")
+    const body = this.popup.querySelector(".content__body");
     setTimeout(() => {
-      body.style.transform = "translateY(0)"
-      body.style.opacity = "1"
-    }, 300)
+      body.style.transform = "translateY(0)";
+      body.style.opacity = "1";
+    }, 300);
   }
 
-  hidePopup() {
-    if (!this.popup) return
+  hidePopup = () => {
+    if (!this.popup) return;
 
-    const body = this.popup.querySelector(".content__body")
-    body.style.transform = "translateY(-25%)"
-    body.style.opacity = "0"
+    const body = this.popup.querySelector(".content__body");
+    body.style.transform = "translateY(-25%)";
+    body.style.opacity = "0";
 
     setTimeout(() => {
-      this.popup.remove()
-      this.popup = null
-      document.body.style.overflow = "auto"
-    }, 300)
+      this.popup.remove();
+      this.popup = null;
+      document.body.style.overflow = "auto";
+    }, 300);
 
-    document.removeEventListener("keydown", this._onEscape)
-    document.body.removeEventListener("click", this._onClickInsidePopup)
+    document.removeEventListener("keydown", this.onEscape);
+    document.body.removeEventListener("click", this.onClickOutside);
   }
 
-  _onEscape = (e) => {
+  onEscape = (e) => {
     if (e.key === "Escape") {
-      this.track("close")
-      this.hidePopup()
+      this.track("close");
+      this.hidePopup();
     }
   }
 
-  _onClickInsidePopup = (e) => {
-    const content = this.popup?.querySelector(".content__body")
-    if (content && !content.contains(e.target)) {
-      this.track("close")
-      this.hidePopup()
+  onClickOutside = (e) => {
+    const content = this.popup?.querySelector(".content__body");
+    const trigger = document.querySelector('[href="#popup-trigger"]');
+    if (
+      content &&
+      !content.contains(e.target) &&
+      !trigger.contains(e.target)
+    ) {
+      this.track("close");
+      this.hidePopup();
     }
   }
 
   bindTrigger() {
     document.addEventListener("click", e => {
       if (e.target.closest(".promo-bubble")) {
-        this.track("open")
-        this.showPopup()
+        this.track("open");
+        this.showPopup();
       }
-    })
+    });
 
-    const trigger = document.querySelector('[href="#popup-trigger"]')
+    const trigger = document.querySelector('[href="#popup-trigger"]');
     if (trigger) {
       trigger.addEventListener("click", e => {
-        e.preventDefault()
-        this.track("open")
-        this.showPopup()
-      })
+        e.preventDefault();
+        this.track("open");
+        this.showPopup();
+      });
     }
   }
 
   track(eventType) {
-    const args = this.config.yMetrika?.[eventType]
-
-    if (
-      Array.isArray(args) &&
-      args.length > 0 &&
-      args.every(arg => arg !== null && arg !== undefined) &&
-      typeof window.ym === "function"
-    ) {
-      window.ym(...args)
+    const args = this.config.yMetrika?.[eventType];
+    if (Array.isArray(args) && typeof window.ym === "function") {
+      window.ym(...args);
     }
   }
-
 }
 
 hostReactAppReady().then(() => {
-  const promo = new PromoPopup(window.pop_up_manager)
-  promo.init()
-})
+  const promo = new PromoPopup(window.pop_up_manager);
+  promo.init();
+});

@@ -7,16 +7,19 @@
 	justify-content: space-between;
 	align-items: center;
 	font-size: 16px;
+	width: 100%;
+	margin-block: 10px;
 }
 
-.lead-form-bitrix-toogle[data-add-passeger] {
-	margin-top: 10px;
+.lead-form-bitrix-toogle > span {
+	vertical-align: center;
 }
 
 .b24-form-click-btn {
-	padding: 12px 20px;
-	border-radius: 12px;
-	background: var(--Buttons-color_Btn_Bg_Default, #0092D0);
-	color: #fff;
-	font-size: 16px;
+	padding: 8px 12px !important;
+	border-radius: 12px !important;
+	background: #0092D0 !important;
+	color: #fff !important;
+	font-size: 14px !important;
+	font-weight: 400 !important;
 }

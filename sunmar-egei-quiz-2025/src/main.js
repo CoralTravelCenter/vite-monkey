@@ -1,7 +1,8 @@
 import MicroModal from 'micromodal';
 import {hostReactAppReady, vimeoAutoPlay} from "../../utils.js";
 // import markup from './markup.html?raw'
-// import './style.scss'
+import './style.scss'
+
 
 const CORRECT_ANSWERS = ['false', 'true', 'true'];
 let currentQuestionIndex = 0;
@@ -10,20 +11,20 @@ hostReactAppReady().then(() => {
   // document.querySelector('.carouselContainer').insertAdjacentHTML('afterend', markup)
 // Элементы DOM
   const quizRoot = document.querySelector('#egeisk-quiz');
-  const counterText = quizRoot.querySelector('.counter span');
-  const progressBar = quizRoot.querySelector('.question__progress');
-  const progressBarFill = quizRoot.querySelector('.progress-bar .fill');
-  const nextButton = quizRoot.querySelector('.next-question');
-  const answerButtons = [...quizRoot.querySelectorAll('.variant')];
-  const answerFacts = [...quizRoot.querySelectorAll('[data-answer]')];
-  const questionHeadings = [...quizRoot.querySelectorAll('[data-question]')];
-  const endButtons = [...quizRoot.querySelectorAll('.end-before, .end-after')];
-  const allScreens = [...quizRoot.querySelectorAll('.quiz-screen')];
-  const finalScreen = quizRoot.querySelector('.final-screen');
-  const videoScreen = quizRoot.querySelector('.vimeo-video-box');
-  const trigger = document.querySelector('.popup-trigger');
-  const closeTrigger = quizRoot.querySelector('.modal__close');
-  const LINK = document.querySelector('.redirect-from-quiz');
+  const counterText = quizRoot?.querySelector('.counter span');
+  const progressBar = quizRoot?.querySelector('.question__progress');
+  const progressBarFill = quizRoot?.querySelector('.progress-bar .fill');
+  const nextButton = quizRoot?.querySelector('.next-question');
+  const answerButtons = [...quizRoot?.querySelectorAll('.variant')];
+  const answerFacts = [...quizRoot?.querySelectorAll('[data-answer]')];
+  const questionHeadings = [...quizRoot?.querySelectorAll('[data-question]')];
+  const endButtons = [...quizRoot?.querySelectorAll('.end-before, .end-after')];
+  const allScreens = [...quizRoot?.querySelectorAll('.quiz-screen')];
+  const finalScreen = quizRoot?.querySelector('.final-screen');
+  const videoScreen = quizRoot?.querySelector('.vimeo-video-box');
+  const trigger = document?.querySelector('.popup-trigger');
+  const closeTrigger = quizRoot?.querySelector('.modal__close');
+  const LINK = document?.querySelector('.redirect-from-quiz');
 
 
 // Инициализация
@@ -74,7 +75,7 @@ hostReactAppReady().then(() => {
 
 // Переход к следующему вопросу
   function goToNextQuestion() {
-    answerButtons.forEach(button => button.style.pointerEvents = 'auto');
+    enableAnswers()
     answerFacts[currentQuestionIndex].classList.add('js-hidden');
     questionHeadings[currentQuestionIndex].classList.add('js-hidden');
 
@@ -118,7 +119,7 @@ hostReactAppReady().then(() => {
     } else {
       nextButton.classList.remove('js-hidden');
     }
-    answerButtons.forEach(button => button.style.pointerEvents = 'none');
+    disableAnswers(selectedButton)
   }
 
 // Навешиваем события на кнопки ответов
@@ -195,6 +196,7 @@ hostReactAppReady().then(() => {
     });
 
     resetAnswerStyles();
+    enableAnswers()
 
     // Сброс прогресс-бара и счётчика
     progressBarFill.style.width = '0%';
@@ -213,5 +215,14 @@ hostReactAppReady().then(() => {
       ym(215233, 'reachGoal', 'quiz_finish_page', {'button': 'select_tour'})
       window.open('https://www.sunmar.ru/packagetours/moskva-to-3-tours/?qp=lWOJw1XDa14WeujkN6zDTltGKtoYGc1S4a%2Bha5cOlrDDUWLLLinwRFzi6nlqMl%2BVOQZc7JhcT5%2BrCtZRd60mYbRBAbIrK%2Fvw0hu%2BN2LS3hnxmZJClGfzi2Tt7Kz%2FVgXt78L1KahlEhLXOAnyWBzUTMqS%2BH0ogTrvM92MX%2B4eoR3oFyJ9yLrQUF6d3bZ2Y25qf3Ureq4haZMpZo9b8XWEhbT0tldT0WTIEFY7EtXMa2gwfGnJA3x%2Faetv3ZE0nSsT0q0bhHufRgjsEgGWS1nRwVnVrhMWJ%2Fun%2B7R5TwJSomb7zQ54kf%2FGKZe6d4JNBxqeYmkeHvOnt7OgoBEenS9QXm3PF0eNVO8DBW2CXxOGL44%3D&p=1&w=0&s=0', '_blank')
     });
+  }
+
+  function disableAnswers(selectedButton) {
+    answerButtons.forEach(button => button.style.pointerEvents = 'none');
+    selectedButton.style.pointerEvents = 'auto'
+  }
+
+  function enableAnswers() {
+    answerButtons.forEach(button => button.style.pointerEvents = 'auto');
   }
 });

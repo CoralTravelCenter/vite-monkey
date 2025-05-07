@@ -17,7 +17,7 @@
 
 .modal__container {
   background-color: #fff;
-  max-height: 100vh;
+  max-height: 80vh;
   border-radius: 12px;
   overflow-y: auto;
   box-sizing: border-box;
@@ -162,7 +162,6 @@
   will-change: transform;
 }
 
-
 .modal__close {
   position: absolute;
   top: 0;
@@ -180,4 +179,22 @@
       stroke: #fff;
     }
   }
+}
+
+.simplebar-track.simplebar-vertical {
+  width: 6px;
+}
+
+.simplebar-track {
+  background: #f5f5f8;
+}
+
+.simplebar-scrollbar {
+  background: #0e2855c2;
+  border-radius: 40px;
+}
+
+.modal__container::-webkit-scrollbar {
+  display: none;
+  -ms-overflow-style: none;
 }

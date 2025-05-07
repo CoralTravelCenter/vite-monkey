@@ -1,3 +1,7 @@
+<link
+        rel="stylesheet"
+        href="https://cdn.jsdelivr.net/npm/simplebar@latest/dist/simplebar.css"
+/>
 <section class="quiz-section">
     <div class="screen quiz-screen entry-screen">
         <div class="screen__content">
@@ -22,10 +26,10 @@
         </div>
     </div>
 </section>
-
 <div class="modal micromodal-slide" id="modal-1" aria-hidden="true">
     <div class="modal__overlay" tabindex="-1" data-micromodal-close>
-        <div class="modal__container" role="dialog" aria-modal="true" aria-labelledby="modal-1-title">
+        <div class="modal__container" data-simplebar data-simplebar-auto-hide="false" role="dialog" aria-modal="true"
+             aria-labelledby="modal-1-title">
             <main class="modal__content" id="modal-1-content">
                 <div id="egeisk-quiz" class="quiz">
                     <button class="modal__close" aria-label="Close modal" data-custom-close="">
@@ -104,17 +108,20 @@
                             <p>Скидка на&nbsp;отдых на&nbsp;Эгейском побережье ждет вас!</p>
                             <div class="buttons-container">
                                 <button class="prime-btn redirect-from-quiz">Выбрать тур</button>
-                                <button class="prime-btn blue-btn start-again">Пройти квиз ещё раз</button>
+                                <button class="prime-btn blue-btn start-again">Пройти ещё раз</button>
                             </div>
                             <div class="conditions">
-                                <h4>Условия акции</h4>
+                                <h4>
+                                    Условия акции
+                                </h4>
                                 <ul>
                                     <li>
                                         Промокод <strong class="promo">КВИЗ</strong> на&nbsp;скидку&nbsp;2%
                                     </li>
                                     <li><strong>Даты акции:</strong> 21.04-28.04</li>
                                     <li><strong>Даты начала отдыха:</strong> 12.05-25.05</li>
-                                    <li><strong>Направления:</strong> Эгейское побережье Турции (Бодрум, Даламан, Измир)
+                                    <li><strong>Направления:</strong> Эгейское побережье Турции (Бодрум, Даламан,
+                                        Измир)
                                     </li>
                                 </ul>
                                 <p>
@@ -143,3 +150,4 @@
         </div>
     </div>
 </div>
+<script src="https://cdn.jsdelivr.net/npm/simplebar@latest/dist/simplebar.min.js"></script>

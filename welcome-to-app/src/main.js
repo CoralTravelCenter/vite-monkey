@@ -1,96 +1,107 @@
-import markup from './markup.html?raw'
-import './style.css'
-import {hostReactAppReady, ReactDomObserver, waitForLibrary} from "../../utils.js";
+import markup from './markup.html?raw';
+import './style.css';
+import {
+  getBrand,
+  getMobileOS,
+  hostReactAppReady,
+  insertOnce,
+  isMobile,
+  ReactDomObserver,
+  waitForLibrary
+} from "../../utils.js";
 
-function triggerClick(e, mobileOS) {
-  if (e.target.closest('.welcome-to-app__close')) return
+const linksToApp = {
+  coral: {
+    AppStore: 'https://apps.apple.com/app/id1497841397',
+    Google: ''
+  },
+  sunmar: {
+    AppStore: 'https://apps.apple.com/app/id1509966009',
+    Google: 'https://play.google.com/store/apps/details?id=sunmar.ru.sunmarmobile'
+  }
+};
 
+const YM_COUNTER_ID = 215233;
+const DEFAULT_PADDING = '65px';
+const OPEN_PADDING = '136px';
+const MENU_OPEN_TOP = '184px';
+const MENU_CLOSED_TOP = '113px';
+const OS = getMobileOS()
+const BRAND = getBrand()
 
-  ym(215233, 'reachGoal', 'mobile_app_install', {
+function openAppLink(brand, mobileOS) {
+  const link = linksToApp[brand]?.[mobileOS];
+  if (link) window.open(link, '_blank');
+}
+
+function triggerClick(e) {
+  if (e.target.closest('.welcome-to-app__close')) return;
+
+  ym(YM_COUNTER_ID, 'reachGoal', 'mobile_app_install', {
     page: location.pathname,
-    store: mobileOS,
-  })
-
-  switch (mobileOS) {
-    case 'AppStore':
-      window.open(
-        'https://apps.apple.com/ru/app/coral-travel-туроператор/id1497841397',
-        '_blank'
-      )
-      break
-    case 'Google':
-      window.open(
-        'https://play.google.com/store/apps/details?id=coraltravel.ru.coralmobile',
-        '_blank'
-      )
-      break
-    default:
-      break
-  }
-}
-
-const isMobile =
-  /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(
-    navigator.userAgent
-  )
-
-function getMobileOS() {
-  const userAgent = navigator.userAgent
-  switch (true) {
-    case /android/i.test(userAgent):
-      return 'Google'
-    case /iPad|iPhone|iPod/.test(userAgent):
-      return 'AppStore'
-    default:
-      return 'other'
-  }
-}
-
-const mobileOS = getMobileOS()
-
-function welcomeToAppInit() {
-  const placeToInsert = document.querySelector('.header-mobile')
-  placeToInsert.insertAdjacentHTML('beforebegin', markup)
-
-  const mBanner = document?.querySelector('.welcome-to-app')
-  mBanner.parentElement.parentElement.style.paddingTop = '136px'
-  mBanner.addEventListener('click', e => triggerClick(e, mobileOS))
-
-  waitForLibrary(() => window.ym).then(() => {
-    ym(215233, 'reachGoal', 'mobile_app_show', {'page': location.pathname, 'store': mobileOS})
+    store: OS,
   });
 
-  const downloadButtonApple = document.querySelector('.apple')
-  const downloadButtonGoogle = document.querySelector('.google')
+  if (BRAND) openAppLink(BRAND, OS);
+}
 
-  switch (mobileOS) {
-    case 'Google':
-      downloadButtonGoogle.classList.remove('js-hidden')
-      break
-    case 'AppStore':
-      downloadButtonApple.classList.remove('js-hidden')
-      break
-  }
+function showCorrectDownloadButton() {
+  const buttons = {
+    Google: document.querySelector('.google'),
+    AppStore: document.querySelector('.apple')
+  };
+  buttons[OS]?.classList.remove('js-hidden');
+}
 
-  const closeButton = document?.querySelector('.welcome-to-app__close')
-
+function setupObserver(mBanner, closeButton) {
   const observer = new ReactDomObserver('.mobile-hambuerger-menu-conainer', {
     onAppear: el => {
-      !mBanner.classList.contains('js-hidden') ? el.style.top = '184px' : el.style.top = '113px'
+      el.style.top = !mBanner.classList.contains('js-hidden') ? MENU_OPEN_TOP : MENU_CLOSED_TOP;
       closeButton.addEventListener('click', () => {
-        el.style.top = '113px'
-      })
+        el.style.top = MENU_CLOSED_TOP;
+      });
     }
-  })
-  observer.start()
+  });
+  observer.start();
+}
 
-  closeButton?.addEventListener('click', (e) => {
-    mBanner && mBanner.classList.add('js-hidden')
-    mBanner.parentElement.parentElement.style.paddingTop = '65px'
-    ym(215233, 'reachGoal', 'mobile_app_close', {'page': location.pathname, 'store': mobileOS})
-  })
+function setupCloseButton(mBanner, closeButton) {
+  closeButton?.addEventListener('click', () => {
+    mBanner?.classList.add('js-hidden');
+    mBanner.parentElement.parentElement.style.paddingTop = DEFAULT_PADDING;
+    ym(YM_COUNTER_ID, 'reachGoal', 'mobile_app_close', {
+      page: location.pathname,
+      store: OS
+    });
+  });
 }
 
 hostReactAppReady().then(() => {
-  if (isMobile && location.pathname !== '/') welcomeToAppInit()
-})
+  if (!isMobile) return;
+
+  const placeToInsert = document.querySelector('.header-mobile');
+  const nativeBanner = document.querySelector('.mobile-app-banner-alert');
+
+  if (placeToInsert && !nativeBanner) {
+    insertOnce(placeToInsert, 'beforebegin', markup)
+  }
+
+  const mBanner = document.querySelector('.welcome-to-app');
+  const closeButton = document.querySelector('.welcome-to-app__close');
+
+  if (mBanner) {
+    mBanner.parentElement.parentElement.style.paddingTop = OPEN_PADDING;
+    mBanner.addEventListener('click', triggerClick);
+  }
+
+  waitForLibrary(() => window.ym).then(() => {
+    ym(YM_COUNTER_ID, 'reachGoal', 'mobile_app_show', {
+      page: location.pathname,
+      store: OS
+    });
+  });
+
+  showCorrectDownloadButton();
+  setupObserver(mBanner, closeButton);
+  setupCloseButton(mBanner, closeButton);
+});

@@ -17,4 +17,17 @@
     background: url("https://b2ccdn.sunmar.ru/content/quiz-true.png") no-repeat 95% center, #E7FEEC;
     background-size: 15%;
   }
+
+  .hidden-on-desktop {
+    display: none;
+    @media (min-width: 769px) {
+      display: block;
+    }
+  }
+
+  .js-collapsed {
+    @media (max-width: 768px) {
+      display: none;
+    }
+  }
 }

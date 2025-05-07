@@ -11,7 +11,7 @@
   width: 50%;
   height: 100%;
   align-items: flex-start !important;
-  padding: 20px 0 20px 80px;
+  padding: 20px 0 20px 40px;
   gap: 16px !important;
   text-align: left;
   color: #000;
@@ -19,6 +19,7 @@
   .buttons-container {
     display: flex;
     gap: 12px;
+    width: 100%;
   }
 
   @media (max-width: 768px) {

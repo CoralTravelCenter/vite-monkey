@@ -1,0 +1,25 @@
+.destination-smart-search-container {
+
+    #DestinationSmartSearchContent_TreeContainer {
+        overflow-y: scroll;
+        height: 338px;
+    }
+
+    .header-wrapper {
+        border-radius: 8px;
+        overflow: hidden;
+    }
+
+	.header-wrapper + div {
+		position: absolute;
+        bottom: 0;
+        width: 100%;
+        background: #fff;
+        box-shadow: rgba(149, 157, 165, 0.2) 0 8px 24px;
+	}
+
+    .header-wrapper + div.js-hidden {
+        display: none;
+    }
+}
+
