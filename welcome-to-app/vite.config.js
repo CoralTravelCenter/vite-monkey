@@ -8,7 +8,7 @@ export default defineConfig({
   },
   plugins: [
     monkey({
-      entry: 'src/main.js',
+      entry: 'src/home.js',
       userscript: {
         icon: 'https://vitejs.dev/logo.svg',
         namespace: 'npm/vite-plugin-monkey',

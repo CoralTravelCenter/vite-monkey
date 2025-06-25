@@ -1,0 +1,33 @@
+#quick-search-tab-area + div .swiper {
+    position: relative;
+}
+
+#youth_day_2025_entry {
+    position: absolute;
+    bottom: 16px;
+    left: 0;
+    padding: 10px 30px;
+    border-radius: 0 12px 12px 0;
+    background: linear-gradient(0deg, #3860CF 0%, #3860CF 100%), lightgray -3.98px -138.89px / 102.264% 305.812% no-repeat;
+    z-index: 10;
+    min-width: 310px;
+    color: #fff;
+}
+
+#youth_day_2025_entry h3 {
+    font-size: 22px;
+    margin: 0;
+}
+
+#youth_day_2025_entry:after {
+    content: "";
+    width: 40%;
+    height: 135%;
+    position: absolute;
+    bottom: 0;
+    right: 6%;
+    background-image: url("https://b2ccdn.sunmar.ru/content/landing-pages/yout-day/home-sun.png");
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: contain;
+}

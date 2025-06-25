@@ -3,14 +3,14 @@ import monkey from 'vite-plugin-monkey';
 
 // https://vitejs.dev/config/
 export default defineConfig({
-	plugins: [
-		monkey({
-			entry: 'src/main.js',
-			userscript: {
-				icon: 'https://vitejs.dev/logo.svg',
-				namespace: 'npm/vite-plugin-monkey',
-				match: ['https://new.coral.ru/hotels/bahrain/swiss-belhotel-seef-bahrain-seef/?qp=lWOJw1XDa14WeujkN6zDTrTzWWKAniWQbAbKEbIb2fjAEjMHo2RZYlS7BjLMnN7N7KC8wbdIKR1HIJ17r9SS%2FsrEdAsIdgvE2cwbRtrjupQ6S%2BLo%2Fq7g%2BKzWZpaXPll8nVktM3cnxNeWzzo%2FdvGPN5eItXPds8RPcEyNQOFMv6I3U9XPkTvpUrX0IG6917qxcxU1B5k70qGsEZ0ZdvcUqsb6QRJZO3XJmkV1y0uX2v7AH5U5wD7wO4q1%2BD67phsrxNuZQjLyIHaKNFhbBoAyySMl8tA%2F%2Fm3e2Vc2F5b3ldg%3D&p=1&w=null&s=5&hlu=packagetours%2Fmoskva-to-bahreyn-tours&hlqp=lWOJw1XDa14WeujkN6zDTrTzWWKAniWQbAbKEbIb2fjAEjMHo2RZYlS7BjLMnN7N7KC8wbdIKR1HIJ17r9SS%2FsrEdAsIdgvE2cwbRtrjupQ6S%20Lo%2Fq7g%20KzWZpaXPll8hFaQdJRrGY5fKHvI5zkcpE%2FwXjEotcRjnaqM0ag%2FSHhECB9wz39Uh5cdVAzHUZCoYIwTyPzDK7wOuHTftLPIZtBcmk%20oygkfpv8gfUgBTfpNRK7%20PLHJR%2FcC8F2y690n%2FgiifRgcqTmlsQc3aMtYkw%3D%3D'],
-			},
-		}),
-	],
+  plugins: [
+    monkey({
+      entry: 'src/home.js',
+      userscript: {
+        icon: 'https://vitejs.dev/logo.svg',
+        namespace: 'npm/vite-plugin-monkey',
+        match: ['https://new.coral.ru/hotels/bahrain/swiss-belhotel-seef-bahrain-seef/?qp=lWOJw1XDa14WeujkN6zDTrTzWWKAniWQbAbKEbIb2fjAEjMHo2RZYlS7BjLMnN7N7KC8wbdIKR1HIJ17r9SS%2FsrEdAsIdgvE2cwbRtrjupQ6S%2BLo%2Fq7g%2BKzWZpaXPll8nVktM3cnxNeWzzo%2FdvGPN5eItXPds8RPcEyNQOFMv6I3U9XPkTvpUrX0IG6917qxcxU1B5k70qGsEZ0ZdvcUqsb6QRJZO3XJmkV1y0uX2v7AH5U5wD7wO4q1%2BD67phsrxNuZQjLyIHaKNFhbBoAyySMl8tA%2F%2Fm3e2Vc2F5b3ldg%3D&p=1&w=null&s=5&hlu=packagetours%2Fmoskva-to-bahreyn-tours&hlqp=lWOJw1XDa14WeujkN6zDTrTzWWKAniWQbAbKEbIb2fjAEjMHo2RZYlS7BjLMnN7N7KC8wbdIKR1HIJ17r9SS%2FsrEdAsIdgvE2cwbRtrjupQ6S%20Lo%2Fq7g%20KzWZpaXPll8hFaQdJRrGY5fKHvI5zkcpE%2FwXjEotcRjnaqM0ag%2FSHhECB9wz39Uh5cdVAzHUZCoYIwTyPzDK7wOuHTftLPIZtBcmk%20oygkfpv8gfUgBTfpNRK7%20PLHJR%2FcC8F2y690n%2FgiifRgcqTmlsQc3aMtYkw%3D%3D'],
+      },
+    }),
+  ],
 });

@@ -1,0 +1,119 @@
+section.benefits {
+  position: relative;
+  width: 100%;
+  background: #fcdf9c;
+}
+
+section.benefits:after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 100vw;
+  height: 100%;
+  z-index: 1;
+  background: #fcdf9c;
+}
+
+section.benefits:before {
+  @media (min-width: 1351px) {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 100vw;
+    height: 100%;
+    display: block;
+    background: url("https://b2ccdn.coral.ru/content/ben-bg.svg");
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    z-index: 2;
+  }
+}
+
+section.benefits .coral-custom-section-wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 40px !important;
+  max-width: 1530px;
+  padding-inline: 16px !important;
+
+  > * {
+    position: relative;
+    z-index: 2;
+  }
+}
+
+section.benefits .coral-custom-section-wrapper:before {
+  @media (max-width: 1350px) {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: block;
+    background: url("https://b2ccdn.coral.ru/content/ben-bg-mob.svg");
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    z-index: 2;
+  }
+}
+
+section.benefits .coral-custom-section-wrapper h3 {
+  text-align: left;
+
+  @media (min-width: 768px) {
+    text-align: center;
+  }
+}
+
+section.benefits .coral-custom-section-wrapper .benefits-list {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 24px !important;
+  width: 80%;
+
+  @media (min-width: 768px) {
+    width: 100%;
+  }
+
+  @media (min-width: 1024px) {
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  @media (min-width: 1280px) {
+    grid-template-columns: repeat(6, 1fr);
+  }
+}
+
+section.benefits .coral-custom-section-wrapper .benefits-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 22px;
+}
+
+section.benefits .coral-custom-section-wrapper .benefits-item .icon {
+  width: 100px;
+  height: 100px;
+  background: #0092D0;
+  border-radius: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+section.benefits .coral-custom-section-wrapper .benefits-item span {
+  font-size: 16px;
+  text-align: center;
+  font-weight: 500 !important;
+}
+
+.layout-container-limit:has(#section-column-1) {
+  overflow-x: visible;
+}

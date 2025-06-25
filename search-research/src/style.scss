@@ -1,0 +1,74 @@
+.js-hidden {
+  display: none;
+}
+
+.custom-search-container {
+  display: grid;
+  gap: 14px;
+  width: 100%;
+  padding: 16px;
+  grid-template-columns: 24px auto 24px;
+
+  --hover-color: #077DAD;
+  --active-color: #0063B3;
+
+  &__inner {
+    display: grid;
+    grid-template-columns: auto min-content;
+    grid-template-areas:
+    "title icon"
+    "subline icon";
+
+    border-radius: 40px;
+    background: var(--colorBgLayout, #F5F5F5);
+    padding: 4px 4px 4px 24px;
+  }
+
+  &__icon {
+    width: 24px;
+    height: 24px;
+    background: transparent;
+    padding: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: none;
+    align-self: center;
+
+    svg path {
+      transition: stroke .3s ease;
+      stroke: #535353;
+    }
+
+    &--search-icon {
+      grid-area: icon;
+      background: #fff;
+      border-radius: 100%;
+      height: 48px;
+      width: 48px;
+    }
+  }
+
+  &__title {
+    grid-area: title;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 500;
+    letter-spacing: -0.24px;
+    margin: 0;
+    align-self: end;
+  }
+
+  &__subline {
+    grid-area: subline;
+    font-size: 11px;
+    align-self: start;
+  }
+
+}
+
+.custom-search-container .custom-search-container__icon:active {
+  svg path {
+    stroke: var(--active-color);
+  }
+}
