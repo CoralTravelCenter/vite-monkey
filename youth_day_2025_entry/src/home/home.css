@@ -3,15 +3,22 @@
 }
 
 #youth_day_2025_entry {
+    box-sizing: border-box;
+    display: flex;
+    align-items: center;
+}
+
+#youth_day_2025_entry {
     position: absolute;
     bottom: 16px;
     left: 0;
     padding: 10px 30px;
     border-radius: 0 12px 12px 0;
     background: linear-gradient(0deg, #3860CF 0%, #3860CF 100%), lightgray -3.98px -138.89px / 102.264% 305.812% no-repeat;
-    z-index: 10;
-    min-width: 310px;
+    z-index: 50;
+    min-width: 380px;
     color: #fff;
+    min-height: 74px;
 }
 
 #youth_day_2025_entry h3 {
@@ -30,4 +37,63 @@
     background-repeat: no-repeat;
     background-position: center;
     background-size: contain;
+    pointer-events: none;
+}
+
+#youth_day_2025_entry .link {
+    border-radius: 40px;
+    background: var(--gradient, linear-gradient(225deg, #E7317D 0%, #D8242A 100%));
+    color: var(--white, #FFF);
+    text-align: center;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: 22px; /* 137.5% */
+    padding: 12px 24px;
+    border: none;
+    align-self: center;
+    cursor: pointer;
+}
+
+#youth_day_2025_entry .close {
+    position: absolute;
+    top: -8px;
+    right: -8px;
+    width: 24px;
+    height: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #fff;
+    border: none;
+    border-radius: 100%;
+    cursor: pointer;
+}
+
+@media (max-width: 476px) {
+    #youth_day_2025_entry {
+        min-height: 135px;
+        min-width: unset;
+        padding: 16px;
+    }
+
+
+    #youth_day_2025_entry h3 {
+        font-size: 16px;
+        align-self: end;
+        text-align: center;
+    }
+
+    #youth_day_2025_entry .close {
+        align-self: end;
+    }
+
+    #youth_day_2025_entry:after {
+        width: 90%;
+        bottom: 20%;
+    }
+
+    #youth_day_2025_entry .link {
+        align-self: end;
+    }
 }

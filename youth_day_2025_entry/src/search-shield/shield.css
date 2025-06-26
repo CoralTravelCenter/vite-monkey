@@ -1,0 +1,39 @@
+#promo-shield {
+    padding: 10px 20px;
+    border-radius: 8px;
+    background: #035EBD;
+    margin-top: auto;
+    color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: right;
+    position: relative;
+}
+
+#promo-shield .text {
+    width: 80%;
+    text-align: right;
+}
+
+#promo-shield::after {
+    content: "";
+    width: 20%;
+    height: 165%;
+    display: block;
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    left: 4%;
+    background-image: url("https://b2ccdn.sunmar.ru/content/landing-pages/yout-day/home-sun.png");
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: contain;
+}
+
+@media (min-width: 1455px) {
+    #promo-shield::after {
+        top: unset;
+        bottom: 0;
+        transform: unset;
+    }
+}

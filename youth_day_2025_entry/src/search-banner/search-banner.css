@@ -1,0 +1,73 @@
+#promo-banner {
+    border-radius: 12px;
+    background: linear-gradient(0deg, #3860CF 0%, #3860CF 100%), #F5F5F8;
+    box-shadow: 0 12px 32px 0 rgba(0, 0, 0, 0.06);
+    overflow: clip;
+    display: flex;
+    gap: 16px;
+    padding-right: 16px;
+    align-items: center;
+    justify-content: space-between;
+    color: #fff;
+}
+
+#promo-banner .visual {
+    height: 100%;
+    max-width: 243px;
+}
+
+#promo-banner .visual img {
+    height: 100%;
+    display: block;
+    object-fit: cover;
+}
+
+#promo-banner .content {
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+    padding-block: 16px;
+}
+
+#promo-banner h3 {
+    font-size: 18px;
+    font-weight: 400;
+    margin: 0;
+    width: 60%;
+}
+
+#promo-banner .sunmar-btn {
+    border-radius: 40px;
+    background: var(--gradient, linear-gradient(225deg, #E7317D 0%, #D8242A 100%));
+    color: var(--white, #FFF);
+    text-align: center;
+    font-size: 16px;
+    font-style: normal;
+    align-self: center;
+    font-weight: 600;
+    line-height: 22px; /* 137.5% */
+    padding: 12px 56px;
+}
+
+@media (min-width: 425px) {
+    #promo-banner h3 {
+        width: 100%;
+    }
+}
+
+
+@media (min-width: 800px) {
+    #promo-banner h3 {
+        font-size: 28px;
+    }
+
+    #promo-banner .content {
+        flex-direction: row;
+    }
+}
+
+@media (min-width: 1024px) {
+    #promo-banner h3 {
+        font-size: 38px;
+    }
+}
