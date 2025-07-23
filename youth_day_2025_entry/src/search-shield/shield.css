@@ -4,15 +4,17 @@
     background: #035EBD;
     margin-top: auto;
     color: #fff;
-    display: flex;
-    align-items: center;
-    justify-content: right;
+    text-align: right;
     position: relative;
 }
 
 #promo-shield .text {
     width: 80%;
     text-align: right;
+}
+
+#promo-shield small {
+    font-size: 8px;
 }
 
 #promo-shield::after {
@@ -33,7 +35,7 @@
 @media (min-width: 1455px) {
     #promo-shield::after {
         top: unset;
-        bottom: 0;
+        bottom: -6px;
         transform: unset;
     }
 }

@@ -108,13 +108,13 @@ export const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Oper
 //  }
 //}
 
-export function copyToClipboard(text) {
-  try {
-    navigator.clipboard.writeText(text);
-  } catch {
-    throw new Error(message);
-  }
-}
+// export function copyToClipboard(text) {
+//   try {
+//     navigator.clipboard.writeText(text);
+//   } catch {
+//     throw new Error(message);
+//   }
+// }
 
 export function setYMTarget(selector, target_id, target) {
   selector.addEventListener("click", () => {
@@ -204,6 +204,14 @@ export function queryParam(p, source) {
   } else {
     return params;
   }
+}
+
+export function endpointUrl(endpoint) {
+  const isLocalhost = location.hostname === "localhost";
+  const host = isLocalhost
+    ? "http://localhost:8010/proxy"
+    : "//" + location.hostname.replace(/^(www|new)/, "b2capi");
+  return `${host}${endpoint}`;
 }
 
 export function params2query(p) {
@@ -416,4 +424,50 @@ export function insertOnce(placeToAppend, mode, element) {
   if (placeToAppend.hasAttribute('data-inserted')) return;
   placeToAppend.insertAdjacentHTML(mode, element)
   placeToAppend.setAttribute('data-inserted', 'true')
+}
+
+export async function doRequestToServer(endpoint, data, method = "POST") {
+  try {
+    const url = endpointUrl(endpoint);
+    const response = await fetch(url, {
+      method,
+      headers: {
+        "Content-Type": "application/json;charset=utf-8",
+      },
+      body: JSON.stringify(data),
+    });
+
+    if (!response.ok) {
+      console.error(`API Error: ${response.status} ${response.statusText} for ${endpoint}`);
+      throw new Error(`API Error: ${response.status} ${response.statusText}`);
+    }
+
+    return await response.json();
+  } catch (error) {
+    console.error(`Error in doRequestToServer for endpoint ${endpoint}:`, error);
+    throw error;
+  }
+}
+
+export function filterUniqueMatchingHotels(responses, requestedNames) {
+  if (!responses.length || !requestedNames.length) {
+    return [];
+  }
+
+  const requestedSet = new Set(
+    requestedNames.map(name => name.trim().toUpperCase()).filter(Boolean)
+  );
+
+  const uniqueMap = new Map();
+
+  responses.forEach(response => {
+    response.result?.locations?.forEach(location => {
+      const normalizedName = location.name.trim().toUpperCase();
+      if (requestedSet.has(normalizedName) && !uniqueMap.has(location.id)) {
+        uniqueMap.set(location.id, location);
+      }
+    });
+  });
+
+  return Array.from(uniqueMap.values());
 }

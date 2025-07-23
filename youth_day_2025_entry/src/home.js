@@ -47,7 +47,7 @@ button.addEventListener("click", () => {
       }
     }
   });
-  window.open('/info-actions/den-molodezhi/', '_blank');
+  window.open('/info-actions/den-molodezhi/?erid=2W5zFGvxKUL', '_blank');
 })
 closeButton.addEventListener("click", () => {
   div.style.display = "none";
