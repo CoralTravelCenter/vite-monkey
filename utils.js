@@ -420,10 +420,11 @@ export function appendOnce(placeToAppend, element) {
   placeToAppend.setAttribute('data-inserted', 'true')
 }
 
-export function insertOnce(placeToAppend, mode, element) {
-  if (placeToAppend.hasAttribute('data-inserted')) return;
-  placeToAppend.insertAdjacentHTML(mode, element)
-  placeToAppend.setAttribute('data-inserted', 'true')
+export function insertOnce(target, position, html) {
+  if (!document.body.classList.contains('custom-menu-inserted')) {
+    target.insertAdjacentHTML(position, html);
+    document.body.classList.add('custom-menu-inserted');
+  }
 }
 
 export async function doRequestToServer(endpoint, data, method = "POST") {

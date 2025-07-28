@@ -1,8 +1,9 @@
 .welcome-to-app {
-    /*background: rgb(0, 107, 153);*/
-    background: rgb(29, 31, 59);
+    background: rgb(0, 107, 153);
+    /*background: rgb(29, 31, 59);*/
     display: flex;
     align-items: center;
+    justify-content: space-between;
     gap: 14px;
     padding: 13px 0 13px 13px;
 }
@@ -13,7 +14,11 @@
 
 .welcome-to-app__logo {
     flex-shrink: 0;
+}
+
+.welcome-to-app__logo img {
     height: 40px;
+    width: 40px;
 }
 
 .welcome-to-app__title {
