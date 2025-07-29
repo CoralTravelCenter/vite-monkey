@@ -1,6 +1,6 @@
 import markup from './markup.html?raw';
 import './style.css';
-import {getBrand, getMobileOS, hostReactAppReady, insertOnce, isMobile, ReactDomObserver} from "../../utils.js";
+import {getBrand, getMobileOS, insertOnce, ReactDomObserver} from "../../utils.js";
 
 // --- Константы ---
 const linksToApp = {
@@ -13,14 +13,18 @@ const linksToApp = {
     Google: 'https://play.google.com/store/apps/details?id=sunmar.ru.sunmarmobile'
   }
 };
+
 const YM_COUNTER_ID = 96674199;
 const OS = getMobileOS();
 const BRAND = getBrand();
+const isValidOS = OS === 'Google' || OS === 'AppStore';
 
 // --- Утилиты ---
 function openAppLink(brand, mobileOS) {
-  const link = linksToApp[brand]?.[mobileOS];
-  if (link) window.open(link, '_blank');
+  const link = linksToApp?.[brand]?.[mobileOS];
+  if (link && link.trim()) {
+    window.open(link, '_blank');
+  }
 }
 
 function showCorrectDownloadButton() {
@@ -28,7 +32,9 @@ function showCorrectDownloadButton() {
     Google: document.querySelector('.google'),
     AppStore: document.querySelector('.apple')
   };
-  buttons[OS]?.classList.remove('js-hidden');
+  if (buttons[OS]) {
+    buttons[OS].classList.remove('js-hidden');
+  }
 }
 
 // --- Обработчики ---
@@ -38,26 +44,32 @@ function triggerClick(e) {
     page: location.pathname,
     store: OS,
   });
-  if (BRAND) openAppLink(BRAND, OS);
+  if (BRAND && isValidOS) openAppLink(BRAND, OS);
 }
 
 function setupObserver(mBanner, closeButton, getBannerPadding) {
   const observer = new ReactDomObserver('.mobile-hambuerger-menu-conainer', {
     onAppear: el => {
-      const isBanner = mBanner.classList.contains('js-hidden');
-      el.style.top = !isBanner ? `${getBannerPadding()}px` : `${getBannerPadding(true)}px`;
-      closeButton.addEventListener('click', () => {
+      if (!el || !mBanner) return;
+      const isBannerHidden = mBanner.classList.contains('js-hidden');
+      el.style.top = isBannerHidden
+        ? `${getBannerPadding(true)}px`
+        : `${getBannerPadding()}px`;
+
+      closeButton?.addEventListener('click', () => {
         el.style.top = `${getBannerPadding(true)}px`;
       });
     }
   });
-  observer.start();
+
+  if (observer?.start) observer.start();
 }
 
 function setupCloseButton(mBanner, closeButton, resetPadding) {
   closeButton?.addEventListener('click', () => {
-    mBanner?.classList.add('js-hidden');
-    resetPadding();
+    if (!mBanner) return;
+    mBanner.classList.add('js-hidden');
+    resetPadding?.();
     ym(YM_COUNTER_ID, 'reachGoal', 'mobile_app_close', {
       page: location.pathname,
       store: OS
@@ -65,50 +77,54 @@ function setupCloseButton(mBanner, closeButton, resetPadding) {
   });
 }
 
-// --- Основной поток ---
-hostReactAppReady().then(() => {
-  if (!isMobile) return;
+// --- Инициализация ---
+const headerClientSideMobile = document.querySelector('.header-client-side-mobile > div');
+const placeToInsert = document.querySelector('.header-mobile');
+const nativeBanner = document.querySelector('.mobile-app-banner-alert');
 
-  const headerClientSideMobile = document?.querySelector('.header-client-side-mobile > div');
-  const placeToInsert = document?.querySelector('.header-mobile');
-  const nativeBanner = document?.querySelector('.mobile-app-banner-alert');
+if (
+  placeToInsert &&
+  headerClientSideMobile &&
+  !nativeBanner &&
+  BRAND &&
+  isValidOS
+) {
+  insertOnce(placeToInsert, 'beforebegin', markup);
 
-  if (placeToInsert && !nativeBanner) {
-    insertOnce(placeToInsert, 'beforebegin', markup);
-  }
-
-  requestAnimationFrame(() => {
-    ym(YM_COUNTER_ID, 'reachGoal', 'mobile_app_show', {
-      page: location.pathname,
-      store: OS
-    });
-
-    const mBanner = document?.querySelector('.welcome-to-app');
-    const closeButton = document?.querySelector('.welcome-to-app__close');
-    if (!mBanner) return;
-
-    // --- Управление padding ---
-    let DEFAULT_PADDING = placeToInsert.offsetHeight;
-    let BANNER_PADDING = mBanner.offsetHeight;
-    const updatePadding = (isHidden = false) => {
-      DEFAULT_PADDING = placeToInsert.offsetHeight;
-      BANNER_PADDING = mBanner.offsetHeight;
-      headerClientSideMobile.style.paddingTop = isHidden
-        ? `${DEFAULT_PADDING}px`
-        : `${BANNER_PADDING + DEFAULT_PADDING}px`;
-    };
-    updatePadding();
-    const ro = new ResizeObserver(() => updatePadding());
-    ro.observe(mBanner);
-    const resetPadding = () => updatePadding(true);
-    const getBannerPadding = (isHidden = false) => isHidden
-      ? DEFAULT_PADDING
-      : BANNER_PADDING + DEFAULT_PADDING;
-
-    // --- Обработчики ---
-    mBanner.addEventListener('click', triggerClick);
-    showCorrectDownloadButton();
-    setupObserver(mBanner, closeButton, getBannerPadding);
-    setupCloseButton(mBanner, closeButton, resetPadding);
+  ym(YM_COUNTER_ID, 'reachGoal', 'mobile_app_show', {
+    page: location.pathname,
+    store: OS
   });
-});
+
+  const mBanner = document.querySelector('.welcome-to-app');
+  const closeButton = document.querySelector('.welcome-to-app__close');
+
+  if (!mBanner) return;
+
+  // --- Управление padding ---
+  let DEFAULT_PADDING = placeToInsert.offsetHeight || 0;
+  let BANNER_PADDING = mBanner.offsetHeight || 0;
+
+  const updatePadding = (isHidden = false) => {
+    DEFAULT_PADDING = placeToInsert.offsetHeight || 0;
+    BANNER_PADDING = mBanner.offsetHeight || 0;
+    headerClientSideMobile.style.paddingTop = isHidden
+      ? `${DEFAULT_PADDING}px`
+      : `${DEFAULT_PADDING + BANNER_PADDING}px`;
+  };
+
+  updatePadding();
+
+  const ro = new ResizeObserver(() => updatePadding());
+  ro.observe(mBanner);
+
+  const resetPadding = () => updatePadding(true);
+  const getBannerPadding = (isHidden = false) =>
+    isHidden ? DEFAULT_PADDING : BANNER_PADDING + DEFAULT_PADDING;
+
+  // --- Обработчики ---
+  mBanner.addEventListener('click', triggerClick);
+  showCorrectDownloadButton();
+  setupObserver(mBanner, closeButton, getBannerPadding);
+  setupCloseButton(mBanner, closeButton, resetPadding);
+}

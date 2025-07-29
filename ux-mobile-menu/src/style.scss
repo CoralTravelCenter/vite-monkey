@@ -40,7 +40,6 @@
   }
 }
 
-
 .right-group {
   display: none !important
 }
@@ -104,9 +103,10 @@
   border: 1px solid #535353;
   background: #fff;
   width: fit-content;
-  padding: 4px 8px 4px 4px;
   text-decoration: none;
   color: #000;
+  padding: 0 8px 0 4px;
+  height: 28px;
 }
 
 .custom-bottom-mobile-menu__promo .icon {
@@ -156,7 +156,7 @@
   background: #FFFFFF;
 }
 
-jdiv {
+.__jivoMobileButton {
   display: none !important;
 }
 
