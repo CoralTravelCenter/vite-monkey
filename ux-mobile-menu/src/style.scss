@@ -75,7 +75,7 @@
   display: flex;
   align-items: center;
   justify-content: space-evenly;
-  z-index: 1000;
+  z-index: 1300;
 }
 
 .custom-bottom-mobile-menu__icon {
@@ -107,6 +107,13 @@
   color: #000;
   padding: 0 8px 0 4px;
   height: 28px;
+}
+
+.custom-bottom-mobile-menu__user {
+  .ant-avatar {
+    width: 100%;
+    height: 100%;
+  }
 }
 
 .custom-bottom-mobile-menu__promo .icon {
@@ -162,6 +169,7 @@
 
 .mobile-hambuerger-menu-conainer {
   top: 0 !important;
+  z-index: 1200;
 }
 
 .custom-bottom-mobile-menu__burger {
@@ -181,5 +189,79 @@
       transform: scale(1.2);
       @include burger-to-cross;
     }
+  }
+}
+
+.custom-bottom-mobile-menu[data-step='flight'] {
+  background: transparent;
+
+  .custom-bottom-mobile-menu__promo,
+  .custom-bottom-mobile-menu__user,
+  .custom-bottom-mobile-menu__burger {
+    display: none;
+  }
+
+  .custom-bottom-mobile-menu__chat {
+    position: fixed;
+    bottom: 16px;
+    right: 16px;
+    background: #ffffff;
+    width: 50px;
+    height: 50px;
+    border-radius: 100%;
+    padding: 8px;
+    box-shadow: rgba(149, 157, 165, 0.2) 0 8px 24px;
+
+    &:after {
+      top: 8px;
+      right: 8px;
+    }
+  }
+}
+
+.custom-bottom-mobile-menu[data-step='booking'] {
+  background: transparent;
+
+  .custom-bottom-mobile-menu__promo,
+  .custom-bottom-mobile-menu__user,
+  .custom-bottom-mobile-menu__burger {
+    display: none;
+  }
+
+  .custom-bottom-mobile-menu__chat {
+    position: fixed;
+    bottom: 170px;
+    right: 16px;
+    background: #ffffff;
+    width: 50px;
+    height: 50px;
+    border-radius: 100%;
+    padding: 8px;
+    box-shadow: rgba(149, 157, 165, 0.2) 0 8px 24px;
+
+    &:after {
+      top: 8px;
+      right: 8px;
+    }
+  }
+}
+
+[data-status="logged-out"] {
+  .ant-avatar {
+    display: none;
+  }
+
+  .user-icon {
+    display: block;
+  }
+}
+
+[data-status="logged-in"] {
+  .user-icon {
+    display: none;
+  }
+
+  .ant-avatar {
+    display: flex;
   }
 }
