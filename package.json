@@ -1,8 +1,0 @@
-{
-  "dependencies": {
-    "@vimeo/player": "^2.24.0"
-  },
-  "devDependencies": {
-    "sass": "^1.89.2"
-  }
-}
