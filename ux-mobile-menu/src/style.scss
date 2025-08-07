@@ -75,7 +75,7 @@
   display: flex;
   align-items: center;
   justify-content: space-evenly;
-  z-index: 1300;
+  z-index: 1000;
 }
 
 .custom-bottom-mobile-menu__icon {
@@ -169,7 +169,7 @@
 
 .mobile-hambuerger-menu-conainer {
   top: 0 !important;
-  z-index: 1200;
+  padding-bottom: 86px;
 }
 
 .custom-bottom-mobile-menu__burger {
