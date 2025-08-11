@@ -420,10 +420,11 @@ export function appendOnce(placeToAppend, element) {
   placeToAppend.setAttribute('data-inserted', 'true')
 }
 
-export function insertOnce(target, position, html) {
-  if (!document.body.classList.contains('custom-menu-inserted')) {
+export function insertOnce(target, position, html, randomId) {
+  const BODY = document.body;
+  if (!BODY.querySelector(`[data-inserted="${randomId}"]`)) {
     target.insertAdjacentHTML(position, html);
-    document.body.classList.add('custom-menu-inserted');
+    BODY.setAttribute('data-inserted', randomId);
   }
 }
 
@@ -555,4 +556,13 @@ export class CoralCookieObserver {
     }
     return undefined;
   }
+}
+
+export function generateRandomId(length = 12) {
+  const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+  let randomId = '';
+  for (let i = 0; i < length; i++) {
+    randomId += characters.charAt(Math.floor(Math.random() * characters.length));
+  }
+  return randomId;
 }

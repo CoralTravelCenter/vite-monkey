@@ -1,5 +1,5 @@
 {
-  "name": "context-ctx",
+  "name": "bitrix-on-flight-page",
   "private": true,
   "version": "0.0.0",
   "type": "module",
@@ -9,7 +9,7 @@
     "preview": "vite preview"
   },
   "devDependencies": {
-    "vite": "^5.2.12",
-    "vite-plugin-monkey": "^4.0.0"
+    "vite": "^6.0.5",
+    "vite-plugin-monkey": "^5.0.3"
   }
 }
