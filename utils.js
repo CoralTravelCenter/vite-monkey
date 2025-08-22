@@ -566,3 +566,11 @@ export function generateRandomId(length = 12) {
   }
   return randomId;
 }
+
+export function runOncePerSession(key = "codeExecuted") {
+  if (sessionStorage.getItem(key)) {
+    return false; // уже запускали в этой сессии
+  }
+  sessionStorage.setItem(key, "true");
+  return true; // первый запуск
+}

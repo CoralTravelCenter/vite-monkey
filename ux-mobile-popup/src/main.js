@@ -1,8 +1,17 @@
 import markup from './markup.html?raw';
 import './style.scss';
-import {generateRandomId, getMobileOS, insertOnce, isMobile} from "../../utils.js";
+import {
+  generateRandomId,
+  getMobileOS,
+  insertOnce,
+  isMobile,
+  runOncePerSession,
+  sendYandexEventOnce
+} from "../../utils.js";
 
-if (isMobile) {
+const executeOncePerSession = runOncePerSession('apk_pop_up_show');
+
+if (isMobile && executeOncePerSession) {
   const OS = getMobileOS();
   const BODY = document.body;
   const randomId = generateRandomId();
@@ -17,6 +26,10 @@ if (isMobile) {
   function showPopup() {
     content.classList.add('slide-in');
     BODY.classList.add('body-scroll-lock');
+
+    sendYandexEventOnce('apk_pop_up_show', 2, () => {
+      ym(96674199, 'reachGoal', 'apk_pop_up_show')
+    })
   }
 
   function hidePopup() {
@@ -43,9 +56,11 @@ if (isMobile) {
         hidePopup()
         break;
     }
+    ym(96674199, 'reachGoal', 'apk_pop_up_click', {'button': 'app'})
   })
 
   continueOnSite.addEventListener('click', () => {
     hidePopup()
+    ym(96674199, 'reachGoal', 'apk_pop_up_click', {'button': 'responsive'})
   })
 }
