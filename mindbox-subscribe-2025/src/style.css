@@ -1,0 +1,104 @@
+*, *:after, *:before {
+    box-sizing: border-box;
+}
+
+.popmechanic-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding-block: 64px !important;
+}
+
+.popmechanic-title {
+    color: #000 !important;
+    text-align: center !important;
+    font-size: var(--font-font_Size_Heading_1, 36px) !important;
+    font-style: normal !important;
+    font-weight: var(--font-font_Weight_Semibold, 600) !important;
+    line-height: var(--font-font_Line_Height_Heading_1, 44px) !important;
+    margin-bottom: 12px !important;
+}
+
+.popmechanic-sub-title {
+    margin-bottom: 20px !important;
+    color: #595959 !important;
+    text-align: center !important;
+    font-size: 20px !important;
+    font-style: normal !important;
+    font-weight: 400 !important;
+    line-height: 32px !important;
+}
+
+
+.subscribe__label {
+    display: block;
+    width: 100%;
+    max-width: 462px;
+    position: relative !important;
+    border-radius: 100px;
+    border: 1px solid #D9D9D9 !important;
+    background: #FFFFFF !important;
+    padding: 6px 56px 6px 12px !important;
+    margin-bottom: 12px !important;
+}
+
+.subscribe__label input {
+    display: block;
+    align-items: center;
+    width: 100%;
+    font-size: 14px !important;
+    line-height: 38px !important;
+    border: none !important;
+}
+
+.subscribe__label input:focus {
+    outline: none;
+}
+
+.subscribe__label:focus-within {
+    border-color: #007bff !important;
+    box-shadow: 0 0 0 4px rgba(0, 123, 255, 0.2);
+}
+
+.subscribe__label input::placeholder {
+    color: #B2B2B2;
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 22px; /* 157.143% */
+}
+
+.subscribe__submit {
+    border-radius: 20px;
+    background: #0092D0 !important;
+    width: 40px;
+    height: 40px;
+    border: none;
+    position: absolute !important;
+    top: 50%;
+    transform: translateY(-50%);
+    right: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+}
+
+.subscribe__text--confident {
+    font-size: 16px !important;
+    margin: 0;
+    color: #595959 !important;
+}
+
+.subscribe__text--confident a {
+    color: inherit;
+}
+
+.subscribe__label:has(.popmechanic-invalid) {
+    border-color: #dc3545 !important;
+    box-shadow: 0 0 0 4px rgba(220, 53, 69, 0.2);
+}
+
+.subscribe__label:has(.popmechanic-invalid):after {
+    content: 'Поле обязательно для заполнения';
+}
