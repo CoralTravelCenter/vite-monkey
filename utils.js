@@ -263,7 +263,7 @@ export function watchIntersection(targets, options, yes_handler, no_handler) {
 
 export class ReactDomObserver {
   /**
-   * @param {string} selector - CSS-селектор DOM-элемента для отслеживания.
+   * @param {string} selector
    * @param {Object} [config={}]
    * @param {boolean} [config.once=false]
    * @param {boolean} [config.debug=false]
@@ -273,15 +273,14 @@ export class ReactDomObserver {
    * @param {string[]} [config.attributeFilter]
    * @param {(el: HTMLElement) => void} [config.onAppear]
    * @param {() => void} [config.onDisappear]
-   * @param {(el: HTMLElement, mutations: MutationRecord[]) => void} [config.onChildMutate]
-   * @param {(el: HTMLElement, mutations: MutationRecord[]) => void} [config.onAttributeMutation]
-   * @param {(el: HTMLElement, mutations: MutationRecord[]) => void} [config.onCharacterData]
+   * @param {(el: HTMLElement, mutations: MutationRecord[], count: number) => void} [config.onChildMutate]
+   * @param {(el: HTMLElement, mutations: MutationRecord[], count: number) => void} [config.onAttributeMutation]
+   * @param {(el: HTMLElement, mutations: MutationRecord[], count: number) => void} [config.onCharacterData]
    */
   constructor(selector, config = {}) {
     this.selector = selector;
     this.once = !!config.once;
     this.debug = !!config.debug;
-    this.mutationCounter = 0;
 
     this.watchChild = !!config.watchChild;
     this.watchAttributes = !!config.watchAttributes;
@@ -298,58 +297,107 @@ export class ReactDomObserver {
       childList: this.watchChild,
       characterData: this.watchCharacterData,
       subtree: true,
-      attributeFilter: Array.isArray(config.attributeFilter) ? config.attributeFilter : undefined
+      attributeFilter: Array.isArray(config.attributeFilter) ? config.attributeFilter : undefined,
     };
 
-    this.observed = false;
-    this.triggeredOnce = false;
-    this.elementObserver = null;
+    // флаги/состояния
+    this.started = false;
+    this.observed = false;       // есть ли элемент сейчас в DOM
+    this.triggeredOnce = false;  // onAppear уже вызывали при once=true
+    this.mutationCounter = 0;
 
+    // observer’ы
+    this.elementObserver = null;
     this.globalObserver = new MutationObserver(this._handleMutations);
+    this._rafId = 0;
+
+    // защита от повторной обработки конкретных элементов
+    this.seenElements = new WeakSet();
   }
 
   start = () => {
+    if (this.started) return;
+    this.started = true;
+
     this._log('▶️ Start observing');
-    this.globalObserver.observe(document.body, {
-      childList: true,
-      subtree: true
-    });
+    this.globalObserver.observe(document.body, {childList: true, subtree: true});
     requestAnimationFrame(this._initialCheck);
   };
 
   stop = () => {
+    if (!this.started) return;
     this._log('⏹️ Stop observing');
+
+    this.started = false;
     this.globalObserver.disconnect();
     this._disconnectInternalObserver();
+
+    if (this._rafId) {
+      cancelAnimationFrame(this._rafId);
+      this._rafId = 0;
+    }
   };
 
   _initialCheck = () => {
-    const el = document.querySelector(this.selector);
-    if (el && !this.observed) {
-      this._handleAppear(el);
+    // ищем сразу все совпадения, а не только первый
+    const nodes = document.querySelectorAll(this.selector);
+    if (nodes.length) {
+      nodes.forEach(el => this._maybeAppear(el));
+    } else if (this.observed) {
+      // если раньше был, но пропал
+      this._handleDisappear();
     }
   };
 
+  // дебаунс глобальных мутаций (схлопываем в один проход на кадр)
   _handleMutations = () => {
-    const el = document.querySelector(this.selector);
-    const wasPresent = this.observed;
+    if (this._rafId) return;
+    this._rafId = requestAnimationFrame(() => {
+      this._rafId = 0;
+      // проверяем наличие элементов селектора
+      const nodes = document.querySelectorAll(this.selector);
+      const hasAny = nodes.length > 0;
 
-    if (el && !wasPresent) {
-      this._handleAppear(el);
-    } else if (!el && wasPresent) {
-      this._log(`⛔ Element disappeared: ${this.selector}`);
-      this.observed = false;
-      this.onDisappear?.();
+      if (hasAny) {
+        nodes.forEach(el => this._maybeAppear(el));
+      } else if (this.observed) {
+        this._handleDisappear();
+      }
+    });
+  };
+
+  _maybeAppear = (el) => {
+    // уже обрабатывали этот конкретный элемент — пропускаем
+    if (this.seenElements.has(el)) return;
+
+    this.seenElements.add(el);
+
+    // помечаем, что в DOM есть хотя бы один целевой элемент
+    if (!this.observed) {
+      this.observed = true;
     }
+
+    this._handleAppear(el);
+  };
+
+  _handleDisappear = () => {
+    this._log(`⛔ Element(s) disappeared: ${this.selector}`);
+    this.observed = false;
+    this.onDisappear?.();
   };
 
   _handleAppear = (el) => {
-    this._log(`✅ Element appeared: ${this.selector}`);
-    this.observed = true;
+    this._log(`✅ Element appeared: ${this.selector}`, el);
 
     if (!this.once || !this.triggeredOnce) {
       this.onAppear?.(el);
       if (this.once) this.triggeredOnce = true;
+    }
+
+    if (this.once && this.triggeredOnce) {
+      // если нужен ровно один вызов – можно выключиться
+      this.stop();
+      return;
     }
 
     if (this.watchChild || this.watchAttributes || this.watchCharacterData) {
@@ -360,42 +408,35 @@ export class ReactDomObserver {
   _observeElementInternally = (el) => {
     if (this.elementObserver) return;
 
-    this.elementObserver = new MutationObserver(mutations => {
+    this.elementObserver = new MutationObserver((mutations) => {
+      // временно отключаем, чтобы не ловить собственные эффекты
       this._disconnectInternalObserver();
 
       try {
-        this.mutationCounter++; // Увеличиваем при любом срабатывании
+        this.mutationCounter++;
 
-        for (const mutation of mutations) {
-          switch (mutation.type) {
-            case 'childList':
-              if (this.watchChild) {
-                this._log(`👶 Child mutation #${this.mutationCounter}`);
-                this.onChildMutate?.(el, this.mutationCounter);
-                break;
-              }
-              break;
-            case 'attributes':
-              if (this.watchAttributes) {
-                this._log(`🧬 Attribute mutation #${this.mutationCounter}`);
-                this.onAttributeMutation?.(el, this.mutationCounter);
-                break;
-              }
-              break;
-            case 'characterData':
-              if (this.watchCharacterData) {
-                this._log(`✏️ Character data #${this.mutationCounter}`);
-                this.onCharacterData?.(el, this.mutationCounter);
-                break;
-              }
-              break;
-          }
+        // Группируем по типам и вызываем соответствующие колбэки один раз на пачку
+        const hasChild = this.watchChild && mutations.some(m => m.type === 'childList');
+        const hasAttr = this.watchAttributes && mutations.some(m => m.type === 'attributes');
+        const hasChar = this.watchCharacterData && mutations.some(m => m.type === 'characterData');
+
+        if (hasChild) {
+          this._log(`👶 Child mutation #${this.mutationCounter}`);
+          this.onChildMutate?.(el, mutations, this.mutationCounter);
+        }
+        if (hasAttr) {
+          this._log(`🧬 Attribute mutation #${this.mutationCounter}`);
+          this.onAttributeMutation?.(el, mutations, this.mutationCounter);
+        }
+        if (hasChar) {
+          this._log(`✏️ Character data #${this.mutationCounter}`);
+          this.onCharacterData?.(el, mutations, this.mutationCounter);
         }
       } finally {
-        this._observeElementInternally(el);
+        // пере-подписываемся
+        if (this.started) this._observeElementInternally(el);
       }
     });
-
 
     this.elementObserver.observe(el, this.options);
     this._log('🔍 Internal observer set:', el);
