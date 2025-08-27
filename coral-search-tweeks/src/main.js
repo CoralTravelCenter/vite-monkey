@@ -1,4 +1,4 @@
-import {ReactDomObserver} from "../../utils.js";
+import {ClickOutside, ReactDomObserver} from "../../utils.js";
 import './style.scss';
 
 const SELECTORS = {
@@ -7,20 +7,6 @@ const SELECTORS = {
   applyButton: "#DestionationSmartSearch_ApplyButton",
   container: ".destination-smart-search-container",
 };
-
-const isClickOutside = (target, container) => !target.composedPath().includes(container);
-
-function searchInputTriggerFocus(el) {
-  el?.focus();
-}
-
-function handleClickOutside(event) {
-  const container = document.querySelector(SELECTORS.container);
-  const trigger = document.querySelector(SELECTORS.applyButton);
-  if (container && isClickOutside(event, container) && trigger) {
-    trigger.click();
-  }
-}
 
 function buttonRename(el) {
   setTimeout(() => {
@@ -33,13 +19,24 @@ function buttonRename(el) {
 
 // Ставим фокус на инпут
 new ReactDomObserver(SELECTORS.searchInput, {
-  onAppear: el => searchInputTriggerFocus(el),
+  onAppear: el => el.focus()
 }).start();
 
 // Переименовываем кнопку
 new ReactDomObserver(SELECTORS.countryWrapper, {
-  onAppear: el => {
-    buttonRename(el)
-    document.body.addEventListener("click", handleClickOutside);
-  }
+  onAppear: el => buttonRename(el)
+}).start();
+
+
+// Работаем с поиском
+new ReactDomObserver(SELECTORS.applyButton, {
+  onAppear: (el) => {
+    el.style.display = 'none';
+    el.previousElementSibling.classList.add('js-custom-style');
+    new ClickOutside(SELECTORS.container, () => {
+      el.click();
+    }, {
+      ignore: ['#QuickSearchPackageToursArrivalLocation'],
+    })
+  },
 }).start();
