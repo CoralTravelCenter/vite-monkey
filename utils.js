@@ -696,3 +696,61 @@ export class ClickOutside {
     return path;
   }
 }
+
+
+/**
+ * Ждём первое появление объекта с нужным event в dataLayer.
+ * @param {string} eventName - например, "begin_checkout"
+ * @param {number} intervalMs - период опроса (по умолчанию 200 мс)
+ * @returns {Promise<object>} - найденный объект (глубокая копия)
+ */
+export function waitForDLEvent(eventName, intervalMs = 200) {
+  return new Promise((resolve) => {
+    window.dataLayer = window.dataLayer || [];
+    let cursor = 0;
+
+    const deepCopy = (obj) => {
+      try {
+        return structuredClone(obj);
+      } catch {
+        return JSON.parse(JSON.stringify(obj));
+      }
+    };
+
+    const scan = () => {
+      const dl = window.dataLayer || [];
+      for (let i = cursor; i < dl.length; i++) {
+        const item = dl[i];
+        if (item?.event === eventName) {
+          clearInterval(timerId);
+          return resolve(deepCopy(item));
+        }
+      }
+      cursor = dl.length; // сдвигаем указатель на конец
+    };
+
+    // стартовая проверка + периодический опрос
+    scan();
+    const timerId = setInterval(scan, intervalMs);
+  });
+}
+
+/**
+ * Ждём, пока в window появится свойство с указанным именем
+ * @param {string} name - например "PopMechanic"
+ * @param {number} intervalMs - период проверок (по умолчанию 200 мс)
+ * @returns {Promise<any>}
+ */
+export function waitForWindowVar(name, intervalMs = 200) {
+  return new Promise((resolve) => {
+    const check = () => {
+      const val = window[name];
+      if (val) {
+        resolve(val);
+      } else {
+        setTimeout(check, intervalMs);
+      }
+    };
+    check();
+  });
+}
