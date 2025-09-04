@@ -1,0 +1,16 @@
+.pday-shield {
+    position: absolute;
+    top: 5%;
+    left: -1%;
+    max-width: 15em;
+    cursor: pointer;
+
+}
+
+@media screen and (max-width: 768px) {
+    .pday-shield {
+        position: static;
+        max-width: 100%;
+        margin-top: 0;
+    }
+}

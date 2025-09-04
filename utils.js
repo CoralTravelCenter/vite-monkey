@@ -96,25 +96,14 @@ export function mediaMatcher(size, callback) {
 
 export const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)
 
-//export function getMobileOS() {
-//  const userAgent = navigator.userAgent
-//  switch (true) {
-//    case /android/i.test(userAgent):
-//      return "android";
-//    case /iPad|iPhone|iPod/.test(userAgent):
-//      return "ios";
-//    default:
-//      return "other";
-//  }
-//}
 
-// export function copyToClipboard(text) {
-//   try {
-//     navigator.clipboard.writeText(text);
-//   } catch {
-//     throw new Error(message);
-//   }
-// }
+export function copyToClipboard(text) {
+  try {
+    navigator.clipboard.writeText(text);
+  } catch {
+    throw new Error(message);
+  }
+}
 
 export function setYMTarget(selector, target_id, target) {
   selector.addEventListener("click", () => {
@@ -454,18 +443,33 @@ export class ReactDomObserver {
   };
 }
 
-
-export function appendOnce(placeToAppend, element) {
-  if (placeToAppend.hasAttribute('data-inserted')) return;
-  placeToAppend.append(element)
-  placeToAppend.setAttribute('data-inserted', 'true')
+function randomId(length = 8) {
+  const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+  let randomId = '';
+  for (let i = 0; i < length; i++) {
+    randomId += characters.charAt(Math.floor(Math.random() * characters.length));
+  }
+  return randomId;
 }
 
-export function insertOnce(target, position, html, randomId) {
-  const BODY = document.body;
-  if (!BODY.querySelector(`[data-inserted="${randomId}"]`)) {
+export function appendOnce(target, element) {
+  if (!target.hasAttribute(`[data-appended="${randomId()}"]`)) {
+    target.append(element);
+    target.setAttribute('data-appended', randomId());
+  }
+}
+
+export function prependOnce(target, element) {
+  if (!target.hasAttribute(`[data-prepended="${randomId()}"]`)) {
+    target.prepend(element);
+    target.setAttribute('data-prepended', randomId());
+  }
+}
+
+export function insertOnce(target, position, html) {
+  if (!target.hasAttribute(`[data-inserted="${randomId()}"]`)) {
     target.insertAdjacentHTML(position, html);
-    BODY.setAttribute('data-inserted', randomId);
+    target.setAttribute('data-inserted', randomId());
   }
 }
 
