@@ -26,7 +26,7 @@ export function getLocalStorageWithExpiry(key) {
 
 export async function hostReactAppReady(
   selector = "#__next > div",
-  timeout = 200,
+  timeout = 300,
 ) {
   return new Promise((resolve) => {
     const waiter = () => {
@@ -87,7 +87,7 @@ export function getBrand() {
 
 
 export function mediaMatcher(size, callback) {
-  const mobileWidthMediaQuery = window.matchMedia(`(max-width: ${size}px)`);
+  const mobileWidthMediaQuery = window.matchMedia(`(min-width: ${size}px)`);
   callback(mobileWidthMediaQuery.matches);
   mobileWidthMediaQuery.addEventListener("change", (e) =>
     callback(e.matches),
@@ -470,6 +470,7 @@ export function insertOnce(target, position, html) {
   if (!target.hasAttribute(`[data-inserted="${randomId()}"]`)) {
     target.insertAdjacentHTML(position, html);
     target.setAttribute('data-inserted', randomId());
+    console.log('inserted' + randomId());
   }
 }
 
