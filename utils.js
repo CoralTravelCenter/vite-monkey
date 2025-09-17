@@ -466,12 +466,21 @@ export function prependOnce(target, element) {
   }
 }
 
+<<<<<<< Updated upstream
 export function insertOnce(target, position, html) {
   if (!target.hasAttribute(`[data-inserted="${randomId()}"]`)) {
     target.insertAdjacentHTML(position, html);
     target.setAttribute('data-inserted', randomId());
     console.log('inserted' + randomId());
   }
+=======
+export function insertOnce(target, position, html, id) {
+  const attr = target.hasAttribute('data-inserted')
+  const attrValue = target.getAttribute('data-inserted')
+  if (attr && attrValue === id) return;
+  target.insertAdjacentHTML(position, html);
+  target.setAttribute('data-inserted', id);
+>>>>>>> Stashed changes
 }
 
 export async function doRequestToServer(endpoint, data, method = "POST") {
