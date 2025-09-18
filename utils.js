@@ -467,10 +467,12 @@ export function prependOnce(target, element) {
 }
 
 export function insertOnce(target, position, html) {
-  if (!target.hasAttribute(`[data-inserted="${randomId()}"]`)) {
+  const hasAttr = target.hasAttribute('data-inserted');
+  const isInserted = hasAttr && target.getAttribute('data-inserted')
+  const id = randomId()
+  if (!hasAttr && isInserted !== id) {
     target.insertAdjacentHTML(position, html);
-    target.setAttribute('data-inserted', randomId());
-    console.log('inserted' + randomId());
+    target.setAttribute('data-inserted', id);
   }
 }
 

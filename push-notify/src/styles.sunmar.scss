@@ -1,48 +1,52 @@
 .push-noty {
-  font-size: 14px;
+  box-sizing: border-box;
+  font-size: clamp(11px, 2vw, 14px);
   position: fixed;
   top: 23px;
-  left: 5.5%;
-  background: #fff;
+  left: 6.5%;
+  background: #6d6feb;
   display: grid;
   grid-template-columns: min-content auto;
-  font-family: inherit;
   z-index: 1000;
-
+  color: #FFFFFF;
   padding: 1em;
-  border-radius: 1em;
+  border-radius: 1.4em;
   gap: 1em;
   max-width: 30em;
-
+  font-family: Museo_Sans, Museo_Sans_Cyrill, sans-serif;
   box-shadow: rgba(149, 157, 165, 0.2) 0 8px 24px;
-  
 
-  &:after {
-    content: "";
-    width: 1.2em;
-    height: 1.2em;
-    transform: rotate(45deg);
-    position: absolute;
-    left: 5%;
-    top: -5%;
-    background: #fff;
+  @media (max-width: 993px) {
+    transform: translateX(-50%);
+    grid-template-columns: 1fr;
+    left: 50%;
+    width: calc(100% - 24px);
   }
 
   &__visual {
-    width: 8em;
+    width: 7em;
     aspect-ratio: 1;
     align-self: center;
+
+    @media (max-width: 993px) {
+      position: absolute;
+      right: 0;
+    }
   }
 
   &__content {
     display: flex;
     flex-direction: column;
     justify-content: center;
-    gap: .5em;
+    gap: .7em;
+
+    @media (max-width: 993px) {
+      padding-right: 4em;
+    }
   }
 
   &__headline {
-    font-size: 1.3em;
+    font-size: 1.2em;
     margin: 0;
   }
 
@@ -71,33 +75,34 @@
 
   &__button--submit {
     background: #0093d0;
-    color: #fff;
+    color: #FFFFFF;
+    border-radius: 40px;
+    background: var(--gradient_Primary, linear-gradient(245deg, var(--Gradient-color_Gradinet_Primary_Second, #D8242A) 15.84%, var(--Gradient-color_Gradient_Primary_First, #E7317D) 84.16%));
 
     @media(hover: hover) {
       &:hover {
-        background: #66D1FF;
+        background: var(--gradient_Primary_Hover, linear-gradient(245deg, var(--Gradient-color_Gradient_Primary_First, #E7317D) 15.84%, var(--Gradient-color_Gradinet_Primary_Second, #D8242A) 84.16%));
       }
     }
 
     &:active {
-      background: #077DAD;
+      background: var(--Button-color_Btn_Bg_Primary_Pressed, #C11117);
     }
   }
 
   &__button--close {
-    border: 1px solid rgba(0, 0, 0, 0.15);
     color: #000;
+    background: #FFFFFF;
+    border-radius: 56px;
 
     @media(hover: hover) {
       &:hover {
-        border-color: #66D1FF;
-        color: #66D1FF;
+        background: #F5F5F8;
       }
     }
 
     &:active {
-      border-color: #077DAD;
-      color: #077DAD;
+      background: #DFDFE8;
     }
   }
 }
@@ -107,7 +112,7 @@
   left: 50%;
   transform: translateX(-50%);
   font-size: 12px;
-  box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+  box-shadow: rgba(100, 100, 111, 0.2) 0 7px 29px 0;
 
   &:after {
     display: none;

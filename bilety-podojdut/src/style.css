@@ -1,0 +1,88 @@
+coral-popup::part(overlay) {
+    align-items: center;
+}
+
+coral-popup::part(dialog) {
+    max-width: 660px;
+}
+
+.container {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.disc_header {
+    display: flex;
+    gap: 16px;
+}
+
+.disc_header img {
+    max-width: 93px;
+    width: 100%;
+    object-fit: contain;
+    display: block;
+}
+
+
+.title {
+    font-size: 1.5em;
+    font-weight: 600;
+    text-align: left;
+}
+
+.sub {
+    font-size: 1.25em;
+    font-weight: 400;
+}
+
+.modal-sections {
+    display: flex;
+    justify-content: space-between;
+    gap: 8px;
+}
+
+.modal-section {
+    border-radius: 12px;
+    background: #C2E4F6;
+    box-shadow: 10px 10px 32px 0 rgba(0, 0, 0, .03);
+    padding: .75em 1.5em;
+    font-size: 14px;
+}
+
+.modal-section .label {
+    font-weight: 700;
+    margin: 0;
+    font-size: 14px;
+}
+
+.modal-section > p {
+    margin: 0;
+    font-size: 12px;
+}
+
+.modal-additional-text {
+    color: #000;
+    font-size: 12px;
+    margin: 0;
+}
+
+.modal-section {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+@media (max-width: 768px) {
+    .sub {
+        display: none;
+    }
+
+    .modal-sections {
+        flex-direction: column;
+    }
+
+    .disc_header img {
+        max-width: 50px;
+    }
+}

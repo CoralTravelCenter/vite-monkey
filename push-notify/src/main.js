@@ -1,5 +1,5 @@
-import markup from './markup.html?raw'
-import './style.scss'
+import markup from './markup.sumar.html?raw'
+import './styles.sunmar.scss'
 import {getLocalStorageWithExpiry, insertOnce, setLocalStorageWithExpiry} from "../../utils.js";
 
 insertOnce(document.body, 'beforeend', markup)
@@ -9,9 +9,9 @@ const uid = localStorage.getItem("mindboxDeviceUUID");
 const token = getLocalStorageWithExpiry("pushShowedToUser");
 const isRegistered = localStorage.getItem("webpushSubscribeActive");
 const isMobile = /Mobi|Android|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
-const push = document.querySelector('.push-noty');
-const closeBtn = document.querySelector('.close-btn');
-const submitBtn = document.querySelector('.action-buttons__button--submit');
+const push = document?.querySelector('.push-noty');
+const closeBtn = document?.querySelector('.close-btn');
+const submitBtn = document?.querySelector('.action-buttons__button--submit');
 
 if (isMobile) push.classList.add('mobile');
 
