@@ -7,14 +7,16 @@
   left: 0;
   display: flex;
   flex-direction: column;
+  pointer-events: none;
 
   &__content {
+    pointer-events: all;
     width: auto;
     background: #FFFFFF;
     margin-top: auto;
     position: relative;
     z-index: 1;
-    padding: 16px;
+    padding: 16px 0 0 0;
     display: flex;
     flex-direction: column;
     border-top-left-radius: 20px;
@@ -29,6 +31,13 @@
     justify-content: center;
     padding-block: 16px;
 
+    .icon-text {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 4px;
+    }
+
     .icon {
       width: 80px;
       height: 80px;
@@ -39,6 +48,8 @@
     display: flex;
     flex-direction: column;
     gap: 8px;
+    padding: 16px;
+    box-shadow: 0 6px 16px 0 rgba(0, 0, 0, 0.08), 0 3px 6px -4px rgba(0, 0, 0, 0.12), 0 9px 28px 8px rgba(0, 0, 0, 0.05);
   }
 
   &__grid {
@@ -81,6 +92,14 @@
     background: var(--colorBgLayout, #F5F5F5);
   }
 
+  .cell.third-col {
+    padding-right: 16px;
+  }
+
+  .cell.first-col {
+    padding-left: 16px;
+  }
+
   .prime-btn {
     border-radius: var(--radius-borderRadiusMD, 12px);
     background: var(--colorPrimaryBase, #0093D0);
@@ -106,6 +125,7 @@
     background: transparent;
     color: #0093D0;
     font-weight: 400;
+    box-shadow: unset;
 
     &:active {
       color: #0063B3;

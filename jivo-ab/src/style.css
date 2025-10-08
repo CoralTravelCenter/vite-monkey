@@ -1,0 +1,49 @@
+:root {
+    --custom-jivo-width: 60px;
+    --custom-jivo-height: 60px;
+}
+
+jdiv[class*="logoIconCloud"] {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='30' height='30' viewBox='0 0 30 30' fill='none'%3E%3Cpath d='M15.4 29c-7.732 0-14-6.268-14-14s6.268-14 14-14 14 6.268 14 14c0 2.251-.531 4.378-1.475 6.263a.5.5 0 0 0-.045.33l1.37 6.678a.5.5 0 0 1-.581.592l-6.882-1.287a.5.5 0 0 0-.315.042A13.94 13.94 0 0 1 15.4 29Z' stroke='%232BBF4B' stroke-width='1.2'/%3E%3C/svg%3E") !important;
+    background-repeat: no-repeat;
+    background-position: 50% 50%;
+    background-size: contain;
+    width: 28px;
+    height: 28px;
+    position: relative !important;
+}
+
+jdiv[class*="logoCallback"] {
+    background-image: url("data:image/svg+xml,%3Csvg width='64' height='64' viewBox='0 0 24 24' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cg stroke-width='0'/%3E%3Cg stroke-linecap='round' stroke-linejoin='round'/%3E%3Cg clip-path='url(%23a)'%3E%3Cpath fill='%23fff' d='M0 0h24v24H0z'/%3E%3Cpath d='M2.014 6.871c-.667 3.19 1.846 6.989 5 10.144 3.156 3.155 6.954 5.667 10.144 5 2.624-.548 3.964-1.945 4.717-3.136.26-.411.13-.945-.26-1.235l-3.693-2.754a1 1 0 0 0-1.305.094l-1.96 1.96s-1.904-.62-4.428-3.143c-2.524-2.524-3.143-4.43-3.143-4.43l1.96-1.959a1 1 0 0 0 .094-1.305L6.386 2.415c-.291-.39-.824-.521-1.235-.26-1.191.753-2.589 2.092-3.137 4.716' stroke='%2BBF4B' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/g%3E%3Cdefs%3E%3CclipPath id='a'%3E%3Cpath fill='%#2BBF4B' d='M0 0h24v24H0z'/%3E%3C/clipPath%3E%3C/defs%3E%3C/svg%3E") !important;
+    background-repeat: no-repeat;
+    background-position: 50% 50%;
+    background-size: contain;
+    width: 28px;
+    height: 28px;
+    position: relative !important;
+}
+
+jdiv[class*="button"] {
+    width: var(--custom-jivo-width);
+    height: var(--custom-jivo-height);
+    background: #FFFFFF !important;
+}
+
+jdiv[class*="button"] > jdiv {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+jdiv[class*="powerBtn"] {
+    width: var(--custom-jivo-width);
+    height: var(--custom-jivo-height);
+    margin-bottom: 86px !important;
+    background: #FFFFFF !important;
+}
+
+jdiv[class*="powerBtn"] > jdiv {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}

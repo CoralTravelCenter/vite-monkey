@@ -1,130 +1,182 @@
-import markup from './markup.html?raw';
 import './style.css';
-import {getBrand, getMobileOS, insertOnce, ReactDomObserver} from "../../utils.js";
+import MARKUP from './markup.html?raw';
+import {SimpleReactDomObserver} from "../../utils.js";
 
-// --- Константы ---
-const linksToApp = {
-  coral: {
-    AppStore: 'https://apps.apple.com/app/id1497841397',
-    Google: ''
-  },
-  sunmar: {
-    AppStore: 'https://apps.apple.com/app/id1509966009',
-    Google: 'https://play.google.com/store/apps/details?id=sunmar.ru.sunmarmobile'
-  }
-};
+(function () {
+  'use strict';
 
-const YM_COUNTER_ID = 96674199;
-const OS = getMobileOS();
-const BRAND = getBrand();
-const isValidOS = OS === 'Google' || OS === 'AppStore';
-
-// --- Утилиты ---
-function openAppLink(brand, mobileOS) {
-  const link = linksToApp?.[brand]?.[mobileOS];
-  if (link && link.trim()) {
-    window.open(link, '_blank');
-  }
-}
-
-function showCorrectDownloadButton() {
-  const buttons = {
-    Google: document.querySelector('.google'),
-    AppStore: document.querySelector('.apple')
+  const YM_ID = 96674199;
+  const YM_EVENTS = {
+    show: 'show',
+    application: 'application',
+    close: 'close',
   };
-  if (buttons[OS]) {
-    buttons[OS].classList.remove('js-hidden');
+
+  const BRAND_LINKS = {
+    coral: {
+      iOS: 'https://apps.apple.com/app/id1497841397',
+      android: 'https://play.google.com/store/apps/details?id=coraltravel.ru.coralmobile',
+    },
+    sunmar: {
+      iOS: 'https://apps.apple.com/app/id1509966009',
+      android: 'https://play.google.com/store/apps/details?id=sunmar.ru.sunmarmobile',
+    },
+  };
+
+  const SELECTORS = {
+    containerToInsert: "div[class*='HeaderMobile_container']",
+    headerMobile: '.header-mobile',
+    menuContainer: "div[class*='HeaderHamburgerMenu_menuContainer']",
+    banner: '.welcome-to-app',
+    closeBtn: '.welcome-to-app__close',
+    btnApple: '.welcome-to-app__download.apple',   // исправил "ap" -> "app"
+    btnGoogle: '.welcome-to-app__download.google',
+  };
+
+  function getMobileOS() {
+    const ua = navigator.userAgent || '';
+    if (/android/i.test(ua)) return 'android';
+    if (/iPad|iPhone|iPod/i.test(ua)) return 'iOS';
+    return 'other';
   }
-}
 
-// --- Обработчики ---
-function triggerClick(e) {
-  if (e.target.closest('.welcome-to-app__close')) return;
-  ym(YM_COUNTER_ID, 'reachGoal', 'mobile_app_install', {
-    page: location.pathname,
-    store: OS,
-  });
-  if (BRAND && isValidOS) openAppLink(BRAND, OS);
-}
+  function getBrand() {
+    const host = location.host;
+    if (host.includes('sunmar')) return 'sunmar';
+    if (host.includes('coral')) return 'coral';
+    return null;
+  }
 
-function setupObserver(mBanner, closeButton, getBannerPadding) {
-  const observer = new ReactDomObserver('.mobile-hambuerger-menu-conainer', {
-    onAppear: el => {
-      if (!el || !mBanner) return;
-      const isBannerHidden = mBanner.classList.contains('js-hidden');
-      el.style.top = isBannerHidden
-        ? `${getBannerPadding(true)}px`
-        : `${getBannerPadding()}px`;
+  function getCookie(name) {
+    const m = document.cookie.match(new RegExp('(?:^|; )' + name.replace(/([.$?*|{}()\[\]\\/\+^])/g, '\$1') + '=([^;]*)'));
+    return m ? decodeURIComponent(m[1]) : undefined;
+  }
 
-      closeButton?.addEventListener('click', () => {
-        el.style.top = `${getBannerPadding(true)}px`;
-      });
+  function setSessionCookie(name, value, {path = '/'} = {}) {
+    const parts = [`${name}=${encodeURIComponent(value)}`];
+    if (path) parts.push(`path=${path}`);
+    // без Max-Age/Expires — сессионная
+    document.cookie = parts.join('; ');
+  }
+
+  const CLOSED_COOKIE = 'wta_closed';
+
+  function insertOnce(target, position, html, marker = 'data-wta-inserted') {
+    if (!target) return null;
+    if (!target.hasAttribute(marker)) {
+      target.insertAdjacentHTML(position, html);
+      target.setAttribute(marker, '1');
     }
-  });
+    return target.querySelector(SELECTORS.banner);
+  }
 
-  if (observer?.start) observer.start();
-}
+  function sendYM(event) {
+    try {
+      if (typeof window.ym === 'function') {
+        window.ym(YM_ID, 'reachGoal', event);
+      }
+    } catch (e) {
+      console.log(e);
+    }
+  }
 
-function setupCloseButton(mBanner, closeButton, resetPadding) {
-  closeButton?.addEventListener('click', () => {
-    if (!mBanner) return;
-    mBanner.classList.add('js-hidden');
-    resetPadding?.();
-    ym(YM_COUNTER_ID, 'reachGoal', 'mobile_app_close', {
-      page: location.pathname,
-      store: OS
+  function addEventListenerSafe(element, event, handler, options) {
+    element?.addEventListener(event, handler, options);
+    return function remove() {
+      element?.removeEventListener(event, handler, options);
+    };
+  }
+
+  // MARKUP должен быть доступен в области видимости (оставляю как у вас)
+  const placeToInsert = document.querySelector(SELECTORS.containerToInsert);
+  if (!placeToInsert) return;
+
+  const banner = insertOnce(placeToInsert, 'afterbegin', MARKUP);
+  if (!banner) return;
+
+  // Если ранее закрыт в этой сессии — не показываем
+  if (getCookie(CLOSED_COOKIE) === '1') {
+    banner.classList.add('js-hidden');
+    const parentHidden = placeToInsert.parentElement;
+    if (parentHidden) parentHidden.style.paddingTop = '0px';
+    return;
+  }
+
+  // баннер реально добавлен и видим — отправляем show
+  sendYM(YM_EVENTS.show);
+
+  const OS = getMobileOS();
+  const BRAND = getBrand();
+  banner.classList.add(BRAND || '');
+
+  const closeBtn = banner.querySelector(SELECTORS.closeBtn);
+  const btnApple = banner.querySelector(SELECTORS.btnApple);
+  const btnGoogle = banner.querySelector(SELECTORS.btnGoogle);
+
+  if (OS === 'iOS') btnApple?.classList.remove('js-hidden');
+  else if (OS === 'android') btnGoogle?.classList.remove('js-hidden');
+  else {
+    btnApple?.classList.remove('js-hidden');
+    btnGoogle?.classList.remove('js-hidden');
+  }
+
+  const parent = placeToInsert.parentElement;
+  if (!parent) return;
+
+  function applyPadding(px) {
+    parent.style.paddingTop = `${px}px`;
+  }
+
+  function getContainerHeight() {
+    const rect = placeToInsert.getBoundingClientRect();
+    return Math.max(0, Math.ceil(rect.height));
+  }
+
+  function updateLayout() {
+    const height = getContainerHeight();
+    applyPadding(height);
+    document.querySelectorAll(SELECTORS.menuContainer).forEach((el) => {
+      el.style.top = `${height}px`;
     });
+  }
+
+  const containerResizeObserver = new ResizeObserver(() => updateLayout());
+  containerResizeObserver.observe(placeToInsert);
+
+  const menuObserver = new SimpleReactDomObserver(SELECTORS.menuContainer, {
+    onAppear: () => updateLayout(),
   });
-}
+  menuObserver.start();
 
-// --- Инициализация ---
-const headerClientSideMobile = document.querySelector('.header-client-side-mobile > div');
-const placeToInsert = document.querySelector('.header-mobile');
-const nativeBanner = document.querySelector('.mobile-app-banner-alert');
+  updateLayout();
 
-if (
-  placeToInsert &&
-  headerClientSideMobile &&
-  !nativeBanner &&
-  BRAND &&
-  isValidOS
-) {
-  insertOnce(placeToInsert, 'beforebegin', markup);
+  // Helpers: единая процедура скрытия и установки куки
+  function hideAndRemember() {
+    banner.classList.add('js-hidden');
+    setSessionCookie(CLOSED_COOKIE, '1');
+    updateLayout();
+  }
 
-  ym(YM_COUNTER_ID, 'reachGoal', 'mobile_app_show', {
-    page: location.pathname,
-    store: OS
-  });
+  function handleBannerClick(e) {
+    // Игнорируем клик по крестику — для него отдельный хендлер
+    if (e.target?.closest(SELECTORS.closeBtn)) return;
 
-  const mBanner = document.querySelector('.welcome-to-app');
-  const closeButton = document.querySelector('.welcome-to-app__close');
+    // Отправляем application
+    sendYM(YM_EVENTS.application);
 
-  if (!mBanner) return;
+    // Переход на установку приложения: скрываем баннер и ставим сессионную куку
+    hideAndRemember();
 
-  // --- Управление padding ---
-  let DEFAULT_PADDING = placeToInsert.offsetHeight || 0;
-  let BANNER_PADDING = mBanner.offsetHeight || 0;
+    const link = BRAND ? BRAND_LINKS[BRAND]?.[OS] : undefined;
+    if (link) window.open(link, '_blank', 'noopener,noreferrer');
+  }
 
-  const updatePadding = (isHidden = false) => {
-    DEFAULT_PADDING = placeToInsert.offsetHeight || 0;
-    BANNER_PADDING = mBanner.offsetHeight || 0;
-    headerClientSideMobile.style.paddingTop = isHidden
-      ? `${DEFAULT_PADDING}px`
-      : `${DEFAULT_PADDING + BANNER_PADDING}px`;
-  };
+  function handleClose() {
+    // Отправляем close, скрываем и ставим куку
+    sendYM(YM_EVENTS.close);
+    hideAndRemember();
+  }
 
-  updatePadding();
-
-  const ro = new ResizeObserver(() => updatePadding());
-  ro.observe(mBanner);
-
-  const resetPadding = () => updatePadding(true);
-  const getBannerPadding = (isHidden = false) =>
-    isHidden ? DEFAULT_PADDING : BANNER_PADDING + DEFAULT_PADDING;
-
-  // --- Обработчики ---
-  mBanner.addEventListener('click', triggerClick);
-  showCorrectDownloadButton();
-  setupObserver(mBanner, closeButton, getBannerPadding);
-  setupCloseButton(mBanner, closeButton, resetPadding);
-}
+  addEventListenerSafe(banner, 'click', handleBannerClick);
+  addEventListenerSafe(closeBtn, 'click', handleClose, {passive: true});
+})();

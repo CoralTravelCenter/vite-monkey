@@ -1,11 +1,15 @@
 .welcome-to-app {
     background: rgb(0, 107, 153);
-    /*background: rgb(29, 31, 59);*/
+
     display: flex;
     align-items: center;
     justify-content: space-between;
     gap: 14px;
     padding: 13px 0 13px 13px;
+}
+
+.welcome-to-app.sunmar {
+    background: rgb(29, 31, 59);
 }
 
 .welcome-to-app.js-hidden {
@@ -14,11 +18,15 @@
 
 .welcome-to-app__logo {
     flex-shrink: 0;
+    height: 40px;
+    width: 40px;
 }
 
 .welcome-to-app__logo img {
-    height: 40px;
-    width: 40px;
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    display: block;
 }
 
 .welcome-to-app__title {
@@ -28,7 +36,7 @@
     color: rgb(255, 255, 255);
 }
 
-.welcome-to-ap__download {
+.welcome-to-app__download {
     border: 1px solid #fff;
     border-radius: 4px;
     background: transparent;
@@ -40,25 +48,25 @@
     grid-template-columns: max-content auto;
 }
 
-.welcome-to-ap__download span {
+.welcome-to-app__download span {
     font-size: 7px;
     grid-row: 1/2;
     grid-column: 2/3;
     text-align: left;
 }
 
-.welcome-to-ap__download svg {
+.welcome-to-app__download svg {
     grid-row: span 2;
     align-self: center;
 }
 
-.welcome-to-ap__download .welcome-to-app__store {
+.welcome-to-app__download .welcome-to-app__store {
     font-size: 11px;
     grid-row: 2/3;
     grid-column: 2/3;
 }
 
-.welcome-to-ap__download.js-hidden {
+.welcome-to-app__download.js-hidden {
     display: none;
 }
 

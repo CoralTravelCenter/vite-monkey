@@ -1,66 +1,159 @@
-import markup from './markup.html?raw';
+import MARKUP from './markup.html?raw';
 import './style.scss';
-import {
-  generateRandomId,
-  getMobileOS,
-  insertOnce,
-  isMobile,
-  runOncePerSession,
-  sendYandexEventOnce
-} from "../../utils.js";
 
-const executeOncePerSession = runOncePerSession('apk_pop_up_show');
+(function () {
+  'use strict';
 
-if (isMobile && executeOncePerSession) {
-  const OS = getMobileOS();
-  const BODY = document.body;
-  const randomId = generateRandomId();
+  const YM_ID = 96674199;
+  const YM_SHOW_GOAL = 'apk_pop_up_show';
+  const YM_CLICK_GOAL = 'apk_pop_up_click';
+  const SHOW_DELAY_MS = 2000;
+  const CLOSED_COOKIE = 'ux_popup_closed';
 
-  insertOnce(BODY, 'afterbegin', markup, randomId)
+  const APP_LINKS = {
+    iOS: 'https://apps.apple.com/app/id1497841397',
+    android: 'https://play.google.com/store/apps/details?id=coraltravel.ru.coralmobile',
+  };
 
-  const popup = document?.querySelector('#ux-mobile-popup');
+  function getMobileOS() {
+    const ua = navigator.userAgent || '';
+    if (/android/i.test(ua)) return 'android';
+    if (/iPad|iPhone|iPod/i.test(ua)) return 'iOS';
+    return 'other';
+  }
+
+  function insertOnce(target, position, html, marker = 'data-inserted') {
+    if (!target || !position) return null;
+    if (target.hasAttribute(marker)) return target.querySelector('#ux-mobile-popup');
+    target.insertAdjacentHTML(position, html);
+    target.setAttribute(marker, '1');
+    return target.querySelector('#ux-mobile-popup');
+  }
+
+  function sendYM(goal, params) {
+    try {
+      if (typeof window.ym === 'function') {
+        window.ym(YM_ID, 'reachGoal', goal, params);
+      }
+    } catch {
+    }
+  }
+
+  function prefersReducedMotion() {
+    return window.matchMedia?.('(prefers-reduced-motion: reduce)').matches;
+  }
+
+  // --- ДОБАВЛЕНО: работа с сессионной cookie ---
+  function getCookie(name) {
+    const m = document.cookie.match(new RegExp('(?:^|; )' + name.replace(/([.$?*|{}()\[\]\\/\+^])/g, '\$1') + '=([^;]*)'));
+    return m ? decodeURIComponent(m[1]) : undefined;
+  }
+
+  function setSessionCookie(name, value, {path = '/'} = {}) {
+    const parts = [`${name}=${encodeURIComponent(value)}`];
+    if (path) parts.push(`path=${path}`);
+    // без Expires/Max-Age — живёт до конца сессии браузера и общая для всех вкладок
+    document.cookie = parts.join('; ');
+  }
+
+
+  const jivo = {
+    destroy() {
+      try {
+        window.jivo_destroy?.();
+      } catch {
+      }
+    },
+    init() {
+      try {
+        window.jivo_init?.();
+      } catch {
+      }
+    },
+  };
+
+
+  const body = document.body;
+  const popup = insertOnce(body, 'afterbegin', MARKUP);
+  if (!popup) return;
+
   const content = popup?.querySelector('.ux-mobile-popup__content');
-  const continueInApp = popup?.querySelector('[data-continue="app"]');
-  const continueOnSite = popup?.querySelector('[data-continue="site"]');
+  const backdrop = popup?.querySelector('.ux-mobile-popup__backdrop');
+  const btnApp = popup?.querySelector('[data-continue="app"]');
+  const btnSite = popup?.querySelector('[data-continue="site"]');
+  const OS = getMobileOS();
+
+  body.classList.add('ux-popup-ready');
 
   function showPopup() {
-    content.classList.add('slide-in');
-    BODY.classList.add('body-scroll-lock');
+    popup.hidden = false;
+    body.classList.add('body-scroll-lock');
 
-    sendYandexEventOnce('apk_pop_up_show', 2, () => {
-      ym(96674199, 'reachGoal', 'apk_pop_up_show')
-    })
+    if (!prefersReducedMotion()) {
+      content.classList.add('slide-in');
+    }
+
+    sendYM(YM_SHOW_GOAL);
+
+    jivo.destroy();
+    setTimeout(() => content?.focus(), 0);
   }
 
   function hidePopup() {
-    content.classList.remove('slide-in');
-    content.addEventListener('transitionend', () => {
-      BODY.classList.remove('body-scroll-lock');
+    const cleanup = () => {
+      body.classList.remove('body-scroll-lock');
       popup.classList.add('ux-mobile-popup-js-hidden');
-    })
+      popup.hidden = true;
+      jivo.init();
+      setSessionCookie(CLOSED_COOKIE, '1');
+    };
 
+
+    setSessionCookie(CLOSED_COOKIE, '1');
+
+
+    if (prefersReducedMotion()) {
+      cleanup();
+      return;
+    }
+
+    content.classList.remove('slide-in');
+    content.addEventListener('transitionend', cleanup, {once: true});
   }
 
-  setTimeout(() => {
-    showPopup()
-  }, 3000)
-
-  continueInApp.addEventListener('click', () => {
-    switch (OS) {
-      case 'iOS':
-        window.open('https://apps.apple.com/app/id1497841397', '_blank');
-        hidePopup()
-        break;
-      case 'android':
-        window.open('https://play.google.com/store/apps/details?id=coraltravel.ru.coralmobile', '_blank');
-        hidePopup()
-        break;
+  function onClickApp() {
+    if (OS === 'iOS') {
+      window.open(APP_LINKS.iOS, '_blank', 'noopener,noreferrer');
+      hidePopup();
+    } else if (OS === 'android') {
+      window.open(APP_LINKS.android, '_blank', 'noopener,noreferrer');
+      hidePopup();
+    } else {
+      hidePopup();
     }
-    ym(96674199, 'reachGoal', 'apk_pop_up_click', {'button': 'app'})
-  })
+    sendYM(YM_CLICK_GOAL, {button: 'app'});
+  }
 
-  continueOnSite.addEventListener('click', () => {
-    hidePopup()
-    ym(96674199, 'reachGoal', 'apk_pop_up_click', {'button': 'responsive'})
-  })
-}
+  function onClickSite() {
+    hidePopup();
+    sendYM(YM_CLICK_GOAL, {button: 'responsive'});
+  }
+
+  function onKeyDown(e) {
+    if (e.key === 'Escape') hidePopup();
+  }
+
+  function onBackdrop(e) {
+    if (e.target?.getAttribute('data-close') === 'backdrop') hidePopup();
+  }
+
+  btnApp?.addEventListener('click', onClickApp);
+  btnSite?.addEventListener('click', onClickSite);
+  document.addEventListener('keydown', onKeyDown, {passive: true});
+  backdrop?.addEventListener('click', onBackdrop);
+
+
+  if (getCookie(CLOSED_COOKIE) === '1') return;
+
+  setTimeout(showPopup, SHOW_DELAY_MS);
+})();

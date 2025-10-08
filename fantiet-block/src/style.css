@@ -1,0 +1,121 @@
+section.lafiet .custom-panel {
+    display: flex;
+    flex-direction: column;
+    font-size: 16px;
+}
+
+section.lafiet .custom-panel .visual {
+    min-height: 250px;
+    width: 100%;
+    height: 100%;
+    display: block;
+    object-fit: cover;
+    border-top-left-radius: 12px;
+    border-top-right-radius: 12px;
+    overflow: clip;
+    background: url("https://b2ccdn.sunmar.ru/content/fanafiet-mob.webp");
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+
+section.lafiet .custom-panel .info {
+    border-radius: var(--radius-border_Radius_Base, 16px);
+    background: var(--Base-color_Base_Light_Gray, #F5F5F8);
+
+    display: flex;
+    padding: 24px;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 24px;
+
+    margin-bottom: 16px;
+}
+
+section.lafiet .custom-panel .info .shild {
+    display: flex;
+    padding: 6px 12px;
+    justify-content: center;
+    align-items: center;
+    gap: 8px;
+    color: #FFFFFF;
+    border-radius: 64px;
+    background: var(--Brand-color_Brand_Blue, #21366A);
+}
+
+section.lafiet .custom-panel .info.info-1 {
+    border-top-left-radius: 0;
+    border-top-right-radius: 0;
+}
+
+section.lafiet .custom-panel .info h2:not(.title) {
+    color: #0E2855;
+}
+
+section.lafiet .custom-panel .info ul {
+    padding-left: 24px;
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+}
+
+
+@media (min-width: 1024px) {
+    section.lafiet .custom-panel .visual {
+        background: url("https://b2ccdn.sunmar.ru/content/fanafiet-desk.webp");
+        background-size: cover;
+        background-position: 100% 50%;
+        background-repeat: no-repeat;
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        z-index: 1;
+    }
+
+    section.lafiet .custom-panel .block {
+        position: relative;
+        padding: 24px;
+        border-radius: var(--radius-border_Radius_Base, 16px);
+        overflow: clip;
+    }
+
+    section.lafiet .custom-panel .info {
+        margin: 0;
+    }
+
+    section.lafiet .custom-panel .info.info-1 {
+        z-index: 2;
+        position: relative;
+        width: 50%;
+        border-radius: 16px;
+        margin: 0;
+    }
+
+    section.lafiet .custom-panel {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        grid-template-areas:
+            "visual-part visual-part"
+            "programma chto-vhodit"
+            "programma vajnaya-infomacia";
+        gap: 32px;
+    }
+
+    .visual-part {
+        grid-area: visual-part;
+    }
+
+    .chto-vhodit {
+        grid-area: chto-vhodit;
+    }
+
+    .vajnaya-infomacia {
+        grid-area: vajnaya-infomacia;
+    }
+
+    .programma {
+        grid-area: programma;
+    }
+}
