@@ -1,19 +1,78 @@
-import MARKUP from './markup.html?raw';
 import './style.scss';
+import MARKUP from './markup.html?raw';
+import {SimpleReactDomObserver} from "../../utils.js";
+import Hammer from 'hammerjs';
+import Cookies from 'js-cookie';
 
 (function () {
   'use strict';
 
   const YM_ID = 96674199;
-  const YM_SHOW_GOAL = 'apk_pop_up_show';
-  const YM_CLICK_GOAL = 'apk_pop_up_click';
-  const SHOW_DELAY_MS = 2000;
-  const CLOSED_COOKIE = 'ux_popup_closed';
+  const YM_EVENTS = {show: 'show', application: 'application', close: 'close'};
 
-  const APP_LINKS = {
-    iOS: 'https://apps.apple.com/app/id1497841397',
-    android: 'https://play.google.com/store/apps/details?id=coraltravel.ru.coralmobile',
+  const BRAND_LINKS = {
+    coral: {
+      iOS: 'https://apps.apple.com/app/id1497841397',
+      android: 'https://play.google.com/store/apps/details?id=coraltravel.ru.coralmobile',
+    },
+    sunmar: {
+      iOS: 'https://apps.apple.com/app/id1509966009',
+      android: 'https://play.google.com/store/apps/details?id=sunmar.ru.sunmarmobile',
+    },
   };
+
+  const SELECTORS = {
+    containerToInsert: "div[class*='HeaderMobile_container']",
+    menuContainer: "div[class*='HeaderHamburgerMenu_menuContainer']",
+    banner: '.welcome-to-app',
+    closeBtn: '.welcome-to-app__close',
+    btnApple: '.welcome-to-app__download.apple',
+    btnGoogle: '.welcome-to-app__download.google',
+    content: '.welcome-to-app__content' // уточни при интеграции
+  };
+
+  // ===== настройки куки =====
+  const CLOSED_COOKIE = 'wta_closed';
+  const CLOSED_COOKIE_DAYS = 7;
+
+  // ===== вставка баннера =====
+  function insertOnce(target, position, html, marker = 'data-wta-inserted') {
+    if (!target) return null;
+    if (!target.hasAttribute(marker)) {
+      target.insertAdjacentHTML(position, html);
+      target.setAttribute(marker, '1');
+    }
+    return target.querySelector(SELECTORS.banner);
+  }
+
+  function sendYM(event) {
+    try {
+      if (typeof window.ym === 'function') window.ym(YM_ID, 'reachGoal', event);
+    } catch {
+    }
+  }
+
+  function addEventListenerSafe(element, event, handler, options) {
+    element?.addEventListener(event, handler, options);
+    return () => element?.removeEventListener(event, handler, options);
+  }
+
+  // ===== инициализация =====
+  const placeToInsert = document.querySelector(SELECTORS.containerToInsert);
+  if (!placeToInsert) return;
+
+  const banner = insertOnce(placeToInsert, 'afterbegin', MARKUP);
+  if (!banner) return;
+
+  // проверка куки (раз в неделю)
+  if (Cookies.get(CLOSED_COOKIE) === '1') {
+    banner.classList.add('js-hidden');
+    const parentHidden = placeToInsert.parentElement;
+    if (parentHidden) parentHidden.style.paddingTop = '0px';
+    return;
+  }
+
+  sendYM(YM_EVENTS.show);
 
   function getMobileOS() {
     const ua = navigator.userAgent || '';
@@ -22,138 +81,149 @@ import './style.scss';
     return 'other';
   }
 
-  function insertOnce(target, position, html, marker = 'data-inserted') {
-    if (!target || !position) return null;
-    if (target.hasAttribute(marker)) return target.querySelector('#ux-mobile-popup');
-    target.insertAdjacentHTML(position, html);
-    target.setAttribute(marker, '1');
-    return target.querySelector('#ux-mobile-popup');
+  function getBrand() {
+    const host = location.host;
+    if (host.includes('sunmar')) return 'sunmar';
+    if (host.includes('coral')) return 'coral';
+    return null;
   }
 
-  function sendYM(goal, params) {
+  const OS = getMobileOS();
+  const BRAND = getBrand();
+  banner.classList.add(BRAND || '');
+
+  const closeBtn = banner.querySelector(SELECTORS.closeBtn);
+  const btnApple = banner.querySelector(SELECTORS.btnApple);
+  const btnGoogle = banner.querySelector(SELECTORS.btnGoogle);
+  const contentEl = banner.querySelector(SELECTORS.content);
+
+  if (OS === 'iOS') btnApple?.classList.remove('js-hidden');
+  else if (OS === 'android') btnGoogle?.classList.remove('js-hidden');
+  else {
+    btnApple?.classList.remove('js-hidden');
+    btnGoogle?.classList.remove('js-hidden');
+  }
+
+  const parent = placeToInsert.parentElement;
+  if (!parent) return;
+
+  function applyPadding(px) {
+    parent.style.paddingTop = `${px}px`;
+  }
+
+  function getContainerHeight() {
+    const rect = placeToInsert.getBoundingClientRect();
+    return Math.max(0, Math.ceil(rect.height));
+  }
+
+  function updateLayout() {
+    const height = getContainerHeight();
+    applyPadding(height);
+    document.querySelectorAll(SELECTORS.menuContainer).forEach((el) => {
+      el.style.top = `${height}px`;
+    });
+  }
+
+  const containerResizeObserver = new ResizeObserver(updateLayout);
+  containerResizeObserver.observe(placeToInsert);
+
+  const menuObserver = new SimpleReactDomObserver(SELECTORS.menuContainer, {
+    onAppear: updateLayout,
+  });
+  menuObserver.start();
+
+  updateLayout();
+
+  // ===== скрытие + кука =====
+  let tearDownFns = [];
+
+  function hideAndRemember() {
+    banner.classList.add('js-hidden');
+    Cookies.set(CLOSED_COOKIE, '1', {expires: CLOSED_COOKIE_DAYS, path: '/'});
+    updateLayout();
+
     try {
-      if (typeof window.ym === 'function') {
-        window.ym(YM_ID, 'reachGoal', goal, params);
-      }
+      containerResizeObserver.disconnect();
     } catch {
     }
-  }
-
-  function prefersReducedMotion() {
-    return window.matchMedia?.('(prefers-reduced-motion: reduce)').matches;
-  }
-
-  // --- ДОБАВЛЕНО: работа с сессионной cookie ---
-  function getCookie(name) {
-    const m = document.cookie.match(new RegExp('(?:^|; )' + name.replace(/([.$?*|{}()\[\]\\/\+^])/g, '\$1') + '=([^;]*)'));
-    return m ? decodeURIComponent(m[1]) : undefined;
-  }
-
-  function setSessionCookie(name, value, {path = '/'} = {}) {
-    const parts = [`${name}=${encodeURIComponent(value)}`];
-    if (path) parts.push(`path=${path}`);
-    // без Expires/Max-Age — живёт до конца сессии браузера и общая для всех вкладок
-    document.cookie = parts.join('; ');
-  }
-
-
-  const jivo = {
-    destroy() {
-      try {
-        window.jivo_destroy?.();
-      } catch {
-      }
-    },
-    init() {
-      try {
-        window.jivo_init?.();
-      } catch {
-      }
-    },
-  };
-
-
-  const body = document.body;
-  const popup = insertOnce(body, 'afterbegin', MARKUP);
-  if (!popup) return;
-
-  const content = popup?.querySelector('.ux-mobile-popup__content');
-  const backdrop = popup?.querySelector('.ux-mobile-popup__backdrop');
-  const btnApp = popup?.querySelector('[data-continue="app"]');
-  const btnSite = popup?.querySelector('[data-continue="site"]');
-  const OS = getMobileOS();
-
-  body.classList.add('ux-popup-ready');
-
-  function showPopup() {
-    popup.hidden = false;
-    body.classList.add('body-scroll-lock');
-
-    if (!prefersReducedMotion()) {
-      content.classList.add('slide-in');
+    try {
+      menuObserver.stop?.();
+    } catch {
     }
-
-    sendYM(YM_SHOW_GOAL);
-
-    jivo.destroy();
-    setTimeout(() => content?.focus(), 0);
+    for (const off of tearDownFns) {
+      try {
+        off();
+      } catch {
+      }
+    }
+    tearDownFns = [];
   }
 
-  function hidePopup() {
-    const cleanup = () => {
-      body.classList.remove('body-scroll-lock');
-      popup.classList.add('ux-mobile-popup-js-hidden');
-      popup.hidden = true;
-      jivo.init();
-      setSessionCookie(CLOSED_COOKIE, '1');
-    };
+  // ===== клики =====
+  function handleBannerClick(e) {
+    if (e.target?.closest(SELECTORS.closeBtn)) return;
 
-
-    setSessionCookie(CLOSED_COOKIE, '1');
-
-
-    if (prefersReducedMotion()) {
-      cleanup();
+    // клик по фону вне контента
+    if (contentEl && !e.target.closest(SELECTORS.content)) {
+      sendYM(YM_EVENTS.close);
+      hideAndRemember();
       return;
     }
 
-    content.classList.remove('slide-in');
-    content.addEventListener('transitionend', cleanup, {once: true});
+    sendYM(YM_EVENTS.application);
+    hideAndRemember();
+
+    const link = BRAND ? BRAND_LINKS[BRAND]?.[OS] : undefined;
+    if (link) window.open(link, '_blank', 'noopener,noreferrer');
   }
 
-  function onClickApp() {
-    if (OS === 'iOS') {
-      window.open(APP_LINKS.iOS, '_blank', 'noopener,noreferrer');
-      hidePopup();
-    } else if (OS === 'android') {
-      window.open(APP_LINKS.android, '_blank', 'noopener,noreferrer');
-      hidePopup();
-    } else {
-      hidePopup();
-    }
-    sendYM(YM_CLICK_GOAL, {button: 'app'});
+  function handleClose() {
+    sendYM(YM_EVENTS.close);
+    hideAndRemember();
   }
 
-  function onClickSite() {
-    hidePopup();
-    sendYM(YM_CLICK_GOAL, {button: 'responsive'});
+  const offClick = addEventListenerSafe(banner, 'click', handleBannerClick);
+  const offClose = addEventListenerSafe(closeBtn, 'click', handleClose, {passive: true});
+  tearDownFns.push(offClick, offClose);
+
+  // ===== свайп вниз через Hammer.js =====
+  function setupSwipeToClose() {
+    if (!banner) return;
+
+    const manager = new Hammer.Manager(banner);
+
+    const swipe = new Hammer.Swipe({
+      direction: Hammer.DIRECTION_VERTICAL,
+      threshold: 10,
+      velocity: 0.2,
+    });
+    manager.add(swipe);
+
+    manager.on('swipedown', () => {
+      sendYM(YM_EVENTS.close);
+      hideAndRemember();
+    });
+
+    const pan = new Hammer.Pan({
+      direction: Hammer.DIRECTION_VERTICAL,
+      threshold: 5,
+    });
+    manager.add(pan);
+
+    let maxDeltaY = 0;
+    manager.on('panmove', (ev) => {
+      maxDeltaY = Math.max(maxDeltaY, ev.deltaY || 0);
+    });
+    manager.on('panend', () => {
+      if (maxDeltaY > 60) {
+        sendYM(YM_EVENTS.close);
+        hideAndRemember();
+      }
+      maxDeltaY = 0;
+    });
+
+    tearDownFns.push(() => manager.destroy());
   }
 
-  function onKeyDown(e) {
-    if (e.key === 'Escape') hidePopup();
-  }
-
-  function onBackdrop(e) {
-    if (e.target?.getAttribute('data-close') === 'backdrop') hidePopup();
-  }
-
-  btnApp?.addEventListener('click', onClickApp);
-  btnSite?.addEventListener('click', onClickSite);
-  document.addEventListener('keydown', onKeyDown, {passive: true});
-  backdrop?.addEventListener('click', onBackdrop);
-
-
-  if (getCookie(CLOSED_COOKIE) === '1') return;
-
-  setTimeout(showPopup, SHOW_DELAY_MS);
+  setupSwipeToClose();
 })();
