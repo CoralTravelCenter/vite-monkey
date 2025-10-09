@@ -761,3 +761,33 @@ export function waitForWindowVar(name, intervalMs = 300) {
     check();
   });
 }
+
+
+export class SimpleReactDomObserver {
+  constructor(selector, {onAppear} = {}) {
+    this.selector = selector;
+    this.onAppear = onAppear;
+    this.seen = new WeakSet();
+    this.observer = new MutationObserver(() => this.check());
+  }
+
+  start() {
+    this.observer.observe(document.body, {childList: true, subtree: true});
+    this.check();
+  }
+
+  stop() {
+    this.observer.disconnect();
+  }
+
+  check() {
+    const nodes = document.querySelectorAll(this.selector);
+    nodes.forEach((el) => {
+      if (this.seen.has(el)) return;
+      this.seen.add(el);
+      if (this.onAppear) {
+        this.onAppear(el);
+      }
+    });
+  }
+}
