@@ -711,7 +711,7 @@ export class ClickOutside {
  * @param {number} intervalMs - период опроса (по умолчанию 200 мс)
  * @returns {Promise<object>} - найденный объект (глубокая копия)
  */
-export function waitForDLEvent(eventName, intervalMs = 200) {
+export function waitForDLEvent(eventName, intervalMs = 300) {
   return new Promise((resolve) => {
     window.dataLayer = window.dataLayer || [];
     let cursor = 0;
@@ -748,7 +748,7 @@ export function waitForDLEvent(eventName, intervalMs = 200) {
  * @param {number} intervalMs - период проверок (по умолчанию 200 мс)
  * @returns {Promise<any>}
  */
-export function waitForWindowVar(name, intervalMs = 200) {
+export function waitForWindowVar(name, intervalMs = 300) {
   return new Promise((resolve) => {
     const check = () => {
       const val = window[name];

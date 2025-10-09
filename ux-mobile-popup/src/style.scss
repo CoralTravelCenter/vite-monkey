@@ -1,3 +1,11 @@
+div[class*="HeaderMobileAppBanner_appBanner"] {
+  display: none;
+}
+
+div[class*="HeaderWidget_headerClientSideMobile"] > div {
+  padding: 0 !important;
+}
+
 .ux-mobile-popup {
   height: 100%;
   width: 100%;
@@ -24,14 +32,44 @@
   }
 
   &__icons-container {
-    display: flex;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
     gap: 8px;
-    justify-content: center;
     padding-block: 16px;
+    width: fit-content;
+    margin: 0 auto;
 
     .icon {
       width: 80px;
       height: 80px;
+      align-self: start;
+    }
+
+    .icon.app {
+      grid-column: 1/2;
+      grid-row: 1/2;
+      justify-self: end;
+    }
+
+    .icon.site {
+      grid-column: 2/3;
+      grid-row: 1/2;
+      justify-self: start;
+    }
+
+    .text {
+      align-self: center;
+      text-align: center;
+    }
+
+    .text.app {
+      grid-column: 1/2;
+      grid-row: 2/3;
+    }
+
+    .text.site {
+      grid-column: 2/3;
+      grid-row: 2/3;
     }
   }
 
@@ -138,5 +176,10 @@
 }
 
 .ux-mobile-popup-js-hidden {
+  display: none;
+}
+
+
+.hide-jivo {
   display: none;
 }

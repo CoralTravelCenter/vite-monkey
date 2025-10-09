@@ -30,6 +30,8 @@ if (isMobile && executeOncePerSession) {
     sendYandexEventOnce('apk_pop_up_show', 2, () => {
       ym(96674199, 'reachGoal', 'apk_pop_up_show')
     })
+    
+    window?.jivo_destroy && jivo_destroy()
   }
 
   function hidePopup() {
@@ -38,12 +40,12 @@ if (isMobile && executeOncePerSession) {
       BODY.classList.remove('body-scroll-lock');
       popup.classList.add('ux-mobile-popup-js-hidden');
     })
-
+    window?.jivo_init && jivo_init()
   }
 
   setTimeout(() => {
     showPopup()
-  }, 3000)
+  }, 2000)
 
   continueInApp.addEventListener('click', () => {
     switch (OS) {
