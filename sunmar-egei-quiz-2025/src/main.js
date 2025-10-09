@@ -1,6 +1,6 @@
 import MicroModal from 'micromodal';
 import {hostReactAppReady, vimeoAutoPlay} from "../../utils.js";
-// import markup from './markup.html?raw'
+// import markup from './kv.html?raw'
 import './style.scss'
 
 

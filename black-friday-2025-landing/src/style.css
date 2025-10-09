@@ -1,0 +1,222 @@
+*, *:before, *:after {
+    box-sizing: border-box;
+}
+
+section.coral .contenu {
+    padding-block: calc(64px / 2);
+}
+
+
+.picture-banner {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    margin-bottom: 32px;
+}
+
+@media (min-width: 1024px) {
+    .picture-banner {
+        flex-direction: row;
+    }
+
+    .picture-banner > * {
+        width: calc(50% - 8px);
+    }
+}
+
+.picture-banner .visual img {
+    width: 100%;
+    height: 100%;
+    min-height: 400px;
+    object-fit: cover;
+    display: block;
+    border-radius: 20px;
+}
+
+.picture-banner .content {
+    border-radius: 20px;
+    background: #fff;
+    padding: 24px;
+    display: flex;
+    flex-direction: column;
+    align-items: start;
+    gap: 16px;
+}
+
+h3 {
+    font-size: 32px;
+    margin: 0 0 16px 0;
+    line-height: 40px;
+}
+
+h5 {
+    font-size: 20px;
+    margin: 0 0 8px 0;
+}
+
+p {
+    font-size: 16px;
+    margin: 0;
+    line-height: 24px;
+}
+
+.benefits-cards {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 16px;
+}
+
+.benefits-cards article {
+    width: 100%;
+    flex-shrink: 0;
+    display: flex;
+    flex-direction: column;
+    border-radius: 20px;
+    overflow: clip;
+}
+
+@media (min-width: 768px) {
+    .benefits-cards article {
+        width: calc(50% - 8px);
+    }
+
+    .benefits-cards article:last-child {
+        width: 100%;
+    }
+}
+
+@media (min-width: 1024px) {
+    .benefits-cards article {
+        width: calc(33% - 8px);
+    }
+
+    .benefits-cards article:nth-last-of-type(-n+2) {
+        width: calc(50% - 8px);
+    }
+
+}
+
+.benefits-cards article .visual img {
+    min-height: 200px;
+    width: 100%;
+    height: 100%;
+    display: block;
+    object-fit: cover;
+    max-height: 240px;
+}
+
+.benefits-cards article .description {
+    background: #FFFFFF;
+    display: grid;
+    grid-template-columns: min-content auto;
+    padding: 24px;
+    column-gap: 12px;
+}
+
+
+.benefits-cards article .description .icon {
+    border-radius: 100%;
+    background: #C2E4F6;
+    display: flex;
+    width: 48px;
+    height: 48px;
+    padding: 12px;
+    justify-content: center;
+    align-items: center;
+    grid-column: 1/2;
+    grid-row: span 2;
+    align-self: center;
+}
+
+.benefits-cards article .description h5 {
+    color: #0092D0;
+}
+
+.tabs-nav {
+    display: flex;
+    width: 100%;
+    padding: 12px;
+    border-radius: 48px;
+    background: #FFF;
+    margin-bottom: 32px;
+    overflow-x: scroll;
+
+    scroll-snap-type: x mandatory;
+    scroll-padding-inline: 12px;
+
+    > * {
+        flex: 1 0 auto;
+        display: flex;
+        padding: 15px 24px;
+        justify-content: center;
+        align-items: center;
+        gap: 8px;
+        border-radius: 24px;
+        background: transparent;
+        border: none;
+        font-size: 16px;
+        cursor: pointer;
+        scroll-snap-align: start;
+    }
+}
+
+.tabs-nav button.js-active {
+    background: #0093D0;
+    color: #fff;
+}
+
+.tab-content {
+    display: none;
+}
+
+.tab-content.js-active {
+    display: block;
+}
+
+[data-tab-content="TURK"] .benefits-cards article {
+    width: 100%;
+}
+
+@media (min-width: 768px) {
+    [data-tab-content="TURK"] .benefits-cards article {
+        width: calc(50% - 8px);
+    }
+}
+
+@media (min-width: 1024px) {
+    [data-tab-content="TURK"] .benefits-cards article {
+        width: calc(33% - 8px);
+    }
+}
+
+
+[data-tab-content="EGYPT"] .benefits-cards article {
+    width: 100%;
+}
+
+@media (min-width: 768px) {
+    [data-tab-content="EGYPT"] .benefits-cards article {
+        width: calc(50% - 8px);
+    }
+}
+
+
+[data-tab-content="TAILD"] .benefits-cards article {
+    width: 100%;
+}
+
+@media (min-width: 768px) {
+    [data-tab-content="TAILD"] .benefits-cards article {
+        width: calc(50% - 8px);
+    }
+
+    [data-tab-content="TAILD"] .benefits-cards article:last-child {
+        width: 100%
+    }
+}
+
+@media (min-width: 1024px) {
+    [data-tab-content="TAILD"] .benefits-cards article {
+        width: calc(33% - 8px) !important;
+    }
+}
