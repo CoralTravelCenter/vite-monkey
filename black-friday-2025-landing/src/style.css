@@ -173,50 +173,242 @@ p {
     display: block;
 }
 
-[data-tab-content="TURK"] .benefits-cards article {
+[data-tab-content="Турция"] .benefits-cards article {
     width: 100%;
 }
 
 @media (min-width: 768px) {
-    [data-tab-content="TURK"] .benefits-cards article {
+    [data-tab-content="Турция"] .benefits-cards article {
         width: calc(50% - 8px);
     }
 }
 
 @media (min-width: 1024px) {
-    [data-tab-content="TURK"] .benefits-cards article {
+    [data-tab-content="Турция"] .benefits-cards article {
         width: calc(33% - 8px);
     }
 }
 
 
-[data-tab-content="EGYPT"] .benefits-cards article {
+[data-tab-content="Египет"] .benefits-cards article {
     width: 100%;
 }
 
 @media (min-width: 768px) {
-    [data-tab-content="EGYPT"] .benefits-cards article {
+    [data-tab-content="Египет"] .benefits-cards article {
         width: calc(50% - 8px);
     }
 }
 
 
-[data-tab-content="TAILD"] .benefits-cards article {
+[data-tab-content="Таиланд"] .benefits-cards article {
     width: 100%;
 }
 
 @media (min-width: 768px) {
-    [data-tab-content="TAILD"] .benefits-cards article {
+    [data-tab-content="Таиланд"] .benefits-cards article {
         width: calc(50% - 8px);
     }
 
-    [data-tab-content="TAILD"] .benefits-cards article:last-child {
+    [data-tab-content="Таиланд"] .benefits-cards article:last-child {
         width: 100%
     }
 }
 
 @media (min-width: 1024px) {
-    [data-tab-content="TAILD"] .benefits-cards article {
+    [data-tab-content="Таиланд"] .benefits-cards article {
         width: calc(33% - 8px) !important;
     }
+}
+
+
+.cards-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 24px;
+    margin-top: 64px;
+}
+
+@media (max-width: 1024px) {
+    .cards-container {
+        flex-direction: column
+    }
+}
+
+.hotel-card {
+    display: flex;
+    gap: 8px;
+    width: calc(50% - 12px);
+    border-radius: 12px;
+    border: 1px solid rgba(0, 0, 0, .06);
+    background: #fff;
+    padding: 8px
+}
+
+@media (max-width: 1024px) {
+    .hotel-card {
+        width: 100%
+    }
+}
+
+@media (max-width: 475px) {
+    .hotel-card {
+        flex-direction: column
+    }
+}
+
+.hotel-card .visual {
+    border-radius: 8px;
+    overflow: clip;
+    width: calc(50% - 4px);
+    position: relative
+}
+
+@media (max-width: 475px) {
+    .hotel-card .visual {
+        min-height: 200px;
+        width: 100%
+    }
+}
+
+.hotel-card .visual img {
+    position: absolute;
+    width: 100%;
+    height: 100%
+}
+
+.hotel-card .content {
+    display: flex;
+    flex-direction: column;
+    width: calc(50% - 4px)
+}
+
+@media (max-width: 475px) {
+    .hotel-card .content {
+        width: 100%
+    }
+}
+
+section.hero > article .contenu .prime-btn--modefided {
+    border-radius: 8px
+}
+
+.hotel-location {
+    display: flex;
+    gap: 4px;
+    margin-bottom: 8px
+}
+
+.hotel-name {
+    font-size: 20px;
+    font-weight: 600;
+    margin-bottom: 8px
+}
+
+.rating {
+    margin-bottom: 12px
+}
+
+.hotel-dates {
+    margin-bottom: 8px;
+    background: #f6f6f6;
+    width: fit-content;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 6px
+}
+
+.hotel-dates .hotel-date {
+    padding: 6px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    border-radius: 8px;
+    cursor: pointer
+}
+
+.hotel-dates .hotel-date.js-active {
+    border: 1px solid #2a92d0
+}
+
+.price {
+    display: none
+}
+
+.price.js-active {
+    display: block
+}
+
+.package {
+    padding: 4px 8px;
+    border-radius: 4px;
+    background: #f3f3f3;
+    margin-bottom: 8px;
+    text-align: center
+}
+
+.meal {
+    margin-bottom: 8px;
+    margin-top: auto
+}
+
+@media (max-width: 1024px) {
+    .meal {
+        margin-top: 0
+    }
+}
+
+.info-icons {
+    margin-bottom: 8px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    align-items: center
+}
+
+.info-icons .icon-wrapper {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+    flex: 0 0 auto
+}
+
+.info-icons .icon-wrapper .icon {
+    width: 13px;
+    height: 13px;
+    flex-shrink: 0
+}
+
+.info-icons .icon-wrapper .icon svg {
+    width: 100%;
+    height: 100%
+}
+
+.cards-wrapper {
+    position: relative
+}
+
+.loading-box {
+    padding: 20px;
+    text-align: center;
+    font-weight: 700;
+    font-size: 18px;
+    color: #888;
+    animation: loadingFade 1.4s ease-in-out infinite
+}
+
+@keyframes loadingFade {
+    0%, to {
+        opacity: .3
+    }
+    50% {
+        opacity: 1
+    }
+}
+
+.rating {
+    display: flex;
+    gap: 4px;
 }
