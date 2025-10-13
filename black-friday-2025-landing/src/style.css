@@ -412,3 +412,13 @@ section.hero > article .contenu .prime-btn--modefided {
     display: flex;
     gap: 4px;
 }
+
+.tabs-nav {
+    overflow-x: auto; /* Или overflow-x: scroll; если нужно всегда показывать полосу прокрутки */
+    -ms-overflow-style: none; /* IE и Edge */
+    scrollbar-width: none; /* Firefox */
+}
+
+.tabs-nav::-webkit-scrollbar {
+    display: none; /* Chrome, Safari и Opera */
+}
