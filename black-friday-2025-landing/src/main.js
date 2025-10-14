@@ -2,93 +2,165 @@ import kv from './markup/kv.html?raw';
 import text from './markup/text.html?raw';
 import plate from './markup/plate.html?raw';
 import contacts from './markup/contacts.html?raw';
+import podborka from './markup/podborka.html?raw';
 import './style.css';
 
-const markup = kv + text + plate + contacts;
+const markup = kv + text + plate + podborka + contacts;
 document.querySelector('#monkey-app').insertAdjacentHTML('afterbegin', markup)
 
 // ===== Обновлённая структура отелей
 window._toursByCountry = [
   {
     country: "ОАЭ",
-    hotels: [
+    hotels: [{
+      hotel: "RIXOS MARINA ABU DHABI",
+      dates: ["2025-11-17", "2025-11-30"],
+      rating: 5,
+      location: "ОАЭ, Абу-Даби (Abu Dhabi)",
+      meal: "Deluxe Room Corniche View - Завтраки",
+      nights: 7,
+      passengers: "на двоих",
+      departure: 'Москва',
+      package: "Перелет включен",
+      urls: ['https://www.coral.ru/hotels/united-arab-emirates/rixos-marina-abu-dhabi-abu-dhabi/?qp=lWOJw1XDa14WeujkN6zDTh1%2flzTX%2fGPzT8w6CXGc2nwJKxggVFaB91Lp2wQ055ANEuaJK%2fRs4TGvT2%2bng7I7LEsh7VKuch6pQWysPYofKZDqp%2f%2flS2RdMEimLQWfoEGG8zJDNxSZzVwdGbs0GPh4DBzqYao5l7sBBAEkhCCpx3EoGadho28OfDYPDrNCfccDqdLPulYy9F9CAtd3XQLziHaLZABWQLG%2fiZauu0Uw9vnQnxunuALQpA5DQafNM%2f3UWnzBEeamkN0zOFjR7jnMRsBarCsqFVlg53gu7Wvl4EmSQVPY9uLIkKSy1oE0KoRc2s6Q69%2bZpzlIlM2uaSzTLQ%3d%3d&p=1&w=0&s=0&ws=10'],
+    },
       {
-        hotel: "MIRAMAR AL AQAH BEACH RESORT",
+        hotel: "RIXOS PREMIUM SAADIYAT ISLAND",
         dates: ["2025-11-17", "2025-11-30"],
         rating: 5,
-        location: "ОАЭ, Фуджейра (Fujairah)",
-        meal: "Superior Room- Завтраки",
+        location: "ОАЭ, Абу-Даби (Abu Dhabi)",
+        meal: "Premium Pool Access Room - Ультра все включено",
         nights: 7,
         passengers: "на двоих",
         departure: 'Москва',
         package: "Перелет включен",
-        urls: ['https://www.coral.ru/hotels/united-arab-emirates/miramar-al-aqah-beach-resort-fujairah/?qp=lWOJw1XDa14WeujkN6zDTh1%2flzTX%2fGPzT8w6CXGc2nwJKxggVFaB91Lp2wQ055ANEuaJK%2fRs4TGvT2%2bng7I7LEsh7VKuch6pQWysPYofKZDqp%2f%2flS2RdMEimLQWfoEGGqf8o7QHB1iaxPsB5gqdZDsvFMxaBfdaQIyrkcVLtfh9Z3bk%2f%2fRMEQAim8pbiEZ3%2bfzKy8UDrivG3lGxi0nv7bKn4BvXtIGrQqzsIkPVhkSyVfzsCF8gkmW5QBGMQmctj5qlxPXLBC6qc06lKtOJOwcNNLXWzwvkANu5vktZG7WwXiIeMTdMvYKMAz4%2bTGjREF%2bZD1lMX8pPzWHE6bVCz8A%3d%3d&p=1&w=0&s=0&ws=10'],
+        urls: ['https://www.coral.ru/hotels/united-arab-emirates/rixos-premium-saadiyat-island-abu-dhabi/?qp=lWOJw1XDa14WeujkN6zDTh1%2flzTX%2fGPzT8w6CXGc2nwJKxggVFaB91Lp2wQ055ANEuaJK%2fRs4TGvT2%2bng7I7LEsh7VKuch6pQWysPYofKZDqp%2f%2flS2RdMEimLQWfoEGGmTq4f5ndL6u6xXXuI0EhP1egjh6IabWhLlc6L%2fLzEQ531J4XgFG2Wa7YJgWbaoLEclJ8X18IjLurs%2b9CaUqUINzYDPtcku3Z0lDqya4LA%2bAg6FEFlnzpzZT%2fMNz%2fT1Xf9qrY3A1%2bTbIEz0z1Pg74Oj74QxQY6DQZ7i50tunaK42219r8Iaxt4v90AjaufpZIqXknGn9Mh6l9ntCFC1qQAQ%3d%3d&p=1&w=0&s=0&ws=10'],
       },
       {
-        hotel: "MIRAGE BAB AL BAHR BEACH HOTEL",
+        hotel: "SOFITEL ABU DHABI CORNICHE",
         dates: ["2025-11-17", "2025-11-30"],
         rating: 5,
-        location: "ОАЭ, Фуджейра (Fujairah)",
-        meal: "Ocean Deluxe- Завтраки",
+        location: "ОАЭ, Абу-Даби (Abu Dhabi)",
+        meal: "Superior Room Twin - Завтраки",
         nights: 7,
         passengers: "на двоих",
         departure: 'Москва',
         package: "Перелет включен",
-        urls: ['https://www.coral.ru/hotels/united-arab-emirates/mirage-bab-al-bahr-beach-hotel-fujairah/?qp=lWOJw1XDa14WeujkN6zDTh1%2flzTX%2fGPzT8w6CXGc2nwJKxggVFaB91Lp2wQ055ANEuaJK%2fRs4TGvT2%2bng7I7LEsh7VKuch6pQWysPYofKZDqp%2f%2flS2RdMEimLQWfoEGGRhxhEGgSQHWqUir7iJR%2fQDdgHrveZN%2bUVuEEgPxZo6ownAygsY7CvOu0%2bNgfBT8xKwLLP8dfQjHdmOKsUqopRswcqGo1AEbJocBvnKnqy4AkNL5mVcUk%2fqibjRe8I1TmTjDXy3AYJE0ckHovpjjeATvTek6ilunLPM4iHYqRRWq%2f81Sp2OkF8SPu9RvXkatMAMc%2fVeti8oAwTCR6F8TIDQ%3d%3d&p=1&w=0&s=0&ws=10'],
+        urls: ['https://www.coral.ru/hotels/united-arab-emirates/sofitel-abu-dhabi-corniche-abu-dhabi/?qp=lWOJw1XDa14WeujkN6zDTh1%2flzTX%2fGPzT8w6CXGc2nwJKxggVFaB91Lp2wQ055ANEuaJK%2fRs4TGvT2%2bng7I7LEsh7VKuch6pQWysPYofKZDqp%2f%2flS2RdMEimLQWfoEGG20X3BVl00o%2bDtLa577xY1QiCmxCC%2bA4Vk48aHD%2bMCI7pb6pYzbmkGD8jTT%2f8NVPlKUS7ETKlvCFcdI8kq7ZElvCUsPDNBRZoG%2fQXVLDHUaPdLKWUVdREFqggnT9faoscAHNtqyJLBqoHiA9jgaVGgTdfneeighQWBNV6eZN%2bvnl9ysZvyHX8X9odWUHIqmL8kEYB9e0p0zEGdslwPpgC8w%3d%3d&p=1&w=0&s=0&ws=10'],
       },
       {
-        hotel: "SAHARA BEACH RESORT & SPA",
+        hotel: "MILLENNIUM DOWNTOWN ABU DHABI",
         dates: ["2025-11-17", "2025-11-30"],
-        rating: 5,
-        location: "ОАЭ, Шарджа",
-        meal: "Deluxe Room Balcony- Завтрак",
+        rating: 4,
+        location: "ОАЭ, Абу-Даби (Abu Dhabi)",
+        meal: "Standard Room - Завтрак",
         nights: 7,
         passengers: "на двоих",
         departure: 'Москва',
         package: "Перелет включен",
-        urls: ['https://www.coral.ru/hotels/united-arab-emirates/sahara-beach-resort-spa-sharjah/?qp=lWOJw1XDa14WeujkN6zDTh1%2flzTX%2fGPzT8w6CXGc2nwJKxggVFaB91Lp2wQ055ANEuaJK%2fRs4TGvT2%2bng7I7LEsh7VKuch6pQWysPYofKZDqp%2f%2flS2RdMEimLQWfoEGGE6FgIoz43gu5SKahnjzMySLqd0HX8hVns75QxPSbqh9lhjZRgaoF3kLVli%2frqWlgYs8Tt5RGmMQXjsgRegq1UBU7yIC7EKw%2bVZAn9nb3CPweCe3Ap2YE%2baw7Kxls%2f3oJHHX0Ej1wkTc4zNNvJYrGVZRb4H4UYCxNADxISaoKemwMad3uBmH51Xh5VFHqVzfkyXoPqPRX3sPWEwDeF1g0uA%3d%3d&p=1&w=0&s=0&ws=10'],
+        urls: ['https://www.coral.ru/hotels/united-arab-emirates/millennium-downtown-abu-dhabi-abu-dhabi/?qp=lWOJw1XDa14WeujkN6zDTh1%2flzTX%2fGPzT8w6CXGc2nwJKxggVFaB91Lp2wQ055ANEuaJK%2fRs4TGvT2%2bng7I7LEsh7VKuch6pQWysPYofKZDqp%2f%2flS2RdMEimLQWfoEGGuEco%2f5c2WcWbpBmROV%2foO8syD%2bd4Tic1B0lpwGMSrkBizpMvegxAkGfHhCr5Cr1xXJH3B7kk7PRNrzCItW9G10rbi9ROAVWgoi%2fnF3m1ZgA8Ip%2b6c2xiEUSspqr6lvpTj4t8q3XBEQYbMfZuwC2LIdmq4zKUNOBu77IqrszjlRBW9fAIL4NaTqpbHTKndGe%2f%2br1%2fgFvBAzZYe3CKlINkdg%3d%3d&p=1&w=0&s=0&ws=10'],
       },
       {
-        hotel: "LE ROYAL MERIDIEN BEACH RESORT&SPA",
+        hotel: "COPTHORNE DOWNTOWN ABU DHABI",
         dates: ["2025-11-17", "2025-11-30"],
-        rating: 5,
-        location: "ОАЭ, Дубай, Дубай Марина",
-        meal: "Super Deluxe Sea View- Завтраки",
+        rating: 4,
+        location: "ОАЭ, Абу-Даби (Abu Dhabi)",
+        meal: "Deluxe Room - Завтрак",
         nights: 7,
         passengers: "на двоих",
         departure: 'Москва',
         package: "Перелет включен",
-        urls: [],
+        urls: ['https://www.coral.ru/hotels/united-arab-emirates/copthorne-downtown-abu-dhabi-abu-dhabi/?qp=lWOJw1XDa14WeujkN6zDTh1%2flzTX%2fGPzT8w6CXGc2nwJKxggVFaB91Lp2wQ055ANEuaJK%2fRs4TGvT2%2bng7I7LEsh7VKuch6pQWysPYofKZDqp%2f%2flS2RdMEimLQWfoEGGwxmaupirt%2flwTA3qhYy1uQWvYcZCkDp8ypRFZ9UhNEzHy2H%2fa5L%2b3vbZBNBkxdbGZ86sH4%2fkFcELyfqEYOeO%2fSN0BNi1KYExrHRC3HrQlZBQsk26WVmosxu8fMk%2b4n7MCP7rm%2bYYDahwluCj6YnmxtNZ3wrisc%2fa%2b4Slmae62x8E4jlZGgpBAESxynf%2b7Oio1alzm4aJZe0Q0nfIfmUf0A%3d%3d&p=1&w=0&s=0&ws=10'],
+      },
+
+      {
+        hotel: "SHERATON DUBAI MALL OF THE EMIRATES HOTEL",
+        dates: ["2025-11-17", "2025-11-30"],
+        rating: 5,
+        location: "ОАЭ, Дубай, Аль Барша (Al Barsha)",
+        meal: "Deluxe Room - Завтрак",
+        nights: 7,
+        passengers: "на двоих",
+        departure: 'Москва',
+        package: "Перелет включен",
+        urls: ['https://www.coral.ru/hotels/united-arab-emirates/sheraton-dubai-mall-of-the-emirates-hotel-dubai/?qp=lWOJw1XDa14WeujkN6zDTh1%2flzTX%2fGPzT8w6CXGc2nwJKxggVFaB91Lp2wQ055ANEuaJK%2fRs4TGvT2%2bng7I7LEsh7VKuch6pQWysPYofKZDqp%2f%2flS2RdMEimLQWfoEGGeZP3r6PwSHvjQhN%2bjq696d6h317EhYV6xl6X34EdBnIJoOAEeUMGCXi%2fuDRsbnBCA1a70S8nMnauaahimwqy019cFuKI1tl%2fg4awLD78JF7OlSC%2fyivtS7jF%2fM7bFRMEqMiHwZAtFUj5fK2lQqSxvh4qHZfVgVHtrPA2a8kXBH7KP2v8mWxylFppsLbI16PtXhxJ0xqkvhHiJ2cOYA0lmw%3d%3d&p=1&w=0&s=0&ws=10'],
       },
       {
-        hotel: "SHERATON SHARJAH BEACH RESORT & SPA",
+        hotel: "ADDRESS BEACH RESORT",
         dates: ["2025-11-17", "2025-11-30"],
         rating: 5,
-        location: "ОАЭ, Шарджа",
-        meal: "Deluxe Room City View- Завтраки",
+        location: "ОАЭ, Дубай, Дубай Марина (Dubai Marina)",
+        meal: "Deluxe Marina City View Room With Balcony - Завтраки",
         nights: 7,
         passengers: "на двоих",
         departure: 'Москва',
         package: "Перелет включен",
-        urls: ['https://www.coral.ru/hotels/united-arab-emirates/sheraton-sharjah-beach-resort-spa-sharjah/?qp=lWOJw1XDa14WeujkN6zDTh1%2flzTX%2fGPzT8w6CXGc2nwJKxggVFaB91Lp2wQ055ANEuaJK%2fRs4TGvT2%2bng7I7LEsh7VKuch6pQWysPYofKZDqp%2f%2flS2RdMEimLQWfoEGGLWjV%2bmxzuDI1s3bOqXsBlcTwslSXVqhw82SM6RSE0Ha6dZ2c5oZr2jCTRHHXtO2qWO4vEElnQzMPYE1nQkehQM2F2%2ffy%2bEuIJTtWSUfKbPWmFlmoqvquU4mV4TUrIpLlM%2bnfjxAiceyvzVW6PaUes5yURdboP9qA8q6qNWLBmYdLGvF0aZMf1g1vLql6NvEd50%2bY47Wx9laQ30VmtEy%2fEA%3d%3d&p=1&w=0&s=0&ws=10'],
+        urls: ['https://www.coral.ru/hotels/united-arab-emirates/address-beach-resort-dubai/?qp=lWOJw1XDa14WeujkN6zDTh1%2flzTX%2fGPzT8w6CXGc2nwJKxggVFaB91Lp2wQ055ANEuaJK%2fRs4TGvT2%2bng7I7LEsh7VKuch6pQWysPYofKZDqp%2f%2flS2RdMEimLQWfoEGG60xAKsy4f1cbf7dyL3Qo4BRX0GtaVXo8M4kotBAx4xBF8%2fKRoc8wFZZVMQ3z0CbAEKL5bn13WL8BBbFv6xdLDyPtgj9Jn%2bvxUhJWwePbNxhu8F64C49%2fo0q8SGiNzZPp9Ja5wpp7Gqtgymfo1aLcR4H5V3E%2bwuij%2fi%2fqTNzuRcHHX6DEkQwxAgawjJFOgEdOSCCKsVxAty6RSAWqmy4nag%3d%3d&p=1&w=0&s=0&ws=10'],
+      },
+      {
+        hotel: "TIME OAK HOTEL & SUITES",
+        dates: ["2025-11-17", "2025-11-30"],
+        rating: 4,
+        location: "ОАЭ, Дубай, Аль Барша (Al Barsha)",
+        meal: "One Bedroom - Завтраки",
+        nights: 7,
+        passengers: "на двоих",
+        departure: 'Москва',
+        package: "Перелет включен",
+        urls: ['https://www.coral.ru/hotels/united-arab-emirates/time-oak-hotel-suites-dubai/?qp=lWOJw1XDa14WeujkN6zDTh1%2flzTX%2fGPzT8w6CXGc2nwJKxggVFaB91Lp2wQ055ANEuaJK%2fRs4TGvT2%2bng7I7LEsh7VKuch6pQWysPYofKZDqp%2f%2flS2RdMEimLQWfoEGGCt3V0kXZnnykKQdFURfS0y3DZufsuvDSrIj3aLhdfv3DUfMr1ajSmMV2Xu7Xw9RFXznG7Nj0xMXymRJTZfvZbu5k7r0A9v26n4qGWNuFS1LaggoQ%2f4aMLPCyEJIMFQ4GB1gqz7aGMElWQXqOWKBn2vluLvo7ijGYcwJMzTFZJ4Z5pduUKKibg9T8Z1Y5aaog5a0ZhFNSR6vj%2fhuQucvRFg%3d%3d&p=1&w=0&s=0&ws=10'],
+      },
+      {
+        hotel: "MILLENNIUM AL BARSHA MALL OF THE EMIRATES",
+        dates: ["2025-11-17", "2025-11-30"],
+        rating: 4,
+        location: "ОАЭ, Дубай, Аль Барша (Al Barsha)",
+        meal: "Deluxe King/Twin - Завтраки",
+        nights: 7,
+        passengers: "на двоих",
+        departure: 'Москва',
+        package: "Перелет включен",
+        urls: ['https://www.coral.ru/hotels/united-arab-emirates/time-oak-hotel-suites-dubai/?qp=lWOJw1XDa14WeujkN6zDTh1%2flzTX%2fGPzT8w6CXGc2nwJKxggVFaB91Lp2wQ055ANEuaJK%2fRs4TGvT2%2bng7I7LEsh7VKuch6pQWysPYofKZDqp%2f%2flS2RdMEimLQWfoEGGCt3V0kXZnnykKQdFURfS0y3DZufsuvDSrIj3aLhdfv3DUfMr1ajSmMV2Xu7Xw9RFXznG7Nj0xMXymRJTZfvZbu5k7r0A9v26n4qGWNuFS1LaggoQ%2f4aMLPCyEJIMFQ4GB1gqz7aGMElWQXqOWKBn2vluLvo7ijGYcwJMzTFZJ4Z5pduUKKibg9T8Z1Y5aaog5a0ZhFNSR6vj%2fhuQucvRFg%3d%3d&p=1&w=0&s=0&ws=10'],
+      },
+      {
+        hotel: "ROVE DOWNTOWN DUBAI",
+        dates: ["2025-11-17", "2025-11-30"],
+        rating: 3,
+        location: "ОАЭ, Дубай, Даунтаун ОАЭ (Down Town-UAE)",
+        meal: "Rover Room - Завтрак",
+        nights: 7,
+        passengers: "на двоих",
+        departure: 'Москва',
+        package: "Перелет включен",
+        urls: ['https://www.coral.ru/hotels/united-arab-emirates/rove-downtown-dubai-dubai/?qp=lWOJw1XDa14WeujkN6zDTh1%2flzTX%2fGPzT8w6CXGc2nwJKxggVFaB91Lp2wQ055ANEuaJK%2fRs4TGvT2%2bng7I7LEsh7VKuch6pQWysPYofKZDqp%2f%2flS2RdMEimLQWfoEGGdiiO3o6ao54cXAoIVZ3a5jzVzBa18C4qZ7DQ5zmIXBziGDXXCy1raPs8CQOAfjCDHdf2tS7KgITyvRwS35P2HtlDpVTMFpG%2ftWnh6ziHJw7FmYx4boFu1jRxmYrrhEEio77GXup%2bMaPljsjDwfsZr9Fkr%2bpwVT7enxo3WQccO%2fFEjMqHKY2x8OuikpB9PtHjONaIinMzKNANU4T6DTqfnw%3d%3d&p=1&w=0&s=0&ws=10'],
+      },
+      {
+        hotel: "ROVE CITY WALK\n",
+        dates: ["2025-11-17", "2025-11-30"],
+        rating: 3,
+        location: "ОАЭ, Дубай, Шейх Заед Роуд (Sheikh Zaid Road)",
+        meal: "Rover Room - Завтрак",
+        nights: 7,
+        passengers: "на двоих",
+        departure: 'Москва',
+        package: "Перелет включен",
+        urls: ['https://www.coral.ru/hotels/united-arab-emirates/rove-city-walk-dubai/?qp=lWOJw1XDa14WeujkN6zDTh1%2flzTX%2fGPzT8w6CXGc2nwJKxggVFaB91Lp2wQ055ANEuaJK%2fRs4TGvT2%2bng7I7LEsh7VKuch6pQWysPYofKZDqp%2f%2flS2RdMEimLQWfoEGGVCs4LC5kJjqTWYzE9f408yD43x%2f0vOr6giYSQuXZcIiO30V5AGr5do%2bfsGt15KkvPNE5aWOxv0YHa%2bC5%2bCXak0ICuklln9eiB8oevHZWBWtEunBWmZnQQAZn9ok5lze4W123IPyay1iFo0DoJuV5jpKbnfvPV5ODqx%2fJrvjTMk4yHdrj3BskyYK70x%2b6HsrBwqh%2fK%2f5Im5%2f9r5PGFm6USA%3d%3d&p=1&w=0&s=0&ws=10'],
       },
     ],
   },
   {
     country: "Таиланд",
-    hotels: [
-      {
-        hotel: "CHANA HOTEL",
-        dates: ["2025-11-17", "2025-11-30"],
-        rating: 3,
-        location: "Таиланд, о. Пхукет (Phuket)",
-        meal: "Superior - Без питания",
-        nights: 11,
-        passengers: "на двоих",
-        departure: 'Москва',
-        package: "Перелет включен",
-        urls: ['https://www.coral.ru/hotels/thailand/chana-hotel-phuket/?qp=lWOJw1XDa14WeujkN6zDTh1%2flzTX%2fGPzT8w6CXGc2nwJKxggVFaB91Lp2wQ055ANAMs82OC59UkYZW8GgNNXVCg%2fin%2b7YIy84VwVFWKNY0PZtxB3iEDsQcyw52AW2%2be%2bRa1MptvW4BspY2DU6Dc%2fPL1CSW7fnrx30hGJcdwZGLin%2bg4jVxj3LA1Voh5IHGvXLRIU4%2fgUCQzu%2fjnPUX12SV%2bqQXmBvr6EhLyoAuA%2bpoFXFWjKilLlmf5yFI2XagzzcCkJ1pvghc5HfvlEjdT1UpeHcTpK4hpJoG4zOV9avzHapTtWWvjPSW4DUjFObSGzN8%2f8KjoE80p3xmCiZFA3yQ%3d%3d&p=1&w=0&s=0&ws=10'],
-      },
+    hotels: [{
+      hotel: "CHANA HOTEL",
+      dates: ["2025-11-17", "2025-11-30"],
+      rating: 3,
+      location: "Таиланд, о. Пхукет (Phuket)",
+      meal: "Superior - Без питания",
+      nights: 11,
+      passengers: "на двоих",
+      departure: 'Москва',
+      package: "Перелет включен",
+      urls: ['https://www.coral.ru/hotels/thailand/chana-hotel-phuket/?qp=lWOJw1XDa14WeujkN6zDTh1%2flzTX%2fGPzT8w6CXGc2nwJKxggVFaB91Lp2wQ055ANAMs82OC59UkYZW8GgNNXVCg%2fin%2b7YIy84VwVFWKNY0PZtxB3iEDsQcyw52AW2%2be%2bRa1MptvW4BspY2DU6Dc%2fPL1CSW7fnrx30hGJcdwZGLin%2bg4jVxj3LA1Voh5IHGvXLRIU4%2fgUCQzu%2fjnPUX12SV%2bqQXmBvr6EhLyoAuA%2bpoFXFWjKilLlmf5yFI2XagzzcCkJ1pvghc5HfvlEjdT1UpeHcTpK4hpJoG4zOV9avzHapTtWWvjPSW4DUjFObSGzN8%2f8KjoE80p3xmCiZFA3yQ%3d%3d&p=1&w=0&s=0&ws=10'],
+    },
       {
         hotel: "SINO MAISON PATONG",
         dates: ["2025-11-17", "2025-11-30"],
@@ -131,100 +203,196 @@ window._toursByCountry = [
     country: "Турция",
     hotels: [
       {
-        hotel: "ADALYA ELITE LARA",
+        hotel: "MEGASARAY WESTBEACH ANTALYA",
         dates: ["2025-11-17", "2025-11-30"],
         rating: 5,
         location: "Турция, Анталья (Antalya)",
-        meal: "Standard Room Land View With Balcony - Ультра Все Включено",
+        meal: "Deluxe Room City View- Завтрак",
         nights: 7,
         passengers: "на двоих",
-        departure: 'Москва',
+        departure: "Москва",
         package: "Перелет включен",
-        urls: ['https://www.coral.ru/hotels/turkey/adalya-elite-lara-antalya/?qp=lWOJw1XDa14WeujkN6zDTh1%2flzTX%2fGPzT8w6CXGc2nwJKxggVFaB91Lp2wQ055ANEuaJK%2fRs4TGvT2%2bng7I7LEsh7VKuch6pQWysPYofKZDqp%2f%2flS2RdMEimLQWfoEGGaJ2k7wBlPQLUP6qEOOSEl8ltQVPLxsZaHYkWiNafhwlKBuVvQ3QM3wcB7WuM2%2bwGvrUD%2fVeWvQuoTtVzJ7NoE11Hgt9EZzq0MP%2fkfHWk91jzlgKs63vk3mBEvZvfSfo37Czu9VBoToa1gQrWC1lX7DW5VG1pGEVtLa%2fzkihOxeKKJkvdaYZKcyIdXWu7PfmH2xkwROT3SKAHbObc9g0LKw%3d%3d&p=1&w=0&s=0&ws=10'],
+        urls: [
+          "https://www.coral.ru/hotels/turkey/megasaray-westbeach-antalya-antalya/?qp=lWOJw1XDa14WeujkN6zDTh1%2flzTX%2fGPzT8w6CXGc2nwJKxggVFaB91Lp2wQ055ANEuaJK%2fRs4TGvT2%2bng7I7LEsh7VKuch6pQWysPYofKZDqp%2f%2flS2RdMEimLQWfoEGGBGVAp%2fQI1Jhpk7SLK5lCDgJJnvWBCOUbACXoQKrV%2f5XEXVsD0eruXpn0tPSRjmzG3OWpTEB%2bGq%2fXJoB7kQJbXd9cRD1ZWMKrE%2fdn1KfgZYj780UT9A0VW2S5Ov5oBRMzs0SAWX0unxvqd3YI1LzNXHu3mRF942nHwMilflOsju%2bn%2bC4mKE1hEWloZbQUoagQ%2b%2fGuEWu9VLMuPQnQNXKmww%3d%3d&p=1&w=0&s=0&ws=10",
+        ],
       },
       {
-        hotel: "RIXOS PREMIUM TEKIROVA - THE LAND OF LEGENDS FREE ACCESS",
+        hotel: "AKRA ANTALYA",
         dates: ["2025-11-17", "2025-11-30"],
         rating: 5,
-        location: "Турция, Кемер (Kemer), Текирова (Tekirova)",
-        meal: "Deluxe Land View- Все Эксклюзивное Все Включено",
+        location: "Турция, Анталья (Antalya)",
+        meal: "Deluxe Room City View- Без питания",
         nights: 7,
         passengers: "на двоих",
-        departure: 'Москва',
+        departure: "Москва",
         package: "Перелет включен",
-        urls: ['https://www.coral.ru/hotels/turkey/rixos-premium-tekirova-the-land-of-legends-free-access-kemer/?qp=lWOJw1XDa14WeujkN6zDTh1%2flzTX%2fGPzT8w6CXGc2nwJKxggVFaB91Lp2wQ055ANEuaJK%2fRs4TGvT2%2bng7I7LEsh7VKuch6pQWysPYofKZDqp%2f%2flS2RdMEimLQWfoEGG7wQ3cfoXoLMWryaEPp8HxlHxT4F0idgTPspt4wZ5oW74erM6TVZ2JcrgON2wq2qVS0Y5u2vEIAn5aR70nTjmfPw0FTvrs3w1vyxiqM7Z0iW3SBdyBNuKfkpoiY3f5fMmDxwDj%2foySOd0lMwFkk%2bBF6fxk9B2m93OTePLgMvXjnndDBRHTbF5P4UugHCobH5ZuTQzbYVWc1z7X5Jl2BTpGg%3d%3d&p=1&w=0&s=0&ws=10'],
+        urls: [
+          "https://www.coral.ru/hotels/turkey/akra-antalya-antalya/?qp=lWOJw1XDa14WeujkN6zDTh1%2flzTX%2fGPzT8w6CXGc2nwJKxggVFaB91Lp2wQ055ANEuaJK%2fRs4TGvT2%2bng7I7LEsh7VKuch6pQWysPYofKZDqp%2f%2flS2RdMEimLQWfoEGGx%2fXnNarFr5vWovsSn3%2f5vKMUWBc4PfbRwuJEORruZxOo1FBA5BnjiRyYta96cvq%2fmA%2fk%2fO%2bQwTmR6NKmrU4JjusL0IFjIkZtf2T%2fuhBnejpAztvs8sGVNXCU7VRBvlSKoUMwUeib25lxcaCvtkeGbFXOk%2fxv%2bQda071JghCZCR1rWyJVenolYSHL2UHhpP8nGLr72uY7MgrEwD951wCpyA%3d%3d&p=1&w=0&s=0&ws=10",
+        ],
       },
       {
-        hotel: "PORT RIVER HOTEL SPA",
+        hotel: "TUVANA HOTEL OLD TOWN",
         dates: ["2025-11-17", "2025-11-30"],
-        rating: 5,
-        location: "Турция, Сиде (Side)",
-        meal: "Standard Room Land View - Премиум Ультра Все Включено",
+        rating: 4,
+        location: "Турция, Анталья (Antalya)",
+        meal: "Standard Room- Завтрак",
         nights: 7,
         passengers: "на двоих",
-        departure: 'Москва',
+        departure: "Москва",
         package: "Перелет включен",
-        urls: ['https://www.coral.ru/hotels/turkey/port-river-hotel-spa-side/?qp=lWOJw1XDa14WeujkN6zDTh1%2flzTX%2fGPzT8w6CXGc2nwJKxggVFaB91Lp2wQ055ANEuaJK%2fRs4TGvT2%2bng7I7LEsh7VKuch6pQWysPYofKZDqp%2f%2flS2RdMEimLQWfoEGGdQWMmv8TMPRgyQOsniHFF7kCZed0PhsaXYBZhkUyr1NTd9QtFB1WpAAGnKuA2lLsHaWSNOjOGblNp2wMQPAV3h1OIbwLMx8cgTBkXMmxfv2YTvCX%2fqEyJ%2fkAVadQQdfg0UDZKZfurKahJE9RNtOgiEmY7WthKqrb75pSp%2b9z3hi36lTghc4lBadHk88hfMsdkXKXcmCtM6dl4ySnn%2fzF5A%3d%3d&p=1&w=0&s=0&ws=10'],
+        urls: [
+          "https://www.coral.ru/hotels/turkey/tuvana-hotel-old-town-antalya/?qp=lWOJw1XDa14WeujkN6zDTh1%2flzTX%2fGPzT8w6CXGc2nwJKxggVFaB91Lp2wQ055ANEuaJK%2fRs4TGvT2%2bng7I7LEsh7VKuch6pQWysPYofKZDqp%2f%2flS2RdMEimLQWfoEGGfHHQgs6YtCK9gaiEcLozo53391zhlHQWKtqs0U%2bsWVxolCVjnh2AbllxNUp9prGvs%2buF%2b3CElAbxNEZ0epctId94%2bge5e7bJ5fbSYysSuc8N4N51ALwq1mR65IE6p6XrJXk9XAMmhtrWbFd9d1x8mxZyc%2bqbjhFy5qKWGRd2lUTax9rBpKC7LGb0PknZxvJEHej4e6%2bvHCbpPIOcc%2bt2JQ%3d%3d&p=1&w=0&s=0&ws=10",
+        ],
       },
       {
-        hotel: "VOYAGE BELEK GOLF & SPA",
+        hotel: "FALCON HOTEL",
         dates: ["2025-11-17", "2025-11-30"],
-        rating: 5,
-        location: "Турция, Белек (Belek)",
-        meal: "B Block Land- Ультра все включено",
+        rating: 4,
+        location: "Турция, Анталья (Antalya)",
+        meal: "Standard Room Land View- Завтраки",
         nights: 7,
         passengers: "на двоих",
-        departure: 'Москва',
+        departure: "Москва",
         package: "Перелет включен",
-        urls: ['https://www.coral.ru/hotels/turkey/voyage-belek-golf-spa-belek/?qp=lWOJw1XDa14WeujkN6zDTh1%2flzTX%2fGPzT8w6CXGc2nwJKxggVFaB91Lp2wQ055ANEuaJK%2fRs4TGvT2%2bng7I7LEsh7VKuch6pQWysPYofKZDqp%2f%2flS2RdMEimLQWfoEGGtCzzEJ91SavNnHBHyw%2bqdHjDFm6ceXM3dmNXHkQNbfHH6oVUchLhPXzx2knQiq3Zka3HPnZbBpZ87BNGiy1omL2mBrc1GAikkiQK7FJbUTNWK97kQDaUU2tKC1ieC22kx%2bkyWyq0PnC0KrsiJmA%2bz0Cr3Bjq0kzQLZoe%2bpeSpMvx0mJFiUsSK3asB4%2fJT3AzRw2Shiz5lvNcvgZZ0IF4Uw%3d%3d&p=1&w=0&s=0&ws=10'],
+        urls: [
+          "https://www.coral.ru/hotels/turkey/falcon-hotel-antalya/?qp=lWOJw1XDa14WeujkN6zDTh1%2flzTX%2fGPzT8w6CXGc2nwJKxggVFaB91Lp2wQ055ANEuaJK%2fRs4TGvT2%2bng7I7LEsh7VKuch6pQWysPYofKZDqp%2f%2flS2RdMEimLQWfoEGGcKy2boTKBdrflfGSmZoAcUc9B9CUiZcSMR0QZnDHg6wApAZYPj%2fOg4vYWninC%2b4wIkS8SwZn%2flmKtC9W3L%2frysH5%2bgChQ7Yaokkis%2bTaTHJSrZS6Skew8OdSVKVltrcKQP%2fJIOkY8A8ZT9Xhy1IDWl6F21vCxpmrw4ooFJMZyLNc00AaC5q9%2b%2b0ajRnQfJLMy%2bFQITgZj3R8SqW%2bYTrG3w%3d%3d&p=1&w=0&s=0&ws=10",
+        ],
+      },
+
+      {
+        hotel: "PRIMA HOTEL",
+        dates: ["2025-11-17", "2025-11-30"],
+        rating: 3,
+        location: "Турция, Анталья (Antalya)",
+        meal: "Standard Room- Завтрак",
+        nights: 7,
+        passengers: "на двоих",
+        departure: "Москва",
+        package: "Перелет включен",
+        urls: [
+          "https://www.coral.ru/hotels/turkey/prima-hotel-antalya/?qp=lWOJw1XDa14WeujkN6zDTh1%2flzTX%2fGPzT8w6CXGc2nwJKxggVFaB91Lp2wQ055ANEuaJK%2fRs4TGvT2%2bng7I7LEsh7VKuch6pQWysPYofKZDqp%2f%2flS2RdMEimLQWfoEGGWaXN2UouJWsVq3QD6AHpHCGQCGX6xwJiYudx2ryLtv%2f2MXDNf35H1rydNC28s2cP0%2bUBGSSeSn0kjXN1n7s0W7%2fy%2b6ba%2bJBCJZKicLi7JFzXfdSpEr3Mfv3Lg%2boSe46WMGhjK26m8RcDn2JJm6RZSfZSHT%2fSCttIUslzFP%2bE1fGv4v1JXCZvYm41rdCnHK0wA7wSEuYdt%2f%2fvNs89MZkeIw%3d%3d&p=1&w=0&s=0&ws=10",
+        ],
+      },
+
+
+      {
+        hotel: "RIXOS PERA ISTANBUL",
+        dates: ["2025-11-17", "2025-11-30"],
+        rating: 5,
+        location: "Турция, Стамбул (Istanbul)",
+        meal: "Deluxe Room- Без питания",
+        nights: 7,
+        passengers: "на двоих",
+        departure: "Москва",
+        package: "Перелет включен",
+        urls: [
+          "https://www.coral.ru/hotels/turkey/rixos-pera-istanbul-istanbul/?qp=lWOJw1XDa14WeujkN6zDTh1%2flzTX%2fGPzT8w6CXGc2nwJKxggVFaB91Lp2wQ055ANEuaJK%2fRs4TGvT2%2bng7I7LEsh7VKuch6pQWysPYofKZDqp%2f%2flS2RdMEimLQWfoEGGpMqetXExahYAMxZsvG1T2iFfutZjBnWjuLjQbWn8CPH1j%2b8s2M3cX2bk%2fi%2bqIMxMQDNEUfRtUKJKEBMRxNnQrFrzTTYDApFwNpGjfU8zKbyAkxsKxLxrjLfYvLBwGx41DPONf9QqMrdmDVORWqqJYJ86NXkrQC6ANfUZ9P9FdZkruJDqtUiAlr4dv0hcKLXIv5FlxCA71zBycyck7OsxRw%3d%3d&p=1&w=0&s=0&ws=10",
+        ],
+      },
+
+      {
+        hotel: "RIXOS TERSANE ISTANBUL",
+        dates: ["2025-11-17", "2025-11-30"],
+        rating: 5,
+        location: "Турция, Стамбул (Istanbul)",
+        meal: "Premium Room- Завтрак",
+        nights: 7,
+        passengers: "на двоих",
+        departure: "Москва",
+        package: "Перелет включен",
+        urls: [
+          "https://www.coral.ru/hotels/turkey/rixos-tersane-istanbul-istanbul/?qp=lWOJw1XDa14WeujkN6zDTh1%2flzTX%2fGPzT8w6CXGc2nwJKxggVFaB91Lp2wQ055ANEuaJK%2fRs4TGvT2%2bng7I7LEsh7VKuch6pQWysPYofKZDqp%2f%2flS2RdMEimLQWfoEGGfb1b6IePM9fjT6WduNtdk1ytL9V4dI%2fusxWqOSWIscR7lhEHAvf7roe%2fQYKXEWlXEWJNDnv744vje7XiC6jJ4K%2fs8Vbb9vwqrsHoy4oQYjDyF3BL%2fz%2fC3XcwtPmS7AjYca434jYbLg32JkkxDEORBOwW8k5t%2fTrMc9jUv%2fT%2fGv3pwQCTLP7kq6Bf8PatNPYTOkoMW5R2HLABEIESWm7c7w%3d%3d&p=1&w=0&s=0&ws=10",
+        ],
+      },
+
+      {
+        hotel: "AKKA LUSH HOTEL",
+        dates: ["2025-11-17", "2025-11-30"],
+        rating: 4,
+        location: "Турция, Стамбул (Istanbul)",
+        meal: "Standard Room No View Twin Bed- Завтрак",
+        nights: 7,
+        passengers: "на двоих",
+        departure: "Москва",
+        package: "Перелет включен",
+        urls: [
+          "https://www.coral.ru/hotels/turkey/akka-lush-hotel-istanbul/?qp=lWOJw1XDa14WeujkN6zDTh1%2flzTX%2fGPzT8w6CXGc2nwJKxggVFaB91Lp2wQ055ANEuaJK%2fRs4TGvT2%2bng7I7LEsh7VKuch6pQWysPYofKZDqp%2f%2flS2RdMEimLQWfoEGGeqRJyjKQ3JvdumG5L8k4Ap16UolUxUVTiRHDnRc5Z7z%2bpnfOqqWEE%2fYizF05fLj6p7XAuk9qfV3lta%2fQINIseBI7ZpLYS67cpo4RsZxeZWo4SDXeM%2fX1JJ5xM9y%2bFd4T3i1IqdwJUp0%2bK5PZq1SFMbKiVCZVw3sCMM46X0epqDHtOzDHbr4wKaug1crdVdjJp1XtKz2tO%2f6xKxQ%2faeqGdg%3d%3d&p=1&w=0&s=0&ws=10",
+        ],
+      },
+      {
+        hotel: "SKALION HOTEL",
+        dates: ["2025-11-17", "2025-11-30"],
+        rating: 4,
+        location: "Турция, Стамбул (Istanbul)",
+        meal: "Economic Room Double / Twin- Завтрак",
+        nights: 7,
+        passengers: "на двоих",
+        departure: "Москва",
+        package: "Перелет включен",
+        urls: [
+          "https://www.coral.ru/hotels/turkey/skalion-hotel-istanbul/?qp=lWOJw1XDa14WeujkN6zDTh1%2flzTX%2fGPzT8w6CXGc2nwJKxggVFaB91Lp2wQ055ANEuaJK%2fRs4TGvT2%2bng7I7LEsh7VKuch6pQWysPYofKZDqp%2f%2flS2RdMEimLQWfoEGGzyw%2bEiKQUUfddM8k%2bD1FQ49lcVC9VWmqSdoj6%2bDCWeAgY10OMIqgY7paAHBKWJBbEMKWA0m27WQY%2fZzrja4KuTlyMTk9cw4XJjddHQ6f6Ftn3JAFIKl7hn0kBp543BMVjSP6dqeXIMTgtfzMhNncgmqAiVpCp5jyoGE36s3w%2fH9fshd8TP0lFTtYPIkdANsH9sEvqGCkfft4jagcXIdFQw%3d%3d&p=1&w=0&s=0&ws=10",
+        ],
+      },
+      {
+        hotel: "AKKA SUITES",
+        dates: ["2025-11-17", "2025-11-30"],
+        rating: 3,
+        location: "Турция, Стамбул (Istanbul)",
+        meal: "Standard No View Room Twin- Завтрак",
+        nights: 7,
+        passengers: "на двоих",
+        departure: "Москва",
+        package: "Перелет включен",
+        urls: [
+          "https://www.coral.ru/hotels/turkey/akka-suites-istanbul/?qp=lWOJw1XDa14WeujkN6zDTh1%2flzTX%2fGPzT8w6CXGc2nwJKxggVFaB91Lp2wQ055ANEuaJK%2fRs4TGvT2%2bng7I7LEsh7VKuch6pQWysPYofKZDqp%2f%2flS2RdMEimLQWfoEGGaEZ0LqvzOS%2fHykWSp0zqCOcl73twYlRsguTjuJf78BGPpWDLAwSgxsx0w%2bFeeHBPtyMnMDFoBQnMT6nYWwh3DXRm03s4UMw014i%2bIKti5%2fGzTsA1ZXCjRGLO7A%2fm66FQtqzFEEIlCCNmzoYK7vnCbYZtF0sAgxVAUX8Wue52MCj2S4QlAmIe9AKsISpEwxnBQI4HIrVoPVgtHeenSK1AEA%3d%3d&p=1&w=0&s=0&ws=10",
+        ],
       },
     ],
   },
   {
     country: "Египет",
-    hotels: [
+    hotels: [{
+      hotel: "TITANIC PALACE & AQUA PARK BEACH RESORT",
+      dates: ["2025-11-17", "2025-11-30"],
+      rating: 4,
+      location: "Египет, Хургада (Hurghada)",
+      meal: "Coral Standard Room - Ультра все включено",
+      nights: 7,
+      passengers: "на двоих",
+      departure: 'Москва',
+      package: "Перелет включен",
+      urls: ['https://www.coral.ru/hotels/egypt/titanic-palace-aqua-park-beach-resort-hurghada/?qp=lWOJw1XDa14WeujkN6zDTh1%2flzTX%2fGPzT8w6CXGc2nwJKxggVFaB91Lp2wQ055ANEuaJK%2fRs4TGvT2%2bng7I7LEsh7VKuch6pQWysPYofKZDqp%2f%2flS2RdMEimLQWfoEGGUIfQo0DNsnstw5%2frlh8y%2bB7xLccAZjbFDyrdN3C8iFBUJFtyCUaLg78fSFY9ylKYM2LXUL%2f7F2oqQamjicrhlZVMan8her14SsbZdzzD3SxeUPbzsf8SbbovyX7L%2b2X%2fUBmoW0OX62zA35Nrby0rESQ1wYOxlwRATpv%2f%2fTUMStChLd%2bu8o28UVkWtNBqrnvHRHf2zTbTk29sQW6xOQRJgQ%3d%3d&p=1&w=0&s=0&ws=10'],
+    },
       {
-        hotel: "SUNNY DAYS EL PALACIO",
+        hotel: "SUNRISE SENTIDO MAMLOUK PALACE RESORT",
+        dates: ["2025-11-17", "2025-11-30"],
+        rating: 5,
+        location: "Египет, Хургада (Hurghada)",
+        meal: "Family Bunk Bed- Все Включено",
+        nights: 7,
+        passengers: "на двоих",
+        departure: 'Москва',
+        package: "Перелет включен",
+        urls: ['https://www.coral.ru/hotels/egypt/sunrise-sentido-mamlouk-palace-resort-hurghada/?qp=lWOJw1XDa14WeujkN6zDTh1%2flzTX%2fGPzT8w6CXGc2nwJKxggVFaB91Lp2wQ055ANEuaJK%2fRs4TGvT2%2bng7I7LEsh7VKuch6pQWysPYofKZDqp%2f%2flS2RdMEimLQWfoEGGXvbU9nCjF3dkToENbdIhSO9hTSznJf3zM8aCuOW%2f%2byROd1BROa%2boAI2HtD3eev%2fsPFGUBqfrFLFFbI6Lzae0E0Sp1Kfo3sZNPapLdQXso3DxqF4bFKFdyvg7l37mATT7t%2bOe6heNGUaqnYMclMervPyCX2sxHgJmONiN8XSwwwcQnuPvlfLyY6NfxhKXeBwDwwKg63HipmjdqHxpNmiV4A%3d%3d&p=1&w=0&s=0&ws=10'],
+      },
+      {
+        hotel: "PICKALBATROS ALF LEILA WA LEILA RESORT",
         dates: ["2025-11-17", "2025-11-30"],
         rating: 4,
         location: "Египет, Хургада (Hurghada)",
-        meal: "Room Standard Pool / Lagoon View- Все Включено",
+        meal: "Standard Room Garden View - Все включено",
         nights: 7,
         passengers: "на двоих",
         departure: 'Москва',
         package: "Перелет включен",
-        urls: ['https://www.coral.ru/hotels/egypt/sunny-days-el-palacio-hurghada/?qp=lWOJw1XDa14WeujkN6zDTh1%2flzTX%2fGPzT8w6CXGc2nwJKxggVFaB91Lp2wQ055ANEuaJK%2fRs4TGvT2%2bng7I7LEsh7VKuch6pQWysPYofKZDqp%2f%2flS2RdMEimLQWfoEGGHSviIgig7StemTWNUBzP%2fnSQHMdEskFfkUy%2blcsGsY145uGRoItXQrIc5TIzs9Uk%2fZtiMD4xGvi%2ft8bglDYfTN3H8vUjlDDneS3ZIzPP%2fs1JYWVbF4H09WImL0yVIX7L3BKcsg9%2fMBc7TIVFhr63GLI1154q8NIanV5d76k5OEF3qQWzGcGDLiNBsbXsfDgFaq%2fQb%2b84AAARju10QJJvDw%3d%3d&p=1&w=0&s=0&ws=10'],
-      },
-      {
-        hotel: "XANADU MAKADI BAY",
-        dates: ["2025-11-17", "2025-11-30"],
-        rating: 5,
-        location: "Египет, Хургада (Hurghada)",
-        meal: "Main Building Superior Room Garden View- Хай Класс Все Включено",
-        nights: 7,
-        passengers: "на двоих",
-        departure: 'Москва',
-        package: "Перелет включен",
-        urls: ['https://www.coral.ru/hotels/egypt/xanadu-makadi-bay-hurghada/?qp=lWOJw1XDa14WeujkN6zDTh1%2flzTX%2fGPzT8w6CXGc2nwJKxggVFaB91Lp2wQ055ANEuaJK%2fRs4TGvT2%2bng7I7LEsh7VKuch6pQWysPYofKZDqp%2f%2flS2RdMEimLQWfoEGGbyGXbl%2bwPWsiu5aTwbS2hjPHitZXNj%2fcGAUct6hUIbsmzyiwGf4NlkjWpCh4zYUaepaEGq4PnncQ30DUWWGVStjuvrHQSfuGU8MHAG0PPMEN7MyvCyawfqbPtxJA4g5Dx1%2b%2bUODFL2wr76PS4dKrE017ZlUCed6PpmCxtoYeEaTmozkDXBF5D979h7ZpTzYuyFy3WdcYmDx6561k9gJ%2b0A%3d%3d&p=1&w=0&s=0&ws=10'],
-      },
-      {
-        hotel: "TITANIC RESORT & AQUA PARK",
-        dates: ["2025-11-17", "2025-11-30"],
-        rating: 5,
-        location: "Египет, Хургада (Hurghada)",
-        meal: "Coral Standard Room- Ультра все включено",
-        nights: 7,
-        passengers: "на двоих",
-        departure: 'Москва',
-        package: "Перелет включен",
-        urls: ['https://www.coral.ru/hotels/egypt/titanic-beach-spa-aqua-park-hurghada/?qp=lWOJw1XDa14WeujkN6zDTh1%2flzTX%2fGPzT8w6CXGc2nwJKxggVFaB91Lp2wQ055ANEuaJK%2fRs4TGvT2%2bng7I7LEsh7VKuch6pQWysPYofKZDqp%2f%2flS2RdMEimLQWfoEGGads47%2ftyngr%2bwF%2fQ1QWdDhUnYHjRm6wpNVE8mPJKCbXTMFU9vq8gE9KWEO%2fnzkqB2MZMf1ayBA%2fCg4WBGVQL5vhM6kRwJf4Q4tFPPlU8TKR%2bEpRbYgPWCMCSoEfVIz1W2EOR%2bD5RQi%2bNMwtG10y471JrOyVHSrcsZCf%2bvicWgWojcL9HC1A%2bfgbYqdbvmqXKUURih%2fNExscV9hnzO5k9Qw%3d%3d&p=1&w=0&s=0&ws=10'],
+        urls: ['https://www.coral.ru/hotels/egypt/pickalbatros-alf-leila-wa-leila-resort-neverland-hurghada-hurghada/?qp=lWOJw1XDa14WeujkN6zDTh1%2flzTX%2fGPzT8w6CXGc2nwJKxggVFaB91Lp2wQ055ANEuaJK%2fRs4TGvT2%2bng7I7LEsh7VKuch6pQWysPYofKZDqp%2f%2flS2RdMEimLQWfoEGGzAWG%2f5e%2fDYmSvDcRKDBjXbA8VVTUKNLN8R1t%2fkzbAXzG%2fKsDHt%2fErGoldjg%2fS3C9YaUFvNUM8VyYw6ACQpqwTvIpt64uOtFU3%2fER64N%2fYwGZJFpZi0bQ9KPWKajmP%2fnq%2fgZrcWked8DPNmPsTzm%2bg4rXyCh%2bC0Qf%2bsQeh0Hf%2f18bAys3GYk55Icq9dhoPkiZTv5gHKqHwWbxJsD60U%2brPw%3d%3d&p=1&w=0&s=0&ws=10'],
       },
       {
         hotel: "ISLAND VIEW",
         dates: ["2025-11-17", "2025-11-30"],
-        rating: 4,
-        location: "Египет, Шарм-эш-Шейх",
-        meal: "Standard Room- Все Включено",
+        rating: 5,
+        location: "Египет, Шарм-эш-Шейх (Sharm El Sheikh)",
+        meal: "Standard Room - Все Включено",
         nights: 7,
         passengers: "на двоих",
         departure: 'Москва',
@@ -232,17 +400,41 @@ window._toursByCountry = [
         urls: ['https://www.coral.ru/hotels/egypt/island-view-sharm-el-sheikh/?qp=lWOJw1XDa14WeujkN6zDTh1%2flzTX%2fGPzT8w6CXGc2nwJKxggVFaB91Lp2wQ055ANEuaJK%2fRs4TGvT2%2bng7I7LEsh7VKuch6pQWysPYofKZDqp%2f%2flS2RdMEimLQWfoEGGrRmaw4ZOtd5VGP2%2ffuUYJVoHNDZJpEN4VaKbaZ3ylL4YJXvpC0atI406F9Wodjmv4STGb%2folJPKnEoARE0%2b77XRrFus9vIp3IPMOr6ZRGK31a2ydjYlV3%2fKY8ti7FkTB%2f5gu9%2bFcF6yDg4O9l2TGpqmC8et3SDW7GCP4Vdg460fo5bTTI07YrLjlTYWfZXenAmpUYFnV%2bePjY7wShSSVVw%3d%3d&p=1&w=0&s=0&ws=10'],
       },
       {
-        hotel: "SEAGULL BEACH RESORT & CLUB",
+        hotel: "SAVOY",
         dates: ["2025-11-17", "2025-11-30"],
-        rating: 4,
-        location: "Египет, Хургада (Hurghada)",
-        meal: "Room Standard - Все Включено",
+        rating: 5,
+        location: "Египет, Шарм-эш-Шейх (Sharm El Sheikh)",
+        meal: "Standard Room Garden View - Bed and Breakfast",
         nights: 7,
         passengers: "на двоих",
         departure: 'Москва',
         package: "Перелет включен",
-        urls: ['https://www.coral.ru/hotels/egypt/seagull-beach-resort-club-hurghada/?qp=lWOJw1XDa14WeujkN6zDTh1%2flzTX%2fGPzT8w6CXGc2nwJKxggVFaB91Lp2wQ055ANEuaJK%2fRs4TGvT2%2bng7I7LEsh7VKuch6pQWysPYofKZDqp%2f%2flS2RdMEimLQWfoEGG0y7ajqdEMkSrQX5G5wxlFuBPetZl0iI5Hrmwxm5mdu2ywWiuakq51iahmgj9OEq9sNNlXFk5EiM8UmGLrj1pOxYk7Bhb3OsKQgYFGi5dp0WwNwxdKH%2fyVda1htUT%2b026cu%2bL%2bjw9cupAmuqnQm6yM%2bRBcQrxV03hcMKb%2b3fqX4bNGwFk6olARSqOswP8ltpLJ%2f3wIq7W5YJg1bmsYeoOVQ%3d%3d&p=1&w=0&s=0&ws=10'],
+        urls: ['https://www.coral.ru/hotels/egypt/savoy-sharm-el-sheikh/?qp=lWOJw1XDa14WeujkN6zDTh1%2flzTX%2fGPzT8w6CXGc2nwJKxggVFaB91Lp2wQ055ANEuaJK%2fRs4TGvT2%2bng7I7LEsh7VKuch6pQWysPYofKZDqp%2f%2flS2RdMEimLQWfoEGGRrrvggIzR6gP4N8T3xgv%2fsSKJQT0ODtuSO%2b2AcV51ydVXV89Fn%2br%2bQ52UjwDq9t7Ketszl66KZasNWXu67O4C%2b91o8o4uhNt5OCVVxBUih%2fu%2bYlsk5pV46WbtvYyJ4K5%2biD%2bLDHhhovTx7F6b2%2fITqjZoFn04JVZqZ0bQ7AljuZ3oxtkBI0tPWSJRT0vnbNYe%2bToJKFGrElnUexgbVtThA%3d%3d&p=1&w=0&s=0&ws=10'],
       },
+      {
+        hotel: "SIVA SHARM RESORT & SPA",
+        dates: ["2025-11-17", "2025-11-30"],
+        rating: 5,
+        location: "Египет, Шарм-эш-Шейх (Sharm El Sheikh)",
+        meal: "Double Standard Room - Все Включено",
+        nights: 7,
+        passengers: "на двоих",
+        departure: 'Москва',
+        package: "Перелет включен",
+        urls: ['https://www.coral.ru/hotels/egypt/siva-sharm-resort-spa-sharm-el-sheikh/?qp=lWOJw1XDa14WeujkN6zDTh1%2flzTX%2fGPzT8w6CXGc2nwJKxggVFaB91Lp2wQ055ANEuaJK%2fRs4TGvT2%2bng7I7LEsh7VKuch6pQWysPYofKZDqp%2f%2flS2RdMEimLQWfoEGGk3Br0Dirg%2bTakVxs%2bG35KD07vAHijSDCLxKvm73Rn3FA6yzW4yzl4X6MZI%2f5JbDhomnrpJxGEif0eScwM8VYX%2boWeOKFETAgmw37qK3jg06eViAPaaxWHyOD3i5xy1tOWwqQ7Zt6ePVRXizlfTFSTqaLjPNEZYX6e0O0V6qo0oPsBEozq3JkLfEsa8XQVUN8ivkBAalBUi%2fP2T%2bk88WSzg%3d%3d&p=1&w=0&s=0&ws=10'],
+      },
+      {
+        hotel: "IVY CYRENE SHARM",
+        dates: ["2025-11-17", "2025-11-30"],
+        rating: 4,
+        location: "Египет, Шарм-эш-Шейх (Sharm El Sheikh)",
+        meal: "Standard Garden View - Hard all inclusive",
+        nights: 7,
+        passengers: "на двоих",
+        departure: 'Москва',
+        package: "Перелет включен",
+        urls: ['https://www.coral.ru/hotels/egypt/ivy-cyrene-sharm-sharm-el-sheikh/?qp=lWOJw1XDa14WeujkN6zDTh1%2flzTX%2fGPzT8w6CXGc2nwJKxggVFaB91Lp2wQ055ANEuaJK%2fRs4TGvT2%2bng7I7LEsh7VKuch6pQWysPYofKZDqp%2f%2flS2RdMEimLQWfoEGGJimaFqL2hWroplmjpk6WyHy7tvAfXu2m67u7pU2v8Xu0PP1UFx8OaATrfiKJHk3FaZDYu3zawL4P6VMVjGKtxWuvR5waMYTS1J2ZMea%2fFrBfu8qUZZ7SsCPA8%2bKPaBPzKS2f4a%2fBpE9wxiYsm3esql0rFuQ6q53P8GEVQZoyIqPy0wJEEmrysCBjxVxn4MegUjg8w6ceX%2bX2CFJOVKTGGQ%3d%3d&p=1&w=0&s=0&ws=10'],
+      }
     ],
   },
 ];
@@ -345,7 +537,6 @@ async function fetchArrivalLocations(searchTexts) {
 }
 
 function fetchPrices(arrivalLocation, beginDate, nightsValue) {
-  console.log(arrivalLocation, beginDate, nightsValue);
   return fetchJSON(ENDPOINTS.priceSearchList, {
     searchSource: 0,
     searchCriterias: {
@@ -370,25 +561,6 @@ function fetchPrices(arrivalLocation, beginDate, nightsValue) {
  * =========================== */
 const YM_ID = 96674199;
 
-function toDate(d) {
-  const [y, m, dd] = String(d).split('-').map(Number);
-  return new Date(Date.UTC(y, m - 1, dd));
-}
-
-function inRange(d, start, end) {
-  const t = toDate(d).getTime();
-  return t >= toDate(start).getTime() && t <= toDate(end).getTime();
-}
-
-function filterDatesInRange(apiDates, start, end) {
-  return (apiDates || []).map(x => x.date).filter(d => inRange(d, start, end));
-}
-
-function findByField(arr, key, value) {
-  if (!Array.isArray(arr)) return null;
-  return arr.find(it => it && it[key] === value) || null;
-}
-
 function formatPrice(num) {
   const formatted = new Intl.NumberFormat('ru-RU').format(num ?? 0);
   return formatted.split(',')[0];
@@ -397,7 +569,7 @@ function formatPrice(num) {
 /* =================================================================
  *  ВСЁ, ЧТО ВЗАИМОДЕЙСТВУЕТ С DOM
  * ================================================================= */
-;(async () => {
+(async () => {
   await hostReactAppReady();
 
   const SEL = {
@@ -598,11 +770,12 @@ function formatPrice(num) {
 
         const priceResp = await fetchPrices(arrival, hotel.dates, hotel.nights);
         const firstProduct = priceResp?.result?.products?.[0];
+        console.log(firstProduct);
         const amount = firstProduct?.offers?.[0]?.price?.amount || null;
-        const imgUrl = firstProduct?.hotel?.images?.[4]?.sizes?.[0]?.url || null;
+        const imgUrl = firstProduct?.hotel?.images?.[0]?.sizes?.[0]?.url || null;
 
         // Сервер даёт «самую доступную» — считаем «за ночь/на человека»
-        const perNightPerPerson = amount != null ? Math.round(amount / 7 / 2) : null;
+        const perNightPerPerson = amount != null ? Math.round(amount / 7) : null;
         const displayPricePerNight = perNightPerPerson != null ? formatPrice(perNightPerPerson) : '';
 
         const renderModel = {
@@ -627,6 +800,10 @@ function formatPrice(num) {
       loadingBox.style.display = 'none';
     }
   }
+
+
+  const altTabsBtnArr = $all(document, '.fake-nav button');
+  const altTabsContent = $all(document, '[data-tab-hotles]');
 
   /* ===========================
    *  ИНИЦИАЛИЗАЦИЯ И ТАБЫ
@@ -657,10 +834,10 @@ function formatPrice(num) {
     if (!initialBtn) return;
     const initialCountry = initialBtn.getAttribute('data-tab-button').trim();
     const initialPanel = activateByCountry(initialCountry);
-
+    const alternPanel = document.querySelector(`[data-tab-hotles='${initialPanel.getAttribute('data-tab-content')}']`)
     const i = cfgIndexByCountry(initialCountry);
     if (i >= 0 && initialPanel) {
-      loadTabDataIntoPanel(initialPanel, window._toursByCountry[i], `hotelData_${initialCountry}`);
+      loadTabDataIntoPanel(alternPanel, window._toursByCountry[i], `hotelData_${initialCountry}`);
       if (typeof ym === 'function') ym(YM_ID, 'reachGoal', 'country-filter', {country: initialCountry});
     }
 
@@ -670,12 +847,30 @@ function formatPrice(num) {
         const country = btn.getAttribute('data-tab-button').trim();
         if (typeof ym === 'function') ym(96674199, 'reachGoal', 'bf_25_country', {bf_country: country});
         const panel = activateByCountry(country);
-        const idx = cfgIndexByCountry(country);
+        const alternPanel = document.querySelector(`[data-tab-hotles='${panel.getAttribute('data-tab-content')}']`)
+        const idx = cfgIndexByCountry(country)
         if (idx >= 0 && panel) {
-          loadTabDataIntoPanel(panel, window._toursByCountry[idx], `hotelData_${country}`);
+          loadTabDataIntoPanel(alternPanel, window._toursByCountry[idx], `hotelData_${country}`);
           if (typeof ym === 'function') ym(YM_ID, 'reachGoal', 'country-filter', {country});
         }
+
+        altTabsBtnArr.forEach(btn => {
+          btn.classList.remove('js-active')
+        });
+        const altTrget = $(document, `[data-fake-nav="${panel.getAttribute('data-tab-content')}"]`)
+        altTrget.classList.add('js-active');
+
+        altTabsContent.forEach(tab => tab.classList.remove('js-active'));
+        const altTabTrget = $(document, `[data-tab-hotles="${panel.getAttribute('data-tab-content')}"]`)
+        altTabTrget.classList.add('js-active');
       });
     });
+
+    altTabsBtnArr.forEach(btn => {
+      btn.addEventListener('click', (e) => {
+        const target = e.currentTarget;
+        $(document, `[data-tab-button='${target.getAttribute('data-fake-nav')}']`).click()
+      })
+    })
   })();
 })();

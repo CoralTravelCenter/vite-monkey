@@ -16,21 +16,33 @@ section.coral .contenu {
 
 @media (min-width: 1024px) {
     .picture-banner {
-        flex-direction: row;
+        flex-direction: row-reverse;
     }
 
     .picture-banner > * {
         width: calc(50% - 8px);
+        position: relative;
     }
+}
+
+.picture-banner .visual {
+    position: relative
 }
 
 .picture-banner .visual img {
     width: 100%;
     height: 100%;
-    min-height: 400px;
     object-fit: cover;
     display: block;
     border-radius: 20px;
+}
+
+@media (min-width: 1280px) {
+    .picture-banner .visual img {
+        position: absolute;
+        top: 0;
+        left: 0;
+    }
 }
 
 .picture-banner .content {
@@ -154,6 +166,7 @@ p {
         border-radius: 24px;
         background: transparent;
         border: none;
+        color: #000;
         font-size: 16px;
         cursor: pointer;
         scroll-snap-align: start;
@@ -226,7 +239,6 @@ p {
     display: flex;
     flex-wrap: wrap;
     gap: 24px;
-    margin-top: 64px;
 }
 
 @media (max-width: 1024px) {
@@ -295,7 +307,9 @@ section.hero > article .contenu .prime-btn--modefided {
 
 .hotel-location {
     display: flex;
+    align-items: center;
     gap: 4px;
+    flex-shrink: 0;
     margin-bottom: 8px
 }
 
@@ -376,8 +390,8 @@ section.hero > article .contenu .prime-btn--modefided {
 }
 
 .info-icons .icon-wrapper .icon {
-    width: 13px;
-    height: 13px;
+    width: 14px;
+    height: 14px;
     flex-shrink: 0
 }
 
@@ -421,4 +435,55 @@ section.hero > article .contenu .prime-btn--modefided {
 
 .tabs-nav::-webkit-scrollbar {
     display: none; /* Chrome, Safari и Opera */
+}
+
+
+section.podborka {
+    margin-top: calc(64px / 2);
+}
+
+.fake-nav {
+    margin-block: 24px;
+    display: flex;
+    padding: var(--padding-paddingXS, 8px) var(--padding-paddingXS, 8px);
+    align-items: flex-start;
+    gap: var(--padding-paddingXS, 8px);
+    border-radius: var(--radius-borderRadiusLG, 16px);
+    background: var(--Base-color_Base_Light, #FFF);
+
+    overflow-x: auto;
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+    scroll-snap-type: x mandatory;
+    scroll-padding-inline: 8px;
+}
+
+.fake-nav button {
+    flex: 1 0 auto;
+    display: flex;
+    height: 40px;
+    padding: 4px 24px;
+    justify-content: center;
+    align-items: center;
+    scroll-snap-align: start;
+    gap: 8px;
+    background: transparent;
+    border-radius: 8px;
+    border: none;
+    font-size: 16px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.fake-nav button.js-active {
+    background: #F3F9FF;
+}
+
+
+[data-tab-hotles] {
+    display: none;
+}
+
+[data-tab-hotles].js-active {
+    display: block;
 }
