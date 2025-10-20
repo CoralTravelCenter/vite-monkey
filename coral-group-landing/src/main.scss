@@ -1,0 +1,11 @@
+*, *:before, *:after {
+    box-sizing: border-box;
+}
+
+.contenu {
+    padding-block: calc(48px / 2);
+}
+
+section.coral.kv .contenu {
+    padding-top: 48px;
+}

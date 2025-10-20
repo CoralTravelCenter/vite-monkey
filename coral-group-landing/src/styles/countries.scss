@@ -1,0 +1,191 @@
+// ==============================
+// Variables
+// ==============================
+$radius: 16px;
+$gap-sm: 6px;
+$gap-md: 16px;
+$pad: 16px;
+$font-base: 16px;
+$font-lg: 20px;
+$font-xl: 32px;
+
+$clr-white: #fff;
+$clr-text: #2e3465;
+
+$z-visual: 1;
+$z-ui: 2;
+$z-logos: 5;
+
+$tr-fast: 0.25s ease;
+$tr-norm: 0.3s ease;
+
+// ==============================
+// Card
+// ==============================
+.card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  cursor: pointer;
+  font-size: $font-base;
+  border-radius: $radius;
+  overflow: hidden; // чтобы визуал не “выпирал”
+
+  // Content slide-in (микроанимация)
+  .card__content {
+    transform: translateY(0);
+    transition: transform $tr-norm;
+    will-change: transform;
+
+    ul {
+      list-style: none;
+      padding: 0;
+      display: flex;
+      flex-direction: column;
+      gap: $gap-sm;
+    }
+  }
+
+  // Hover / focus эффекты — только там, где есть hover
+  @media (hover: hover) and (pointer: fine) {
+    &:hover {
+      .card__content {
+        transform: translateY(0);
+      }
+
+      .card__media h3 {
+        transform: translateY(-90px);
+        color: #000000;
+      }
+
+      .logo--seven,
+      .logo--xanadu {
+        filter: invert(1);
+      }
+
+      .logo--marvida svg path.smalltext,
+      .logo--marvida svg path.letter {
+        fill: $clr-text;
+      }
+    }
+  }
+}
+
+// ==============================
+/* Media (фон/картинка/заголовок поверх) */
+// ==============================
+.card__media {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+
+  width: 100%;
+  min-height: 450px;
+  padding: $pad;
+
+  .visual {
+    position: absolute;
+    inset: 0;
+    z-index: $z-visual;
+
+    img {
+      width: 100%;
+      height: 100%;
+      display: block;
+      object-fit: cover;
+    }
+  }
+
+  h3 {
+    position: relative;
+    z-index: $z-logos;
+    margin-block: auto;
+    font-size: $font-xl;
+    color: $clr-white;
+    transform: translateY(0);
+    transition: transform $tr-norm;
+  }
+}
+
+
+// ==============================
+// Content (оверлей/карточное содержимое)
+// ==============================
+.card__content {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 8px;
+  padding: $pad;
+  background: $clr-white;
+  border-radius: $radius;
+  z-index: $z-ui;
+}
+
+.card .card__content {
+  transform: translateY(100%);
+}
+
+// ==============================
+// Logos
+// ==============================
+.card__logos {
+  position: relative;
+  z-index: $z-logos;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: $gap-md;
+
+  img {
+    display: block;
+    max-width: 73px;
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+  }
+}
+
+// Точечные переходы для брендов
+.logo--marvida svg path {
+  transition: fill $tr-norm;
+}
+
+.logo--seven,
+.logo--xanadu {
+  transition: filter $tr-norm;
+}
+
+// ==============================
+// Text blocks
+// ==============================
+.card__title {
+  margin: 0;
+  font-size: $font-xl;
+}
+
+.card__count {
+  margin: 0;
+  font-size: $font-lg;
+}
+
+// ==============================
+// Benefits list
+// ==============================
+.card__benefits {
+  display: flex;
+  flex-direction: column;
+  gap: $gap-sm;
+
+  padding: 0;
+  margin: 0;
+  list-style: none;
+}
