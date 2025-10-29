@@ -1,0 +1,13 @@
+.promo-link {
+    display: flex;
+    align-items: center;
+    margin: 0 0 0 32px;
+    gap: 8px;
+    font-size: 16px;
+    font-weight: 500;
+}
+
+.promo-link .icon {
+    width: 18px;
+    height: 18px;
+}

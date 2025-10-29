@@ -1,0 +1,19 @@
+.ant-picker-header-view:has([data-promo='kalendar']) {
+    display: flex;
+    align-items: center;
+}
+
+.ant-picker-header-view:has([data-promo='kalendar']):after {
+    content: "";
+    display: block;
+    max-width: 172px;
+    width: 100%;
+    margin-left: 16px;
+    height: 36px;
+    background-image: url("https://b2ccdn.coral.ru/content/landing-pages/kalendar-vigod/calendar_shield_home_2.webp");
+    background-repeat: no-repeat;
+    background-position: 0 0;
+    background-size: cover;
+    border-radius: 8px;
+    overflow: clip;
+}

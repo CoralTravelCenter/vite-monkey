@@ -1,0 +1,30 @@
+body[data-promo-month] div[class*="PriceBlock_priceBlock"] {
+    position: relative;
+}
+
+body[data-promo-month] div[class*="PriceBlock_priceBlock"]:before {
+    content: "";
+    display: block;
+    margin-bottom: 4px;
+    width: 100%;
+    height: 48px;
+    background-image: url("https://b2ccdn.coral.ru/content/landing-pages/kalendar-vigod/calendar_search_shield.webp");
+    background-repeat: no-repeat;
+    background-position: 0 0;
+    background-size: cover;
+    border-radius: 8px;
+    overflow: clip;
+}
+
+body[data-promo-month] div[class*="InstallmentCreditInformation"] {
+    display: none;
+}
+
+@media (max-width: 768px) {
+    body[data-promo-month] div[class*="PriceBlock_priceBlock"]:before {
+        background-image: url("https://b2ccdn.coral.ru/content/landing-pages/kalendar-vigod/calendar_search_shield_mob.webp");
+        background-repeat: no-repeat;
+        background-position: 0 0;
+        background-size: cover;
+    }
+}
