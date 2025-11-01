@@ -1,0 +1,9 @@
+.promo-link img {
+    border-radius: 100%;
+}
+
+.promo-link {
+    display: block;
+    width: 36px;
+    height: 36px;
+}
