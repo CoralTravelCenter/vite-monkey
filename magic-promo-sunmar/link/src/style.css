@@ -1,0 +1,10 @@
+.magic-of-rest .menu-item-label {
+    display: flex;
+    align-items: center;
+}
+
+.magic-of-rest .icon {
+    display: flex;
+    align-items: center;
+    margin-bottom: 3px;
+}

@@ -249,192 +249,324 @@ export function watchIntersection(targets, options, yes_handler, no_handler) {
   return io;
 }
 
-
 export class ReactDomObserver {
   /**
-   * @param {string} selector
+   * @param {string|string[]} selectors
    * @param {Object} [config={}]
    * @param {boolean} [config.once=false]
    * @param {boolean} [config.debug=false]
+   * @param {'any'|'all'} [config.mode='any']                 // any: реагировать на любой селектор; all: когда присутствуют все
+   * @param {Node} [config.root=document.body]                // область наблюдения/поиска
    * @param {boolean} [config.watchChild=false]
    * @param {boolean} [config.watchAttributes=false]
    * @param {boolean} [config.watchCharacterData=false]
    * @param {string[]} [config.attributeFilter]
-   * @param {(el: HTMLElement) => void} [config.onAppear]
-   * @param {() => void} [config.onDisappear]
-   * @param {(el: HTMLElement, mutations: MutationRecord[], count: number) => void} [config.onChildMutate]
-   * @param {(el: HTMLElement, mutations: MutationRecord[], count: number) => void} [config.onAttributeMutation]
-   * @param {(el: HTMLElement, mutations: MutationRecord[], count: number) => void} [config.onCharacterData]
+   * @param {number} [config.pollInterval=0]                  // >0 включает периодический опрос DOM (страховка)
+   * @param {'sync'|'microtask'|'raf'} [config.defer='microtask'] // как вызывать колбэки
+   * @param {(el: HTMLElement, selector: string) => void} [config.onAppear]
+   * @param {(selector?: string) => void} [config.onDisappear]
+   * @param {(els: HTMLElement[], selectors: string[]) => void} [config.onAllAppear]
+   * @param {() => void} [config.onAllDisappear]
+   * @param {(el: HTMLElement, mutations: MutationRecord[], count: number, selector: string) => void} [config.onChildMutate]
+   * @param {(el: HTMLElement, mutations: MutationRecord[], count: number, selector: string) => void} [config.onAttributeMutation]
+   * @param {(el: HTMLElement, mutations: MutationRecord[], count: number, selector: string) => void} [config.onCharacterData]
    */
-  constructor(selector, config = {}) {
-    this.selector = selector;
-    this.once = !!config.once;
-    this.debug = !!config.debug;
+  constructor(selectors, config = {}) {
+    const {
+      once = false,
+      debug = false,
+      mode = 'any',
+      root = document.body,
+      watchChild = false,
+      watchAttributes = false,
+      watchCharacterData = false,
+      attributeFilter,
+      pollInterval = 0,
+      defer = 'microtask',
 
-    this.watchChild = !!config.watchChild;
-    this.watchAttributes = !!config.watchAttributes;
-    this.watchCharacterData = !!config.watchCharacterData;
+      onAppear = null,
+      onDisappear = null,
+      onAllAppear = null,
+      onAllDisappear = null,
 
-    this.onAppear = config.onAppear ?? null;
-    this.onDisappear = config.onDisappear ?? null;
-    this.onChildMutate = config.onChildMutate ?? null;
-    this.onAttributeMutation = config.onAttributeMutation ?? null;
-    this.onCharacterData = config.onCharacterData ?? null;
+      onChildMutate = null,
+      onAttributeMutation = null,
+      onCharacterData = null,
+    } = config;
 
-    this.options = {
-      attributes: this.watchAttributes,
-      childList: this.watchChild,
-      characterData: this.watchCharacterData,
-      subtree: true,
-      attributeFilter: Array.isArray(config.attributeFilter) ? config.attributeFilter : undefined,
-    };
+    // нормализуем селекторы
+    this.selectors = Array.isArray(selectors) ? selectors.filter(Boolean) : [selectors].filter(Boolean);
+    if (!this.selectors.length) throw new Error('ReactDomObserver: пустой список селекторов');
 
-    // флаги/состояния
+    // базовые настройки
+    this.once = !!once;
+    this.debug = !!debug;
+    this.mode = mode === 'all' ? 'all' : 'any';
+    this.root = root && root.nodeType ? root : document.body;
+
+    this.watchChild = !!watchChild;
+    this.watchAttributes = !!watchAttributes;
+    this.watchCharacterData = !!watchCharacterData;
+    this.attributeFilter = Array.isArray(attributeFilter) && this.watchAttributes ? attributeFilter : undefined;
+
+    // колбэки
+    this.onAppear = onAppear;
+    this.onDisappear = onDisappear;
+    this.onAllAppear = onAllAppear;
+    this.onAllDisappear = onAllDisappear;
+    this.onChildMutate = onChildMutate;
+    this.onAttributeMutation = onAttributeMutation;
+    this.onCharacterData = onCharacterData;
+
+    // дефер исполнения колбэков
+    this._defer = defer; // 'sync' | 'microtask' | 'raf'
+    this._queue = [];
+    this._flushScheduled = false;
+
+    // таймеры/флаги
+    this._pollMs = Math.max(0, +pollInterval || 0);
     this.started = false;
-    this.observed = false;       // есть ли элемент сейчас в DOM
-    this.triggeredOnce = false;  // onAppear уже вызывали при once=true
-    this.mutationCounter = 0;
-
-    // observer’ы
-    this.elementObserver = null;
-    this.globalObserver = new MutationObserver(this._handleMutations);
     this._rafId = 0;
+    this._pollId = 0;
 
-    // защита от повторной обработки конкретных элементов
-    this.seenElements = new WeakSet();
+    // агр. состояние 'all'
+    this._allObserved = null;       // null = ещё не определено; true/false — текущее групповое состояние
+    this._allTriggeredOnce = false;
+
+    // по-селекторное состояние
+    // { observed: boolean, triggeredOnce: boolean, elements: Set<HTMLElement>, elementObserver: MutationObserver|null, mutationCounter: number }
+    this.perSelector = new Map(
+      this.selectors.map(s => [s, {
+        observed: false,
+        triggeredOnce: false,
+        elements: new Set(),
+        elementObserver: null,
+        mutationCounter: 0
+      }])
+    );
+
+    this.globalObserver = null;
   }
 
+  // публичное API
   start = () => {
     if (this.started) return;
-    this.started = true;
+    if (!this.root || !this.root.nodeType) {
+      this._log('⚠️ Нет корректного root — отложенный старт');
+      requestAnimationFrame(this.start);
+      return;
+    }
 
-    this._log('▶️ Start observing');
-    this.globalObserver.observe(document.body, {childList: true, subtree: true});
-    requestAnimationFrame(this._initialCheck);
+    this.started = true;
+    this._log('▶️ Start observing', {mode: this.mode, selectors: this.selectors});
+
+    this.globalObserver = new MutationObserver(this._handleGlobalMutations);
+    this.globalObserver.observe(this.root, {childList: true, subtree: true});
+
+    if (this._pollMs > 0) {
+      this._pollId = setInterval(this._scanNow, this._pollMs);
+    }
+
+    this._scanNow();
   };
 
   stop = () => {
     if (!this.started) return;
-    this._log('⏹️ Stop observing');
 
+    this._log('⏹️ Stop observing');
     this.started = false;
-    this.globalObserver.disconnect();
-    this._disconnectInternalObserver();
+
+    this.globalObserver?.disconnect();
+    this.globalObserver = null;
 
     if (this._rafId) {
       cancelAnimationFrame(this._rafId);
       this._rafId = 0;
     }
-  };
+    if (this._pollId) {
+      clearInterval(this._pollId);
+      this._pollId = 0;
+    }
 
-  _initialCheck = () => {
-    // ищем сразу все совпадения, а не только первый
-    const nodes = document.querySelectorAll(this.selector);
-    if (nodes.length) {
-      nodes.forEach(el => this._maybeAppear(el));
-    } else if (this.observed) {
-      // если раньше был, но пропал
-      this._handleDisappear();
+    for (const [, st] of this.perSelector) {
+      st.elementObserver?.disconnect();
+      st.elementObserver = null;
     }
   };
 
-  // дебаунс глобальных мутаций (схлопываем в один проход на кадр)
-  _handleMutations = () => {
+  refresh = () => this._scanNow();
+
+  // внутрянка
+  _handleGlobalMutations = () => {
     if (this._rafId) return;
     this._rafId = requestAnimationFrame(() => {
       this._rafId = 0;
-      // проверяем наличие элементов селектора
-      const nodes = document.querySelectorAll(this.selector);
-      const hasAny = nodes.length > 0;
-
-      if (hasAny) {
-        nodes.forEach(el => this._maybeAppear(el));
-      } else if (this.observed) {
-        this._handleDisappear();
-      }
+      this._scanNow();
     });
   };
 
-  _maybeAppear = (el) => {
-    // уже обрабатывали этот конкретный элемент — пропускаем
-    if (this.seenElements.has(el)) return;
+  _scanNow = () => {
+    for (const sel of this.selectors) {
+      const state = /** @type {{observed:boolean,triggeredOnce:boolean,elements:Set<HTMLElement>,elementObserver:MutationObserver|null,mutationCounter:number}} */ (this.perSelector.get(sel));
+      const found = new Set(this.root.querySelectorAll(sel));
 
-    this.seenElements.add(el);
+      // новые элементы → onAppear
+      for (const el of found) {
+        if (!state.elements.has(el)) {
+          state.elements.add(el);
+          this._handleAppear(sel, el, state);
+        }
+      }
 
-    // помечаем, что в DOM есть хотя бы один целевой элемент
-    if (!this.observed) {
-      this.observed = true;
+      // исчезнувшие элементы
+      for (const el of [...state.elements]) {
+        if (!found.has(el) || !this.root.contains(el)) {
+          state.elements.delete(el);
+        }
+      }
+
+      const nowObserved = state.elements.size > 0;
+      if (state.observed && !nowObserved) {
+        state.observed = false;
+        this._log(`⛔ Disappear: ${sel}`);
+        this._emit(this.onDisappear, sel); // вызов только при переходе true -> false
+      } else if (!state.observed && nowObserved) {
+        state.observed = true;
+      }
+
+      // внутр. наблюдение (достаточно первого элемента)
+      if ((this.watchChild || this.watchAttributes || this.watchCharacterData)
+        && !state.elementObserver && state.elements.size) {
+        const firstEl = state.elements.values().next().value;
+        this._observeElementInternally(sel, firstEl, state);
+      }
     }
 
-    this._handleAppear(el);
+    // ГРУППОВОЕ СОСТОЯНИЕ (патч против бесконечных событий):
+    if (this.mode === 'all') {
+      const allHere = this._allPresent();
+      if (this._allObserved !== allHere) {           // вызываем только при смене состояния
+        this._allObserved = allHere;
+
+        if (allHere) {
+          const allEls = this._collectFirstEls();
+          this._log('✅ All selectors present');
+          this._emit(this.onAllAppear, allEls, this.selectors);
+          if (this.once) {
+            this._allTriggeredOnce = true;
+            this.stop();
+          }
+        } else {
+          this._log('⛔ Not all selectors present');
+          this._emit(this.onAllDisappear);
+        }
+      }
+    }
   };
 
-  _handleDisappear = () => {
-    this._log(`⛔ Element(s) disappeared: ${this.selector}`);
-    this.observed = false;
-    this.onDisappear?.();
-  };
+  _handleAppear = (selector, el, state) => {
+    this._log(`✅ Appear: "${selector}"`, el);
 
-  _handleAppear = (el) => {
-    this._log(`✅ Element appeared: ${this.selector}`, el);
-
-    if (!this.once || !this.triggeredOnce) {
-      this.onAppear?.(el);
-      if (this.once) this.triggeredOnce = true;
+    if (!this.once || !state.triggeredOnce) {
+      this._emit(this.onAppear, el, selector);
+      if (this.once) state.triggeredOnce = true;
     }
 
-    if (this.once && this.triggeredOnce) {
-      // если нужен ровно один вызов – можно выключиться
+    if (this.once && this.mode === 'any') {
       this.stop();
-      return;
-    }
-
-    if (this.watchChild || this.watchAttributes || this.watchCharacterData) {
-      this._observeElementInternally(el);
     }
   };
 
-  _observeElementInternally = (el) => {
-    if (this.elementObserver) return;
+  _observeElementInternally = (selector, el, state) => {
+    if (state.elementObserver) return;
 
-    this.elementObserver = new MutationObserver((mutations) => {
+    const options = {
+      attributes: this.watchAttributes,
+      childList: this.watchChild,
+      characterData: this.watchCharacterData,
+      subtree: true,
+      attributeFilter: this.attributeFilter
+    };
+
+    state.elementObserver = new MutationObserver((mutations) => {
       // временно отключаем, чтобы не ловить собственные эффекты
-      this._disconnectInternalObserver();
+      state.elementObserver.disconnect();
 
       try {
-        this.mutationCounter++;
-
-        // Группируем по типам и вызываем соответствующие колбэки один раз на пачку
+        state.mutationCounter++;
         const hasChild = this.watchChild && mutations.some(m => m.type === 'childList');
         const hasAttr = this.watchAttributes && mutations.some(m => m.type === 'attributes');
         const hasChar = this.watchCharacterData && mutations.some(m => m.type === 'characterData');
 
-        if (hasChild) {
-          this._log(`👶 Child mutation #${this.mutationCounter}`);
-          this.onChildMutate?.(el, mutations, this.mutationCounter);
-        }
-        if (hasAttr) {
-          this._log(`🧬 Attribute mutation #${this.mutationCounter}`);
-          this.onAttributeMutation?.(el, mutations, this.mutationCounter);
-        }
-        if (hasChar) {
-          this._log(`✏️ Character data #${this.mutationCounter}`);
-          this.onCharacterData?.(el, mutations, this.mutationCounter);
-        }
+        if (hasChild) this._emit(this.onChildMutate, el, mutations, state.mutationCounter, selector);
+        if (hasAttr) this._emit(this.onAttributeMutation, el, mutations, state.mutationCounter, selector);
+        if (hasChar) this._emit(this.onCharacterData, el, mutations, state.mutationCounter, selector);
       } finally {
-        // пере-подписываемся
-        if (this.started) this._observeElementInternally(el);
+        if (this.started && state.elements.size) {
+          const firstEl = state.elements.values().next().value || el;
+          state.elementObserver.observe(firstEl, options);
+        } else {
+          state.elementObserver = null;
+        }
       }
     });
 
-    this.elementObserver.observe(el, this.options);
-    this._log('🔍 Internal observer set:', el);
+    state.elementObserver.observe(el, options);
+    this._log('🔍 Internal observer set for', selector, el);
   };
 
-  _disconnectInternalObserver = () => {
-    if (this.elementObserver) {
-      this.elementObserver.disconnect();
-      this.elementObserver = null;
+  _allPresent = () => {
+    for (const [, st] of this.perSelector) if (!st.observed) return false;
+    return true;
+    // эквивалент: return [...this.perSelector.values()].every(st => st.observed);
+  };
+
+  _collectFirstEls = () => {
+    const arr = [];
+    for (const [, st] of this.perSelector) {
+      arr.push(st.elements.values().next().value || null);
+    }
+    return arr;
+  };
+
+  // безопасная выдача колбэков (дефер + try/catch)
+  _emit = (cb, ...args) => {
+    if (typeof cb !== 'function') return;
+
+    const run = () => {
+      try {
+        cb(...args);
+      } catch (e) {
+        this._log('❌ Callback error:', e);
+      }
+    };
+
+    if (this._defer === 'sync') {
+      run();
+    } else if (this._defer === 'raf') {
+      this._queue.push(run);
+      this._scheduleFlush('raf');
+    } else {
+      // 'microtask' по умолчанию
+      this._queue.push(run);
+      this._scheduleFlush('microtask');
+    }
+  };
+
+  _scheduleFlush = (mode) => {
+    if (this._flushScheduled) return;
+    this._flushScheduled = true;
+
+    const flush = () => {
+      this._flushScheduled = false;
+      const tasks = this._queue.splice(0);
+      for (const fn of tasks) fn();
+    };
+
+    if (mode === 'raf') {
+      requestAnimationFrame(flush);
+    } else {
+      queueMicrotask(flush);
     }
   };
 
@@ -716,29 +848,21 @@ export function waitForDLEvent(eventName, intervalMs = 300) {
     window.dataLayer = window.dataLayer || [];
     let cursor = 0;
 
-    const deepCopy = (obj) => {
-      try {
-        return structuredClone(obj);
-      } catch {
-        return JSON.parse(JSON.stringify(obj));
-      }
-    };
+    const timerId = setInterval(scan, intervalMs);
 
-    const scan = () => {
+    function scan() {
       const dl = window.dataLayer || [];
       for (let i = cursor; i < dl.length; i++) {
         const item = dl[i];
         if (item?.event === eventName) {
           clearInterval(timerId);
-          return resolve(deepCopy(item));
+          return resolve(item);
         }
       }
       cursor = dl.length; // сдвигаем указатель на конец
-    };
+    }
 
-    // стартовая проверка + периодический опрос
     scan();
-    const timerId = setInterval(scan, intervalMs);
   });
 }
 
@@ -764,30 +888,145 @@ export function waitForWindowVar(name, intervalMs = 300) {
 
 
 export class SimpleReactDomObserver {
-  constructor(selector, {onAppear} = {}) {
+  /**
+   * @param {string} selector - CSS-селектор наблюдаемого элемента
+   * @param {Object} [options]
+   * @param {(el: HTMLElement) => void} [options.onAppear] - вызывается при первом появлении элемента
+   * @param {boolean} [options.once=true] - остановиться после первого срабатывания
+   * @param {boolean} [options.debug=false]
+   */
+  constructor(selector, {onAppear, once = true, debug = false} = {}) {
     this.selector = selector;
     this.onAppear = onAppear;
-    this.seen = new WeakSet();
-    this.observer = new MutationObserver(() => this.check());
+    this.once = once;
+    this.debug = debug;
+
+    this._seen = new WeakSet();
+    this._active = false;
+    this._observer = new MutationObserver(() => this._check());
   }
 
   start() {
-    this.observer.observe(document.body, {childList: true, subtree: true});
-    this.check();
+    if (this._active) return;
+    this._active = true;
+    this._observer.observe(document.body, {childList: true, subtree: true});
+    this._check();
+    this._log('▶️ started');
   }
 
   stop() {
-    this.observer.disconnect();
+    if (!this._active) return;
+    this._observer.disconnect();
+    this._active = false;
+    this._log('⏹️ stopped');
   }
 
-  check() {
-    const nodes = document.querySelectorAll(this.selector);
-    nodes.forEach((el) => {
-      if (this.seen.has(el)) return;
-      this.seen.add(el);
-      if (this.onAppear) {
-        this.onAppear(el);
-      }
+  _check() {
+    const els = document.querySelectorAll(this.selector);
+    els.forEach(el => {
+      if (this._seen.has(el)) return;
+      this._seen.add(el);
+      this._log(`✅ appear: ${this.selector}`, el);
+      this.onAppear?.(el);
+      if (this.once) this.stop();
     });
+  }
+
+  _log(...args) {
+    if (this.debug) console.log('[SimpleObserver]', ...args);
+  }
+}
+
+
+export class DataLayerWatch {
+  constructor({layerName = 'dataLayer', pollMs = 300} = {}) {
+    this.layerName = layerName;
+    this.pollMs = pollMs;
+    this.eventHandlers = new Map();
+    this.seen = 0;
+
+    this._init();
+  }
+
+  onEvent(name, handler) {
+    if (!this.eventHandlers.has(name)) this.eventHandlers.set(name, new Set());
+    this.eventHandlers.get(name).add(handler);
+    return () => this.eventHandlers.get(name).delete(handler);
+  }
+
+  // ===== внутреннее =====
+  _init() {
+    this._ensureArray();
+    this._hook(this.layer);
+    this._consumeExisting();
+    this._watchReassign();
+  }
+
+  _ensureArray() {
+    const w = window;
+    if (!Array.isArray(w[this.layerName])) w[this.layerName] = w[this.layerName] ?? [];
+    this.layer = w[this.layerName];
+  }
+
+  _hook(arr) {
+    if (!arr || arr.__dlwHooked) return;
+    this.originalPush = arr.push.bind(arr);
+    arr.push = (...items) => {
+      const res = this.originalPush(...items);
+      this._consume(items);
+      return res;
+    };
+    Object.defineProperty(arr, '__dlwHooked', {value: true, enumerable: false});
+  }
+
+  _consume(items) {
+    for (const item of items) {
+      const name = item?.event;
+      if (name && this.eventHandlers.has(name)) {
+        for (const h of this.eventHandlers.get(name)) h(item);
+      }
+    }
+    this.seen += items.length;
+  }
+
+  _consumeExisting() {
+    const arr = this.layer;
+    if (Array.isArray(arr) && arr.length) this._consume(arr.slice(this.seen));
+  }
+
+  _watchReassign() {
+    const w = window;
+    const desc = Object.getOwnPropertyDescriptor(w, this.layerName);
+    const configurable = !desc || desc.configurable;
+
+    if (configurable) {
+      let current = this.layer;
+      Object.defineProperty(w, this.layerName, {
+        configurable: true,
+        get: () => current,
+        set: (next) => {
+          current = next;
+          this.layer = next;
+          this._hook(next);
+          this._consumeExisting();
+        }
+      });
+    }
+
+    let stopped = false;
+    const tick = () => {
+      if (stopped) return;
+      const next = window[this.layerName];
+      if (next !== this.layer && Array.isArray(next)) {
+        this.layer = next;
+        this._hook(next);
+        this._consumeExisting();
+      }
+      setTimeout(tick, this.pollMs);
+    };
+    tick();
+    this.stopPoll = () => {
+      stopped = true;
+    };
   }
 }
