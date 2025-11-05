@@ -1,0 +1,16 @@
+#mindbox-once {
+    padding: 1rem;
+}
+
+#mindbox-once input {
+    border-radius: 8px;
+    border: 1px solid #ccc;
+    padding: 0.5rem;
+}
+
+#mindbox-once button {
+    padding: 0.5rem;
+    border-radius: 8px;
+    border: 1px solid #ccc;
+    cursor: pointer;
+}

@@ -22,3 +22,19 @@ import './style.css';
   })
   obs.start();
 })()
+
+new ReactDomObserver('a[href*="kalendar-puteshestvii"]', {
+  onAppear: (el) => {
+    el && el.addEventListener('click', e => {
+      e.preventDefault()
+      ym(96674199, "reachGoal", "entry-point", {
+        name_stock: {
+          calendar: {
+            name_point: "search",
+          },
+        },
+      });
+      window.open(e.currentTarget.href, '_blank')
+    })
+  }
+}).start()
