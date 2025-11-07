@@ -1,48 +1,99 @@
-<div class="popmechanic-reset layout-container-limit center" id="popmechanic-form">
-    <div class="popmechanic-main">
-        <div class="popmechanic-content subscribe">
+<div class="subscribe-form popmechanic-reset" id="popmechanic-form">
+    <div class="subscribe-form__main popmechanic-main">
+        <div class="subscribe-form__content popmechanic-content subscribe">
 
-            <div class="visual-icon">
-                <img src="https://b2ccdn.sunmar.ru/content/subscribe-visual.webp">
+            <div class="subscribe-form__visual visual-icon">
+                <picture>
+                    <source media="(min-width: 769px)" srcset="https://b2ccdn.sunmar.ru/content/subscribe-visual.webp">
+                    <img
+                            src="https://b2ccdn.sunmar.ru/content/subscribe-visual-mob.webp"
+                            alt=""
+                    >
+                </picture>
             </div>
 
-            <h3 class="popmechanic-title">Только актуальная информация</h3>
-            <span class="popmechanic-sub-title">Подпишитесь, чтобы первыми узнавать о&nbsp;наших акциях и&nbsp;новостях.</span>
+            <div class="subscribe-form__content">
+                <div class="subscribe-form__text">
+                    <h3 class="subscribe-form__title popmechanic-title">
+                        Только актуальная информация
+                    </h3>
 
-            <div class="field">
-                <label class="subscribe__label">
-                    <input class="popmechanic-input subscribe__input"
-                           type="email"
-                           name="email"
-                           placeholder="Введите адрес электронной почты"
-                           data-popmechanic-required
-                           data-popmechanic-input="email"/>
+                    <span class="subscribe-form__subtitle popmechanic-sub-title">
+                Подпишитесь, чтобы первыми узнавать о&nbsp;наших акциях и&nbsp;новостях.
+            </span>
+                </div>
 
-                    <span class='invalid-text'>Поле обязательно для заполнения</span>
-                </label>
-                <button class="subscribe__submit popmechanic-button"
-                        type="button"
-                        name="button"
-                        data-popmechanic-submit>Подписаться
-                </button>
-            </div>
-            <div class="field checkbox-field">
-                <label class="subscribe__label">
-                    <input type="checkbox" class="popmechanic-input" name="checkbox" data-popmechanic-input="checkbox"
-                           required>
-                    <span class="subscribe__text subscribe__text--confident">
+                <div class="subscribe-form__fields">
+                    <div class="subscribe-form__field field">
+                        <label class="subscribe-form__label subscribe__label">
+                            <input
+                                    class="subscribe-form__input popmechanic-input subscribe__input"
+                                    type="email"
+                                    name="email"
+                                    autocomplete="email"
+                                    placeholder="Введите адрес электронной почты"
+                                    data-popmechanic-input="email"
+                                    data-popmechanic-required
+                                    required
+                            />
+                            <span class="subscribe-form__invalid-text invalid-text">
+                        Поле обязательно для заполнения
+                    </span>
+                        </label>
+
+                        <button
+                                class="subscribe-form__button subscribe__submit popmechanic-button"
+                                type="button"
+                                name="button"
+                                data-popmechanic-submit
+                        >
+                            Подписаться
+                        </button>
+                    </div>
+
+                    <div class="subscribe-form__field subscribe-form__field--checkbox field checkbox-field">
+                        <label class="subscribe-form__label subscribe__label subscribe__label--checkbox">
+                            <input
+                                    type="checkbox"
+                                    class="subscribe-form__checkbox popmechanic-input subscribe__checkbox visually-hidden"
+                                    name="agreement"
+                                    value="1"
+                                    data-popmechanic-input="customs.agreement"
+                                    data-popmechanic-required
+                            />
+                            <span class="subscribe-form__custom-checkbox custom-checkbox"></span>
+                        </label>
+
+                        <span class="subscribe-form__text subscribe__text subscribe__text--confident">
                     Вы&nbsp;даёте согласие&nbsp;на
-                    <a style="text-decoration:underline" href="/soglasie-na-obrabotku-dannyh/" target="_blank">обработку персональных данных</a>
-                      и&nbsp;на
-                    <a style="text-decoration:underline" target="_blank"
-                       href="https://cdn.coral.ru/content/doc/legal/agreement_signup_form_ctcb.pdf">получение новостей и&nbsp;предложений</a>
+                    <a
+                            class="subscribe-form__link"
+                            style="text-decoration:underline"
+                            href="/soglasie-na-obrabotku-dannyh/"
+                            target="_blank"
+                    >обработку персональных данных</a>
+                    и&nbsp;на
+                    <a
+                            class="subscribe-form__link"
+                            style="text-decoration:underline"
+                            target="_blank"
+                            href="https://cdn.coral.ru/content/doc/legal/agreement_signup_form_ctcb.pdf"
+                    >
+                        получение новостей и&nbsp;предложений
+                    </a>
                 </span>
-                </label>
+
+                        <span class="subscribe-form__invalid-text invalid-text">
+                    Поле обязательно для заполнения
+                </span>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
-    <div class="popmechanic-thankyou">
-        <div class="popmechanic-title">Спасибо!</div>
-        <div class="popmechanic-sub-title">Проверьте вашу почту</div>
+
+    <div class="subscribe-form__thankyou popmechanic-thankyou">
+        <div class="subscribe-form__thankyou-title popmechanic-title">Спасибо!</div>
+        <div class="subscribe-form__thankyou-subtitle popmechanic-sub-title">Проверьте вашу почту</div>
     </div>
 </div>

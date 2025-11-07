@@ -1,187 +1,232 @@
-*, *:after, *:before {
-    box-sizing: border-box;
-}
-
-#popmechanic-form {
-    padding: 0;
-}
-
-.popmechanic-main {
-    padding-block: 64px !important;
-}
-
-.popmechanic-content {
-    display: grid;
-    grid-template-columns: 187px 1fr 1fr;
-    padding: 32px 56px 32px 0;
-    position: relative;
-    column-gap: 40px;
-    row-gap: 8px;
+/* =========================
+   БАЗОВЫЕ НАСТРОЙКИ
+   ========================= */
+.subscribe-form__content {
+    padding: 8px 16px;
+    background: #0e2855;
     border-radius: 16px;
-    background: #21366A;
     color: #FFFFFF;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
 }
 
-.visual-icon {
-    margin-top: 8px;
-    max-width: 187px;
-    grid-column: 1/2;
-    grid-row: span 2;
-    position: relative;
+.subscribe-form__visual {
+    width: 116px;
+    height: 90px;
 }
 
-.visual-icon img {
-    position: absolute;
-    bottom: 0;
-    left: 0;
+.subscribe-form__visual img {
     width: 100%;
     height: 100%;
     display: block;
     object-fit: contain;
 }
 
-.popmechanic-title {
-    font-size: 24px !important;
-    font-style: normal !important;
-    font-weight: 600 !important;
-    line-height: 28px !important;
-    margin: 0 !important;
-    text-align: left !important;
-    align-self: end;
-    grid-column: 2/3;
-    grid-row: 1/2;
+.subscribe-form__title {
+    color: var(--Text-olor_Text_Light, #FFF);
+    text-align: center;
+    margin: 0 0 16px 0;
+    font-size: var(--Font-Size-font_Size_Heading_5, 24px);
+    font-style: normal;
+    font-weight: 600;
+    line-height: var(--Line-heights-Line_Height_font_Size_Heading_5, 28px); /* 116.667% */
 }
 
-.popmechanic-sub-title {
-    margin: 0 !important;
-    text-align: left !important;
-    font-size: 16px !important;
-    font-style: normal !important;
-    font-weight: 300 !important;
-    line-height: 24px !important;
-    align-self: start;
-    grid-column: 2/3;
-    grid-row: 2/3;
+.subscribe-form__subtitle {
+    color: var(--Text-olor_Text_Light, #FFF);
+    text-align: center;
+    font-size: var(--Font-Size-font_Size_N, 16px);
+    font-style: normal;
+    font-weight: 400;
+    line-height: var(--Line-heights-Line_Height_font_Size_N, 24px); /* 150% */
+    margin: 0 0 24px 0;
 }
 
-
-.field {
+/* =========================
+   ПОЛЕ ВВОДА
+   ========================= */
+.subscribe-form__field {
     width: 100%;
     display: flex;
-    gap: 12px;
+    flex-direction: column;
+    gap: 8px;
+    margin-bottom: 12px;
 }
 
-.checkbox-field {
+.subscribe-form__field--checkbox {
+    flex-direction: row;
+}
+
+.subscribe-form__label {
     display: flex;
-    gap: 24px;
-}
-
-.subscribe__label {
-    display: flex;
-}
-
-.field:not(.checkbox-field) > * {
-    flex: 1 0 auto;
-}
-
-.subscribe__label input:not([type="checkbox"]) {
-    display: block;
     align-items: center;
+    height: 100%;
+}
+
+.subscribe-form__input {
     width: 100%;
-    padding-inline: 12px;
-    font-size: 14px !important;
-    line-height: 38px !important;
+    padding: 12px;
+    font-size: 16px;
+    color: #000000;
     border-radius: 12px;
     border: 1px solid var(--colorBorder, rgba(0, 0, 0, 0.15));
     background: var(--colorBgContainer, #FFF);
 }
 
-.subscribe__label input:focus {
-    outline: none;
+.subscribe-form__input::placeholder {
+    color: var(--colorTextLabel, rgba(0, 0, 0, 0.65));
 }
 
-.subscribe__label:focus-within {
-    border-color: #007bff !important;
-    box-shadow: 0 0 0 4px rgba(0, 123, 255, 0.2);
+.subscribe-form__invalid-text {
+    display: none;
 }
 
-.subscribe__label input::placeholder {
-    color: #B2B2B2;
-    font-size: 14px;
-    font-style: normal;
-    font-weight: 400;
-    line-height: 22px; /* 157.143% */
-}
-
-.subscribe__submit {
-    display: flex;
-    cursor: pointer;
-    padding: var(--padding-padding_S, 12px) var(--padding-padding_XL, 32px);
-    justify-content: center;
-    align-items: center;
+/* =========================
+   КНОПКА
+   ========================= */
+.subscribe-form__button {
     border-radius: 40px;
+    border: none;
+    padding: var(--padding-padding_S, 12px) var(--padding-padding_XL, 32px);
     background: var(--gradient_Primary, linear-gradient(245deg, var(--Gradient-color_Gradinet_Primary_Second, #D8242A) 15.84%, var(--Gradient-color_Gradient_Primary_First, #E7317D) 84.16%));
-    max-width: 166px;
-    color: #FFF;
+    color: var(--Button-color_Bth_Text_Light, #FFF);
     text-align: center;
-    font-size: 16px;
+    font-size: var(--Font-Size-font_Size_N, 16px);
     font-style: normal;
     font-weight: 600;
-    line-height: normal;
-    border: none;
+    line-height: 1.5;
 }
 
-.subscribe__text--confident {
-    font-size: 16px !important;
-    margin: 0;
-    color: #595959 !important;
+/* =========================
+   ЧЕКБОКС
+   ========================= */
+.subscribe-form__custom-checkbox {
+    width: 20px;
+    height: 20px;
+    border-radius: 6px;
+    display: block;
+    border: 1px solid #FFFFFF;
 }
 
-.subscribe__text--confident a {
+.subscribe-form__checkbox:checked + .subscribe-form__custom-checkbox {
+    background: url("data:image/svg+xml,%3Csvg width='16' height='16' viewBox='0 0 16 16' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath fill-rule='evenodd' clip-rule='evenodd' d='M2.98 8.313a.5.5 0 0 1 .707 0L6 10.626l6.313-6.313a.5.5 0 1 1 .707.707l-6.666 6.667a.5.5 0 0 1-.708 0L2.98 9.02a.5.5 0 0 1 0-.707' fill='%232e3465'/%3E%3C/svg%3E"), #FFFFFF;
+    background-repeat: no-repeat;
+    background-position: 0 0;
+    background-size: cover;
+}
+
+/* =========================
+   ТЕКСТ И ССЫЛКИ
+   ========================= */
+.subscribe-form__text {
+    color: var(--Text-olor_Text_Light, #FFF);
+    text-align: center;
+    font-size: var(--Font-Size-font_Size_S, 12px);
+    font-style: normal;
+    font-weight: 400;
+    line-height: var(--Line-heights-Line_Height_font_Size_S, 20px);
+}
+
+
+.subscribe-form__link {
     color: inherit;
 }
 
-.subscribe__label:has(.popmechanic-invalid) {
-    border-color: #dc3545 !important;
-    box-shadow: 0 0 0 4px rgba(220, 53, 69, 0.2);
+/* =========================
+   THANK YOU ЭКРАН
+   ========================= */
+.subscribe-form__thankyou {
 }
 
-.invalid-text {
-    display: none;
+.subscribe-form__thankyou-title {
 }
 
-.subscribe:has(.popmechanic-invalid) .invalid-text {
-    font-size: 12px !important;
-    color: #dc3545 !important;
-    display: block;
-    position: absolute !important;
-    bottom: -25px;
+.subscribe-form__thankyou-subtitle {
 }
 
-.subscribe:has(.popmechanic-invalid) .subscribe__label {
-    margin-bottom: 24px !important;
+.visually-hidden {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    margin: -1px;
+    border: 0;
+    padding: 0;
+    white-space: nowrap;
+    clip-path: inset(100%);
+    clip: rect(0 0 0 0);
+    overflow: hidden;
 }
 
-#popmechanic-form .popmechanic-thankyou {
-    display: none;
-}
-
-.popmechanic-success #popmechanic-form .popmechanic-main {
-    display: none !important
-}
-
-.popmechanic-success #popmechanic-form .popmechanic-thankyou {
-    display: block;
-    padding-block: 64px;
-}
-
-
-@media (max-width: 768px) {
-    .popmechanic-main {
-        padding-inline: 16px !important;
+@media (min-width: 769px) {
+    .subscribe-form__content {
+        flex: 1;
+        height: 132px;
+        flex-direction: row;
+        column-gap: min(5%, 60px);
+        row-gap: 12px;
+        grid-template-areas:
+            "visual headline input"
+            "visual subtitle checkbox"
     }
 
-    .subscribe__text--confident {
-        text-align: center;
+    .subscribe-form__text {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .subscribe-form__fields {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .subscribe-form__visual {
+
+    }
+
+    .subscribe-form__title {
+        margin: 0;
+        text-align: left;
+    }
+
+    .subscribe-form__subtitle {
+        margin: 0;
+        text-align: left;
+        align-self: start;
+    }
+
+    .subscribe-form__field {
+        grid-area: input;
+        display: grid;
+        grid-template-columns: auto 186px;
+        margin: 0;
+        align-self: end;
+    }
+
+    .subscribe-form__field--checkbox {
+        grid-area: checkbox;
+        grid-template-columns: auto auto;
+        margin: 0;
+        align-self: start;
+    }
+
+    .subscribe-form__text {
+        text-align: left;
+    }
+
+    .subscribe-form__visual {
+        height: 100%;
+        width: 187px;
+        position: relative;
+    }
+
+    .subscribe-form__visual img {
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        width: 100%;
+        height: 74%;
     }
 }
