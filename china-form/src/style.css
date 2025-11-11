@@ -1,0 +1,74 @@
+#china-attention {
+    background: url("https://b2ccdn.coral.ru/content/china_booking_mobile.webp");
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+    padding: 32px;
+    border-radius: 20px;
+    color: #FFFFFF;
+    min-height: 425px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    margin: 24px auto;
+}
+
+#china-attention + div + div {
+    display: none;
+}
+
+#china-attention p {
+    font-size: 16px;
+    margin: 0 0 32px 0;
+    line-height: 24px;
+}
+
+#china-attention h3 {
+    font-size: 20px;
+    font-weight: 400;
+    margin: 0 0 12px 0;
+    line-height: 28px;
+    width: 80%;
+}
+
+.b24-form-click-btn {
+    border-radius: 48px !important;
+    background: #FFF !important;
+    color: #004243 !important;
+    font-size: 16px !important;
+    padding-inline: 20px !important;
+    height: 48px !important;
+    margin: 0 auto 0 0 !important;
+    font-weight: 600 !important;
+}
+
+.b24-window-scrollable {
+    height: 80%;
+}
+
+.b24-window-panel {
+    margin-top: 16px;
+}
+
+@media (min-width: 768px) {
+    #china-attention {
+        background: url("https://b2ccdn.coral.ru/content/china_booking.webp");
+        background-size: cover;
+        background-repeat: no-repeat;
+        background-position: center;
+    }
+
+    #china-attention h3 {
+        font-size: 36px;
+        line-height: 44px;
+    }
+
+    #china-attention p {
+        width: 65%;
+    }
+}
+
+
+div[class*="ConditionalRenderer"] > *:not(#china-attention) {
+    display: none;
+}

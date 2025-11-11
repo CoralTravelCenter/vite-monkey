@@ -1,0 +1,36 @@
+.installment-credit-information {
+    background: url("https://b2ccdn.coral.ru/content/banks-icons.png"), #FFDD2D !important;
+    background-repeat: no-repeat !important;
+    background-position: 8px, center !important;
+    background-size: 50px, cover !important;
+    justify-content: end !important;
+    padding: 8px !important;
+    box-sizing: border-box !important;
+}
+
+.installment-credit-information .anticon {
+    display: none
+}
+
+.installment-credit-information span:nth-child(2) {
+    flex: 0 1 calc(220px - 58px - 14px);
+}
+
+.installment-credit-information span:nth-child(2) span:nth-child(1) {
+    font-weight: 600;
+}
+
+.installment-credit-information span:nth-child(2) span:nth-child(2) {
+    padding: 0;
+}
+
+.installment-credit-information span:nth-child(3) {
+    display: none;
+}
+
+@media (max-width: 768px) {
+    .installment-credit-information {
+        padding-left: 70px !important;
+        justify-content: start !important;
+    }
+}
