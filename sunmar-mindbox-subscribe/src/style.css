@@ -1,12 +1,16 @@
-/* =========================
-   БАЗОВЫЕ НАСТРОЙКИ
-   ========================= */
-.subscribe-form__content {
-    padding: 8px 16px;
+.subscribe-form {
+    padding: 16px;
+}
+
+.subscribe {
+    padding: 16px;
     background: #0e2855;
     border-radius: 16px;
-    color: #FFFFFF;
+    overflow: clip;
+}
 
+.subscribe-form__content {
+    color: #FFFFFF;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -16,6 +20,7 @@
 .subscribe-form__visual {
     width: 116px;
     height: 90px;
+    margin: 0 auto;
 }
 
 .subscribe-form__visual img {
@@ -23,6 +28,12 @@
     height: 100%;
     display: block;
     object-fit: contain;
+}
+
+.checkboxes {
+    display: flex;
+    flex-direction: column;
+    justify-content: start;
 }
 
 .subscribe-form__title {
@@ -43,6 +54,7 @@
     font-weight: 400;
     line-height: var(--Line-heights-Line_Height_font_Size_N, 24px); /* 150% */
     margin: 0 0 24px 0;
+    display: block;
 }
 
 /* =========================
@@ -58,6 +70,7 @@
 
 .subscribe-form__field--checkbox {
     flex-direction: row;
+    align-items: center;
 }
 
 .subscribe-form__label {
@@ -98,6 +111,7 @@
     font-style: normal;
     font-weight: 600;
     line-height: 1.5;
+    cursor: pointer;
 }
 
 /* =========================
@@ -123,10 +137,10 @@
    ========================= */
 .subscribe-form__text {
     color: var(--Text-olor_Text_Light, #FFF);
-    text-align: center;
     font-size: var(--Font-Size-font_Size_S, 12px);
     font-style: normal;
     font-weight: 400;
+    text-align: left;
     line-height: var(--Line-heights-Line_Height_font_Size_S, 20px);
 }
 
@@ -161,15 +175,14 @@
 }
 
 @media (min-width: 769px) {
+    .subscribe {
+        min-height: 132px;
+        display: flex;
+    }
+
     .subscribe-form__content {
-        flex: 1;
-        height: 132px;
         flex-direction: row;
-        column-gap: min(5%, 60px);
-        row-gap: 12px;
-        grid-template-areas:
-            "visual headline input"
-            "visual subtitle checkbox"
+        flex: 1;
     }
 
     .subscribe-form__text {
@@ -180,14 +193,21 @@
     .subscribe-form__fields {
         display: flex;
         flex-direction: column;
+        margin-left: 34px;
+        gap: 12px;
+        flex: 1;
+    }
+
+    .checkboxes {
+        gap: 8px;
     }
 
     .subscribe-form__visual {
-
+        flex-shrink: 0;
     }
 
     .subscribe-form__title {
-        margin: 0;
+        margin: 0 0 8px 0;
         text-align: left;
     }
 
@@ -206,10 +226,15 @@
     }
 
     .subscribe-form__field--checkbox {
-        grid-area: checkbox;
-        grid-template-columns: auto auto;
+        display: flex;
         margin: 0;
         align-self: start;
+        width: 100%;
+    }
+
+    .subscribe__text--confident {
+        width: 100%;
+        flex-direction: row;
     }
 
     .subscribe-form__text {
@@ -217,16 +242,32 @@
     }
 
     .subscribe-form__visual {
-        height: 100%;
         width: 187px;
         position: relative;
+        margin: 0;
     }
 
     .subscribe-form__visual img {
         position: absolute;
-        bottom: 0;
-        left: 0;
-        width: 100%;
-        height: 74%;
+        bottom: -34px;
+        left: -20px;
+        height: 123px;
     }
+}
+
+
+/* =========================
+   СОСТОЯНИЕ УСПЕХА
+   ========================= */
+#popmechanic-form .popmechanic-thankyou {
+    display: none;
+}
+
+.popmechanic-success #popmechanic-form .popmechanic-main {
+    display: none !important;
+}
+
+.popmechanic-success #popmechanic-form .popmechanic-thankyou {
+    display: block;
+    padding-block: 64px;
 }

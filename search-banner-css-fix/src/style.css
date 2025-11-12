@@ -1,0 +1,4 @@
+div[class*="BannerHotelListCard"][class*="BannerHotelListCard"] {
+    background-size: contain !important;
+    padding: 0;
+}

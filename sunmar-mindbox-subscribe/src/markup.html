@@ -1,29 +1,35 @@
 <div class="subscribe-form popmechanic-reset" id="popmechanic-form">
     <div class="subscribe-form__main popmechanic-main">
-        <div class="subscribe-form__content popmechanic-content subscribe">
+        <div class="popmechanic-content subscribe">
 
+            <!-- Визуальный блок -->
             <div class="subscribe-form__visual visual-icon">
                 <picture>
-                    <source media="(min-width: 769px)" srcset="https://b2ccdn.sunmar.ru/content/subscribe-visual.webp">
+                    <source media="(min-width: 769px)" type="image/webp"
+                            srcset="https://b2ccdn.sunmar.ru/content/subscribe-visual.webp">
+
                     <img
                             src="https://b2ccdn.sunmar.ru/content/subscribe-visual-mob.webp"
-                            alt=""
+                            alt="Подписка на рассылку"
                     >
                 </picture>
             </div>
 
+            <!-- Контент формы -->
             <div class="subscribe-form__content">
                 <div class="subscribe-form__text">
                     <h3 class="subscribe-form__title popmechanic-title">
                         Только актуальная информация
                     </h3>
-
                     <span class="subscribe-form__subtitle popmechanic-sub-title">
-                Подпишитесь, чтобы первыми узнавать о&nbsp;наших акциях и&nbsp;новостях.
-            </span>
+            Подпишитесь, чтобы первыми узнавать о&nbsp;наших акциях и&nbsp;новостях.
+          </span>
                 </div>
 
+                <!-- Поля формы -->
                 <div class="subscribe-form__fields">
+
+                    <!-- Email -->
                     <div class="subscribe-form__field field">
                         <label class="subscribe-form__label subscribe__label">
                             <input
@@ -37,8 +43,8 @@
                                     required
                             />
                             <span class="subscribe-form__invalid-text invalid-text">
-                        Поле обязательно для заполнения
-                    </span>
+                Поле обязательно для заполнения
+              </span>
                         </label>
 
                         <button
@@ -51,49 +57,79 @@
                         </button>
                     </div>
 
-                    <div class="subscribe-form__field subscribe-form__field--checkbox field checkbox-field">
-                        <label class="subscribe-form__label subscribe__label subscribe__label--checkbox">
-                            <input
-                                    type="checkbox"
-                                    class="subscribe-form__checkbox popmechanic-input subscribe__checkbox visually-hidden"
-                                    name="agreement"
-                                    value="1"
-                                    data-popmechanic-input="customs.agreement"
-                                    data-popmechanic-required
-                            />
-                            <span class="subscribe-form__custom-checkbox custom-checkbox"></span>
-                        </label>
+                    <div class="checkboxes">
+                        <!-- Чекбокс №1 — согласие на обработку персональных данных -->
+                        <div class="subscribe-form__field subscribe-form__field--checkbox field checkbox-field">
+                            <label class="subscribe-form__label subscribe__label subscribe__label--checkbox">
+                                <input
+                                        type="checkbox"
+                                        class="subscribe-form__checkbox popmechanic-input subscribe__checkbox visually-hidden"
+                                        name="personal_data"
+                                        value="1"
+                                        data-popmechanic-input="customs.personal_data"
+                                        data-popmechanic-required
+                                />
+                                <span class="subscribe-form__custom-checkbox custom-checkbox"></span>
+                            </label>
 
-                        <span class="subscribe-form__text subscribe__text subscribe__text--confident">
-                    Вы&nbsp;даёте согласие&nbsp;на
-                    <a
-                            class="subscribe-form__link"
-                            style="text-decoration:underline"
-                            href="/soglasie-na-obrabotku-dannyh/"
-                            target="_blank"
-                    >обработку персональных данных</a>
-                    и&nbsp;на
-                    <a
-                            class="subscribe-form__link"
-                            style="text-decoration:underline"
-                            target="_blank"
-                            href="https://cdn.coral.ru/content/doc/legal/agreement_signup_form_ctcb.pdf"
-                    >
-                        получение новостей и&nbsp;предложений
-                    </a>
-                </span>
+                            <span class="subscribe-form__text subscribe__text subscribe__text--confident">
+              Даю согласие&nbsp;на
+              <a
+                      class="subscribe-form__link"
+                      style="text-decoration:underline"
+                      href="/soglasie-na-obrabotku-dannyh/"
+                      target="_blank"
+              >
+                обработку персональных данных
+              </a>
+            </span>
 
-                        <span class="subscribe-form__invalid-text invalid-text">
-                    Поле обязательно для заполнения
-                </span>
+                            <span class="subscribe-form__invalid-text invalid-text">
+              Поле обязательно для заполнения
+            </span>
+                        </div>
+
+                        <!-- Чекбокс №2 — согласие на получение новостей -->
+                        <div class="subscribe-form__field subscribe-form__field--checkbox field checkbox-field">
+                            <label class="subscribe-form__label subscribe__label subscribe__label--checkbox">
+                                <input
+                                        type="checkbox"
+                                        class="subscribe-form__checkbox popmechanic-input subscribe__checkbox visually-hidden"
+                                        name="marketing_agree"
+                                        value="1"
+                                        data-popmechanic-input="customs.marketing_agree"
+                                        data-popmechanic-required
+                                />
+                                <span class="subscribe-form__custom-checkbox custom-checkbox"></span>
+                            </label>
+
+                            <span class="subscribe-form__text subscribe__text subscribe__text--confident">
+              Даю согласие&nbsp;на
+              <a
+                      class="subscribe-form__link"
+                      style="text-decoration:underline"
+                      target="_blank"
+                      href="https://cdn.coral.ru/content/doc/legal/agreement_signup_form_ctcb.pdf"
+              >
+                получение новостей и&nbsp;предложений
+              </a>
+            </span>
+
+                            <span class="subscribe-form__invalid-text invalid-text">
+              Поле обязательно для заполнения
+            </span>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
 
+    <!-- Блок "Спасибо" -->
     <div class="subscribe-form__thankyou popmechanic-thankyou">
         <div class="subscribe-form__thankyou-title popmechanic-title">Спасибо!</div>
-        <div class="subscribe-form__thankyou-subtitle popmechanic-sub-title">Проверьте вашу почту</div>
+        <div class="subscribe-form__thankyou-subtitle popmechanic-sub-title">
+            Проверьте вашу почту
+        </div>
     </div>
 </div>

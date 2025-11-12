@@ -44,3 +44,8 @@ body:has(#paymentAgreement) .installment-credit-information {
     justify-content: start !important;
     padding-left: 70px !important;
 }
+
+body:has(#hotel-detail-area) .installment-credit-information {
+    justify-content: start !important;
+    padding-left: 70px !important;
+}
