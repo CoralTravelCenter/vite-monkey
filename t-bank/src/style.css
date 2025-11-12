@@ -34,3 +34,13 @@
         justify-content: start !important;
     }
 }
+
+body:has(.extra-service-widget-styled) .installment-credit-information {
+    justify-content: start !important;
+    padding-left: 70px !important;
+}
+
+body:has(#paymentAgreement) .installment-credit-information {
+    justify-content: start !important;
+    padding-left: 70px !important;
+}
