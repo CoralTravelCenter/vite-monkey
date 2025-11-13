@@ -1,0 +1,31 @@
+.t-bank-payment-banner {
+    padding: 40px 24px;
+    background: url("https://b2ccdn.coral.ru/content/t-bank-banner.png"), #FFDD2D;
+    background-repeat: no-repeat;
+    background-size: min(40%, 135px);
+    background-position: 93% center;
+    border-radius: 16px;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    color: #000;
+}
+
+.t-bank-payment-banner h4 {
+    margin: 0;
+    width: 70%;
+    font-size: var(--font-font_Size_Heading_4, 24px);
+    font-style: normal;
+    font-weight: var(--font-font_Weight_Semibold, 600);
+    line-height: var(--font-font_Line_Height_Heading_4, 32px); /* 133.333% */
+}
+
+.t-bank-payment-banner span {
+    margin: 0;
+    width: 50%;
+    font-size: var(--font-font_Size_Body, 16px);
+    font-style: normal;
+    font-weight: var(--font-font_Weight_Regular, 400);
+    line-height: var(--font-font_Line_Height_Body, 24px); /* 150% */
+}

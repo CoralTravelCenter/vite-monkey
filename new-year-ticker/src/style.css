@@ -1,0 +1,41 @@
+.ticker {
+    overflow: hidden;
+    background: linear-gradient(0deg, #194178 0%, #194178 100%);
+    color: #fff;
+    padding: 0;
+    font-size: 18px;
+    height: 40px;
+    overflow: clip;
+    text-transform: uppercase;
+}
+
+.ticker__track {
+    display: flex;
+    width: max-content;
+    animation: ticker-loop 25s linear infinite;
+}
+
+.ticker__item {
+    display: flex;
+    align-items: center;
+    gap: 2rem; /* расстояние между элементами */
+    white-space: nowrap;
+    padding-right: 2rem; /* чтобы не склеивалось */
+}
+
+.ticker__item img {
+    width: 400px;
+    height: 40px;
+    object-fit: cover;
+    flex-shrink: 0;
+    display: block;
+}
+
+@keyframes ticker-loop {
+    0% {
+        transform: translateX(0);
+    }
+    100% {
+        transform: translateX(-50%); /* уезжаем ровно на ширину первого блока */
+    }
+}
