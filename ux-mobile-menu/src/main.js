@@ -1,156 +1,114 @@
-import {
-  appendOnce,
-  debounce,
-  getMobileOS,
-  insertOnce,
-  isMobile,
-  ReactDomObserver,
-  sendYandexEventOnce
-} from "../../utils.js";
-import markup from './markup.html?raw';
-import './style.scss';
+import Headroom from "headroom.js";
+import {appendOnce, debounce, getMobileOS, insertOnce, ReactDomObserver} from "../../utils.js";
+import markup from "./markup.html?raw";
+import "./style.scss";
 
-function trackEvent(type) {
-  ym(96674199, 'reachGoal', 'ab_mobile_menu', {link: type});
+
+insertOnce(document.body, "beforeend", markup);
+
+const customMenu = document?.querySelector("#custom-bottom-mobile-menu");
+const customPromoLink = document?.querySelector(
+  ".custom-bottom-mobile-menu__promo"
+);
+const customChatLink = document?.querySelector(
+  ".custom-bottom-mobile-menu__chat"
+);
+const customHumburger = document?.querySelector(
+  ".custom-bottom-mobile-menu__burger"
+);
+const userSlot = document?.querySelector('#user-slot');
+const os = getMobileOS()
+
+function setHeadroomLib() {
+  new Headroom(customMenu, {
+    tolerance: {
+      up: 5,
+      down: 5,
+    },
+    offset: 0,
+    classes: {
+      initial: "headroom",
+      pinned: "headroom--pinned",
+      unpinned: "headroom--unpinned",
+    }
+  }).init();
 }
+
+customMenu && setHeadroomLib();
 
 function setupPromoLink(link) {
   if (!link) return;
-  const debouncedLinkClick = debounce(e => {
-    e.preventDefault();
-    trackEvent('promo');
-    window.open(link.href, '_blank');
-  }, 100)
-  link.addEventListener('click', debouncedLinkClick);
+
+  const handleClick = debounce(() => {
+    const href = link.getAttribute("data-link");
+    if (!href) return;
+
+    window.open(href, "_blank");
+  }, 100);
+
+  link.addEventListener("click", handleClick);
 }
 
-function setupChatLink(link, os) {
-  if (!link) return;
+customPromoLink && setupPromoLink(customPromoLink);
 
-  if (os === 'android') {
-    const debouncedAndroidLinkClick = debounce(() => {
-      trackEvent('jivo');
-      if (window.jivo_api) jivo_api.open({start: 'menu'})
-    })
-    link.addEventListener('click', debouncedAndroidLinkClick);
-  }
+function setupChatLink(link) {
+  if (!link || !os) return;
 
-  if (os === 'iOS') {
-    const debouncedAndroidLinkClick = debounce(() => {
-      trackEvent('jivo');
-      window.open(
-        'sms://open/?service=iMessage&recipient=urn:biz:d3809fd0-e2fe-4027-b27e-ae34bf28e38c&biz-intent-id=click_in_jivo',
-        '_blank'
-      );
-    }, 100)
-    link.addEventListener('click', debouncedAndroidLinkClick);
-  }
-}
-
-function setupBurgerButton(icon, button) {
-  if (!icon || !button) return;
-  icon.addEventListener('click', debounce(() => {
-    button.click();
-    icon.classList.toggle('clicked');
-    trackEvent('menu');
-  }, 100));
-}
-
-function setupCloseMenu(button, burger) {
-  if (!button || !burger) return;
-  button.addEventListener('click', () => burger.click());
-}
-
-function observeFlightPage(customMenu, customChatLink) {
-  new ReactDomObserver('#package-tour-flight-widget-area', {
-    onAppear: () => customMenu.setAttribute('data-step', 'flight')
-  }).start();
-
-  new ReactDomObserver('.package-tour-flight-sticky-bar', {
-    onAppear: () => customChatLink.style.bottom = '100px'
-  }).start();
-}
-
-function handleAuth(customUserIcon) {
-  function observeLoggedOut() {
-    new ReactDomObserver('.login-button-text', {
-      onAppear: (el) => {
-        customUserIcon.setAttribute('data-status', 'logged-out');
-        const button = el.closest("button");
-        const debouncedCustomUserIconClick = debounce(() => {
-          button.click();
-          trackEvent('account');
-        }, 100);
-        customUserIcon.addEventListener('click', debouncedCustomUserIconClick)
+  const strategies = {
+    android: () => {
+      if (window.jivo_api?.open) {
+        window.jivo_api.open({start: "menu"});
       }
-    }).start();
-  }
+    },
 
-  function setLoggedInIcon(el) {
-    customUserIcon.setAttribute('data-status', 'logged-in');
-    const avatar = el.querySelector('.ant-avatar');
+    iOS: () => {
+      window.open(
+        "sms://open/?service=iMessage&recipient=urn:biz:d3809fd0-e2fe-4027-b27e-ae34bf28e38c&biz-intent-id=click_in_jivo",
+        "_blank"
+      );
+    }
+  };
 
-    Object.assign(el.firstChild.style, {
-      width: '32px',
-      height: '32px',
-      display: 'none',
-    });
+  const action = strategies[os];
+  if (!action) return;
 
-    appendOnce(customUserIcon, avatar)
-    customUserIcon.addEventListener('click', () => {
-      el.firstChild.click();
-    });
-  }
-
-  observeLoggedOut();
-
-  new ReactDomObserver('.LoginAccountMenu_loginAccountMenu__dviPZ', {
-    onAppear: setLoggedInIcon,
-    onDisappear: observeLoggedOut
-  }).start();
+  link.addEventListener("click", debounce(action, 100));
 }
 
-function observeChoseButton(menu) {
-  new ReactDomObserver('.hotelDetailFixedSummaryContainer', {
-    watchAttributes: true,
-    attributeFilter: ['class'],
-    onAttributeMutation: (el) => {
-      if (el.classList.contains('hide')) {
-        menu.style.bottom = '0'
-      } else {
-        menu.style.bottom = '58px'
+customChatLink && setupChatLink(customChatLink);
+
+function setupUserLink() {
+  new ReactDomObserver(
+    'a[class*="LoginButton"]',
+    {
+      onAppear: (loginButton) => {
+        if (loginButton) {
+          appendOnce(userSlot, loginButton)
+        }
       }
     }
-  }).start();
+  ).start();
 }
 
-if (isMobile) {
-  insertOnce(document.body, 'beforeend', markup);
+userSlot && setupUserLink()
 
-  sendYandexEventOnce('ab_mobile_menu_show', 2, () => {
-    ym(96674199, 'reachGoal', 'ab_mobile_menu_show');
-  });
-
-  const OS = getMobileOS();
-
-  const customMenu = document.getElementById('custom-bottom-mobile-menu');
-  const customUserIcon = document.querySelector('.custom-bottom-mobile-menu__user');
-  const burgerButton = document.querySelector('.menu-button');
-  const customBurgerIcon = document.querySelector('.custom-bottom-mobile-menu__burger');
-  const customPromoLink = document.querySelector('.custom-bottom-mobile-menu__promo');
-  const customChatLink = document.querySelector('.custom-bottom-mobile-menu__chat');
-  const closeMenuButton = document.querySelector('.menu-button-close');
-
-  setupPromoLink(customPromoLink);
-  setupChatLink(customChatLink, OS);
-  setupCloseMenu(closeMenuButton, burgerButton);
-  setupBurgerButton(customBurgerIcon, burgerButton);
-  observeChoseButton(customMenu)
-
-  if (location.pathname.includes('add-passenger')) {
-    customMenu.setAttribute('data-step', 'booking');
-  }
-
-  observeFlightPage(customMenu, customChatLink);
-  handleAuth(customUserIcon);
+function setupHumburger() {
+  new ReactDomObserver('button[class*="HeaderHamburgerMenu"]', {
+    onAppear: (el) => {
+      customHumburger.addEventListener("click", (e) => {
+        e.currentTarget.classList.toggle("clicked");
+        el.click()
+      })
+    }
+  }).start()
 }
+
+customHumburger && setupHumburger()
+
+// new ReactDomObserver('div[class*="HotelDetailFixedSummary"]', {
+//   watchAttributes: true,
+//   attributeFilter: ['class'],
+//   onAttributeMutation: (el) => {
+//     el.style.bottom = "69px";
+//   }
+// }).start();

@@ -585,28 +585,38 @@ function randomId(length = 8) {
 }
 
 export function appendOnce(target, element) {
-  if (!target.hasAttribute(`[data-appended="${randomId()}"]`)) {
-    target.append(element);
-    target.setAttribute('data-appended', randomId());
-  }
+  if (!target || !element) return;
+  const currentId = target.getAttribute("data-appended");
+  const newId = randomId();
+  if (currentId) return;
+  target.appendChild(element);
+  target.setAttribute("data-appended", newId);
 }
 
 export function prependOnce(target, element) {
-  if (!target.hasAttribute(`[data-prepended="${randomId()}"]`)) {
-    target.prepend(element);
-    target.setAttribute('data-prepended', randomId());
-  }
+  if (!target || !element) return;
+
+  const currentId = target.getAttribute('data-prepended');
+  if (currentId) return; // уже что-то добавляли
+
+  const id = randomId();
+
+  target.prepend(element);
+  target.setAttribute('data-prepended', id);
 }
 
 export function insertOnce(target, position, html) {
-  const hasAttr = target.hasAttribute('data-inserted');
-  const isInserted = hasAttr && target.getAttribute('data-inserted')
-  const id = randomId()
-  if (!hasAttr && isInserted !== id) {
-    target.insertAdjacentHTML(position, html);
-    target.setAttribute('data-inserted', id);
-  }
+  if (!target || !position || !html) return;
+
+  const currentId = target.getAttribute('data-inserted');
+  if (currentId) return; // уже вставляли
+
+  const id = randomId();
+
+  target.insertAdjacentHTML(position, html);
+  target.setAttribute('data-inserted', id);
 }
+
 
 export async function doRequestToServer(endpoint, data, method = "POST") {
   try {

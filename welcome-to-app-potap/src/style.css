@@ -1,0 +1,162 @@
+*, *:before, *:after {
+    box-sizing: border-box;
+}
+
+:root {
+    --margib-bottom: 16px;
+    --transition: .3s ease;
+}
+
+#welcome-to-app-popup {
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.3);
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 1000;
+    padding: 0;
+    display: flex;
+    align-items: end;
+    transition: background var(--transition);
+}
+
+#swipe-trigger {
+    margin: 0 auto;
+    padding: 8px 0;
+}
+
+#swipe-trigger span {
+    border-radius: 300px;
+    width: 120px;
+    display: block;
+    height: 6px;
+    background: #F5F5F5;
+}
+
+.welcome-to-app-wrapper {
+    display: flex;
+    flex-direction: column;
+    justify-content: end;
+    touch-action: pan-y;
+    width: 100%;
+    transition: transform var(--transition);
+}
+
+.welcome-to-app__content {
+    background: #FFFFFF;
+    width: 100%;
+    border-radius: 20px 20px 0 0;
+}
+
+.top-block {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 16px 16px 0 16px;
+}
+
+.welcome-to-app__logo {
+    width: 80px;
+    height: 80px;
+    margin-bottom: var(--margib-bottom);
+}
+
+.welcome-to-app__headline {
+    color: #000000;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: 24px;
+    margin: 0;
+}
+
+.welcome-to-app__subline {
+    color: #000000;
+    text-align: center;
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 22px;
+    margin-top: 0;
+    margin-bottom: var(--margib-bottom);
+}
+
+.benefits-list {
+    list-style: none;
+    margin: 0 0 12px 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.benefits-list__item {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+    text-wrap: balance;
+}
+
+.benefits-list__item .icon {
+    width: 20px;
+    height: 20px;
+    flex-shrink: 0;
+}
+
+.benefits-list__item span {
+    color: #000000;
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 22px;
+}
+
+.welcome-to-app__actions {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    width: 100%;
+    padding: 16px;
+
+    background: var(--colorBgBase, #FFF);
+    box-shadow: 0 6px 16px 0 rgba(0, 0, 0, 0.08), 0 3px 6px -4px rgba(0, 0, 0, 0.12), 0 9px 28px 8px rgba(0, 0, 0, 0.05);
+}
+
+.welcome-to-app__actions__button {
+    border-radius: var(--radius-borderRadiusMD, 12px);
+    background: var(--colorPrimaryBase, #0093D0);
+    box-shadow: 0 2px 0 0 rgba(0, 0, 0, 0.02);
+    border: none;
+    padding: 12px 0;
+    width: 100%;
+    color: var(--colorTextLightSolid, #FFF);
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: 24px;
+}
+
+.welcome-to-app__actions__button--stay {
+    background: #FFFFFF;
+    color: #0092D0;
+    font-weight: 400;
+}
+
+
+.welcome-to-app__actions__button:not(.welcome-to-app__actions__button--stay):active {
+    background: #33C2FF;
+}
+
+.welcome-to-app__actions__button--stay:active {
+    color: #33C2FF;
+}
+
+#welcome-to-app-popup[data-show="false"] {
+    background: rgba(0, 0, 0, 0);
+    pointer-events: none;
+}
+
+#welcome-to-app-popup[data-show="false"] .welcome-to-app-wrapper {
+    transform: translateY(100%);
+}

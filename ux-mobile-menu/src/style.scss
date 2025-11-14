@@ -265,3 +265,79 @@
     display: flex;
   }
 }
+
+
+button[class*="HeaderHamburgerMenu"], coral-popup-trigger {
+  display: none;
+}
+
+div[class*="HeaderMobile_rightGroup"] {
+  display: none !important;
+}
+
+
+#custom-bottom-mobile-menu {
+  transition: transform 0.25s ease;
+}
+
+.headroom--unpinned {
+  transform: translateY(100%);
+}
+
+.headroom--pinned {
+  transform: translateY(0);
+}
+
+#user-slot svg {
+  width: 30px;
+  height: 30px;
+}
+
+div[class*="HeaderHamburgerMenu_menuContainer"] {
+  overflow-y: scroll;
+  height: calc(100% - 125px);
+}
+
+div[class*="hotelDetailFixedSummaryContainer"], div[class*="packageTourFlightStickyBarContainer"], div[class*="productSummaryMobileV2Block"] {
+  transition: transform .3s ease;
+}
+
+div[class*="productSummaryMobileV2Block"] {
+  bottom: 69px;
+}
+
+.countdown-timer {
+  bottom: 180px;
+}
+
+body:has(.headroom--pinned) .countdown-timer {
+  transform: translateY(180px);
+}
+
+body:has(.headroom--pinned) div[class*="productSummaryMobileV2Block"] {
+  transform: translateY(69px);
+}
+
+body:has(.headroom--unpinned) .countdown-timer {
+  transform: translateY(110px);
+}
+
+body:has(.headroom--unpinned) div[class*="productSummaryMobileV2Block"] {
+  transform: translateY(0);
+}
+
+body:has(.headroom--unpinned) div[class*="hotelDetailFixedSummaryContainer"] {
+  transform: translateY(0);
+}
+
+body:has(.headroom--pinned) div[class*="hotelDetailFixedSummaryContainer"] {
+  transform: translateY(-69px);
+}
+
+body:has(.headroom--unpinned) div[class*="packageTourFlightStickyBarContainer"] {
+  transform: translateY(0);
+}
+
+body:has(.headroom--pinned) div[class*="packageTourFlightStickyBarContainer"] {
+  transform: translateY(-69px);
+}
