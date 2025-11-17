@@ -1,7 +1,7 @@
-import Headroom from "headroom.js";
 import {appendOnce, debounce, getMobileOS, insertOnce, ReactDomObserver} from "../../utils.js";
 import markup from "./markup.html?raw";
 import "./style.scss";
+import {initScrollMenuBehavior} from "./initScrollMenuBehavior.js";
 
 
 insertOnce(document.body, "beforeend", markup);
@@ -19,22 +19,9 @@ const customHumburger = document?.querySelector(
 const userSlot = document?.querySelector('#user-slot');
 const os = getMobileOS()
 
-function setHeadroomLib() {
-  new Headroom(customMenu, {
-    tolerance: {
-      up: 5,
-      down: 5,
-    },
-    offset: 0,
-    classes: {
-      initial: "headroom",
-      pinned: "headroom--pinned",
-      unpinned: "headroom--unpinned",
-    }
-  }).init();
-}
-
-customMenu && setHeadroomLib();
+customMenu && initScrollMenuBehavior(customMenu, {
+  showDelay: 500
+});
 
 function setupPromoLink(link) {
   if (!link) return;

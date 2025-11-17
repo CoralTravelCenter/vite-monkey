@@ -596,25 +596,30 @@ export function appendOnce(target, element) {
 export function prependOnce(target, element) {
   if (!target || !element) return;
 
-  const currentId = target.getAttribute('data-prepended');
-  if (currentId) return; // уже что-то добавляли
-
   const id = randomId();
+  const currentId = target.getAttribute('data-prepended');
+  if (currentId === id) return; // уже что-то добавляли
 
   target.prepend(element);
   target.setAttribute('data-prepended', id);
 }
 
-export function insertOnce(target, position, html) {
-  if (!target || !position || !html) return;
+export function insertOnce(target, position, html, id) {
+  if (!target || !position || !html || !id) return;
 
-  const currentId = target.getAttribute('data-inserted');
-  if (currentId) return; // уже вставляли
+  // читаем уже вставленные ID
+  const insertedRaw = target.getAttribute('data-inserted');
+  const inserted = insertedRaw ? insertedRaw.split(',') : [];
 
-  const id = randomId();
+  // если такой ID уже был — не вставляем
+  if (inserted.includes(id)) return;
 
+  // вставляем HTML
   target.insertAdjacentHTML(position, html);
-  target.setAttribute('data-inserted', id);
+
+  // записываем ID в список
+  inserted.push(id);
+  target.setAttribute('data-inserted', inserted.join(','));
 }
 
 
@@ -1039,4 +1044,71 @@ export class DataLayerWatch {
       stopped = true;
     };
   }
+}
+
+
+export function waitUntilElementsGone(config, callback) {
+  const requiredSelectors = config.required || [];
+  const floatingSelectors = config.floating || [];
+
+  const hasAny = (selectors) =>
+    selectors.some((sel) => document.querySelector(sel));
+
+  const allGone = (selectors) =>
+    selectors.every((sel) => !document.querySelector(sel));
+
+  let observer = null;
+
+  // для required — фиксируем, что хотя бы раз появились
+  const appearedMap = new Map(
+    requiredSelectors.map((sel) => [sel, hasAny([sel])])
+  );
+
+  const haveAllRequiredAppeared = () =>
+    requiredSelectors.length === 0 ||
+    requiredSelectors.every((sel) => appearedMap.get(sel));
+
+  const areAllRequiredGone = () => allGone(requiredSelectors);
+  const areAllFloatingGone = () => allGone(floatingSelectors);
+
+  const tryFinish = () => {
+    // 1) все обязательные селекторы хотя бы раз были в DOM
+    if (!haveAllRequiredAppeared()) return;
+
+    // 2) все обязательные селекторы сейчас отсутствуют
+    if (!areAllRequiredGone()) return;
+
+    // 3) все плавающие (если есть) тоже отсутствуют
+    if (!areAllFloatingGone()) return;
+
+    observer?.disconnect();
+    callback();
+  };
+
+  const handleMutations = () => {
+    // обновляем appeared для required
+    requiredSelectors.forEach((sel) => {
+      if (!appearedMap.get(sel) && hasAny([sel])) {
+        appearedMap.set(sel, true);
+      }
+    });
+
+    tryFinish();
+  };
+
+  // стартовая инициализация
+  requiredSelectors.forEach((sel) => {
+    if (hasAny([sel])) {
+      appearedMap.set(sel, true);
+    }
+  });
+
+  // кейс: всё уже случилось до инициализации
+  if (haveAllRequiredAppeared() && areAllRequiredGone() && areAllFloatingGone()) {
+    callback();
+    return;
+  }
+
+  observer = new MutationObserver(handleMutations);
+  observer.observe(document.body, {childList: true, subtree: true});
 }

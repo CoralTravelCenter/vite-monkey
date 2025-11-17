@@ -1,41 +1,39 @@
 import Hammer from 'hammerjs';
-import {getMobileOS, insertOnce} from '../../utils.js';
+import {getMobileOS, insertOnce, waitUntilElementsGone} from '../../utils.js';
 import markup from './markup.html?raw';
 import './style.css';
 
-// ----------------------
-// Константы и настройки
-// ----------------------
-
-// Ссылки на приложения
+const CONFIG = {
+  POPUP_DELAY: 1500, // единственная задержка перед показом
+};
 const LINKS = {
   iOS: 'https://apps.apple.com/app/id1497841397',
   android: 'https://play.google.com/store/apps/details?id=coraltravel.ru.coralmobile',
 };
-
-// Определяем ОС (нужно только при редиректе)
+const METRIKA_COUNTER_ID = 96674199;
 const OS = getMobileOS();
-
-// Вставляем HTML
 insertOnce(document.body, 'beforeend', markup);
 
-// DOM-элементы
+
 const popup = document?.getElementById('welcome-to-app-popup');
 const stayHereBtn = document?.getElementById('stay-here');
 const redirectBtn = document?.getElementById('go-to-app');
 
-// ----------------------
-// Состояние
-// ----------------------
 
 let popupTimerId = null;
+let popupWasShown = false; // попап показан хотя бы раз
+let stayTracked = false;   // зафиксировано "остался на сайте" для текущего показа
 
-// Флаг: показали попап хотя бы один раз за эту сессию
-let popupWasShown = false;
 
-// ----------------------
-// Jivo
-// ----------------------
+function trackGoal(name, params) {
+  if (typeof ym !== 'function') return;
+
+  if (params) {
+    ym(METRIKA_COUNTER_ID, 'reachGoal', name, params);
+  } else {
+    ym(METRIKA_COUNTER_ID, 'reachGoal', name);
+  }
+}
 
 function jivoInit() {
   if (typeof jivo_init === 'function') {
@@ -49,10 +47,6 @@ function jivoDestroy() {
   }
 }
 
-// ----------------------
-// Управление попапом
-// ----------------------
-
 function setPopupVisible(isVisible) {
   if (!popup) return;
 
@@ -60,58 +54,56 @@ function setPopupVisible(isVisible) {
     jivoDestroy();
   } else {
     jivoInit();
-    ym(96674199, 'reachGoal', 'apk_pop_up_click', {button: 'responsive'});
   }
 
   popup.setAttribute('data-show', String(isVisible));
   document.body.classList.toggle('js-scroll-lock', isVisible);
 }
 
-// Показ с задержкой (только один раз)
-function showPopupWithDelay(delay = 1500) {
+function showPopupWithDelay() {
   if (popupWasShown || !popup) return;
 
   clearTimeout(popupTimerId);
 
-  popupWasShown = true; // фиксируем, что попытка показа уже была
-  ym(96674199, 'reachGoal', 'apk_pop_up_show');
-
   popupTimerId = setTimeout(() => {
+    popupWasShown = true;
+    stayTracked = false; // новый показ — можно снова трекать "остался"
+
+    trackGoal('apk_pop_up_show'); // показ попапа
     setPopupVisible(true);
-  }, delay);
+  }, CONFIG.POPUP_DELAY);
 }
 
-// ----------------------
-// Обработчики кликов
-// ----------------------
+function closePopupAndStay() {
+  if (!stayTracked) {
+    stayTracked = true;
 
-// Редирект — проверка ОС только здесь
+    // пользователь остался на сайте (кнопка / фон / свайп)
+    trackGoal('apk_pop_up_click', {button: 'responsive'});
+  }
+  setPopupVisible(false);
+}
+
 function handleRedirectClick() {
   const url = OS === 'iOS' ? LINKS.iOS : LINKS.android;
 
-  ym(96674199, 'reachGoal', 'apk_pop_up_click', {button: 'app'});
+  // уход в приложение
+  trackGoal('apk_pop_up_click', {button: 'app'});
+
+  setPopupVisible(false);
   window.open(url, '_blank');
-
-  setPopupVisible(false);
 }
 
-// Остаться на сайте
 function handleStayOnSite() {
-  ym(96674199, 'reachGoal', 'apk_pop_up_click', {button: 'responsive'});
-  setPopupVisible(false);
+  closePopupAndStay();
 }
 
-// Клик вне контента
 function handlePopupClick(event) {
   const isOutside = !event.target.closest('.welcome-to-app-wrapper');
   if (isOutside) {
-    setPopupVisible(false);
+    closePopupAndStay('overlay');
   }
 }
-
-// ----------------------
-// Свайпы для закрытия
-// ----------------------
 
 function initSwipeToClose(popupEl) {
   const swipeTrigger = popupEl.querySelector('#swipe-trigger');
@@ -121,7 +113,9 @@ function initSwipeToClose(popupEl) {
     if (!element) return;
     const manager = new Hammer(element);
     manager.get('swipe').set({direction: Hammer.DIRECTION_VERTICAL});
-    manager.on('swipedown', () => setPopupVisible(false));
+    manager.on('swipedown', () => {
+      closePopupAndStay('swipe');
+    });
   };
 
   attachSwipe(swipeTrigger);
@@ -131,10 +125,6 @@ function initSwipeToClose(popupEl) {
 if (popup) {
   initSwipeToClose(popup);
 }
-
-// ----------------------
-// Навешиваем обработчики
-// ----------------------
 
 if (redirectBtn) {
   redirectBtn.addEventListener('click', handleRedirectClick);
@@ -148,100 +138,10 @@ if (popup) {
   popup.addEventListener('click', handlePopupClick);
 }
 
-// ----------------------
-// Наблюдение за баннерами
-// ----------------------
-
-// Ждём исчезновения баннеров — потом показываем
-function onBothElementsGoneOrNeverAppeared(selector1, selector2, callback, timeoutMs = 2000) {
-  let firstGone = false;
-  let secondGone = false;
-
-  let firstAppeared = false;
-  let secondAppeared = false;
-
-  let finished = false;
-
-  const finish = () => {
-    if (finished) return;
-    finished = true;
-    callback();
-  };
-
-  // Если элементы так и не появились → вызвать callback
-  const appearanceTimeout = setTimeout(() => {
-    if (!firstAppeared && !secondAppeared) {
-      finish();
-    }
-  }, timeoutMs);
-
-  // Следим за исчезновением элемента, когда он уже появился
-  const observeGone = (el, onGone) => {
-    const obs = new MutationObserver(() => {
-      if (!document.body.contains(el)) {
-        obs.disconnect();
-        onGone();
-      }
-    });
-
-    obs.observe(document.body, {childList: true, subtree: true});
-  };
-
-  // Универсальная функция отслеживания одного элемента
-  const watchElement = (selector, onAppear, onGone) => {
-    const waitForAppear = new MutationObserver(() => {
-      const el = document.querySelector(selector);
-      if (el) {
-        waitForAppear.disconnect();
-        onAppear();
-        observeGone(el, onGone);
-      }
-    });
-
-    const el = document.querySelector(selector);
-
-    if (!el) {
-      waitForAppear.observe(document.body, {childList: true, subtree: true});
-    } else {
-      onAppear();
-      observeGone(el, onGone);
-    }
-  };
-
-  // Запуск
-  watchElement(
-    selector1,
-    () => {
-      firstAppeared = true;
-    },
-    () => {
-      firstGone = true;
-      if (secondGone) {
-        clearTimeout(appearanceTimeout);
-        finish();
-      }
-    }
-  );
-
-  watchElement(
-    selector2,
-    () => {
-      secondAppeared = true;
-    },
-    () => {
-      secondGone = true;
-      if (firstGone) {
-        clearTimeout(appearanceTimeout);
-        finish();
-      }
-    }
-  );
-}
-
-// Старт логики показа
-onBothElementsGoneOrNeverAppeared(
-  '.cookie-agreement-content',
-  '.departureCityPopupModal',
+waitUntilElementsGone(
+  {
+    required: ['.cookie-agreement-content', '.departureCityPopupModal'],
+  },
   () => {
     showPopupWithDelay();
   }
