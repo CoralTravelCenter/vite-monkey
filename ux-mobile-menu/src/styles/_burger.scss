@@ -1,0 +1,42 @@
+@mixin burger($width, $height, $gap, $color) {
+  display: block;
+  width: $width;
+  height: $height;
+  background-color: $color;
+  border-radius: 2px;
+  position: relative;
+  transition: all 0.3s ease;
+
+  &:before,
+  &:after {
+    content: '';
+    position: absolute;
+    width: $width;
+    left: 0;
+    height: $height;
+    background-color: $color;
+    transition: all 0.3s ease;
+  }
+
+  &:before {
+    top: -$gap;
+  }
+
+  &:after {
+    bottom: -$gap;
+  }
+}
+
+@mixin burger-to-cross {
+  background-color: transparent;
+
+  &:before {
+    top: 0;
+    transform: rotate(45deg);
+  }
+
+  &:after {
+    bottom: 0;
+    transform: rotate(-45deg);
+  }
+}

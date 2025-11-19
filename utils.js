@@ -605,7 +605,10 @@ export function prependOnce(target, element) {
 }
 
 export function insertOnce(target, position, html, id) {
-  if (!target || !position || !html || !id) return;
+  if (!target || !position || !html || !id) {
+    throw new Error('Не указан один из параметров');
+    return;
+  }
 
   // читаем уже вставленные ID
   const insertedRaw = target.getAttribute('data-inserted');
