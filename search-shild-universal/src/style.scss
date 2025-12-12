@@ -1,0 +1,72 @@
+@use "sass:string";
+@use "sass:list";
+
+$bf-hotel-card-ids: 9436,
+36542,
+25536,
+1039,
+51997,
+2105,
+2124,
+2070,
+1042,
+19438,
+2087,
+49757,
+32,
+13279,
+58466,
+64951,
+54272,
+29367,
+983,
+948,
+4305,
+982,
+964,
+8194,
+574,
+346,
+957,
+958,
+955,
+47527;
+
+
+$bf-hotel-cards: ();
+@each $id in $bf-hotel-card-ids {
+  $selector: string.unquote("#hotelListCard#{$id}");
+  $bf-hotel-cards: list.append($bf-hotel-cards, $selector, comma);
+}
+
+@media (min-width: 994px) {
+  :is(#{$bf-hotel-cards}) .hotel-card-price > div > div:after {
+    content: '';
+    background: url("https://b2ccdn.coral.ru/content/new-yerar-2025-shild.png") 0 0 / cover no-repeat;
+    display: block;
+    width: 100%;
+    height: 50px;
+    position: relative;
+    flex-basis: unset;
+    flex-shrink: 0;
+    margin-top: 4px;
+    border-radius: 8px;
+    overflow: clip;
+  }
+}
+
+@media (max-width: 993px) {
+  :is(#{$bf-hotel-cards}) .hotel-card-price > div > div:after {
+    content: '';
+    background: url("https://b2ccdn.coral.ru/content/new-yerar-2025-shild-mob.png") 0 0 / cover no-repeat;
+    display: block;
+    width: 100%;
+    height: 50px;
+    position: relative;
+    flex-basis: unset;
+    flex-shrink: 0;
+    margin-top: 4px;
+    border-radius: 8px;
+    overflow: clip;
+  }
+}

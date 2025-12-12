@@ -584,13 +584,12 @@ function randomId(length = 8) {
   return randomId;
 }
 
-export function appendOnce(target, element) {
+export function appendOnce(target, element, id) {
   if (!target || !element) return;
   const currentId = target.getAttribute("data-appended");
-  const newId = randomId();
-  if (currentId) return;
+  if (currentId === id) return;
   target.appendChild(element);
-  target.setAttribute("data-appended", newId);
+  target.setAttribute("data-appended", id);
 }
 
 export function prependOnce(target, element) {

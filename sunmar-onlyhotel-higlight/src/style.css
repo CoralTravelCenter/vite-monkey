@@ -1,0 +1,86 @@
+/*.hotel-card {*/
+/*    position: relative;*/
+/*}*/
+
+/*@media (min-width: 769px) {*/
+/*    .hotel-card:after {*/
+/*        content: '';*/
+/*        display: block;*/
+/*        width: 100%;*/
+/*        flex-shrink: 0;*/
+/*        height: 62px;*/
+/*        background-image: url(https://b2ccdn.sunmar.ru/content/only-hotel-shild.png);*/
+/*        background-repeat: no-repeat;*/
+/*        background-position: center;*/
+/*        background-size: contain;*/
+/*        border-radius: 6px;*/
+/*        overflow: clip;*/
+/*    }*/
+/*}*/
+
+/*@media (max-width: 768px) {*/
+/*    .hotel-card-price > div:after {*/
+/*        content: '';*/
+/*        display: block;*/
+/*        width: 100%;*/
+/*        flex-shrink: 0;*/
+/*        height: 56px;*/
+/*        background-image: url(https://b2ccdn.sunmar.ru/content/only-hotel-shild-mob.png);*/
+/*        background-repeat: no-repeat;*/
+/*        background-position: center;*/
+/*        background-size: contain;*/
+/*        border-radius: 6px;*/
+/*        overflow: clip;*/
+/*    }*/
+/*}*/
+
+/*@media (min-width: 769px) {*/
+/*    a[href*="bookinghotel/"] {*/
+/*        position: relative;*/
+/*        display: flex;*/
+/*        align-items: center;*/
+/*    }*/
+
+/*    a[href*="bookinghotel/"]:before {*/
+/*        content: "";*/
+/*        background: url("https://b2ccdn.sunmar.ru/content/only-hotel-link-icon.svg");*/
+/*        background-repeat: no-repeat;*/
+/*        background-size: contain;*/
+/*        background-position: center;*/
+/*        width: 25px;*/
+/*        height: 100%;*/
+/*        display: block;*/
+/*    }*/
+/*}*/
+
+/*@media (max-width: 768px) {*/
+/*    a[href*="bookinghotel/"] {*/
+/*        position: relative;*/
+/*        display: flex;*/
+/*        align-items: center;*/
+/*    }*/
+
+/*    a[href*="bookinghotel/"]::after {*/
+/*        content: "";*/
+/*        background: url("https://b2ccdn.sunmar.ru/content/only-hotel-link-icon.svg");*/
+/*        background-repeat: no-repeat;*/
+/*        background-size: contain;*/
+/*        background-position: center;*/
+/*        width: 25px;*/
+/*        height: 25px;*/
+/*        display: block;*/
+/*    }*/
+/*}*/
+
+.promo-link-mobile {
+    background: url("https://b2ccdn.sunmar.ru/content/promo-link-mobile-bubble.png");
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: contain;
+    width: 30px;
+    height: 30px;
+}
+
+.promo-link-mobile:after {
+    display: none !important;
+}

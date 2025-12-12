@@ -10,6 +10,7 @@
     flex-direction: column;
     gap: 4px;
     color: #000;
+    margin-bottom: 14px;
 }
 
 .t-bank-payment-banner h4 {
@@ -28,4 +29,9 @@
     font-style: normal;
     font-weight: var(--font-font_Weight_Regular, 400);
     line-height: var(--font-font_Line_Height_Body, 24px); /* 150% */
+}
+
+p[class*="Paragraph_paragraph_"] {
+    display: flex;
+    flex-direction: column;
 }

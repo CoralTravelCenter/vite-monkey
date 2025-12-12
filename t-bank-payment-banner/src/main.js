@@ -1,4 +1,4 @@
-import {appendOnce, SimpleReactDomObserver} from "../../utils.js";
+import {prependOnce, SimpleReactDomObserver} from "../../utils.js";
 import markup from './markup.html?raw';
 import './style.css'
 
@@ -21,8 +21,8 @@ function createLink() {
 const linkToInsert = createLink()
 
 
-new SimpleReactDomObserver('div[class*="paymentMethods"]', {
+new SimpleReactDomObserver('#paymentAgreement', {
   onAppear: el => {
-    appendOnce(el, linkToInsert)
-  }
+    prependOnce(el, linkToInsert)
+  },
 }).start()
