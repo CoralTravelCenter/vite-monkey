@@ -1,0 +1,19 @@
+body[data-page="add-passenger"]:has(.headroom--pinned) div[class*="productSummaryMobileV2BlockContainer"] > div + div {
+  transform: translateY(-58px);
+}
+
+body[data-page="add-passenger"]:has(.headroom--unpinned) div[class*="productSummaryMobileV2BlockContainer"] > div + div {
+  transform: translateY(0);
+}
+
+body[data-page="add-passenger"]:has(.headroom--pinned) .countdown-timer {
+  transform: translateY(-60px);
+}
+
+body[data-page="add-passenger"]:has(.headroom--unpinned) .countdown-timer {
+  transform: translateY(0);
+}
+
+.countdown-timer {
+  transition: transform 300ms ease;
+}

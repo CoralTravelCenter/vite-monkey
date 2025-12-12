@@ -1,0 +1,7 @@
+body[data-page="flight"]:has(.headroom--pinned) div[class*="packageTourFlightStickyBarContainer"] {
+  transform: translateY(-58px);
+}
+
+body[data-page="flight"]:has(.headroom--unpinned) div[class*="packageTourFlightStickyBarContainer"] {
+  transform: translateY(0);
+}

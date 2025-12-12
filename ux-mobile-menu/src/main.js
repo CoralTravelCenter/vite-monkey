@@ -1,28 +1,32 @@
-import {appendOnce, debounce, getMobileOS, insertOnce, ReactDomObserver} from "../../utils.js";
+import {debounce, getMobileOS, insertOnce, ReactDomObserver} from "../../utils.js";
 import markup from "./markup.html?raw";
-import "./style.scss";
+import "./styles/style.scss";
 import {initScrollMenuBehavior} from "./initScrollMenuBehavior.js";
 
+const CLICK_DEBOUNCE = 100;
+const MENU_SHOW_DELAY = 500;
+const IMESSAGE_LINK =
+  "sms://open/?service=iMessage&recipient=urn:biz:d3809fd0-e2fe-4027-b27e-ae34bf28e38c&biz-intent-id=click_in_jivo";
 
-insertOnce(document.body, "beforeend", markup);
+insertOnce(document.body, "beforeend", markup, "custom-mobile-menu");
 
 const customMenu = document?.querySelector("#custom-bottom-mobile-menu");
-const customPromoLink = document?.querySelector(
-  ".custom-bottom-mobile-menu__promo"
-);
-const customChatLink = document?.querySelector(
-  ".custom-bottom-mobile-menu__chat"
-);
-const customHumburger = document?.querySelector(
-  ".custom-bottom-mobile-menu__burger"
-);
-const userSlot = document?.querySelector('#user-slot');
-const os = getMobileOS()
+const customPromoLink = document?.querySelector(".custom-bottom-mobile-menu__promo");
+const customChatLink = document?.querySelector(".custom-bottom-mobile-menu__chat");
+const customHamburger = document?.querySelector(".custom-bottom-mobile-menu__burger");
+const customLogin = document?.querySelector(".custom-bottom-mobile-menu__user");
+const os = getMobileOS();
 
-customMenu && initScrollMenuBehavior(customMenu, {
-  showDelay: 500
-});
+/**
+ * Плавающее меню по скроллу
+ */
+if (customMenu) {
+  initScrollMenuBehavior(customMenu, {showDelay: MENU_SHOW_DELAY});
+}
 
+/**
+ * Промо-ссылка
+ */
 function setupPromoLink(link) {
   if (!link) return;
 
@@ -31,14 +35,17 @@ function setupPromoLink(link) {
     if (!href) return;
 
     window.open(href, "_blank");
-  }, 100);
+  }, CLICK_DEBOUNCE);
 
   link.addEventListener("click", handleClick);
 }
 
-customPromoLink && setupPromoLink(customPromoLink);
+setupPromoLink(customPromoLink);
 
-function setupChatLink(link) {
+/**
+ * Чат (jivo / iMessage)
+ */
+function setupChatLink(link, os) {
   if (!link || !os) return;
 
   const strategies = {
@@ -47,55 +54,125 @@ function setupChatLink(link) {
         window.jivo_api.open({start: "menu"});
       }
     },
-
     iOS: () => {
-      window.open(
-        "sms://open/?service=iMessage&recipient=urn:biz:d3809fd0-e2fe-4027-b27e-ae34bf28e38c&biz-intent-id=click_in_jivo",
-        "_blank"
-      );
+      window.open(IMESSAGE_LINK, "_blank");
     }
   };
 
   const action = strategies[os];
   if (!action) return;
 
-  link.addEventListener("click", debounce(action, 100));
+  const handleClick = debounce(action, CLICK_DEBOUNCE);
+  link.addEventListener("click", handleClick);
 }
 
-customChatLink && setupChatLink(customChatLink);
+setupChatLink(customChatLink, os);
 
-function setupUserLink() {
-  new ReactDomObserver(
-    'a[class*="LoginButton"]',
-    {
-      onAppear: (loginButton) => {
-        if (loginButton) {
-          appendOnce(userSlot, loginButton)
+/**
+ * Кнопка пользователя / аватар
+ */
+function setupUserLink(customLogin) {
+  if (!customLogin) return;
+
+  const unauthorized = customLogin.querySelector(".unauthorized");
+  let clonedAvatar = null;
+
+  const showUnauthorized = () => {
+    unauthorized?.classList.remove("js-hidden");
+    if (clonedAvatar?.parentNode) {
+      clonedAvatar.parentNode.removeChild(clonedAvatar);
+    }
+    clonedAvatar = null;
+  };
+
+  const showAuthorized = (avatar) => {
+    if (!avatar) return;
+
+    unauthorized?.classList.add("js-hidden");
+
+    // на всякий случай чистим старый клон
+    if (clonedAvatar?.parentNode) {
+      clonedAvatar.parentNode.removeChild(clonedAvatar);
+    }
+
+    clonedAvatar = avatar.cloneNode(true);
+    customLogin.appendChild(clonedAvatar);
+  };
+
+  // Неавторизованный: клик по кастомной кнопке дергает настоящий LoginButton
+  new ReactDomObserver('a[class*="LoginButton"]', {
+    onAppear: (loginButton) => {
+      if (!loginButton) return;
+      customLogin.onclick = () => loginButton.click();
+    }
+  }).start();
+
+  // Авторизованный: аватар + меню аккаунта
+  new ReactDomObserver('div[class*="LoginAccountMenu"]', {
+    onAppear: (menu) => {
+      if (!menu) return;
+
+      const avatar = menu.querySelector(".ant-avatar");
+      avatar.firstChild.style.opacity = "1";
+      showAuthorized(avatar);
+
+      // клик по кастомной кнопке — открыть настоящее меню аккаунта
+      customLogin.onclick = () => {
+        const trigger = menu.firstChild;
+        if (trigger instanceof HTMLElement) {
+          trigger.click();
         }
-      }
+      };
+    },
+
+    onDisappear: () => {
+      // деавторизация или пропало меню
+      document.body.classList.remove('overflow-hidden')
+      showUnauthorized();
+      // при следующем появлении LoginButton / LoginAccountMenu
+      // обработчик будет переназначен в соответствующем onAppear
     }
-  ).start();
+  }).start();
 }
 
-userSlot && setupUserLink()
+setupUserLink(customLogin);
 
-function setupHumburger() {
+/**
+ * Бургер-меню
+ */
+function setupHamburger(customHamburger) {
+  if (!customHamburger) return;
+
+  let handlerBound = false;
+
   new ReactDomObserver('button[class*="HeaderHamburgerMenu"]', {
-    onAppear: (el) => {
-      customHumburger.addEventListener("click", (e) => {
-        e.currentTarget.classList.toggle("clicked");
-        el.click()
-      })
+    onAppear: (headerHamburger) => {
+      if (!headerHamburger || handlerBound) return;
+
+      const handleClick = () => {
+        customHamburger.classList.toggle("clicked");
+        headerHamburger.click();
+      };
+
+      customHamburger.addEventListener("click", handleClick);
+      handlerBound = true;
     }
-  }).start()
+  }).start();
 }
 
-customHumburger && setupHumburger()
+setupHamburger(customHamburger);
 
-// new ReactDomObserver('div[class*="HotelDetailFixedSummary"]', {
-//   watchAttributes: true,
-//   attributeFilter: ['class'],
-//   onAttributeMutation: (el) => {
-//     el.style.bottom = "69px";
-//   }
-// }).start();
+new ReactDomObserver('div[class*="packageTourFlightStickyBarContainer"]', {
+  onAppear: () => {
+    document.body.setAttribute('data-page', 'flight')
+  },
+  onDisappear: () => {
+    document.body.removeAttribute('data-page')
+  }
+}).start();
+if (location.pathname.includes('booking/add-passenger')) {
+  document.body.setAttribute('data-page', 'add-passenger')
+}
+if (location.pathname.includes('hotels')) {
+  document.body.setAttribute('data-page', 'hotels')
+}

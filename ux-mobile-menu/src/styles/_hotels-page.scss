@@ -1,0 +1,7 @@
+body[data-page="hotels"]:has(.headroom--pinned) div[class*="hotelDetailFixedSummaryContainer"] {
+  transform: translateY(-58px);
+}
+
+body[data-page="hotels"]:has(.headroom--unpinned) div[class*="hotelDetailFixedSummaryContainer"] {
+  transform: translateY(0);
+}

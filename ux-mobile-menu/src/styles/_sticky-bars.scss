@@ -1,0 +1,16 @@
+/* headroom-состояния */
+.headroom--unpinned {
+  transform: translateY(100%);
+}
+
+.headroom--pinned {
+  transform: translateY(0);
+}
+
+/* базовые блоки */
+
+div[class*="hotelDetailFixedSummaryContainer"],
+div[class*="packageTourFlightStickyBarContainer"],
+div[class*="productSummaryMobileV2Block"] {
+  transition: transform 0.3s ease;
+}
