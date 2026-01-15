@@ -12,17 +12,35 @@ const LINKS = {
 };
 const METRIKA_COUNTER_ID = 96674199;
 const OS = getMobileOS();
-const BODY_HIDDEN_CLASS = 'jivo-hidden';
+const POPUP_SESSION_KEY = 'welcome_to_app_popup_shown_session';
 
-insertOnce(document.body, 'beforeend', markup, 'welcome-to-app');
+// куда всегда монтируем попап
+const POPUP_MOUNT_NODE = document.body;
+insertOnce(POPUP_MOUNT_NODE, 'beforeend', markup, 'welcome-to-app-popup');
 
-const popup = document?.getElementById('welcome-to-app-popup');
+let popup = document?.getElementById('welcome-to-app-popup');
 const stayHereBtn = document?.getElementById('stay-here');
 const redirectBtn = document?.getElementById('go-to-app');
 
 let popupTimerId = null;
-let popupWasShown = false; // попап показан хотя бы раз
+let popupWasShown = hasPopupBeenShownThisSession(); // попап показан хотя бы раз
 let stayTracked = false;   // зафиксировано "остался на сайте" для текущего показа
+
+function hasPopupBeenShownThisSession() {
+  try {
+    return sessionStorage.getItem(POPUP_SESSION_KEY) === '1';
+  } catch {
+    return false;
+  }
+}
+
+function markPopupShownThisSession() {
+  try {
+    sessionStorage.setItem(POPUP_SESSION_KEY, '1');
+  } catch {
+    // ничего, если sessionStorage недоступен
+  }
+}
 
 function trackGoal(name, params) {
   if (typeof ym !== 'function') return;
@@ -34,13 +52,64 @@ function trackGoal(name, params) {
   }
 }
 
-// вместо уничтожения/инициализации — просто прячем/показываем стилями
+function jivoInit() {
+  if (typeof jivo_init === 'function') {
+    jivo_init();
+  }
+}
+
+function jivoDestroy() {
+  if (typeof jivo_destroy === 'function') {
+    jivo_destroy();
+  }
+}
+
+/**
+ * Показ / скрытие попапа.
+ * При скрытии запускается анимация, по завершении — попап удаляется из DOM.
+ * При показе — если попап уже удалён, он снова вставляется в DOM.
+ */
 function setPopupVisible(isVisible) {
   if (!popup) return;
 
-  popup.setAttribute('data-show', String(isVisible));
-  document.body.classList.toggle('js-scroll-lock', isVisible);
-  document.body.classList.toggle(BODY_HIDDEN_CLASS, isVisible);
+  if (isVisible) {
+    // если попап был удалён — вернуть в DOM
+    if (!POPUP_MOUNT_NODE.contains(popup)) {
+      POPUP_MOUNT_NODE.appendChild(popup);
+    }
+
+    jivoDestroy();
+    document.body.classList.add('js-scroll-lock');
+
+    // даём один кадр на reflow, затем включаем "показ"
+    requestAnimationFrame(() => {
+      if (popup) {
+        popup.setAttribute('data-show', 'true');
+      }
+    });
+  } else {
+    jivoInit();
+    document.body.classList.remove('js-scroll-lock');
+    popup.setAttribute('data-show', 'false');
+    // дальше по окончании анимации/transition попап будет удалён
+  }
+}
+
+/**
+ * Удаляем попап из DOM после окончания анимации/transition скрытия.
+ * Важно: реагируем только когда попап в состоянии data-show="false".
+ */
+function handlePopupHideAnimationEnd(event) {
+  if (!popup) return;
+
+  // реагируем только на корневой попап (на случай внутренних анимаций)
+  if (event.target !== popup) return;
+
+  const isHiddenState = popup.getAttribute('data-show') === 'false';
+
+  if (isHiddenState && popup.isConnected) {
+    popup.remove();
+  }
 }
 
 function showPopupWithDelay() {
@@ -49,10 +118,13 @@ function showPopupWithDelay() {
   clearTimeout(popupTimerId);
 
   popupTimerId = setTimeout(() => {
-    popupWasShown = true;
-    stayTracked = false; // новый показ — можно снова трекать "остался"
+    if (popupWasShown) return; // защита, если за время таймера что-то поменялось
 
-    trackGoal('apk_pop_up_show'); // показ попапа
+    popupWasShown = true;
+    markPopupShownThisSession(); // ✨ запоминаем показ в sessionStorage
+    stayTracked = false;
+
+    trackGoal('apk_pop_up_show');
     setPopupVisible(true);
   }, CONFIG.POPUP_DELAY);
 }
@@ -105,10 +177,12 @@ function initSwipeToClose(popupEl) {
   attachSwipe(swipeTrigger2);
 }
 
+// инициализация свайпов
 if (popup) {
   initSwipeToClose(popup);
 }
 
+// клики по кнопкам
 if (redirectBtn) {
   redirectBtn.addEventListener('click', handleRedirectClick);
 }
@@ -117,13 +191,19 @@ if (stayHereBtn) {
   stayHereBtn.addEventListener('click', handleStayOnSite);
 }
 
+// клик по оверлею
 if (popup) {
   popup.addEventListener('click', handlePopupClick);
+  const animatedWrapper = popup?.querySelector('.welcome-to-app-wrapper');
+  if (animatedWrapper) {
+    animatedWrapper.addEventListener('transitionend', handlePopupHideAnimationEnd);
+  }
 }
 
+// ждём, пока исчезнут блокирующие элементы, и только затем показываем попап
 waitUntilElementsGone(
   {
-    required: ['.cookie-agreement-content', '.departureCityPopupModal'],
+    floating: ['.cookie-agreement-content', '.departureCityPopupModal', '.push-noty']
   },
   () => {
     showPopupWithDelay();

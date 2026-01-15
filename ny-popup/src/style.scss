@@ -1,0 +1,256 @@
+// ---------------------------------------------
+// SINGLE FONT VARIABLE
+// ---------------------------------------------
+$ny-info-fs: 16px; // основной размер шрифта
+$ny-info-fs-m: 12px; // мобильный (если нужно уменьшение)
+
+
+// ---------------------------------------------
+// POPUP BASE
+// ---------------------------------------------
+coral-popup#ny-sale-popup {
+  p, h3 {
+    margin: 0;
+  }
+
+  &::part(popup-body) {
+    align-items: center;
+  }
+
+  &::part(popup-dialog) {
+    border-radius: 20px;
+    max-width: 948px;
+    width: 100%;
+  }
+
+  &::part(popup-content) {
+    gap: 0;
+    padding: 0;
+  }
+
+  .ny-sale {
+    background-color: #262626;
+    border-radius: 20px;
+    position: relative;
+    overflow: hidden;
+    width: 100%;
+    color: #FFFFFF;
+
+    // -----------------------------------------
+    // APPLY GLOBAL FONT VARIABLE HERE
+    // -----------------------------------------
+    &__info,
+    &__title,
+    &__text,
+    &__subtext,
+    &__attention-trigger,
+    &__attention li {
+      font-size: $ny-info-fs;
+      line-height: 1.4;
+    }
+
+    &__attention {
+      list-style: none;
+      padding: 0;
+      margin: 8px 0 0 0;
+    }
+
+    &__attention-trigger {
+      margin-top: 8px;
+      background: transparent;
+      border: none;
+      color: inherit;
+      padding: 0;
+      text-decoration: underline;
+      cursor: pointer;
+    }
+
+    &__title {
+      font-size: 28px;
+    }
+
+    &__bg {
+      background-image: url("https://b2ccdn.coral.ru/content/new-year/2026/bg_img-2.webp");
+      background-size: cover;
+      position: absolute;
+      height: 100%;
+      width: 630px;
+      top: 0;
+      right: 0;
+      animation: slideRight 2s ease-in forwards;
+    }
+
+    &__wrapper {
+      background-image: url("https://b2ccdn.coral.ru/content/new-year/2026/bg.webp");
+      background-size: contain;
+      background-repeat: no-repeat;
+      background-position: left;
+      padding: 32px;
+      height: 100%;
+      position: relative;
+      z-index: 3;
+    }
+
+    &__info {
+      max-width: 455px;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+
+    &__gifts {
+      background-image: url("https://b2ccdn.coral.ru/content/new-year/2026/gifts.webp");
+      background-size: contain;
+      background-repeat: no-repeat;
+      width: 462px;
+      height: 336px;
+      position: absolute;
+      right: 0;
+      bottom: 0;
+      z-index: 4;
+      animation: slideLeft 2s ease-out forwards;
+      transform: translateX(80px);
+    }
+
+    &__text {
+      padding-left: 16px;
+      margin-bottom: 0;
+    }
+
+    &__link {
+      border-radius: 8px;
+      background-color: white;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 48px;
+      text-decoration: none;
+      width: fit-content;
+      padding-inline: 32px;
+      margin-top: auto;
+      color: #000000;
+    }
+
+    &__label {
+      position: absolute;
+      color: white;
+      font-size: 8px;
+      bottom: 6px;
+      right: 11px;
+      z-index: 10;
+    }
+  }
+}
+
+
+// ---------------------------------------------
+// ANIMATIONS
+// ---------------------------------------------
+@keyframes slideRight {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(80px);
+  }
+}
+
+@keyframes slideLeft {
+  from {
+    transform: translateX(80px);
+  }
+  to {
+    transform: translateX(0);
+  }
+}
+
+
+// ---------------------------------------------
+// MEDIA ≤ 900px
+// ---------------------------------------------
+@media screen and (max-width: 940px) {
+  coral-popup#ny-sale-popup {
+
+    &::part(popup-body) {
+      align-items: start;
+    }
+
+    &::part(popup-dialog) {
+      max-width: 396px;
+    }
+
+    .ny-sale {
+      display: flex;
+      flex-direction: column;
+
+      &__text {
+        padding-left: 36px;
+      }
+
+      &__info,
+      &__title,
+      &__text,
+      &__subtext,
+      &__attention-trigger,
+      &__attention li {
+        font-size: $ny-info-fs-m;
+      }
+
+      &__attention {
+        text-align: left;
+        padding-left: 20px;
+      }
+
+      &__wrapper {
+        padding: 16px;
+        background-image: url("https://b2ccdn.coral.ru/content/new-year/2026/bg_m.webp");
+        display: flex;
+        align-items: flex-end;
+        background-position: 0 250px;
+        order: 2;
+      }
+
+      &__bg {
+        background-image: url("https://b2ccdn.coral.ru/content/new-year/2026/bg_img_m.webp");
+        width: 482px;
+        height: 295px;
+        position: relative;
+        order: 1;
+        margin-left: -80px;
+      }
+
+      &__gifts {
+        display: none;
+      }
+
+      &__info {
+        height: auto;
+      }
+
+      &__link {
+        margin-top: 16px;
+        width: 100%;
+        text-align: center;
+      }
+
+      &__title {
+        font-size: 20px;
+      }
+
+      &__title,
+      &__subtext,
+      &__text--center {
+        text-align: center;
+      }
+
+      &__label {
+        width: 100%;
+        text-align: center;
+        bottom: unset;
+        top: 4px;
+        right: unset;
+      }
+    }
+  }
+}
