@@ -1,0 +1,15 @@
+.jivo-close-btn {
+    border-radius: 32px;
+    border: 1px solid #0092D0;
+    background: var(--colorBgBase, #FFF);
+    box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.03), 0 1px 6px -1px rgba(0, 0, 0, 0.02), 0 2px 4px 0 rgba(0, 0, 0, 0.02);
+    top: -8px;
+    right: -12px;
+    position: absolute;
+    display: flex;
+    width: 32px;
+    height: 32px;
+    justify-content: center;
+    align-items: center;
+    z-index: 1;
+}

@@ -1,0 +1,21 @@
+@import "banner.css";
+@import "button.css";
+@import "close.css";
+@import "icons.css";
+
+.js-none {
+    display: none !important;
+}
+
+.js-anim {
+    transform: translateX(-50%) translateY(0);
+}
+
+.cookie-agreement-background {
+    border-radius: 0 !important;
+}
+
+/* когда body помечен как скрывающий jivo */
+body.jivo-hidden jdiv[class*="_orientationRight"] {
+    display: none !important;
+}

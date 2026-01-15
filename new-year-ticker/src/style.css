@@ -9,6 +9,23 @@
     text-transform: uppercase;
 }
 
+div[class*="HeaderMobile_container"] {
+    top: 40px;
+}
+
+.headerMobileWrapper {
+    padding-top: 97px !important;
+}
+
+@media (max-width: 768px) {
+    .ticker {
+        position: fixed;
+        top: 0;
+        left: 0;
+        z-index: 1000;
+    }
+}
+
 .ticker__track {
     display: flex;
     width: max-content;

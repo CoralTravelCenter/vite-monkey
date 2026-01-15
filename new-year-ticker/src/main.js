@@ -1,6 +1,15 @@
 import markup from './markup.html?raw';
-import {insertOnce} from "../../utils.js";
 import './style.css'
+import {insertOnce} from "../../utils.js";
 
-const mobilePlace = document?.querySelector('[data-wta-inserted]');
-mobilePlace ? insertOnce(mobilePlace, 'afterbegin', markup) : insertOnce(document.body, 'afterbegin', markup);
+const placeToInsert = document?.querySelector('div[class*="headerMobileWrapper"]')
+
+placeToInsert && insertOnce(placeToInsert, 'afterbegin', markup, 'ticker')
+
+// mediaMatcher(769, isMobile => {
+//   if (!isMobile) {
+//     const placeToInsert = document?.querySelector('div[class*="headerMobileWrapper"]')
+//     if (placeToInsert) insertOnce(placeToInsert, 'afterbegin', markup, 'ticker')
+//
+//   }
+// })

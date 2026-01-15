@@ -5,3 +5,8 @@
 @use "hotels-page";
 @use "flight-page";
 @use "passenger-page";
+
+div[class*=HeaderHamburgerMenu_menuContainer] {
+  height: calc(100vh - 114px);
+  overflow-y: scroll;
+}

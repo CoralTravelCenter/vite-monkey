@@ -859,30 +859,65 @@ export class ClickOutside {
  * Ждём первое появление объекта с нужным event в dataLayer.
  * @param {string} eventName - например, "begin_checkout"
  * @param {number} intervalMs - период опроса (по умолчанию 200 мс)
+ * @param timeoutMs
+ * @param useLastIfExists
  * @returns {Promise<object>} - найденный объект (глубокая копия)
  */
-export function waitForDLEvent(eventName, intervalMs = 300) {
-  return new Promise((resolve) => {
+export async function waitForDLEvent(
+  eventName,
+  {
+    intervalMs = 300,
+    timeoutMs,
+    useLastIfExists = true, // true — сначала взять последнее из истории, false — ждать только новое
+  } = {}
+) {
+  return new Promise((resolve, reject) => {
     window.dataLayer = window.dataLayer || [];
-    let cursor = 0;
+    const dl = window.dataLayer;
 
+    // 1. При необходимости пробуем взять ПОСЛЕДНЕЕ событие из истории
+    if (useLastIfExists) {
+      for (let i = dl.length - 1; i >= 0; i--) {
+        const item = dl[i];
+        if (item?.event === eventName) {
+          return resolve(item); // сразу отдаём найденное
+        }
+      }
+    }
+
+    // 2. История пустая (или мы её игнорируем) — ждём НОВЫЕ пуши
+    let cursor = dl.length; // стартуем с конца → смотрим только новые элементы
     const timerId = setInterval(scan, intervalMs);
+    let timeoutId = null;
+
+    if (typeof timeoutMs === 'number') {
+      timeoutId = setTimeout(() => {
+        cleanup();
+        reject(new Error(`waitForDLEvent timeout: ${eventName}`));
+      }, timeoutMs);
+    }
+
+    function cleanup() {
+      clearInterval(timerId);
+      if (timeoutId) clearTimeout(timeoutId);
+    }
 
     function scan() {
       const dl = window.dataLayer || [];
       for (let i = cursor; i < dl.length; i++) {
         const item = dl[i];
         if (item?.event === eventName) {
-          clearInterval(timerId);
+          cleanup();
           return resolve(item);
         }
       }
-      cursor = dl.length; // сдвигаем указатель на конец
+      cursor = dl.length;
     }
 
     scan();
   });
 }
+
 
 /**
  * Ждём, пока в window появится свойство с указанным именем
@@ -1062,56 +1097,33 @@ export function waitUntilElementsGone(config, callback) {
 
   let observer = null;
 
-  // для required — фиксируем, что хотя бы раз появились
-  const appearedMap = new Map(
-    requiredSelectors.map((sel) => [sel, hasAny([sel])])
-  );
-
-  const haveAllRequiredAppeared = () =>
-    requiredSelectors.length === 0 ||
-    requiredSelectors.every((sel) => appearedMap.get(sel));
-
-  const areAllRequiredGone = () => allGone(requiredSelectors);
-  const areAllFloatingGone = () => allGone(floatingSelectors);
-
   const tryFinish = () => {
-    // 1) все обязательные селекторы хотя бы раз были в DOM
-    if (!haveAllRequiredAppeared()) return;
+    // ждем, пока ВСЕ required исчезнут
+    if (!allGone(requiredSelectors)) return;
 
-    // 2) все обязательные селекторы сейчас отсутствуют
-    if (!areAllRequiredGone()) return;
-
-    // 3) все плавающие (если есть) тоже отсутствуют
-    if (!areAllFloatingGone()) return;
+    // и ВСЕ floating (если есть) тоже исчезнут
+    if (!allGone(floatingSelectors)) return;
 
     observer?.disconnect();
     callback();
   };
 
-  const handleMutations = () => {
-    // обновляем appeared для required
-    requiredSelectors.forEach((sel) => {
-      if (!appearedMap.get(sel) && hasAny([sel])) {
-        appearedMap.set(sel, true);
-      }
-    });
+  // стартовая проверка
+  const anyRequiredNow = hasAny(requiredSelectors);
 
-    tryFinish();
-  };
-
-  // стартовая инициализация
-  requiredSelectors.forEach((sel) => {
-    if (hasAny([sel])) {
-      appearedMap.set(sel, true);
-    }
-  });
-
-  // кейс: всё уже случилось до инициализации
-  if (haveAllRequiredAppeared() && areAllRequiredGone() && areAllFloatingGone()) {
+  // если required вообще нет "сразу" — сразу идём дальше
+  if (requiredSelectors.length > 0 && !anyRequiredNow) {
     callback();
     return;
   }
 
-  observer = new MutationObserver(handleMutations);
+  // кейс: required есть, но уже всё исчезло (например, скрипт включили поздно)
+  if (allGone(requiredSelectors) && allGone(floatingSelectors)) {
+    callback();
+    return;
+  }
+
+  // наблюдаем за изменениями DOM
+  observer = new MutationObserver(tryFinish);
   observer.observe(document.body, {childList: true, subtree: true});
 }

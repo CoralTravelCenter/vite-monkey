@@ -1,0 +1,15 @@
+.promo-link-jjrura0094skxw {
+    background: transparent;
+    border: none;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    cursor: pointer;
+}
+
+.promo-link-jjrura0094skxw span {
+    font-size: 14px;
+    line-height: 38px;
+    color: #000;
+    font-weight: 500;
+}

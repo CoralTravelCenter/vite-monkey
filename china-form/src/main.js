@@ -1,4 +1,4 @@
-import {appendOnce, insertOnce, SimpleReactDomObserver} from "../../utils.js";
+import {appendOnce, insertOnce, ReactDomObserver} from "../../utils.js";
 import markup from "./markup.html?raw";
 import './style.css'
 
@@ -18,17 +18,18 @@ function createBitrixScript() {
   return script;
 }
 
-new SimpleReactDomObserver('div[class*="ConditionalRenderer"]', {
-  onAppear: el => {
-    if (el) {
-      console.log(el)
-      insertOnce(el, 'afterbegin', markup);
+function init(el) {
+  insertOnce(el, 'afterbegin', markup, 'china-attention');
 
-      const placesForScript = [...document?.querySelectorAll("#bitrix")];
-      const script = createBitrixScript()
-      placesForScript.length > 0 && placesForScript.forEach((place) => {
-        appendOnce(place, script)
-      });
-    }
-  }
+  const placesForScript = [...document?.querySelectorAll("#bitrix")];
+  const script = createBitrixScript()
+  placesForScript.length > 0 && placesForScript.forEach((place) => {
+    appendOnce(place, script)
+  });
+}
+
+new ReactDomObserver('.no-result-message', {
+  watchChild: true,
+  onAppear: el => init(el.parentElement.parentElement),
+  onChildMutate: el => init(el),
 }).start()

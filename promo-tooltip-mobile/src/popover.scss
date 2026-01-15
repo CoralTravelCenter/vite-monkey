@@ -1,0 +1,55 @@
+[data-promotion="BlackFriday"] div[class*="CoralBonusInformation_coralBonusInformation"] {
+  background: url("https://b2ccdn.coral.ru/content/bf-stars.png"), #052445 !important;
+  background-repeat: no-repeat !important;
+  background-position: center center;
+  background-size: cover !important;
+}
+
+[data-promotion="BlackFriday"] div[class*="CoralBonusInformation_coralBonusInformation"] span {
+  color: #FFFFFF !important;
+}
+
+.bonus-trigger {
+  width: 20px;
+  height: 20px;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: transparent;
+  padding: 0;
+  margin-left: auto;
+}
+
+.tippy-box[data-theme~='bf'] {
+  box-shadow: 0 8px 18px rgba(0, 0, 0, 0.35);
+  border-radius: 12px;
+  background: #052445;
+  padding: 0 12px;
+  min-width: 360px;
+  font-size: 12px;
+  color: #fff;
+
+  .tippy-arrow {
+    color: #052445;
+  }
+
+  .row {
+    padding: 12px 0;
+    display: inline-flex;
+    justify-content: space-between;
+    width: 100%;
+    border-bottom: 1px solid rgba(204, 214, 228, 0.60);
+    text-align: right;
+
+    a {
+      color: inherit;
+      text-decoration: underline;
+    }
+
+    b {
+      text-align: left;
+    }
+  }
+}

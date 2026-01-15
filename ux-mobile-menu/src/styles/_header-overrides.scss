@@ -50,8 +50,7 @@
 }
 
 /* скрываем родные элементы */
-button[class*="HeaderHamburgerMenu"],
-coral-popup-trigger {
+button[class*="HeaderHamburgerMenu"] {
   display: none;
 }
 

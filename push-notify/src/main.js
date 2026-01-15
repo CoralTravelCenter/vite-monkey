@@ -2,7 +2,7 @@ import markup from './markup.coral.html?raw'
 import './style.coral.scss'
 import {getLocalStorageWithExpiry, insertOnce, setLocalStorageWithExpiry, waitUntilElementsGone} from "../../utils.js";
 
-insertOnce(document.body, 'beforeend', markup)
+insertOnce(document.body, 'beforeend', markup, 'push-noty')
 
 const DELAY = 1500;
 const PUSH_STORAGE_KEY = "pushShowedToUser";
@@ -36,7 +36,6 @@ waitUntilElementsGone(
   },
   () => {
 
-    console.log('it is time')
 
     if (!push) return;
 

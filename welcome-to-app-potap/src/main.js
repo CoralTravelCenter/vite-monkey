@@ -12,18 +12,17 @@ const LINKS = {
 };
 const METRIKA_COUNTER_ID = 96674199;
 const OS = getMobileOS();
-insertOnce(document.body, 'beforeend', markup);
+const BODY_HIDDEN_CLASS = 'jivo-hidden';
 
+insertOnce(document.body, 'beforeend', markup, 'welcome-to-app');
 
 const popup = document?.getElementById('welcome-to-app-popup');
 const stayHereBtn = document?.getElementById('stay-here');
 const redirectBtn = document?.getElementById('go-to-app');
 
-
 let popupTimerId = null;
 let popupWasShown = false; // попап показан хотя бы раз
 let stayTracked = false;   // зафиксировано "остался на сайте" для текущего показа
-
 
 function trackGoal(name, params) {
   if (typeof ym !== 'function') return;
@@ -35,29 +34,13 @@ function trackGoal(name, params) {
   }
 }
 
-function jivoInit() {
-  if (typeof jivo_init === 'function') {
-    jivo_init();
-  }
-}
-
-function jivoDestroy() {
-  if (typeof jivo_destroy === 'function') {
-    jivo_destroy();
-  }
-}
-
+// вместо уничтожения/инициализации — просто прячем/показываем стилями
 function setPopupVisible(isVisible) {
   if (!popup) return;
 
-  if (isVisible) {
-    jivoDestroy();
-  } else {
-    jivoInit();
-  }
-
   popup.setAttribute('data-show', String(isVisible));
   document.body.classList.toggle('js-scroll-lock', isVisible);
+  document.body.classList.toggle(BODY_HIDDEN_CLASS, isVisible);
 }
 
 function showPopupWithDelay() {

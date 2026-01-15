@@ -160,3 +160,7 @@
 #welcome-to-app-popup[data-show="false"] .welcome-to-app-wrapper {
     transform: translateY(100%);
 }
+
+body.jivo-hidden jdiv[class*="_orientationRight"] {
+    display: none !important;
+}
