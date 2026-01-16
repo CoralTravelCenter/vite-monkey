@@ -203,7 +203,7 @@ if (popup) {
 // ждём, пока исчезнут блокирующие элементы, и только затем показываем попап
 waitUntilElementsGone(
   {
-    floating: ['.cookie-agreement-content', '.departureCityPopupModal', '.push-noty']
+    floating: ['div[class*="CookieAgreement_cookieAgreement__"]', '.departureCityPopupModal', '.push-noty']
   },
   () => {
     showPopupWithDelay();

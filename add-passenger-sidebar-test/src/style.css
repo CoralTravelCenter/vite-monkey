@@ -10,7 +10,8 @@
 
 .product-summary .countdown-timer {
     margin: 0;
-    flex: 0 0 auto
+    flex: 0 0 auto;
+    border-radius: 16px;
 }
 
 .product-summary div[class*="ProductSummary_productSummaryCard__"] {
@@ -25,9 +26,6 @@
     overflow: auto;
 }
 
-/*#SaveReservation_Button {*/
-/*    display: none;*/
-/*}*/
 
 .ab-test-btn {
     flex: 0 0 auto

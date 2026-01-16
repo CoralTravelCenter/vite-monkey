@@ -2,9 +2,23 @@ import './style.css'
 
 const NEXT_ID = 'Proxy_Next_Button';
 const BACK_ID = 'Proxy_Back_Button';
+
 let observerStarted = false;
 
-/* ================= utils ================= */
+const SELECTORS = {
+  productSummary: '.product-summary',
+  originalNext: '#SaveReservation_Button',
+  originalBack: '.back-btn',
+};
+
+const CLASSES = {
+  next: 'ab-test-btn ant-btn css-1dzkrh8 ant-btn-primary ant-btn-color-primary ant-btn-variant-solid ant-btn-lg text-bold',
+  back: 'ab-test-btn ant-btn css-1dzkrh8 ant-btn-default ant-btn-color-default ant-btn-variant-outlined ant-btn-lg text-bold text-black',
+};
+
+function getStep(search = location.search) {
+  return new URLSearchParams(search).get('step') || '';
+}
 
 function ensureButton(id, className) {
   let btn = document.getElementById(id);
@@ -28,98 +42,107 @@ function hide(el) {
   el.setAttribute('aria-hidden', 'true');
 }
 
-/* ================= init ================= */
+function show(el, display = '') {
+  if (!el) return;
+  el.style.display = display;
+  el.removeAttribute('aria-hidden');
+}
 
-function init(step) {
-  console.log('+++ Init', step);
+function mount(container, el) {
+  if (!container || !el) return;
+  if (!container.contains(el)) container.appendChild(el);
+}
 
-  const productSummary = document.querySelector('.product-summary');
+function render(search = location.search) {
+  const productSummary = document.querySelector(SELECTORS.productSummary);
   if (!productSummary) return;
 
-  const originalNext = document.getElementById('SaveReservation_Button');
-  const originalBack = document.querySelector('.back-btn');
+  const step = getStep(search);
 
-  /* ---------- NEXT ---------- */
+  const originalNext = document.querySelector(SELECTORS.originalNext);
+  const originalBack = document.querySelector(SELECTORS.originalBack);
 
-  const nextBtn = ensureButton(
-    NEXT_ID,
-    'ab-test-btn ant-btn css-1dzkrh8 ant-btn-primary ant-btn-color-primary ant-btn-variant-solid ant-btn-lg text-bold'
-  );
+  // NEXT
+  const nextBtn = ensureButton(NEXT_ID, CLASSES.next);
+  mount(productSummary, nextBtn);
 
-  if (!productSummary.contains(nextBtn)) {
-    productSummary.appendChild(nextBtn);
-  }
-
-  if (step.includes('step=0')) {
+  if (step === '0') {
     nextBtn.textContent = 'Перейти к бронированию';
-    nextBtn.style.display = '';
-    hide(originalNext);
-
-    attachOnce(nextBtn, () => originalNext && originalNext.click());
-
-  } else if (step.includes('step=1')) {
-    nextBtn.textContent = 'Перейти к данным туристов';
-    nextBtn.style.display = '';
-    hide(originalNext);
-
-    attachOnce(nextBtn, () => originalNext && originalNext.click());
-
+  } else if (step === '1') {
+    nextBtn.textContent = 'Заполнить данные туристов';
+  } else if (step === '2') {
+    nextBtn.textContent = 'Забронировать';
   }
 
-  /* ---------- BACK ---------- */
+  show(nextBtn);
+  hide(originalNext);
+  attachOnce(nextBtn, () => originalNext?.click());
 
-  const backBtn = ensureButton(
-    BACK_ID,
-    'ab-test-btn ant-btn css-1dzkrh8 ant-btn-default ant-btn-color-default ant-btn-variant-outlined ant-btn-lg text-bold text-black'
-  );
+  // BACK
+  const backBtn = ensureButton(BACK_ID, CLASSES.back);
+  mount(productSummary, backBtn);
 
-  if (!productSummary.contains(backBtn)) {
-    productSummary.appendChild(backBtn);
-  }
-
-  if (step.includes('step=1')) {
+  if (step === '1') {
     backBtn.textContent = 'Вернуться к выбору услуг';
+    show(backBtn, 'block');
     hide(originalBack);
-
-    attachOnce(backBtn, () => originalBack && originalBack.click());
-
+    attachOnce(backBtn, () => originalBack?.click());
+  } else if (step === '2') {
+    backBtn.textContent = 'Назад к данным заказчика';
+    show(backBtn, 'block');
+    hide(originalBack);
+    attachOnce(backBtn, () => originalBack?.click());
   } else {
-    backBtn.style.display = 'none';
+    hide(backBtn);
   }
 }
 
-/* ================= observer ================= */
+function scheduleRender() {
+  let tries = 0;
+  const MAX_TRIES = 5;
+
+  const tick = () => {
+    const productSummary = document.querySelector(SELECTORS.productSummary);
+    if (productSummary) {
+      render(location.search);
+      return;
+    }
+
+    if (++tries < MAX_TRIES) {
+      requestAnimationFrame(tick);
+    }
+  };
+
+  requestAnimationFrame(tick);
+}
 
 function watchProductSummary() {
   if (observerStarted) return;
   observerStarted = true;
 
   const observer = new MutationObserver(() => {
-    const productSummary = document.querySelector('.product-summary');
+    const productSummary = document.querySelector(SELECTORS.productSummary);
     if (!productSummary) return;
 
     const next = document.getElementById(NEXT_ID);
     const back = document.getElementById(BACK_ID);
 
-    if (
-      (next && !productSummary.contains(next)) ||
-      (back && !productSummary.contains(back))
-    ) {
-      init(location.search);
+    const nextMissing = !next || !productSummary.contains(next);
+    const backMissing = !back || !productSummary.contains(back);
+
+    if (nextMissing || backMissing) {
+      render(location.search);
     }
   });
 
-  observer.observe(document.body, {
-    childList: true,
-    subtree: true,
-  });
+  observer.observe(document.body, {childList: true, subtree: true});
 }
 
-/* ================= start ================= */
-
-init(location.search);
+// init
+scheduleRender();
 watchProductSummary();
 
 CoralRouteBus.subscribe(() => {
-  init(location.search);
+  scheduleRender();
+  watchProductSummary();
 });

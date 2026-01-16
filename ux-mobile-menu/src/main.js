@@ -143,6 +143,10 @@ setupUserLink(customLogin);
 function setupHamburger(customHamburger) {
   if (!customHamburger) return;
 
+  if (location.pathname.includes('booking/add-passenger')) {
+    customHamburger.style.display = "none";
+  }
+
   let handlerBound = false;
 
   new ReactDomObserver('button[class*="HeaderHamburgerMenu"]', {
