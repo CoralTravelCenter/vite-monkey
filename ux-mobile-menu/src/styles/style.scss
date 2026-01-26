@@ -9,4 +9,5 @@
 div[class*=HeaderHamburgerMenu_menuContainer] {
   height: calc(100vh - 114px);
   overflow-y: scroll;
+  padding-bottom: 60px;
 }
