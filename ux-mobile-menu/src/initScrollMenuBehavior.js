@@ -1,39 +1,44 @@
 export function initScrollMenuBehavior(menu, options = {}) {
-  if (!menu) return;
+    if (!menu) return;
 
-  const {
-    threshold = 3,           // чувствительность "движения" скролла
-    showDelay = 120,         // через сколько вернуть меню после остановки
-    pinnedClass = "headroom--pinned",
-    unpinnedClass = "headroom--unpinned",
-    initialClass = "headroom"
-  } = options;
+    const {
+        threshold = 3,
+        showDelay = 120,
+        pinnedClass = "headroom--pinned",
+        unpinnedClass = "headroom--unpinned",
+        initialClass = "headroom",
+    } = options;
 
-  let lastScrollY = window.scrollY;
-  let stopTimer = null;
+    let lastScrollY = window.scrollY;
+    let stopTimer = null;
 
-  // Стартовое состояние
-  menu.classList.add(initialClass, pinnedClass);
+    // Стартовое состояние
+    menu.classList.add(initialClass, pinnedClass);
+    menu.classList.remove(unpinnedClass);
 
-  function handleScroll() {
-    const currentY = window.scrollY;
-    const diff = currentY - lastScrollY;
+    function handleScroll() {
+        const currentY = window.scrollY;
+        const diff = currentY - lastScrollY;
 
-    // Любой скролл → скрыть меню
-    if (Math.abs(diff) > threshold) {
-      menu.classList.add(unpinnedClass);
-      menu.classList.remove(pinnedClass);
+        if (Math.abs(diff) > threshold) {
+            menu.classList.add(unpinnedClass);
+            menu.classList.remove(pinnedClass);
+        }
+
+        lastScrollY = currentY;
+
+        clearTimeout(stopTimer);
+        stopTimer = setTimeout(() => {
+            menu.classList.add(pinnedClass);
+            menu.classList.remove(unpinnedClass);
+        }, showDelay);
     }
 
-    lastScrollY = currentY;
+    window.addEventListener("scroll", handleScroll, {passive: true});
 
-    // Остановка скролла → вернуть меню
-    clearTimeout(stopTimer);
-    stopTimer = setTimeout(() => {
-      menu.classList.add(pinnedClass);
-      menu.classList.remove(unpinnedClass);
-    }, showDelay);
-  }
-
-  window.addEventListener("scroll", handleScroll, {passive: true});
+    // ✅ disposer
+    return () => {
+        window.removeEventListener("scroll", handleScroll);
+        clearTimeout(stopTimer);
+    };
 }

@@ -11,3 +11,43 @@ div[class*=HeaderHamburgerMenu_menuContainer] {
   overflow-y: scroll;
   padding-bottom: 60px;
 }
+
+button[class*="HotelList_floatButtonBackTop"] {
+  z-index: 100;
+}
+
+/* Нотификация: базовое положение */
+.hotelCompareNotificationWrapper .ant-notification-notice-wrapper {
+  will-change: transform;
+  transition: transform 300ms ease;
+  transform: translate3d(0, 0, 0) !important;
+}
+
+/* Когда меню видно + есть нотификация: поднимаем на 82px */
+body.cmenu-visible.cmp-notif .hotelCompareNotificationWrapper .ant-notification-notice-wrapper {
+  transform: translate3d(0, -56px, 0) !important;
+}
+
+/* Back-to-top: тоже поднимаем трансформом */
+button[class*="HotelList_floatButtonBackTop"] {
+  will-change: transform;
+  transition: transform 300ms ease;
+  transform: translate3d(0, 0, 0) !important;
+}
+
+body.cmp-notif button[class*="HotelList_floatButtonBackTop"] {
+  transform: translate3d(0, -56px, 0) !important;
+}
+
+#qz-container::part(bubble) {
+  bottom: 74px;
+}
+
+#qz-container::part(card) {
+  position: absolute;
+  bottom: 58px;
+}
+
+#qz-container {
+  z-index: 100 !important;
+}
