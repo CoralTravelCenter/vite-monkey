@@ -1,34 +1,32 @@
-function omitEmptyArrays(obj) {
-  return Object.fromEntries(
-    Object.entries(obj).filter(([, value]) =>
-      !Array.isArray(value) || value.length > 0
-    )
-  );
-}
+const first = (v) => Array.isArray(v) ? (v[0] ?? "") : (v ?? "");
 
-function b24formService(e) {
+
+const b24formService = (e) => {
   const form = e.detail?.object;
   const values = typeof form?.values === 'function' ? form.values() : null;
 
+  console.log(values)
+
   const payload = {
-    ts: Date.now(),
-    iso: new Date().toISOString(),
-    formId: form?.identification?.id ?? null,
-    values: omitEmptyArrays(values),
-    pageUrl: location.href,
-    referrer: document.referrer,
+    surname: String(first(values.CONTACT_LAST_NAME)).trim(),
+    name: String(first(values.CONTACT_NAME)).trim(),
+    patronymic: String(first(values.CONTACT_SECOND_NAME)).trim(),
+    email: String(first(values.CONTACT_EMAIL)).trim(),
+    phone: String(first(values.CONTACT_PHONE)).trim(),
+    position: String(first(values.CONTACT_POST)).trim(),
+    company: String(first(values.COMPANY_TITLE)).trim(),
+    comment: String(first(values.DEAL_UF_CRM_1726583118)).trim(),
   };
   console.log(payload);
 
-  // fetch('/api/bitrix/form-success', {
-  //   method: 'POST',
-  //   headers: {'Content-Type': 'application/json'},
-  //   body: JSON.stringify(payload),
-  //   keepalive: true,
-  //   credentials: 'include',
-  // }).catch((e) => {
-  //   console.log(e)
-  // });
+  fetch('endpoints/Customer/SubmitCommercialOfferForm', {
+    method: 'POST',
+    headers: {'Content-Type': 'application/json'},
+    body: JSON.stringify(payload),
+    keepalive: true,
+  }).catch((e) => {
+    console.log(e)
+  });
   debugger
 }
 
