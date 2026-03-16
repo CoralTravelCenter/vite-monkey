@@ -1,0 +1,232 @@
+.bf-label {
+    position: fixed;
+    left: -3px;
+    top: 45%;
+    min-height: 90px;
+    background: url(https://b2ccdn.coral.ru/content/popup-shild-rb-f2.png) center/contain no-repeat;
+    align-items: end;
+    display: flex;
+    border-radius: 0 8px 8px 0;
+    z-index: 1000;
+    padding: 8px 4px;
+}
+
+@media (max-width: 768px) {
+    .bf-label {
+        background-color: transparent;
+        left: 16px;
+        top: unset;
+        bottom: 68px;
+        border-radius: 12px;
+    }
+}
+
+.bf-label__icon {
+    line-height: 1.2;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+    font-size: 10px;
+    text-align: center;
+    color: #fff;
+}
+
+@media (max-width: 768px) {
+    .bf-label__bg.visible {
+        position: fixed;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: #1b1b1bc9;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+}
+
+.bf-label__popup {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    border-radius: 12px;
+    overflow: clip;
+    background-color: #fff;
+    position: absolute;
+    bottom: -150px;
+    left: 0;
+    width: 180px;
+    transform: translate(-200px);
+}
+
+@media (max-width: 768px) {
+    .bf-label__popup {
+        position: relative;
+        bottom: unset;
+        left: unset;
+        width: 300px;
+        transform: translate(0);
+        display: none;
+    }
+}
+
+.bf-label__popup.visible {
+    animation: popupIn 0.5s ease-out forwards;
+}
+
+@media (max-width: 768px) {
+    .bf-label__popup.visible {
+        animation: none;
+        display: flex;
+    }
+}
+
+.bf-label__popup.on-hide {
+    animation: popupOut 0.5s ease-out forwards;
+}
+
+.bf-label.hiddeny {
+    background-color: transparent;
+}
+
+.bf-label__icon.hiddeny {
+    animation: popupOut 0.5s ease-out forwards;
+}
+
+.bf-label__info {
+    display: flex;
+    flex-direction: column;
+    padding: 16px;
+    background: #fff;
+}
+
+.bf-label__title {
+    font-weight: 700;
+    font-size: 16px;
+    line-height: 18px;
+    color: #000;
+    text-align: left;
+    margin: 0 0 4px;
+}
+
+@media (max-width: 768px) {
+    .bf-label__title {
+        font-size: 26px;
+        line-height: 36px;
+    }
+}
+
+.bf-label__text {
+    color: #000;
+    text-align: left;
+    font-size: 12px;
+    line-height: 16px;
+    margin: 0;
+}
+
+@media (max-width: 768px) {
+    .bf-label__text {
+        font-size: 18px;
+        line-height: 28px;
+    }
+}
+
+.bf-label__button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    height: 36px;
+    padding-inline: 8px;
+    margin-top: 10px;
+    color: #000;
+    text-decoration: none;
+    font-size: 16px;
+    border-radius: 56px;
+    background: #077dad;
+    color: #fff;
+}
+
+@media (max-width: 768px) {
+    .bf-label__button {
+        margin-top: 32px;
+    }
+}
+
+.bf-label__quote {
+    font-size: 6px;
+    opacity: 0.5;
+    color: #fff;
+    position: absolute;
+    top: 8px;
+    z-index: 3;
+}
+
+.bf-label__close {
+    display: none;
+}
+
+@media (max-width: 768px) {
+    .bf-label__close {
+        display: flex;
+        position: absolute;
+        right: 13px;
+        top: 13px;
+        width: 40px;
+        height: 40px;
+        align-items: center;
+        justify-content: center;
+        border-radius: 10px;
+        background-color: #fff;
+        border: 1px solid rgba(0, 0, 0, 0.15);
+        cursor: pointer;
+    }
+}
+
+@keyframes popupIn {
+    0% {
+        transform: translate(-200px);
+    }
+    90% {
+        transform: translate(10px);
+    }
+    to {
+        transform: translate(0);
+    }
+}
+
+@keyframes popupOut {
+    0% {
+        transform: translate(0);
+    }
+    to {
+        transform: translate(-200px);
+    }
+}
+
+.bf-label__d-hiddeny {
+    display: block;
+}
+
+@media (max-width: 768px) {
+    .bf-label__d-hiddeny {
+        display: none;
+    }
+}
+
+.bf-label__m-hiddeny {
+    display: none;
+}
+
+@media (max-width: 768px) {
+    .bf-label__m-hiddeny {
+        display: block;
+    }
+}
+
+.popup-visual {
+    clip-path: circle(100% at 50% 8%);
+}

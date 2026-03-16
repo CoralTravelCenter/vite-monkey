@@ -1,0 +1,142 @@
+section.thankyou {
+  padding-block: 40px;
+
+  .thankyou-wrapper {
+    display: grid;
+    width: 100%;
+    grid-template-columns: auto min-content;
+    align-items: center;
+    position: relative;
+
+    @media (max-width: 993px) {
+      grid-template-columns: 1fr;
+      gap: 32px;
+    }
+  }
+
+  .coral-intro {
+    display: flex;
+    flex-direction: column;
+    align-self: center;
+    position: relative;
+    z-index: 2;
+    gap: 32px;
+
+    h1 {
+      font-size: 36px;
+      margin: 0;
+      font-weight: 600;
+    }
+
+    @media (max-width: 993px) {
+      order: 2;
+      gap: 16px;
+      align-items: center;
+    }
+  }
+
+  .personaj {
+    position: relative;
+    width: 400px;
+    margin: 0 auto;
+
+    @media (max-width: 993px) {
+      order: 1;
+    }
+
+    &::before {
+      content: "";
+      position: absolute;
+
+      /* фон можно чуть "выпустить" наружу */
+      inset: 0;
+      width: auto;
+      height: auto;
+
+      background: #4FA402; /* базовый цвет, если без градиента */
+      /* либо оставь background-image, если там нужен именно svg-рисунок/текстура */
+
+      /* МАСКА фона (другая форма) */
+      -webkit-mask-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 367 372'><path fill='white' d='M66.885 25.381c39.69-28.336 92.527-24.34 140.081-13.528 45.906 10.437 87.111 34.026 115.446 71.622 30.078 39.911 50.664 88.551 42.418 137.842-8.437 50.433-42.104 93.305-85.59 120.207-41.943 25.947-92.572 29.63-140.928 19.923-48.122-9.661-96.117-30.681-121.607-72.626-24.677-40.608-14.676-90.327-5.784-137.006 8.965-47.066 16.97-98.594 55.964-126.434Z'/></svg>");
+      -webkit-mask-repeat: no-repeat;
+      -webkit-mask-position: center;
+      -webkit-mask-size: 100% 100%;
+
+      mask-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 367 372'><path fill='white' d='M66.885 25.381c39.69-28.336 92.527-24.34 140.081-13.528 45.906 10.437 87.111 34.026 115.446 71.622 30.078 39.911 50.664 88.551 42.418 137.842-8.437 50.433-42.104 93.305-85.59 120.207-41.943 25.947-92.572 29.63-140.928 19.923-48.122-9.661-96.117-30.681-121.607-72.626-24.677-40.608-14.676-90.327-5.784-137.006 8.965-47.066 16.97-98.594 55.964-126.434Z'/></svg>");
+      mask-repeat: no-repeat;
+      mask-position: center;
+      mask-size: 100% 100%;
+
+      opacity: 0.56; // как у твоего path opacity
+      display: block;
+    }
+  }
+}
+
+.blob {
+  /* держим пропорцию твоего viewBox 360x372 */
+  width: 400px;
+  aspect-ratio: 360 / 372;
+  height: auto;
+
+  position: relative;
+  overflow: hidden; // для Safari надёжнее, чем overflow: clip
+  z-index: 1;
+
+  /* Safari / iOS */
+  -webkit-mask-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 360 372'><path fill='white' d='M184.162.042c47.582-1.358 88.219 30.638 120.867 65.28 31.516 33.442 52.064 74.982 54.56 120.866 2.651 48.709-7.143 99.326-40.651 134.776-34.286 36.273-84.899 52.687-134.776 50.817-48.108-1.804-91.136-26.375-125.034-60.559C25.394 277.203-2.055 234.048.121 186.188c2.106-46.334 37.27-81.177 69.88-114.16C102.883 38.772 137.415 1.376 184.163.042Z'/></svg>");
+  -webkit-mask-repeat: no-repeat;
+  -webkit-mask-position: center;
+  -webkit-mask-size: 100% 100%;
+
+  /* Остальные */
+  mask-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 360 372'><path fill='white' d='M184.162.042c47.582-1.358 88.219 30.638 120.867 65.28 31.516 33.442 52.064 74.982 54.56 120.866 2.651 48.709-7.143 99.326-40.651 134.776-34.286 36.273-84.899 52.687-134.776 50.817-48.108-1.804-91.136-26.375-125.034-60.559C25.394 277.203-2.055 234.048.121 186.188c2.106-46.334 37.27-81.177 69.88-114.16C102.883 38.772 137.415 1.376 184.163.042Z'/></svg>");
+  mask-repeat: no-repeat;
+  mask-position: center;
+  mask-size: 100% 100%;
+
+  .poster,
+  .vimeo {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+  }
+
+  .poster {
+    z-index: 1;
+
+    img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+      max-width: none; // убрал ограничения, они ломают заполнение
+      max-height: none;
+    }
+  }
+
+  .vimeo {
+    z-index: 2;
+    opacity: 0;
+    transition: opacity 1s ease;
+
+    iframe {
+      width: 105%;
+      height: 105%;
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+
+    }
+
+    &.playback {
+      opacity: 1;
+    }
+  }
+}
+
+#popmechanic-container-127347, #quick-search-tab-area, #breadcrumb-widget {
+  display: none;
+}

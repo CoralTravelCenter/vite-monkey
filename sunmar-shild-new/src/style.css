@@ -1,0 +1,68 @@
+:root {
+    --trigger-scale: .8;
+}
+
+#custom-trigger {
+    position: fixed;
+    bottom: calc(16px * var(--trigger-scale));
+    left: calc(16px * var(--trigger-scale));
+    max-width: calc(132px * var(--trigger-scale));
+    z-index: 10;
+    border-radius: calc(9px * var(--trigger-scale));
+    background: linear-gradient(180deg, #8FB7EC 0%, #213669 162.67%);
+    padding: calc(30px * var(--trigger-scale)) calc(2px * var(--trigger-scale)) calc(2px * var(--trigger-scale)) calc(2px * var(--trigger-scale));
+    color: #FFF;
+    text-align: center;
+    font-size: calc(14px * var(--trigger-scale));
+    text-wrap: balance;
+}
+
+#custom-trigger:before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: url("https://b2ccdn.sunmar.ru/content/rakushka.webp");
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+    width: 100%;
+    height: calc(100px * var(--trigger-scale));
+    left: 0;
+    top: calc(-70px * var(--trigger-scale));
+}
+
+.custom-trigger__text {
+    margin-bottom: calc(12px * var(--trigger-scale));
+    display: inline-block;
+}
+
+.custom-trigger__erid {
+    font-size: calc(8px * var(--trigger-scale));
+    display: inline-block;
+}
+
+.custom-trigger__close {
+    width: 20px;
+    height: 20px;
+    position: absolute;
+    top: -5px;
+    right: -5px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 0;
+    background: #fff;
+    border: 1px solid #d9d9d9;
+    border-radius: 4px;
+    cursor: pointer;
+    z-index: 200;
+}
+
+.custom-trigger__close > svg {
+    width: calc(10px * var(--trigger-scale));
+    height: calc(10px * var(--trigger-scale));
+}
+
+.js-none {
+    display: none;
+}

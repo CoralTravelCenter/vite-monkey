@@ -126,7 +126,7 @@ export async function preloadScript(url, cb) {
 
 
 export async function vimeoAutoPlay(observer_options = {}) {
-  const vboxes = document.querySelectorAll('.vimeo-video-box [data-vimeo-vid]');
+  const vboxes = document.querySelectorAll('[data-vimeo-vid]');
   if (vboxes.length) {
     await preloadScript('https://player.vimeo.com/api/player.js');
     const io = new IntersectionObserver((entries, observer) => {
