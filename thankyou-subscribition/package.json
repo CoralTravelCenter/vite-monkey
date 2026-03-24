@@ -1,0 +1,16 @@
+{
+  "name": "thankyou-subscribition",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview"
+  },
+  "devDependencies": {
+    "sass": "^1.97.3",
+    "vite": "^6.0.5",
+    "vite-plugin-monkey": "^5.0.3"
+  }
+}

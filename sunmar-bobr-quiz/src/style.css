@@ -1,0 +1,56 @@
+#sunmar-bobr-quiz {
+    background: linear-gradient(225deg, #e7317d, #d8242a);
+    cursor: pointer;
+    color: #ffffff;
+    border: none;
+    border-radius: 30px;
+    padding-inline: 30px;
+    height: 48px;
+    position: fixed;
+    right: 16px;
+    bottom: 16px;
+    z-index: 100;
+}
+
+
+.sunmar-quiz {
+    max-width: 420px;
+    margin: 0 auto;
+    text-align: center;
+}
+
+.quiz-title {
+    font-size: 22px;
+    margin-bottom: 20px;
+}
+
+.quiz-answers {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.quiz-answer {
+    padding: 14px;
+    border: 1px solid #ddd;
+    background: white;
+    cursor: pointer;
+}
+
+.quiz-answer:hover {
+    background: #f5f5f5;
+}
+
+.quiz-email-input {
+    width: 100%;
+    padding: 12px;
+    margin-bottom: 12px;
+}
+
+.quiz-email-submit {
+    padding: 12px 20px;
+}
+
+.quiz-result-title {
+    font-size: 24px;
+}

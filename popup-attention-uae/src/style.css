@@ -1,0 +1,106 @@
+coral-popup#uae-attention::part(popup-dialog) {
+    max-width: 1000px;
+}
+
+coral-popup#uae-attention::part(popup-content) {
+    gap: unset;
+}
+
+.uae-attention__header {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    gap: 30px;
+    padding: 40px 0 20px 0;
+}
+
+.uae-attention__header .icon {
+    flex-shrink: 0;
+    width: clamp(70px, 3vw, 100px);
+}
+
+.uae-attention__header h3 {
+    font-size: clamp(20px, 3.5vw, 35px);
+    margin: 0;
+}
+
+.uae-attention__content {
+    width: 100%;
+    display: grid;
+    grid-template-columns: 1fr 235px 1fr;
+    gap: 18px;
+    grid-template-areas:
+      "turkey egypt tailand"
+      "vietnam egypt maldives";
+}
+
+.uae-attention__content article {
+    min-height: 200px;
+    border-radius: 12px;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    font-size: 20px;
+    color: #fff;
+    padding: 16px;
+    display: flex;
+    flex-direction: column;
+    align-items: start;
+    justify-content: start;
+}
+
+.uae-attention__content article h4 {
+    margin: 0 0 12px 0;
+}
+
+.uae-attention__content article a {
+    font-size: 12px;
+    background: #fff;
+    padding: 8px 40px;
+    border-radius: 40px;
+    color: #000;
+    border: 1px solid #fff;
+    transition: all .3s ease;
+}
+
+.uae-attention__content article a:hover {
+    border-color: #0092D0;
+    color: #0092D0;
+}
+
+.turkey {
+    grid-area: turkey;
+    background: url("https://b2ccdn.coral.ru/content/turkey-a.png");
+}
+
+.vietnam {
+    grid-area: vietnam;
+    background: url("https://b2ccdn.coral.ru/content/viet-a.png");
+}
+
+.egypt {
+    grid-area: egypt;
+    background: url("https://b2ccdn.coral.ru/content/egypt-a.png");
+}
+
+.tailand {
+    grid-area: tailand;
+    background: url("https://b2ccdn.coral.ru/content/tai-a.png");
+}
+
+.maldives {
+    grid-area: maldives;
+    background: url("https://b2ccdn.coral.ru/content/mald-a.png");
+}
+
+@media (max-width: 768px) {
+    .uae-attention__content {
+        grid-template-columns: 1fr;
+        grid-template-areas:
+      "turkey"
+      "egypt"
+      "tailand"
+      "vietnam"
+      "maldives";
+    }
+}

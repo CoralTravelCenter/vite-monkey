@@ -1,0 +1,68 @@
+<button id="sunmar-bobr-quiz">
+    Пройти опрос
+</button>
+
+
+<sunmar-popup id="sunmar-quiz"
+<sunmar-popup id="sunmar-quiz"
+              guard-selectors="div[class*='CookieAgreement_cookieAgreement__'], div[class*='DepartureCityPopup_departureCityPopup__']">
+
+    <div class="sunmar-quiz">
+
+        <!-- Шаг вопросов -->
+        <div class="quiz-step quiz-questions">
+
+            <div class="quiz-progress">
+                <span class="quiz-progress-current">1</span>
+                /
+                <span class="quiz-progress-total">3</span>
+            </div>
+
+            <h2 class="quiz-title"></h2>
+
+            <div class="quiz-answers"></div>
+
+        </div>
+
+        <!-- Шаг email -->
+        <div class="quiz-step quiz-email-step" style="display:none;">
+
+            <h2 class="quiz-title">
+                Оставьте email, чтобы получить результат
+            </h2>
+
+            <form class="quiz-email-form">
+
+                <input
+                        type="email"
+                        class="quiz-email-input"
+                        placeholder="Ваш email"
+                        required
+                />
+
+                <button type="submit" class="quiz-email-submit">
+                    Получить результат
+                </button>
+
+            </form>
+
+        </div>
+
+        <!-- Финальный экран -->
+        <div class="quiz-step quiz-result-step" style="display:none;">
+
+            <h2 class="quiz-result-title"></h2>
+
+            <p class="quiz-result-description">
+                Мы подобрали для вас идеальное направление отдыха.
+            </p>
+
+            <button class="quiz-close">
+                Закрыть
+            </button>
+
+        </div>
+
+    </div>
+
+</sunmar-popup>

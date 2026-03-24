@@ -1,0 +1,119 @@
+.video-banner {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 2;
+}
+
+.video-banner .vimeo-player {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    opacity: 0;
+    transition: opacity 1s ease;
+}
+
+.video-banner .vimeo-player.playback {
+    opacity: 1;
+}
+
+.video-banner .vimeo-player iframe {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 100%;
+    height: 100%;
+    transform: translate(-50%, -50%);
+}
+
+.video-banner .vimeo-player.desktop iframe {
+    top: 50%;
+    left: 40%;
+    width: 140%;
+    height: 120%;
+}
+
+.video-banner .vimeo-player.mobile iframe {
+    top: 50%;
+    left: 65%;
+    width: 130%;
+    height: 130%;
+}
+
+.vimeo-player.mobile {
+    display: block;
+}
+
+@media (min-width: 768px) {
+    .vimeo-player.mobile {
+        display: none;
+    }
+}
+
+.vimeo-player.desktop {
+    display: none;
+}
+
+@media (min-width: 768px) {
+    .vimeo-player.desktop {
+        display: block;
+    }
+}
+
+#quick-search-tab-area [data-video-banner] {
+    min-height: 670px;
+    width: 100%;
+    border-radius: 30px;
+    position: relative;
+    overflow: clip;
+}
+
+#quick-search-tab-area [data-video-banner] .swiper {
+    display: none;
+}
+
+
+.standart-banner {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    position: absolute;
+    inset: 0;
+}
+
+.standart-banner .content {
+    z-index: 3;
+    position: relative;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    align-items: start;
+    justify-content: end;
+    padding-block: 100px;
+    padding-inline: 38px;
+}
+
+
+.standart-banner .poster {
+    z-index: 1;
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+}
+
+.headline {
+    font-size: var(--custom-font-size-xxl) !important;
+    font-weight: 300;
+    line-height: 50px;
+    color: #FFF;
+}
+
+.subline {
+    font-size: var(--ant-font-size-heading4) !important;
+    line-height: 28px !important;
+    color: #FFF !important;
+}

@@ -1,0 +1,19 @@
+#secret-trigger {
+    position: fixed;
+    bottom: 16px;
+    left: 16px;
+    background: url("https://b2ccdn.sunmar.ru/content/secret.png"), linear-gradient(90deg, #41276D -48.93%, #4A3674 -11.48%, #53457B 26.04%, #876AAF 68.52%, #CF9CF5 103.79%);
+    background-repeat: no-repeat;
+    background-size: 48px, cover;
+    background-position: 6px 60%, center;
+    padding: 12px 15px 12px 63px;
+    color: #FFFFFF;
+    border-radius: 12px;
+    font-size: 24px;
+    font-weight: 400;
+}
+
+
+#secret-trigger .code {
+    font-weight: 700;
+}
