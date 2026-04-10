@@ -1,0 +1,61 @@
+.bobr-pipka-wrapper {
+  position: fixed;
+  bottom: 16px;
+  left: 16px;
+  z-index: 999;
+
+  .close {
+    position: absolute;
+    top: -14px;
+    right: -14px;
+    width: 30px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: none;
+    height: 30px;
+    z-index: 2;
+    border-radius: 25.6px;
+    background: var(--colorBgBase, #FFF);
+    box-shadow: 0 0.8px 1.6px 0 rgba(0, 0, 0, 0.03), 0 0.8px 4.8px -0.8px rgba(0, 0, 0, 0.02), 0 1.6px 3.2px 0 rgba(0, 0, 0, 0.02);
+  }
+
+  #bobr-pipka {
+    display: flex;
+    gap: 4px;
+    min-height: 92px;
+    max-width: 100px;
+    box-sizing: border-box;
+    padding: 40px 4px 8px 4px;
+    flex-direction: column;
+    border-radius: 16px;
+    background: linear-gradient(162deg, #F69FAF 5.42%, #FC7477 93.01%);
+    color: #FFFFFF;
+    text-align: center;
+    position: relative;
+    z-index: 1;
+
+    /* Box_Shadow_Main */
+    box-shadow: 0 16px 40px 0 rgba(20, 20, 22, 0.10);
+
+    &:before {
+      content: "";
+      width: 99px;
+      height: 93px;
+      display: block;
+      position: absolute;
+      top: -55px;
+      left: 0;
+      background: url("https://b2ccdn.sunmar.ru/content/bobrius.png");
+    }
+
+    .headline {
+      font-size: 14px;
+    }
+
+    .erid {
+      font-size: 6px;
+    }
+  }
+}

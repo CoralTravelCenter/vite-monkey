@@ -1,0 +1,97 @@
+#bobr-aside-trigger {
+  width: 70px;
+  height: 80px;
+  display: block;
+  box-sizing: border-box;
+  background-size: cover;
+  background: linear-gradient(162deg, #F69FAF 5.42%, #FC7477 93.01%) no-repeat center;
+  border-radius: 0 12px 12px 0;
+
+  &:before {
+    content: "";
+    width: 90px;
+    height: 100px;
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    background: url("https://b2ccdn.sunmar.ru/content/bobr-aside.png");
+    background-repeat: no-repeat;
+    background-size: contain;
+    background-position: center;
+    transition: all .3s ease;
+    will-change: transform;
+    transform-origin: center;
+  }
+
+  &:after {
+    content: attr(data-label);
+    width: 142px;
+    position: absolute;
+    left: 20px;
+    top: -90%;
+    background-color: #FFFFFF;
+    background-repeat: no-repeat;
+    border-radius: 14px;
+    font-size: 12px;
+    padding: 8px;
+    color: #000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    box-shadow: rgba(149, 157, 165, 0.2) 0 8px 24px;
+  }
+}
+
+#bobr-aside-trigger:hover {
+  &:before {
+    transform: scale(1.05) translateY(-2px);
+  }
+}
+
+#bobr-aside-trigger:hover + .close {
+  transform: scale(1.05);
+}
+
+.bobr-wrapper {
+  position: fixed;
+  top: 50%;
+  transform: translateY(-50%);
+  left: 0;
+  z-index: 990;
+
+  &:after {
+    content: 'Реклама. ООО "МирТурСервис"';
+    position: absolute;
+    font-size: 6px;
+    color: #fff;
+    z-index: 1;
+    bottom: 2px;
+    left: 2px;
+  }
+
+  @media (max-width: 768px) {
+    bottom: 60px;
+    top: unset;
+    transform: unset;
+  }
+
+  .close {
+    background: #fff;
+    position: absolute;
+    box-shadow: 0 0.8px 1.6px 0 rgba(0, 0, 0, 0.03), 0 0.8px 4.8px -0.8px rgba(0, 0, 0, 0.02), 0 1.6px 3.2px 0 rgba(0, 0, 0, 0.02);
+    top: -84px;
+    left: 165px;
+    border-radius: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 6px;
+    border: none;
+    width: 25px;
+    height: 25px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    transform-origin: center;
+  }
+}

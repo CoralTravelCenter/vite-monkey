@@ -1,0 +1,13 @@
+#bobr-cross {
+    width: 40px;
+    height: 40px;
+    display: block;
+    background: url("https://b2ccdn.sunmar.ru/content/linkus-mob.png");
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+}
+
+div[class*="HeaderMobile_headerLogo__"] {
+    margin-left: 40px;
+}

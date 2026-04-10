@@ -1,0 +1,94 @@
+//@import "temp.css";
+
+#monkey-app {
+  padding-inline: 16px;
+}
+
+
+.summer__banner {
+  padding: 24px;
+  border-radius: 16px;
+  overflow: clip;
+}
+
+.summer__banner .text {
+  text-align: center;
+}
+
+.summer__banner .banner__button {
+  margin-inline: auto;
+  width: 100%;
+}
+
+.summer__banner .visual {
+  margin-top: 24px;
+}
+
+.summer__banner .visual img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.summer__banner.turkey {
+  background-color: #327bbd;
+}
+
+@media (min-width: 768px) {
+  .summer__banner {
+    background: url("https://b2ccdn.sunmar.ru/content/texture.webp");
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+    position: relative;
+    padding: 40px;
+
+    &:after {
+      content: "";
+      background: linear-gradient(270deg, #0A6FBC 5.29%, #377DBF 51.47%, rgba(98, 135, 193, 0.70) 80%);
+      width: 100%;
+      height: 100%;
+      position: absolute;
+      inset: 0;
+      z-index: 1;
+    }
+  }
+
+  .summer__info {
+    display: grid;
+    grid-column-gap: 32px;
+    grid-template-columns: clamp(160px, 40%, 300px) auto;
+    z-index: 2;
+    position: relative;
+  }
+
+  .summer__banner .visual {
+    grid-column: 1/2;
+    grid-row: 1/3;
+  }
+
+  .summer__info .text {
+    grid-column: 2/3;
+    grid-row: 1 / 2;
+    text-align: left;
+    align-self: end;
+  }
+
+  .summer__info .buttons {
+    grid-column: 2/3;
+    grid-row: 2 / 3;
+    align-self: start;
+  }
+
+  .summer__info .buttons a {
+    margin-inline-start: 0;
+  }
+
+  .summer__banner .visual img {
+    object-fit: contain;
+  }
+}
+
+#qz-container {
+  background: red;
+}
