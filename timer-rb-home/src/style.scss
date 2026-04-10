@@ -1,0 +1,125 @@
+coral-timer {
+  @media (max-width: 993px) {
+    padding-inline: 16px;
+  }
+  display: block;
+  --text-black: #FFF;
+}
+
+.countdown .label {
+  color: #FFF
+}
+
+coral-timer h2 {
+  max-width: 100%;
+}
+
+coral-timer a {
+  background: #fff;
+  color: #000;
+}
+
+coral-timer::part(content) {
+  @media (min-width: 768px) and (max-width: 1024px) {
+    width: 50%;
+  }
+
+  @media (max-width: 767px) {
+    background-image: url("https://b2ccdn.coral.ru/content/rb-timer-tulen-428.jpg");
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+    min-height: 280px;
+  }
+}
+
+coral-timer::part(container) {
+  margin-block: 32px;
+  position: relative;
+
+  @media (min-width: 768px) {
+    background-image: url("https://b2ccdn.coral.ru/content/rb-timer-tulen-768.jpg");
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+  }
+
+  @media (min-width: 1024px) {
+    background-image: url("https://b2ccdn.coral.ru/content/rb-timer-tulen-1024.jpg");
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+  }
+
+  @media (min-width: 1280px) {
+    background-image: url("https://b2ccdn.coral.ru/content/rb-timer-tulen-1280.jpg");
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+  }
+
+  @media (min-width: 1440px) {
+    background-image: url("https://b2ccdn.coral.ru/content/rb-timer-tulen.jpg");
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+  }
+}
+
+coral-timer::part(container):after {
+  content: '';
+  width: 240px;
+  height: 150px;
+  bottom: 0;
+  right: -50px;
+  position: absolute;
+  z-index: 3;
+  background: url(https://b2ccdn.coral.ru/content/rb-timer-tulen-hero.png);
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center;
+
+  @media (min-width: 768px) {
+    width: 440px;
+    height: 280px;
+    bottom: 0;
+    right: -90px;
+  }
+
+  @media (min-width: 1280px) {
+    width: 200px;
+    height: 130px;
+    bottom: -30px;
+    right: 48%;
+  }
+
+  @media (min-width: 1440px) {
+    bottom: 0;
+  }
+}
+
+coral-timer::part(countdown-block) {
+  position: relative;
+  z-index: 2;
+  border-radius: 32px;
+  padding: 16px 33px;
+
+  @media (min-width: 768px) {
+    margin-top: 24px;
+    margin-left: 24px;
+    color: #FFFFFF;
+  }
+
+  @media (min-width: 1280px) {
+    margin-top: 0;
+  }
+}
+
+@media (min-width: 768px) {
+  coral-timer::part(countdown-block) {
+    border: 0.711px solid rgba(255, 255, 255, 0.65);
+    background: linear-gradient(0deg, rgba(255, 255, 255, 0.18) 0%, rgba(255, 255, 255, 0.18) 100%), linear-gradient(0deg, rgba(255, 255, 255, 0.43) 0%, rgba(255, 255, 255, 0.14) 30%, rgba(255, 255, 255, 0.00) 70%, rgba(224, 237, 255, 0.09) 100%), linear-gradient(317deg, rgba(255, 255, 255, 0.29) 17.24%, rgba(255, 255, 255, 0.00) 58.62%, rgba(217, 235, 255, 0.10) 86.21%), radial-gradient(38.46% 38.46% at 11.54% 19.23%, rgba(255, 235, 255, 0.04) 0%, rgba(229, 255, 240, 0.03) 70%, rgba(240, 240, 255, 0.00) 100%);
+    box-shadow: 0 0 29.053px 0 rgba(255, 255, 255, 0.13), 0 7.068px 18.499px -3.557px rgba(0, 0, 0, 0.28), 0 1.779px 7.115px -1.779px rgba(0, 0, 0, 0.17), 0.519px 0.83px 6.403px 0 rgba(209, 229, 255, 0.17) inset, 0 0.889px 3.059px 0 rgba(255, 255, 255, 0.65) inset, -0.249px 0 0.889px 0 rgba(38, 115, 255, 0.06) inset, 0.249px 0 0.889px 0 rgba(255, 38, 64, 0.05) inset, 0 0 0.359px 0 rgba(242, 242, 255, 0.01) inset;
+    backdrop-filter: blur(3px);
+  }
+}

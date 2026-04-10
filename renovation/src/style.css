@@ -1,0 +1,28 @@
+div[class*="PhotoGalleryMainCarousel_mainCarousel"] {
+    position: relative;
+}
+
+.renovation {
+    position: absolute;
+    top: 16px;
+    left: 16px;
+    padding: 7px 10px;
+    border-radius: 8px;
+    background: #F5F5F5;
+    z-index: 2;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+
+    color: #000;
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 1
+}
+
+@media (max-width: 768px) {
+    .renovation {
+        top: 8px;
+        left: 8px;
+    }
+}

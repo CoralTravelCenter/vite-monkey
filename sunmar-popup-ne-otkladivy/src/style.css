@@ -1,0 +1,59 @@
+sunmar-popup#ne-otkladivy-otpusk::part(popup-dialog) {
+    background: linear-gradient(180deg, #F9BBBA 5.29%, #F4C9D6 36.06%, #C1A1CF 67.79%, #8F7AC8 78.06%);
+}
+
+sunmar-popup#ne-otkladivy-otpusk::part(popup-content) {
+    gap: unset;
+}
+
+sunmar-popup#ne-otkladivy-otpusk .body {
+    width: 100%;
+    padding-top: 56px;
+}
+
+sunmar-popup#ne-otkladivy-otpusk .body span {
+    display: block;
+    font-size: 18px;
+    margin-bottom: 18px;
+    color: hsla(246, 25%, 23%, 1);
+    font-weight: 600;
+}
+
+sunmar-popup#ne-otkladivy-otpusk .body .headlie {
+    margin-bottom: 32px;
+}
+
+sunmar-popup#ne-otkladivy-otpusk .body .cards-wrapper {
+    display: flex;
+    gap: 12px;
+}
+
+sunmar-popup#ne-otkladivy-otpusk .body .card {
+    min-height: 230px;
+    border-radius: 12px;
+    padding: 8px;
+    overflow: clip;
+    display: flex;
+    flex-direction: column;
+    justify-content: end;
+    align-items: center;
+    background-repeat: no-repeat !important;
+    background-size: cover !important;
+    flex: 1;
+}
+
+sunmar-popup#ne-otkladivy-otpusk .body .card a {
+    font-size: 12px;
+    background: #fff;
+    padding: 8px 40px;
+    border-radius: 40px;
+    color: #000;
+    text-decoration: none !important;
+    border: 1px solid #fff;
+    transition: all .3s ease;
+}
+
+sunmar-popup#ne-otkladivy-otpusk .body .card a:hover {
+    border-color: #0092D0;
+    color: #0092D0;
+}
