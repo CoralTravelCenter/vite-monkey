@@ -1,0 +1,251 @@
+#stories {
+    position: relative;
+    z-index: 2;
+    width: 100%;
+    margin: 0 0 20px;
+    padding: 0 16px;
+}
+
+#stories.snapssenger {
+    background: transparent;
+    font-family: Inter,
+    Arial,
+    sans-serif;
+}
+
+/* сама лента */
+#stories.snapssenger .stories {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    padding: 0;
+    overflow-x: auto;
+    overflow-y: hidden;
+    scrollbar-width: none;
+}
+
+#stories.snapssenger .stories::-webkit-scrollbar {
+    display: none;
+}
+
+/* карточка сторис в ленте */
+#stories.snapssenger .story {
+    flex: 0 0 auto;
+    width: 88px;
+    margin: 0;
+}
+
+/* ссылка/обертка */
+#stories.snapssenger .story > .item-link {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    text-decoration: none;
+}
+
+/* превью */
+#stories.snapssenger .story > .item-link > .item-preview {
+    position: relative;
+    width: 72px;
+    height: 72px;
+    border-radius: 22px;
+    padding: 3px;
+    background: linear-gradient(135deg, #ff8a00 0%, #ff5e00 100%);
+    box-shadow: 0 10px 24px rgba(0, 0, 0, 0.18);
+    transition: transform 0.2s ease,
+    box-shadow 0.2s ease,
+    opacity 0.2s ease;
+}
+
+/* внутренняя картинка */
+#stories.snapssenger .story > .item-link > .item-preview img,
+#stories.snapssenger .story > .item-link > .item-preview .img {
+    width: 100%;
+    height: 100%;
+    display: block;
+    object-fit: cover;
+    border-radius: 19px;
+    background: #dfe6ec;
+}
+
+/* hover */
+#stories.snapssenger .story > .item-link:hover > .item-preview {
+    transform: translateY(-2px);
+    box-shadow: 0 14px 28px rgba(0, 0, 0, 0.24);
+}
+
+/* просмотренные */
+#stories.snapssenger .story.seen > .item-link > .item-preview {
+    background: linear-gradient(135deg, #cfd6dd 0%, #b8c2cc 100%);
+    opacity: 0.82;
+}
+
+/* текст под сторис */
+#stories.snapssenger .story > .item-link > .info {
+    width: 100%;
+    min-width: 0;
+    text-align: center;
+}
+
+#stories.snapssenger .story > .item-link > .info .name {
+    display: block;
+    overflow: hidden;
+    color: #1f2a33;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    font-size: 13px;
+    font-weight: 700;
+    line-height: 1.2;
+}
+
+#stories.snapssenger .story > .item-link > .info .time {
+    display: none;
+}
+
+/* стрелки ленты */
+#stories.snapssenger .story-arrow {
+    width: 34px;
+    height: 34px;
+    margin-top: -17px;
+    border: 0;
+    border-radius: 999px;
+    background: rgba(31, 42, 51, 0.72);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.16);
+    backdrop-filter: blur(8px);
+}
+
+#stories.snapssenger .story-arrow:before {
+    color: #fff;
+    font-size: 14px;
+}
+
+/* модалка viewer */
+#zuck-modal,
+.zuck-modal {
+    background: rgba(28, 36, 44, 0.92) !important;
+    backdrop-filter: blur(8px);
+}
+
+/* контейнер внутри viewer */
+#zuck-modal-content,
+.zuck-modal-content {
+    background: transparent !important;
+}
+
+/* верхняя зона с прогрессом */
+#zuck-modal .story-viewer .head,
+.zuck-modal .story-viewer .head {
+    padding-top: 10px;
+}
+
+/* прогресс */
+#zuck-modal .story-viewer .slides-pointers .item,
+.zuck-modal .story-viewer .slides-pointers .item {
+    background: rgba(255, 255, 255, 0.24);
+}
+
+#zuck-modal .story-viewer .slides-pointers .item .fill,
+.zuck-modal .story-viewer .slides-pointers .item .fill {
+    background: #fff;
+}
+
+/* шапка сторис */
+#zuck-modal .story-viewer .header .left .name,
+.zuck-modal .story-viewer .header .left .name {
+    color: #fff;
+    font-weight: 700;
+}
+
+#zuck-modal .story-viewer .header .left .time,
+.zuck-modal .story-viewer .header .left .time {
+    color: rgba(255, 255, 255, 0.7);
+}
+
+/* кнопка закрытия */
+#zuck-modal .story-viewer .header .right .close,
+.zuck-modal .story-viewer .header .right .close {
+    color: #fff;
+    opacity: 0.9;
+}
+
+/* сам слайд */
+#zuck-modal .story-viewer .slides .item,
+.zuck-modal .story-viewer .slides .item {
+    border-radius: 18px;
+    overflow: hidden;
+}
+
+/* картинка/видео */
+#zuck-modal .story-viewer .slides .item .media,
+.zuck-modal .story-viewer .slides .item img,
+.zuck-modal .story-viewer .slides .item video,
+.zuck-modal .story-viewer .slides .item .content {
+    border-radius: 18px;
+}
+
+/* CTA ссылка */
+#zuck-modal .story-viewer a.link,
+.zuck-modal .story-viewer a.link {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 42px;
+    padding: 10px 18px;
+    border-radius: 999px;
+    background: #fff;
+    color: #d85f10;
+    font-size: 13px;
+    font-weight: 800;
+    text-decoration: none;
+    letter-spacing: 0.02em;
+}
+
+/* если блок стоит прямо перед coral-timer */
+#stories + coral-timer {
+    display: block;
+    margin-top: 4px;
+}
+
+/* адаптив */
+@media (max-width: 768px) {
+    #stories {
+        margin-bottom: 16px;
+        padding: 0 12px;
+    }
+
+    #stories.snapssenger .stories {
+        gap: 10px;
+    }
+
+    #stories.snapssenger .story {
+        width: 78px;
+    }
+
+    #stories.snapssenger .story > .item-link > .item-preview {
+        width: 64px;
+        height: 64px;
+        border-radius: 18px;
+    }
+
+    #stories.snapssenger .story > .item-link > .item-preview img,
+    #stories.snapssenger .story > .item-link > .item-preview .img {
+        border-radius: 15px;
+    }
+
+    #stories.snapssenger .story > .item-link > .info .name {
+        font-size: 12px;
+    }
+}
+
+#stories.snapssenger .story > .item-link > .item-preview {
+    position: relative;
+    width: 72px;
+    height: 72px;
+    border-radius: 24px;
+    padding: 3px;
+    background: linear-gradient(#fff, #fff) padding-box,
+    linear-gradient(135deg, #ff8a00 0%, #ff4d00 55%, #ffb066 100%) border-box;
+    border: 2px solid transparent;
+    box-shadow: 0 12px 28px rgba(0, 0, 0, 0.16);
+}
