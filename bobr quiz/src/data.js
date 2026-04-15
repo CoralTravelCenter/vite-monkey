@@ -7,20 +7,23 @@ export const aprilQuizData = {
     title: 'Не знаете, куда полететь в апреле?',
     text: 'Ответьте на несколько вопросов — и мы подскажем, что подойдет именно вам',
     buttonText: 'Начать',
-    image: 'https://web-static.s.mindbox.ru/quizzes-images/DC1F4E2AC36CC85AD3B2268EA734236182B2F6518037BCAB57168C8ED2DA91B1/8319876EFA4899FD5495A27F11351A86A071AD26E361D89637B3E91D15382832.jpg'
+    image: 'https://b2ccdn.sunmar.ru/content/Quiz_1.jpg'
   },
 
   resultsTitle: 'Подобрали для вас',
-  restartText: 'Попробовать снова',
+  resultButton: {
+    text: 'Смотреть подборку',
+    url: '/idei-otdykha/turtsiya-ili-egipet-aprel'
+  },
   nextText: 'Продолжить',
-  resultsLimit: 2,
+  resultsLimit: 1,
 
   questions: [
     {
       id: 'climate',
       type: 'single',
       title: 'Какой климат вам нравится?',
-      image: 'https://web-static.s.mindbox.ru/quizzes-images/DC1F4E2AC36CC85AD3B2268EA734236182B2F6518037BCAB57168C8ED2DA91B1/DB3FD396B6A142442BAE76EFD2C8DA5F0EFBF20554C650C9943E0E2F4F37AFE2.jpg',
+      image: 'https://b2ccdn.sunmar.ru/content/Quiz_2.jpg',
       options: [
         {
           id: 'dry-hot',
@@ -45,7 +48,7 @@ export const aprilQuizData = {
       id: 'dream-beach',
       type: 'single',
       title: 'Как выглядит пляж вашей мечты?',
-      image: 'https://web-static.s.mindbox.ru/quizzes-images/DC1F4E2AC36CC85AD3B2268EA734236182B2F6518037BCAB57168C8ED2DA91B1/47923B9AB008799810089060FFB36B5E630DB450394C3D150C551DF45467ECEC.jpg',
+      image: 'https://b2ccdn.sunmar.ru/content/Quiz_3.jpg',
       options: [
         {
           id: 'corals-fishes',
@@ -71,7 +74,7 @@ export const aprilQuizData = {
       type: 'multi',
       min: 1,
       title: 'Чем бы вам хотелось заняться на отдыхе?',
-      image: '/images/quiz/question-3.jpg',
+      image: 'https://b2ccdn.sunmar.ru/content/Quiz_4.jpg',
       options: [
         {
           id: 'safari',
@@ -114,15 +117,17 @@ export const aprilQuizData = {
       id: 'egypt',
       title: 'Вам пора в Египет!',
       description: 'Солнце, море и рифы для идеального отдыха в Египте',
-      image: 'https://b2ccdn.sunmar.ru/content/egypt-prod-visual.jpg',
-      url: ''
+      image: 'https://b2ccdn.sunmar.ru/content/Quiz_2.jpg',
+      url: '/idei-otdykha/turtsiya-ili-egipet-aprel',
+      hash: 'egypt'
     },
     {
       id: 'turkey',
       title: 'Вам пора в Турцию!',
       description: 'Гуляйте по достопримечательностям Турции и наслаждайтесь',
-      image: 'https://b2ccdn.sunmar.ru/content/turkey-prod-visual.jpg',
-      url: ''
+      image: 'https://b2ccdn.sunmar.ru/content/Quiz_4.jpg',
+      url: '/idei-otdykha/turtsiya-ili-egipet-aprel',
+      hash: 'turkey'
     }
   ]
 };

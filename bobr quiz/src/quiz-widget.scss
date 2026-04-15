@@ -77,7 +77,9 @@
   flex-direction: column;
   justify-content: center;
 
-  padding-block: 64px;
+  @media (min-width: 768px) {
+    padding-block: 64px;
+  }
 }
 
 .quiz__top {
@@ -85,9 +87,13 @@
   gap: 14px;
   margin-bottom: 28px;
   align-items: center;
-  position: absolute;
-  top: 16px;
-  width: calc(50% - 16px);
+  width: 100%;
+
+  @media (min-width: 768px) {
+    position: absolute;
+    width: calc(50% - 16px);
+    top: 16px;
+  }
 }
 
 .quiz__icon-btn {
@@ -293,6 +299,7 @@
   justify-content: center;
   gap: 8px;
   width: fit-content;
+  text-decoration: none;
 }
 
 .quiz__btn--dark svg {
@@ -358,7 +365,7 @@
   aspect-ratio: 1.5 / 1;
   border-radius: 18px;
   margin-bottom: 12px;
-  background-size: cover;
+  background-size: cover !important;
   background: radial-gradient(circle at 50% 50%, rgba(220, 154, 255, 0.42), rgba(220, 154, 255, 0) 35%), linear-gradient(180deg, #6c4b89 0%, #b47acd 55%, #6c4b89 100%) no-repeat center;
 }
 
