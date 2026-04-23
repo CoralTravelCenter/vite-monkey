@@ -1,0 +1,322 @@
+.travel-stories {
+    display: flex;
+    align-items: center;
+    /*justify-content: space-between;*/
+    justify-content: center;
+    /*padding: 32px 70px;*/
+    padding: 12px;
+    /*border-radius: 32px;*/
+    /*gap: 32px;*/
+    background: #FFFFFF;
+
+    /*> * {*/
+    /*    flex-basis: 50%;*/
+    /*}*/
+}
+
+.travel-stories__title {
+    font-size: 40px;
+    font-weight: 300;
+    line-height: 50px;
+    margin: 0;
+}
+
+.travel-stories__list {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 32px;
+}
+
+.travel-story {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+    background: transparent;
+    border: 0;
+    padding: 0;
+    cursor: pointer;
+    font: inherit;
+}
+
+.travel-story__avatar {
+    display: block;
+    /*width: 100px;*/
+    /*height: 100px;*/
+    width: 70px;
+    height: 70px;
+}
+
+.travel-story__avatar img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+}
+
+.travel-story__label {
+    color: #000;
+    text-align: center;
+    /*font-size: 24px;*/
+    font-size: 12px;
+    /*font-weight: 700;*/
+    /*line-height: 34px;*/
+}
+
+.travel-story:hover .travel-story__avatar,
+.travel-story:focus-visible .travel-story__avatar {
+    transform: scale(1.03);
+}
+
+.travel-story__avatar {
+    transition: transform 0.2s ease;
+}
+
+.stories-engine-hidden {
+    display: none;
+}
+
+.travel-story-modal-lock {
+    overflow: hidden;
+}
+
+.travel-story-modal {
+    position: fixed;
+    inset: 0;
+    z-index: 100000;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    padding: 16px;
+}
+
+.travel-story-modal.is-open {
+    display: flex;
+}
+
+.travel-story-modal__backdrop {
+    position: absolute;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.72);
+}
+
+.travel-story-modal__card {
+    position: relative;
+    width: min(calc((100vh - 32px) * 0.5625), 540px, calc(100vw - 32px));
+    height: min(calc((100vw - 32px) * 1.7778), 960px, calc(100vh - 32px));
+    overflow: hidden;
+    border-radius: 12px;
+    background: #111;
+    box-shadow: 0 18px 60px rgba(0, 0, 0, 0.32);
+}
+
+.travel-story-modal__progress {
+    position: absolute;
+    top: 16px;
+    left: 16px;
+    right: 16px;
+    z-index: 4;
+    display: flex;
+    gap: 4px;
+}
+
+.travel-story-modal__progress-item {
+    height: 2px;
+    flex: 1;
+    overflow: hidden;
+    border-radius: 999px;
+    background: rgba(255, 255, 255, 0.45);
+}
+
+.travel-story-modal__progress-item span {
+    display: block;
+    width: 100%;
+    height: 100%;
+    transform: scaleX(0);
+    transform-origin: left center;
+    background: #fff;
+}
+
+.travel-story-modal__progress-item.is-complete span {
+    transform: scaleX(1);
+}
+
+.travel-story-modal__progress-item.is-active span {
+    animation: travel-story-progress var(--story-duration, 5000ms) linear forwards;
+}
+
+.travel-story-modal__header {
+    position: absolute;
+    top: 32px;
+    left: 16px;
+    right: 16px;
+    z-index: 4;
+    display: flex;
+    align-items: center;
+    min-height: 32px;
+    color: #fff;
+}
+
+.travel-story-modal__avatar {
+    width: 36px;
+    height: 36px;
+    flex: 0 0 auto;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+.travel-story-modal__name {
+    margin-left: 10px;
+    min-width: 0;
+    overflow: hidden;
+    font-size: 14px;
+    line-height: 18px;
+    font-weight: 500;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.travel-story-modal__close {
+    position: relative;
+    width: 32px;
+    height: 32px;
+    margin-left: auto;
+    padding: 0;
+    border: 0;
+    background: transparent;
+    cursor: pointer;
+}
+
+.travel-story-modal__close::before,
+.travel-story-modal__close::after {
+    position: absolute;
+    top: 50%;
+    left: 7px;
+    width: 18px;
+    height: 2px;
+    border-radius: 999px;
+    background: #fff;
+    content: "";
+}
+
+.travel-story-modal__close::before {
+    transform: rotate(45deg);
+}
+
+.travel-story-modal__close::after {
+    transform: rotate(-45deg);
+}
+
+.travel-story-modal__swiper,
+.travel-story-modal__slide {
+    width: 100%;
+    height: 100%;
+}
+
+.travel-story-modal__slide {
+    position: relative;
+    overflow: hidden;
+    background: #111;
+}
+
+.travel-story-modal__media {
+    position: absolute;
+    inset: 0;
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.travel-story-modal__copy {
+    position: absolute;
+    top: 10%;
+    left: 16px;
+    right: 16px;
+    z-index: 2;
+    text-align: center;
+    pointer-events: none;
+}
+
+.travel-story-modal__title {
+    margin: 0 auto;
+    max-width: 430px;
+    color: #202020;
+    font-size: clamp(28px, 2.5vw, 36px);
+    line-height: 1.16;
+    font-weight: 400;
+    letter-spacing: 0;
+    text-wrap: balance;
+}
+
+.travel-story-modal__subtitle {
+    margin: 14px auto 0;
+    max-width: 410px;
+    color: #202020;
+    font-size: clamp(13px, 1.8vh, 18px);
+    line-height: 1.35;
+    font-weight: 400;
+    letter-spacing: 0;
+    text-wrap: balance;
+}
+
+.travel-story-modal__slide.is-text-light .travel-story-modal__title,
+.travel-story-modal__slide.is-text-light .travel-story-modal__subtitle {
+    color: #fff;
+}
+
+.travel-story-modal__cta {
+    position: absolute;
+    left: 50%;
+    bottom: 15%;
+    z-index: 3;
+    min-width: 116px;
+    min-height: 34px;
+    transform: translateX(-50%);
+    letter-spacing: 0;
+}
+
+.travel-story-modal__cta:hover {
+    transform: translate(-50%, -1px);
+}
+
+.travel-story-modal__cta:active {
+    transform: translate(-50%, 0);
+}
+
+@keyframes travel-story-progress {
+    from {
+        transform: scaleX(0);
+    }
+
+    to {
+        transform: scaleX(1);
+    }
+}
+
+@media (max-width: 767px) {
+    .travel-story-modal {
+        align-items: flex-start;
+    }
+
+    .travel-story-modal__card {
+        height: 90vh;
+    }
+
+    .travel-story-modal__copy {
+        top: 78px;
+        left: 16px;
+        right: 16px;
+    }
+
+    .travel-story-modal__title {
+        max-width: 290px;
+        font-size: clamp(24px, 7vw, 28px);
+        line-height: 28px;
+    }
+
+    .travel-story-modal__subtitle {
+        max-width: 270px;
+    }
+}
