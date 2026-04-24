@@ -1,13 +1,12 @@
 {
-  "name": "podborky-cen",
+  "name": "june-aside-mob",
   "private": true,
   "version": "0.0.0",
   "type": "module",
   "scripts": {
     "dev": "vite",
     "build": "vite build",
-    "preview": "vite preview",
-    "proxy": "lcp --proxyUrl https://www.coral.ru --port 8010"
+    "preview": "vite preview"
   },
   "devDependencies": {
     "vite": "^6.0.5",

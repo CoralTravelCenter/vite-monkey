@@ -1,0 +1,30 @@
+#june::part(trigger) {
+    height: 80px;
+    left: 16px;
+}
+
+
+#june::part(container) {
+    background: url("https://b2ccdn.coral.ru/content/desktop_pop_over.webp");
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+    min-height: 385px;
+    display: flex;
+    flex-direction: column;
+    justify-content: end;
+    padding-bottom: 90px;
+}
+
+.travel-story__avatar-small {
+    display: block;
+    width: 80px;
+    height: 80px;
+
+    img {
+        width: 100%;
+        height: 100%;
+        object-fit: contain;
+        display: block;
+    }
+}
