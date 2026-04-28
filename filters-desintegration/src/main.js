@@ -1,63 +1,144 @@
-// Категории 4 и 5 звезд
-import {ReactDomObserver} from "../../utils.js";
+import {debounce, ReactDomObserver} from "../../utils.js";
+import markup from './markup.html?raw';
+import attentionMarkup from './attention-markup.html?raw';
+import {FILTERS_MAP} from './config/filter-map.js';
+import {FILTER_PRESETS} from './config/filter-presets.js';
+import {annotateFilters} from './lib/filter-dom.js';
+import {applyPreset} from './lib/preset-controller.js';
+import {bindPresetSwitcher, syncPresetSwitcherState,} from './lib/switcher.js';
+import './styles.css';
 
 const selector = 'div[class*="Collapse_collapseContainer__"]';
+const switcherHostSelector = '.visible-on-desktop-list .ant-typography';
+const filterLabels = Object.values(FILTERS_MAP);
+const presetSessionKey = 'filters-desintegration-active-preset';
+const segmentCookieKey = 'june_26_segment';
+const presetToggleDebounceMs = 180;
+const debounceContext = {};
+const presetAttentionTextMap = {
+    family:
+        'Оставили только важные фильтры, чтобы было проще найти идеальный отель для семейного отдыха.',
+    couple:
+        'Оставили только важные фильтры, чтобы было проще найти идеальный отель для романтического отдыха.',
+    solo:
+        'Оставили только важные фильтры, чтобы было проще найти идеальный отель для соло-путешествия.',
+};
+const defaultAttentionText =
+    'Оставили только важные фильтры, чтобы было проще найти идеальный отель для вашего отдыха.';
 
-const FILTERS_MAP = {
-  hotelAvailability: 'Доступность отеля',
-  region: 'Регион',
-  hotelNameSearch: 'Поиск по названию отеля',
-  hotelCategory: 'Категория отеля',
-  mealType: 'Тип питания',
-  hotelConcept: 'Концепция отеля',
-  price: 'Цена',
-  specialOffers: 'Акции и спецпредложения',
-  recommendedHotels: 'Рекомендуемые отели',
-  hotelInfo: 'Информация об отеле',
-  totalArea: 'Общая площадь',
-  distanceToBeach: 'Расстояние до пляжа (м)',
-  distanceToAirport: 'Расстояние до аэропорта (км)',
-  distanceToCityCenter: 'Расстояние до центра города (км)',
-  beach: 'Пляж',
-  poolsAndWaterpark: 'Бассейны и аквапарк',
-  forChildren: 'Для детей',
-  hotelServices: 'Услуги отеля',
-  roomAmenities: 'Оснащение номера',
-  roomType: 'Тип номера',
-  additionalOptions: 'Дополнительные опции',
+const readCookie = (name) => {
+    const escapedName = name.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+    const match = document.cookie.match(new RegExp(`(?:^|; )${escapedName}=([^;]*)`));
+    return match ? decodeURIComponent(match[1]) : null;
 };
 
-const normalizeText = (text = '') => text.replace(/\s+/g, ' ').trim();
+const readSegmentPreset = () => {
+    const value = readCookie(segmentCookieKey);
+    return value && FILTER_PRESETS[value] ? value : null;
+};
 
-const getFilterText = (element) => {
-  const headerTextEl = element.querySelector('.ant-collapse-header-text');
-  if (headerTextEl) {
-    return normalizeText(headerTextEl.textContent);
-  }
+const readStoredPreset = () => {
+    try {
+        const value = window.sessionStorage.getItem(presetSessionKey);
+        return value && FILTER_PRESETS[value] ? value : null;
+    } catch {
+        return null;
+    }
+};
 
-  const checkboxLabelEl = element.querySelector(
-    '[class*="Collapse_nonCollapseBody__"] .ant-checkbox-label'
-  );
-  if (checkboxLabelEl) {
-    return normalizeText(checkboxLabelEl.textContent);
-  }
+const persistPreset = (presetId) => {
+    try {
+        if (presetId) {
+            window.sessionStorage.setItem(presetSessionKey, presetId);
+        } else {
+            window.sessionStorage.removeItem(presetSessionKey);
+        }
+    } catch {
+    }
+};
 
-  return '';
+const segmentPreset = readSegmentPreset();
+const storedPreset = readStoredPreset();
+let activePreset = storedPreset || segmentPreset || 'family';
+let filterHost = null;
+let switcherHost = null;
+
+const ensurePresetSwitcher = (onToggle) => {
+    if (!switcherHost) return null;
+    const segmentPreset = readSegmentPreset();
+
+    const switcherContainer =
+        switcherHost.closest('.visible-on-desktop-list') || switcherHost.parentElement;
+
+    if (!switcherContainer) return null;
+
+    let switcher = switcherContainer.querySelector('[data-filter-presets-switcher]');
+    if (!switcher) {
+        switcherHost.insertAdjacentHTML('beforebegin', markup);
+        switcher = switcherHost.previousElementSibling?.matches('[data-filter-presets-switcher]')
+            ? switcherHost.previousElementSibling
+            : switcherContainer.querySelector('[data-filter-presets-switcher]');
+    }
+
+    const attentionHost = document.querySelector('.hotel-list-sort-styled');
+    let attention = document?.querySelector('.filter-presets-attention');
+    if (attentionHost && !attention) {
+        attentionHost.insertAdjacentHTML('beforebegin', attentionMarkup);
+        attention = document.querySelector('.filter-presets-attention');
+    }
+
+    bindPresetSwitcher(switcher, onToggle);
+    syncPresetSwitcherState(switcher, activePreset, segmentPreset);
+
+    if (attention) {
+        const attentionTextNode = attention.querySelector('.filter-presets-attention__text');
+        if (attentionTextNode) {
+            attentionTextNode.textContent =
+                presetAttentionTextMap[activePreset] || defaultAttentionText;
+        }
+    }
+
+    return switcher;
+};
+
+const applyCurrentPreset = () => {
+    if (!filterHost) return;
+
+    annotateFilters(filterHost, filterLabels);
+    applyPreset(filterHost, FILTER_PRESETS, activePreset);
+};
+
+const debouncedPresetToggle = debounce((nextPreset) => {
+    activePreset = activePreset === nextPreset ? null : nextPreset;
+    persistPreset(activePreset);
+    ensurePresetSwitcher(handlePresetToggle);
+    applyCurrentPreset();
+}, presetToggleDebounceMs);
+
+const handlePresetToggle = (nextPreset) => {
+    debouncedPresetToggle.call(debounceContext, nextPreset);
+};
+
+const syncUi = () => {
+    ensurePresetSwitcher(handlePresetToggle);
+    applyCurrentPreset();
 };
 
 new ReactDomObserver(selector, {
-  onAppear: (host) => {
-    const filterLabels = Object.values(FILTERS_MAP);
-    const children = Array.from(host.children);
+    watchChild: true,
+    onAppear: (host) => {
+        filterHost = host;
+        syncUi();
+    },
+    onChildMutate: (host) => {
+        filterHost = host;
+        syncUi();
+    }
+}).start();
 
-    children.forEach((child) => {
-      const childText = getFilterText(child);
-      if (!childText) return;
-
-      const label = filterLabels.find((item) => item === childText);
-      if (!label) return;
-
-      child.setAttribute('data-filter-name', label);
-    });
-  }
+new ReactDomObserver(switcherHostSelector, {
+    onAppear: (host) => {
+        switcherHost = host;
+        syncUi();
+    }
 }).start();

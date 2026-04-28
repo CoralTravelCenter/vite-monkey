@@ -1,0 +1,164 @@
+.visible-on-desktop-list:has(.ant-typography) {
+    display: flex;
+    align-items: center;
+    flex-direction: row-reverse;
+    justify-content: space-between;
+    padding-block: 12px;
+}
+
+.visible-on-desktop-list .ant-typography {
+    margin: 0 auto 0 0 !important;
+}
+
+.filter-presets-switcher {
+    display: flex;
+    align-items: center;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 12px;
+    padding: 8px;
+    border-radius: 12px;
+    background: #FFF;
+}
+
+.filter-presets-switcher__text {
+    margin-right: 4px;
+    font-size: 16px;
+    font-weight: 600;
+    color: #000;
+}
+
+.filter-presets-switcher__item {
+    display: inline-flex;
+    align-items: center;
+    cursor: pointer;
+    user-select: none;
+}
+
+.filter-presets-switcher__item input {
+    margin: 0;
+}
+
+/* Текст + визуальный switch */
+.filter-presets-switcher__label {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    min-height: 32px;
+    padding-left: 52px;
+    font-size: 14px;
+    line-height: 1;
+    color: #374151;
+    transition: color 0.2s ease;
+}
+
+/* Track */
+.filter-presets-switcher__label::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 50%;
+    width: 42px;
+    height: 24px;
+    border-radius: 999px;
+    background: #d1d5db;
+    transform: translateY(-50%);
+    transition: background-color 0.2s ease;
+}
+
+/* Thumb */
+.filter-presets-switcher__label::after {
+    content: "";
+    position: absolute;
+    left: 3px;
+    top: 50%;
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    background: #fff;
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.2);
+    transform: translateY(-50%);
+    transition: transform 0.2s ease;
+}
+
+/* Checked */
+.filter-presets-switcher__item input:checked + .filter-presets-switcher__label::before {
+    background: #077DAD;
+}
+
+.filter-presets-switcher__item input:checked + .filter-presets-switcher__label::after {
+    transform: translate(18px, -50%);
+}
+
+/* Disabled на будущее */
+.filter-presets-switcher__item input:disabled + .filter-presets-switcher__label {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+.filter-presets-attention {
+    display: flex;
+    padding: 20px;
+    align-items: center;
+    gap: 18px;
+    border-radius: 12px;
+    border: 1px solid var(--Base-color_Base_Item_Bg_1, #C2E4F6);
+    background: var(--Base-color_Base_Light_Alt, #F3F9FF);
+
+    color: #000;
+    font-size: var(--font-font_Size_Body, 16px);
+    font-weight: 400;
+    line-height: var(--font-font_Line_Height_Body, 24px);
+}
+
+.is-filter-hidden,
+.is-filter-option-hidden {
+    display: none !important;
+}
+
+.is-segment-hidden {
+    display: none !important;
+}
+
+
+div[class*="HotelListFilters_hotelListFilterSidebar__"] .ant-space {
+    gap: 0 !important;
+}
+
+[data-filter-name="Поиск по названию отеля"] {
+    display: none !important;
+}
+
+.is-segment-hotel-category .ant-checkbox-group .ant-space-item:nth-child(n + 2),
+.is-segment-hotel-category [class*="GroupCheckbox_showMoreLess__"] {
+    display: none !important;
+}
+
+.is-family-beach-filter .ant-tree-treenode:nth-child(n + 2) {
+    display: none !important;
+}
+
+div[class*="HotelListFilters_hotelListFilterHeading"] {
+    flex-direction: column;
+    align-items: start;
+    gap: 8px;
+}
+
+div[class*="HotelListFilters_filterActionsContainer"]:has([name="Применить фильтры"]) {
+    display: flex;
+    flex-direction: column;
+}
+
+.visually-hidden {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    margin: -1px;
+    border: 0;
+    padding: 0;
+
+    white-space: nowrap;
+    clip-path: inset(100%);
+    clip: rect(0 0 0 0);
+    overflow: hidden;
+}
