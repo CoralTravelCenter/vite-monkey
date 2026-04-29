@@ -1,5 +1,5 @@
 {
-  "name": "filters-desintegration",
+  "name": "june-popup-family",
   "private": true,
   "version": "0.0.0",
   "type": "module",
@@ -9,11 +9,7 @@
     "preview": "vite preview"
   },
   "devDependencies": {
-    "terser": "^5.46.2",
     "vite": "^6.0.5",
     "vite-plugin-monkey": "^5.0.3"
-  },
-  "dependencies": {
-    "sass": "^1.99.0"
   }
 }

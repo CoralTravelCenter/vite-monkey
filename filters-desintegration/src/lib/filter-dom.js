@@ -25,10 +25,16 @@ export const getFilterText = (element) => {
 export const annotateFilters = (host, filterLabels) => {
   Array.from(host.children).forEach((child) => {
     const childText = getFilterText(child);
-    if (!childText) return;
+    if (!childText) {
+      child.removeAttribute('data-filter-name');
+      return;
+    }
 
     const label = filterLabels.find((item) => isFilterCategoryMatch(item, childText));
-    if (!label) return;
+    if (!label) {
+      child.removeAttribute('data-filter-name');
+      return;
+    }
 
     child.setAttribute('data-filter-name', label);
   });
@@ -44,6 +50,7 @@ export const getFilterRootElement = (filterElement) =>
   filterElement;
 
 export const showElement = (element) => {
+  element.classList.remove(FILTER_HIDDEN_CLASS, FILTER_OPTION_HIDDEN_CLASS);
   getFilterRootElement(element).classList.remove(
     FILTER_HIDDEN_CLASS,
     FILTER_OPTION_HIDDEN_CLASS

@@ -2,12 +2,6 @@ const SWITCHER_CLASS = 'filter-presets-switcher';
 const ACTIVE_CLASS = 'is-active';
 const HIDDEN_CLASS = 'is-segment-hidden';
 
-const PRESET_TITLES = {
-  family: 'Семейный отдых',
-  couple: 'Отдых вдвоем',
-  solo: 'Отдых в одиночку',
-};
-
 export const bindPresetSwitcher = (switcher, onToggle) => {
   if (!switcher || switcher.__boundPresetSwitcher) return;
 
@@ -22,16 +16,20 @@ export const bindPresetSwitcher = (switcher, onToggle) => {
   switcher.__boundPresetSwitcher = true;
 };
 
-export const syncPresetSwitcherState = (switcher, activePreset, segmentPreset) => {
+export const syncPresetSwitcherState = (
+  switcher,
+  activePreset,
+  segmentPreset,
+  hasStoredPresetOverride = false
+) => {
   if (!switcher) return;
 
   const titleNode = switcher.querySelector(`.${SWITCHER_CLASS}__text`);
   const items = Array.from(switcher.querySelectorAll(`.${SWITCHER_CLASS}__item`));
-  const hasSegmentPreset = Boolean(segmentPreset);
+  const hasSegmentPreset = Boolean(segmentPreset && !hasStoredPresetOverride);
 
   items.forEach((item) => {
     const input = item.querySelector('input[data-preset-id]');
-    const labelNode = item.querySelector(`.${SWITCHER_CLASS}__label`);
     if (!input) return;
 
     const checked = input.dataset.presetId === activePreset;
@@ -42,9 +40,6 @@ export const syncPresetSwitcherState = (switcher, activePreset, segmentPreset) =
       HIDDEN_CLASS,
       Boolean(hasSegmentPreset && input.dataset.presetId !== segmentPreset)
     );
-    if (labelNode) {
-      labelNode.textContent = PRESET_TITLES[input.dataset.presetId] || labelNode.textContent;
-    }
   });
 
   if (titleNode) {
