@@ -1,0 +1,7 @@
+.june-compain-popup::part(popup-dialog) {
+    max-width: 422px;
+}
+
+.june-compain-popup::part(popup-content) {
+    gap: 0;
+}
