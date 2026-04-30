@@ -1,9 +1,16 @@
 .visible-on-desktop-list:has(.ant-typography) {
     display: flex;
-    align-items: center;
+    width: 100%;
     flex-direction: row-reverse;
+    align-items: center;
     justify-content: space-between;
     padding-block: 12px;
+    gap: 16px;
+
+    @media (max-width: 1280px) {
+        flex-direction: column-reverse;
+        align-items: start;
+    }
 }
 
 .visible-on-desktop-list .ant-typography {
@@ -13,7 +20,6 @@
 .filter-presets-switcher {
     display: flex;
     align-items: center;
-    align-items: center;
     flex-wrap: wrap;
     gap: 12px;
     padding: 8px;
@@ -22,7 +28,6 @@
 }
 
 .filter-presets-switcher__text {
-    margin-right: 4px;
     font-size: 16px;
     font-weight: 600;
     color: #000;
@@ -45,7 +50,7 @@
     display: inline-flex;
     align-items: center;
     min-height: 32px;
-    padding-left: 52px;
+    padding-right: 52px;
     font-size: 14px;
     line-height: 1;
     color: #374151;
@@ -56,7 +61,7 @@
 .filter-presets-switcher__label::before {
     content: "";
     position: absolute;
-    left: 0;
+    right: 0;
     top: 50%;
     width: 42px;
     height: 24px;
@@ -70,7 +75,7 @@
 .filter-presets-switcher__label::after {
     content: "";
     position: absolute;
-    left: 3px;
+    right: 21px;
     top: 50%;
     width: 18px;
     height: 18px;
@@ -145,6 +150,11 @@ div[class*="HotelListFilters_hotelListFilterHeading"] {
 }
 
 div[class*="HotelListFilters_filterActionsContainer"]:has([name="Применить фильтры"]) {
+    display: flex;
+    flex-direction: column;
+}
+
+[data-active-filter-preset] {
     display: flex;
     flex-direction: column;
 }

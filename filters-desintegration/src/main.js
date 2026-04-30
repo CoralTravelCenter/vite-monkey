@@ -6,139 +6,263 @@ import {FILTER_PRESETS} from './config/filter-presets.js';
 import {annotateFilters} from './lib/filter-dom.js';
 import {applyPreset} from './lib/preset-controller.js';
 import {bindPresetSwitcher, syncPresetSwitcherState,} from './lib/switcher.js';
-import './styles.css';
+import './styles.scss';
 
 const selector = 'div[class*="Collapse_collapseContainer__"]';
 const switcherHostSelector = '.visible-on-desktop-list .ant-typography';
 const filterLabels = Object.values(FILTERS_MAP);
 const presetSessionKey = 'filters-desintegration-active-preset';
+const disabledPresetValue = '__none__';
 const segmentCookieKey = 'june_26_segment';
+const metricsCounterId = 96674199;
+const filtersShowGoal = 'june_26_filters_show';
+const filtersActivateGoal = 'june_26_filters_activate';
 const presetToggleDebounceMs = 180;
+const observerSyncDebounceMs = 60;
+const deferredSyncDelayMs = 120;
 const debounceContext = {};
+const observerSyncDebounceContext = {};
 const presetAttentionTextMap = {
-    family:
-        'Оставили только важные фильтры, чтобы было проще найти идеальный отель для семейного отдыха.',
-    couple:
-        'Оставили только важные фильтры, чтобы было проще найти идеальный отель для романтического отдыха.',
-    solo:
-        'Оставили только важные фильтры, чтобы было проще найти идеальный отель для соло-путешествия.',
+  family:
+    'Оставили только важные фильтры, чтобы было проще найти идеальный отель для семейного отдыха.',
+  couple:
+    'Оставили только важные фильтры, чтобы было проще найти идеальный отель для романтического отдыха.',
+  solo:
+    'Оставили только важные фильтры, чтобы было проще найти идеальный отель для соло-путешествия.',
 };
 const defaultAttentionText =
-    'Оставили только важные фильтры, чтобы было проще найти идеальный отель для вашего отдыха.';
+  'Оставили только важные фильтры, чтобы было проще найти идеальный отель для вашего отдыха.';
 
 const readCookie = (name) => {
-    const escapedName = name.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
-    const match = document.cookie.match(new RegExp(`(?:^|; )${escapedName}=([^;]*)`));
-    return match ? decodeURIComponent(match[1]) : null;
+  const escapedName = name.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+  const match = document.cookie.match(new RegExp(`(?:^|; )${escapedName}=([^;]*)`));
+  return match ? decodeURIComponent(match[1]) : null;
 };
 
 const readSegmentPreset = () => {
-    const value = readCookie(segmentCookieKey);
-    return value && FILTER_PRESETS[value] ? value : null;
+  const value = readCookie(segmentCookieKey);
+  return value && FILTER_PRESETS[value] ? value : null;
 };
 
-const readStoredPreset = () => {
-    try {
-        const value = window.sessionStorage.getItem(presetSessionKey);
-        return value && FILTER_PRESETS[value] ? value : null;
-    } catch {
-        return null;
+const readStoredPresetState = () => {
+  try {
+    const value = window.sessionStorage.getItem(presetSessionKey);
+    if (value === null) {
+      return {
+        hasOverride: false,
+        presetId: null,
+      };
     }
+
+    if (value === disabledPresetValue) {
+      return {
+        hasOverride: true,
+        presetId: null,
+      };
+    }
+
+    return {
+      hasOverride: Boolean(value && FILTER_PRESETS[value]),
+      presetId: value && FILTER_PRESETS[value] ? value : null,
+    };
+  } catch {
+    return {
+      hasOverride: false,
+      presetId: null,
+    };
+  }
 };
 
 const persistPreset = (presetId) => {
-    try {
-        if (presetId) {
-            window.sessionStorage.setItem(presetSessionKey, presetId);
-        } else {
-            window.sessionStorage.removeItem(presetSessionKey);
-        }
-    } catch {
+  try {
+    if (presetId) {
+      window.sessionStorage.setItem(presetSessionKey, presetId);
+    } else {
+      window.sessionStorage.setItem(presetSessionKey, disabledPresetValue);
     }
+  } catch {
+  }
+};
+
+const resolveActivePreset = (segmentPreset, storedPresetState) => {
+    if (storedPresetState.hasOverride) {
+        return storedPresetState.presetId;
+    }
+
+    if (segmentPreset) {
+        return segmentPreset;
+    }
+
+    return null;
 };
 
 const segmentPreset = readSegmentPreset();
-const storedPreset = readStoredPreset();
-let activePreset = storedPreset || segmentPreset || 'family';
+const storedPresetState = readStoredPresetState();
+let activePreset = resolveActivePreset(segmentPreset, storedPresetState);
 let filterHost = null;
 let switcherHost = null;
+let deferredSyncTimer = null;
+let hasTrackedFiltersShow = false;
 
-const ensurePresetSwitcher = (onToggle) => {
-    if (!switcherHost) return null;
-    const segmentPreset = readSegmentPreset();
+const getAnalyticsSegment = (segmentPreset) => segmentPreset || 'all';
 
-    const switcherContainer =
-        switcherHost.closest('.visible-on-desktop-list') || switcherHost.parentElement;
+const trackGoal = (goal, payload) => {
+  if (typeof window.ym !== 'function') return;
 
-    if (!switcherContainer) return null;
+  window.ym(metricsCounterId, 'reachGoal', goal, payload);
+};
 
-    let switcher = switcherContainer.querySelector('[data-filter-presets-switcher]');
-    if (!switcher) {
-        switcherHost.insertAdjacentHTML('beforebegin', markup);
-        switcher = switcherHost.previousElementSibling?.matches('[data-filter-presets-switcher]')
-            ? switcherHost.previousElementSibling
-            : switcherContainer.querySelector('[data-filter-presets-switcher]');
+const trackFiltersShow = (segmentPreset) => {
+  if (hasTrackedFiltersShow) return;
+
+  hasTrackedFiltersShow = true;
+  trackGoal(filtersShowGoal, {
+    filter_segment: getAnalyticsSegment(segmentPreset),
+  });
+};
+
+const trackFiltersActivate = (presetId) => {
+  trackGoal(filtersActivateGoal, {
+    filter_segment: getAnalyticsSegment(presetId),
+  });
+};
+
+const clearDeferredSync = () => {
+  if (deferredSyncTimer) {
+    window.clearTimeout(deferredSyncTimer);
+    deferredSyncTimer = null;
+  }
+};
+
+const scheduleDeferredSync = () => {
+  clearDeferredSync();
+  deferredSyncTimer = window.setTimeout(() => {
+    deferredSyncTimer = null;
+    syncUi();
+  }, deferredSyncDelayMs);
+};
+
+const getCurrentState = () => {
+  const segmentPreset = readSegmentPreset();
+  const storedPresetState = readStoredPresetState();
+
+  return {
+    segmentPreset,
+    storedPresetState,
+    activePreset: resolveActivePreset(segmentPreset, storedPresetState),
+  };
+};
+
+const ensurePresetSwitcher = (onToggle, state = getCurrentState()) => {
+  if (!switcherHost) return null;
+
+  const switcherContainer =
+    switcherHost.closest('.visible-on-desktop-list') || switcherHost.parentElement;
+
+  if (!switcherContainer) return null;
+
+  let switcher = switcherContainer.querySelector('[data-filter-presets-switcher]');
+  if (!switcher) {
+    switcherHost.insertAdjacentHTML('beforebegin', markup);
+    switcher = switcherHost.previousElementSibling?.matches('[data-filter-presets-switcher]')
+      ? switcherHost.previousElementSibling
+      : switcherContainer.querySelector('[data-filter-presets-switcher]');
+  }
+
+  const attentionHost = document.querySelector('.hotel-list-sort-styled');
+  let attention = document?.querySelector('.filter-presets-attention');
+  if (attentionHost && !attention) {
+    attentionHost.insertAdjacentHTML('beforebegin', attentionMarkup);
+    attention = document.querySelector('.filter-presets-attention');
+  }
+
+  bindPresetSwitcher(switcher, onToggle);
+  trackFiltersShow(state.segmentPreset);
+  syncPresetSwitcherState(
+    switcher,
+    state.activePreset,
+    state.segmentPreset,
+    state.storedPresetState.hasOverride
+  );
+
+  if (attention) {
+    const attentionTextNode = attention.querySelector('.filter-presets-attention__text');
+    if (attentionTextNode) {
+      attentionTextNode.textContent =
+        presetAttentionTextMap[state.activePreset] || defaultAttentionText;
     }
+  }
 
-    const attentionHost = document.querySelector('.hotel-list-sort-styled');
-    let attention = document?.querySelector('.filter-presets-attention');
-    if (attentionHost && !attention) {
-        attentionHost.insertAdjacentHTML('beforebegin', attentionMarkup);
-        attention = document.querySelector('.filter-presets-attention');
-    }
-
-    bindPresetSwitcher(switcher, onToggle);
-    syncPresetSwitcherState(switcher, activePreset, segmentPreset);
-
-    if (attention) {
-        const attentionTextNode = attention.querySelector('.filter-presets-attention__text');
-        if (attentionTextNode) {
-            attentionTextNode.textContent =
-                presetAttentionTextMap[activePreset] || defaultAttentionText;
-        }
-    }
-
-    return switcher;
+  return switcher;
 };
 
 const applyCurrentPreset = () => {
-    if (!filterHost) return;
+  if (!filterHost) return;
 
-    annotateFilters(filterHost, filterLabels);
-    applyPreset(filterHost, FILTER_PRESETS, activePreset);
+  annotateFilters(filterHost, filterLabels);
+  const result = applyPreset(filterHost, FILTER_PRESETS, activePreset);
+  if (result?.deferred) {
+    scheduleDeferredSync();
+  } else {
+    clearDeferredSync();
+  }
 };
 
 const debouncedPresetToggle = debounce((nextPreset) => {
-    activePreset = activePreset === nextPreset ? null : nextPreset;
-    persistPreset(activePreset);
-    ensurePresetSwitcher(handlePresetToggle);
-    applyCurrentPreset();
+  const nextActivePreset = activePreset === nextPreset ? null : nextPreset;
+  const isUserActivation = Boolean(nextActivePreset);
+
+  activePreset = nextActivePreset;
+  persistPreset(activePreset);
+  if (isUserActivation) {
+    trackFiltersActivate(activePreset);
+  }
+  const state = getCurrentState();
+  activePreset = state.activePreset;
+  ensurePresetSwitcher(handlePresetToggle, state);
+  applyCurrentPreset();
 }, presetToggleDebounceMs);
 
 const handlePresetToggle = (nextPreset) => {
-    debouncedPresetToggle.call(debounceContext, nextPreset);
+  debouncedPresetToggle.call(debounceContext, nextPreset);
 };
 
 const syncUi = () => {
-    ensurePresetSwitcher(handlePresetToggle);
-    applyCurrentPreset();
+  const state = getCurrentState();
+  activePreset = state.activePreset;
+  ensurePresetSwitcher(handlePresetToggle, state);
+  applyCurrentPreset();
+};
+
+const debouncedObserverSync = debounce(() => {
+  syncUi();
+}, observerSyncDebounceMs);
+
+const scheduleSyncUi = () => {
+  debouncedObserverSync.call(observerSyncDebounceContext);
 };
 
 new ReactDomObserver(selector, {
-    watchChild: true,
-    onAppear: (host) => {
-        filterHost = host;
-        syncUi();
-    },
-    onChildMutate: (host) => {
-        filterHost = host;
-        syncUi();
-    }
+  watchChild: true,
+  onAppear: (host) => {
+    filterHost = host;
+    scheduleSyncUi();
+  },
+  onChildMutate: (host) => {
+    filterHost = host;
+    scheduleSyncUi();
+  },
+  onDisappear: () => {
+    filterHost = null;
+  }
 }).start();
 
 new ReactDomObserver(switcherHostSelector, {
-    onAppear: (host) => {
-        switcherHost = host;
-        syncUi();
-    }
+  onAppear: (host) => {
+    switcherHost = host;
+    scheduleSyncUi();
+  },
+  onDisappear: () => {
+    switcherHost = null;
+  }
 }).start();
