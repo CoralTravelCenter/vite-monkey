@@ -1,4 +1,4 @@
-import {debounce, ReactDomObserver} from "../../utils.js";
+import {debounce, reactDomObserver} from "../../utils/index.js";
 import markup from './markup.html?raw';
 import attentionMarkup from './attention-markup.html?raw';
 import {FILTERS_MAP} from './config/filter-map.js';
@@ -31,7 +31,7 @@ const presetAttentionTextMap = {
     'Оставили только важные фильтры, чтобы было проще найти идеальный отель для соло-путешествия.',
 };
 const defaultAttentionText =
-  'Оставили только важные фильтры, чтобы было проще найти идеальный отель для вашего отдыха.';
+  'Оставим только важные фильтры, чтобы было проще найти идеальный отель для вашего отдыха.';
 
 const readCookie = (name) => {
   const escapedName = name.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
@@ -85,15 +85,15 @@ const persistPreset = (presetId) => {
 };
 
 const resolveActivePreset = (segmentPreset, storedPresetState) => {
-    if (storedPresetState.hasOverride) {
-        return storedPresetState.presetId;
-    }
+  if (storedPresetState.hasOverride) {
+    return storedPresetState.presetId;
+  }
 
-    if (segmentPreset) {
-        return segmentPreset;
-    }
+  if (segmentPreset) {
+    return segmentPreset;
+  }
 
-    return null;
+  return null;
 };
 
 const segmentPreset = readSegmentPreset();
@@ -102,7 +102,11 @@ let activePreset = resolveActivePreset(segmentPreset, storedPresetState);
 let filterHost = null;
 let switcherHost = null;
 let deferredSyncTimer = null;
+let observerMutationReleaseTimer = null;
+let filterHostMutationObserver = null;
 let hasTrackedFiltersShow = false;
+let suppressObserverChildMutations = false;
+let hasPendingObserverSync = false;
 
 const getAnalyticsSegment = (segmentPreset) => segmentPreset || 'all';
 
@@ -131,6 +135,20 @@ const clearDeferredSync = () => {
   if (deferredSyncTimer) {
     window.clearTimeout(deferredSyncTimer);
     deferredSyncTimer = null;
+  }
+};
+
+const clearObserverMutationRelease = () => {
+  if (observerMutationReleaseTimer) {
+    window.clearTimeout(observerMutationReleaseTimer);
+    observerMutationReleaseTimer = null;
+  }
+};
+
+const disconnectFilterHostMutationObserver = () => {
+  if (filterHostMutationObserver) {
+    filterHostMutationObserver.disconnect();
+    filterHostMutationObserver = null;
   }
 };
 
@@ -199,8 +217,11 @@ const ensurePresetSwitcher = (onToggle, state = getCurrentState()) => {
 const applyCurrentPreset = () => {
   if (!filterHost) return;
 
-  annotateFilters(filterHost, filterLabels);
-  const result = applyPreset(filterHost, FILTER_PRESETS, activePreset);
+  const result = withObserverMutationSuppression(() => {
+    annotateFilters(filterHost, filterLabels);
+    return applyPreset(filterHost, FILTER_PRESETS, activePreset);
+  });
+
   if (result?.deferred) {
     scheduleDeferredSync();
   } else {
@@ -242,27 +263,95 @@ const scheduleSyncUi = () => {
   debouncedObserverSync.call(observerSyncDebounceContext);
 };
 
-new ReactDomObserver(selector, {
-  watchChild: true,
-  onAppear: (host) => {
-    filterHost = host;
-    scheduleSyncUi();
-  },
-  onChildMutate: (host) => {
-    filterHost = host;
-    scheduleSyncUi();
-  },
-  onDisappear: () => {
-    filterHost = null;
-  }
-}).start();
+const flushPendingObserverSync = () => {
+  if (!hasPendingObserverSync) return;
 
-new ReactDomObserver(switcherHostSelector, {
-  onAppear: (host) => {
-    switcherHost = host;
-    scheduleSyncUi();
-  },
-  onDisappear: () => {
-    switcherHost = null;
+  hasPendingObserverSync = false;
+  scheduleSyncUi();
+};
+
+const releaseObserverMutationSuppression = () => {
+  clearObserverMutationRelease();
+  suppressObserverChildMutations = false;
+  flushPendingObserverSync();
+};
+
+const withObserverMutationSuppression = (callback) => {
+  suppressObserverChildMutations = true;
+  clearObserverMutationRelease();
+
+  try {
+    return callback();
+  } finally {
+    observerMutationReleaseTimer = window.setTimeout(() => {
+      observerMutationReleaseTimer = null;
+      suppressObserverChildMutations = false;
+      flushPendingObserverSync();
+    }, 0);
   }
-}).start();
+};
+
+const handleFilterHostMutation = () => {
+  if (suppressObserverChildMutations) {
+    hasPendingObserverSync = true;
+    return;
+  }
+
+  scheduleSyncUi();
+};
+
+const observeFilterHostMutations = (host) => {
+  if (!host) return;
+  if (filterHostMutationObserver && filterHost === host) return;
+
+  disconnectFilterHostMutationObserver();
+
+  filterHostMutationObserver = new MutationObserver(() => {
+    handleFilterHostMutation();
+  });
+
+  filterHostMutationObserver.observe(host, {
+    childList: true,
+    subtree: true,
+  });
+};
+
+const handleFilterHostAppear = (host) => {
+  filterHost = host;
+  observeFilterHostMutations(host);
+  scheduleSyncUi();
+};
+
+const handleFilterHostDisappear = (host) => {
+  if (host && filterHost && host !== filterHost) return;
+
+  disconnectFilterHostMutationObserver();
+  filterHost = null;
+  hasTrackedFiltersShow = false;
+  hasPendingObserverSync = false;
+  clearDeferredSync();
+  releaseObserverMutationSuppression();
+};
+
+const domWatcher = reactDomObserver();
+
+domWatcher.observeSelector$(selector).subscribe(({type, element}) => {
+  if (type === 'remove') {
+    handleFilterHostDisappear(element);
+    return;
+  }
+
+  handleFilterHostAppear(element);
+});
+
+domWatcher.observeSelector$(switcherHostSelector).subscribe(({type, element}) => {
+  if (type === 'remove') {
+    if (element === switcherHost) {
+      switcherHost = null;
+    }
+    return;
+  }
+
+  switcherHost = element;
+  scheduleSyncUi();
+});

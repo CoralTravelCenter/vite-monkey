@@ -6,7 +6,7 @@
 
 ```js
 import {
-  createSelectorWatcher,
+  reactDomObserver,
   createDataLayerWatcher,
   waitSelector,
   insertOnce,

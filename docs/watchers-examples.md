@@ -32,7 +32,7 @@ DOM изменился → selector-observer поймал элемент → RxJ
 ## Дождаться появления элемента
 
 ```js
-const selectorWatcher = createSelectorWatcher();
+const selectorWatcher = reactDomObserver();
 
 selectorWatcher
   .waitElement('[class*="PhotoGalleryMainCarousel_mainSwiperContainer"]')
@@ -46,13 +46,13 @@ selectorWatcher
 ## Подписаться на появление элементов
 
 ```js
-const selectorWatcher = createSelectorWatcher();
+const selectorWatcher = reactDomObserver();
 
 const subscription = selectorWatcher
   .added$('[class*="HotelCard"]', {
     name: 'hotel-card',
   })
-  .subscribe(({ element, name }) => {
+  .subscribe(({element, name}) => {
     console.log(`[${name}] added`, element);
 
     // handleHotelCard(element);
@@ -64,13 +64,13 @@ subscription.unsubscribe();
 ## Обработать элемент только один раз
 
 ```js
-const selectorWatcher = createSelectorWatcher();
+const selectorWatcher = reactDomObserver();
 
 selectorWatcher
   .added$('[class*="PhotoGalleryMainCarousel_mainSwiperContainer"]', {
     name: 'gallery',
   })
-  .subscribe(({ element }) => {
+  .subscribe(({element}) => {
     if (element.dataset.customHandled) return;
 
     element.dataset.customHandled = 'true';
@@ -82,15 +82,15 @@ selectorWatcher
 ## Слушать несколько DOM-зон
 
 ```js
-import { merge } from 'rxjs';
+import {merge} from 'rxjs';
 
-const selectorWatcher = createSelectorWatcher();
+const selectorWatcher = reactDomObserver();
 
 const subscription = merge(
-  selectorWatcher.added$('[class*="PhotoGalleryMainCarousel"]', { name: 'gallery' }),
-  selectorWatcher.added$('[class*="HotelInfo"]', { name: 'hotel-info' }),
-  selectorWatcher.added$('[class*="PriceBlock"]', { name: 'price' })
-).subscribe(({ name, element }) => {
+  selectorWatcher.added$('[class*="PhotoGalleryMainCarousel"]', {name: 'gallery'}),
+  selectorWatcher.added$('[class*="HotelInfo"]', {name: 'hotel-info'}),
+  selectorWatcher.added$('[class*="PriceBlock"]', {name: 'price'})
+).subscribe(({name, element}) => {
   console.log(`[${name}] rendered`, element);
 });
 ```
@@ -177,9 +177,9 @@ const subscription = dataLayerWatcher
 ## Запустить код, когда готов DOM и dataLayer
 
 ```js
-import { combineLatest } from 'rxjs';
+import {combineLatest} from 'rxjs';
 
-const selectorWatcher = createSelectorWatcher();
+const selectorWatcher = reactDomObserver();
 const dataLayerWatcher = createDataLayerWatcher();
 
 const subscription = combineLatest([
@@ -196,9 +196,9 @@ const subscription = combineLatest([
 ## Один раз отработать и завершить
 
 ```js
-import { combineLatest, take } from 'rxjs';
+import {combineLatest, take} from 'rxjs';
 
-const selectorWatcher = createSelectorWatcher();
+const selectorWatcher = reactDomObserver();
 const dataLayerWatcher = createDataLayerWatcher();
 
 combineLatest([

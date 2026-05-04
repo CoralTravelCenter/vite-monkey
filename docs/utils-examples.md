@@ -632,7 +632,7 @@ DOM изменился → selector-observer поймал элемент → RxJ
 ## `createSelectorWatcher` — дождаться элемента
 
 ```js
-const selectorWatcher = createSelectorWatcher();
+const selectorWatcher = reactDomObserver();
 
 const gallery = await selectorWatcher.waitElement(
   '[class*="PhotoGalleryMainCarousel_mainSwiperContainer"]'
@@ -644,13 +644,13 @@ console.log('Галерея готова:', gallery);
 ## Подписаться на появление элементов
 
 ```js
-const selectorWatcher = createSelectorWatcher();
+const selectorWatcher = reactDomObserver();
 
 const subscription = selectorWatcher
   .added$('[class*="HotelCard"]', {
     name: 'hotel-card',
   })
-  .subscribe(({ element, name }) => {
+  .subscribe(({element, name}) => {
     console.log(`[${name}] added`, element);
 
     // handleHotelCard(element);
@@ -662,13 +662,13 @@ subscription.unsubscribe();
 ## Подписаться на удаление элементов
 
 ```js
-const selectorWatcher = createSelectorWatcher();
+const selectorWatcher = reactDomObserver();
 
 const subscription = selectorWatcher
   .removed$('[class*="HotelCard"]', {
     name: 'hotel-card',
   })
-  .subscribe(({ element }) => {
+  .subscribe(({element}) => {
     console.log('Карточка удалена:', element);
   });
 ```
@@ -676,7 +676,7 @@ const subscription = selectorWatcher
 ## Получить поток только DOM-элементов
 
 ```js
-const selectorWatcher = createSelectorWatcher();
+const selectorWatcher = reactDomObserver();
 
 selectorWatcher
   .element$('[class*="PriceBlock"]')
@@ -688,11 +688,11 @@ selectorWatcher
 ## Обработать элемент только один раз
 
 ```js
-const selectorWatcher = createSelectorWatcher();
+const selectorWatcher = reactDomObserver();
 
 selectorWatcher
   .added$('[class*="PhotoGalleryMainCarousel_mainSwiperContainer"]')
-  .subscribe(({ element }) => {
+  .subscribe(({element}) => {
     if (element.dataset.customHandled) return;
 
     element.dataset.customHandled = 'true';
@@ -704,15 +704,15 @@ selectorWatcher
 ## Слушать несколько зон страницы
 
 ```js
-import { merge } from 'rxjs';
+import {merge} from 'rxjs';
 
-const selectorWatcher = createSelectorWatcher();
+const selectorWatcher = reactDomObserver();
 
 const subscription = merge(
-  selectorWatcher.added$('[class*="PhotoGalleryMainCarousel"]', { name: 'gallery' }),
-  selectorWatcher.added$('[class*="HotelInfo"]', { name: 'hotel-info' }),
-  selectorWatcher.added$('[class*="PriceBlock"]', { name: 'price' })
-).subscribe(({ name, element }) => {
+  selectorWatcher.added$('[class*="PhotoGalleryMainCarousel"]', {name: 'gallery'}),
+  selectorWatcher.added$('[class*="HotelInfo"]', {name: 'hotel-info'}),
+  selectorWatcher.added$('[class*="PriceBlock"]', {name: 'price'})
+).subscribe(({name, element}) => {
   console.log(`[${name}] rendered`, element);
 });
 ```
@@ -841,9 +841,9 @@ dataLayerWatcher.destroy();
 ## Запустить код, когда готов DOM и пришёл `view_item`
 
 ```js
-import { combineLatest } from 'rxjs';
+import {combineLatest} from 'rxjs';
 
-const selectorWatcher = createSelectorWatcher();
+const selectorWatcher = reactDomObserver();
 const dataLayerWatcher = createDataLayerWatcher();
 
 const subscription = combineLatest([
@@ -860,9 +860,9 @@ const subscription = combineLatest([
 ## Один раз отработать и завершить
 
 ```js
-import { combineLatest, take } from 'rxjs';
+import {combineLatest, take} from 'rxjs';
 
-const selectorWatcher = createSelectorWatcher();
+const selectorWatcher = reactDomObserver();
 const dataLayerWatcher = createDataLayerWatcher();
 
 combineLatest([
@@ -971,7 +971,7 @@ console.log(value);
 ## Инициализировать фичу после готовности React host и dataLayer
 
 ```js
-const selectorWatcher = createSelectorWatcher();
+const selectorWatcher = reactDomObserver();
 const dataLayerWatcher = createDataLayerWatcher();
 
 await hostReactAppReady();
@@ -981,7 +981,7 @@ const [gallery, viewItem] = await Promise.all([
   dataLayerWatcher.waitEvent('view_item'),
 ]);
 
-console.log({ gallery, viewItem });
+console.log({gallery, viewItem});
 
 // initFeature(gallery, viewItem);
 ```
@@ -989,11 +989,11 @@ console.log({ gallery, viewItem });
 ## Вставить блок один раз после появления контейнера
 
 ```js
-const selectorWatcher = createSelectorWatcher();
+const selectorWatcher = reactDomObserver();
 
 selectorWatcher
   .added$('[class*="HotelInfo"]')
-  .subscribe(({ element }) => {
+  .subscribe(({element}) => {
     insertOnce(
       element,
       'beforeend',
@@ -1006,7 +1006,7 @@ selectorWatcher
 ## Отправить цель один раз после появления блока
 
 ```js
-const selectorWatcher = createSelectorWatcher();
+const selectorWatcher = reactDomObserver();
 
 selectorWatcher
   .waitElement('[data-custom-popup]')
@@ -1047,7 +1047,7 @@ document.body.dataset.segment = segment;
 ## Достать hotelId из dataLayer и вставить бейдж в DOM
 
 ```js
-const selectorWatcher = createSelectorWatcher();
+const selectorWatcher = reactDomObserver();
 const dataLayerWatcher = createDataLayerWatcher();
 
 const [card, viewItem] = await Promise.all([
