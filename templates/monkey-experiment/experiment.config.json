@@ -1,0 +1,6 @@
+{
+  "name": "__PROJECT_NAME__",
+  "entry": "src/__ENTRY_FILE__",
+  "brand": "__BRAND__",
+  "match": __MATCH_JSON__
+}

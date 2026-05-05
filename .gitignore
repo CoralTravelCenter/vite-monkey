@@ -7,9 +7,15 @@ pnpm-debug.log*
 lerna-debug.log*
 
 node_modules
+**/node_modules
 dist
+**/dist
 dist-ssr
+**/dist-ssr
+.vite-monkey-runner
 
 # Editor directories and files
 .*
 !.gitignore
+.DS_Store
+**/.DS_Store
