@@ -19,6 +19,13 @@ export default defineConfig({
   build: {
     outDir: 'dist',
     emptyOutDir: true,
+    minify: 'esbuild',
+    cssMinify: true,
+    rollupOptions: {
+      output: {
+        compact: true,
+      },
+    },
   },
   plugins: [
     monkey({

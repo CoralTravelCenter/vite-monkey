@@ -3,6 +3,7 @@
 const fs = require('node:fs');
 const path = require('node:path');
 const {spawnSync} = require('node:child_process');
+const {transformSync} = require('esbuild');
 
 const {ROOT_DIR, getProjectMetadata, pathExists, resolveProjectDir} = require('./lib/projects.js');
 const {createRunnerViteConfig} = require('./lib/vite.js');
@@ -56,6 +57,29 @@ function runVite(command, configPath) {
   if (result.status !== 0) {
     process.exitCode = result.status || 1;
   }
+
+  return result.status === 0;
+}
+
+function minifyUserscriptOutput(config) {
+  const outputPath = path.join(config.projectDir, 'dist', `${config.name}.user.js`);
+
+  if (!pathExists(outputPath)) {
+    throw new Error(`Собранный userscript не найден: ${path.relative(ROOT_DIR, outputPath)}`);
+  }
+
+  const source = fs.readFileSync(outputPath, 'utf8');
+  const headerMatch = source.match(/^(\/\/ ==UserScript==[\s\S]*?\/\/ ==\/UserScript==\s*)([\s\S]*)$/);
+  const metadataHeader = headerMatch?.[1] || '';
+  const scriptBody = headerMatch?.[2] || source;
+  const minifiedBody = transformSync(scriptBody, {
+    loader: 'js',
+    minify: true,
+    legalComments: 'none',
+    target: 'es2018',
+  }).code;
+
+  fs.writeFileSync(outputPath, `${metadataHeader}${minifiedBody}\n`);
 }
 
 function main() {
@@ -77,7 +101,11 @@ function main() {
   console.log(`Entry: ${path.relative(ROOT_DIR, path.join(config.projectDir, config.entry))}`);
   console.log(`Match: ${config.match.join(', ')}`);
 
-  runVite(command, configPath);
+  const isSuccess = runVite(command, configPath);
+
+  if (isSuccess && command === 'build') {
+    minifyUserscriptOutput(config);
+  }
 }
 
 try {
