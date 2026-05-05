@@ -146,7 +146,3 @@ npm run update:catalog
 | `brands/sunmar/sunmar-video-kv` | `sunmar-video-kv` | sunmar | needs-review | `src/main.js` | `https://www.sunmar.ru/monkey/*` | has experiment.config.json |
 | `brands/sunmar/turkey-vs-egypt` | `turkey-vs-egypt` | sunmar | needs-review | `src/main.js` | `https://www.sunmar.ru/*` | has experiment.config.json |
 | `brands/sunmar/youth_day_2025_entry` | `youth-day-2025-entry` | sunmar | needs-review | `src/search-shield.js` | `https://www.sunmar.ru/*` | package name does not match folder; has experiment.config.json; project name does not match folder |
-| `special/dubai-tours-calendare` | `dubai-tours-calendare` | special | needs-review | `src/home.js` | `https://www.google.com/` | has experiment.config.json |
-| `special/vk-deleter-2` | `vk-deleter-2` | special | needs-review | `src/main.js` | `https://vk.com/*` | has experiment.config.json |
-| `special/vk-photo-mark` | `vk-photo-mark` | special | needs-review | `src/main.js` | `https://vk.com/*` | has experiment.config.json |
-| `special/vk-posts-deleter` | `vk-posts-deleter` | special | needs-review | `src/main.js` | `https://vk.com/*` | has experiment.config.json |
