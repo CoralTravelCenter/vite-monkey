@@ -1,0 +1,8 @@
+{
+  "name": "popup-management",
+  "entry": "src/home.js",
+  "brand": "sunmar",
+  "match": [
+    "https://www.sunmar.ru/info-actions/"
+  ]
+}

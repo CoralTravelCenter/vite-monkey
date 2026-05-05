@@ -1,0 +1,8 @@
+{
+  "name": "magic-ball",
+  "entry": "src/main-mob.js",
+  "brand": "coral",
+  "match": [
+    "https://www.coral.ru/*"
+  ]
+}

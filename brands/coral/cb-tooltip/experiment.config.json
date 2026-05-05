@@ -1,0 +1,8 @@
+{
+  "name": "cb-tooltip",
+  "entry": "src/main.js",
+  "brand": "coral",
+  "match": [
+    "https://b2cpilotui.coral.ru/*"
+  ]
+}

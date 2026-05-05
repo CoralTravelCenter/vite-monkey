@@ -4,13 +4,8 @@ const fs = require('node:fs');
 const path = require('node:path');
 const {spawnSync} = require('node:child_process');
 
-const ROOT_DIR = path.resolve(__dirname, '..');
-const TEMP_DIR = path.join(ROOT_DIR, '.vite-monkey-runner');
-const MATCH_PRESETS = {
-  coral: ['https://www.coral.ru/*'],
-  sunmar: ['https://www.sunmar.ru/*'],
-  both: ['https://www.coral.ru/*', 'https://www.sunmar.ru/*'],
-};
+const {ROOT_DIR, getProjectMetadata, pathExists, resolveProjectDir} = require('./lib/projects.js');
+const {createRunnerViteConfig} = require('./lib/vite.js');
 
 function parseArgs(argv) {
   const [command, projectPath] = argv;
@@ -21,64 +16,15 @@ function parseArgs(argv) {
   };
 }
 
-function readJson(filePath) {
-  return JSON.parse(fs.readFileSync(filePath, 'utf8'));
-}
-
-function inferBrand(projectPath) {
-  if (projectPath.includes('sunmar')) {
-    return 'sunmar';
-  }
-
-  if (projectPath.includes('coral')) {
-    return 'coral';
-  }
-
-  return 'both';
-}
-
 function resolveProjectConfig(projectPath) {
-  const projectDir = path.resolve(ROOT_DIR, projectPath);
-  const configPath = path.join(projectDir, 'experiment.config.json');
-
-  if (!fs.existsSync(projectDir)) {
-    throw new Error(`Папка проекта не найдена: ${projectPath}`);
-  }
-
-  if (fs.existsSync(configPath)) {
-    const config = readJson(configPath);
-
-    return {
-      name: config.name || path.basename(projectDir),
-      entry: config.entry || 'src/main.js',
-      brand: config.brand || inferBrand(projectPath),
-      match: config.match || MATCH_PRESETS[config.brand] || MATCH_PRESETS.both,
-      projectDir,
-    };
-  }
-
-  const mainEntry = path.join(projectDir, 'src', 'main.js');
-  const homeEntry = path.join(projectDir, 'src', 'home.js');
-  const entry = fs.existsSync(mainEntry)
-    ? 'src/main.js'
-    : fs.existsSync(homeEntry)
-      ? 'src/home.js'
-      : 'src/main.js';
-  const brand = inferBrand(projectPath);
-
-  return {
-    name: path.basename(projectDir),
-    entry,
-    brand,
-    match: MATCH_PRESETS[brand],
-    projectDir,
-  };
+  const projectDir = resolveProjectDir(projectPath);
+  return getProjectMetadata(projectDir);
 }
 
 function assertConfig(config) {
   const entryPath = path.join(config.projectDir, config.entry);
 
-  if (!fs.existsSync(entryPath)) {
+  if (!pathExists(entryPath)) {
     throw new Error(`Entry file не найден: ${path.relative(ROOT_DIR, entryPath)}`);
   }
 
@@ -87,47 +33,10 @@ function assertConfig(config) {
   }
 }
 
-function createViteConfig(config) {
-  fs.mkdirSync(TEMP_DIR, {recursive: true});
-
-  const configPath = path.join(TEMP_DIR, `${config.name}.vite.config.mjs`);
-  const entryPath = path.join(config.projectDir, config.entry);
-  const content = `import {defineConfig} from 'vite';
-import monkey from 'vite-plugin-monkey';
-
-export default defineConfig({
-  root: ${JSON.stringify(config.projectDir)},
-  publicDir: false,
-  build: {
-    outDir: 'dist',
-    emptyOutDir: true,
-  },
-  plugins: [
-    monkey({
-      entry: ${JSON.stringify(entryPath)},
-      userscript: {
-        name: ${JSON.stringify(config.name)},
-        icon: 'https://vitejs.dev/logo.svg',
-        namespace: 'mindbox/vite-monkey',
-        match: ${JSON.stringify(config.match, null, 8)},
-      },
-      build: {
-        fileName: ${JSON.stringify(`${config.name}.user.js`)},
-      },
-    }),
-  ],
-});
-`;
-
-  fs.writeFileSync(configPath, content);
-
-  return configPath;
-}
-
 function getViteBin() {
   const viteBin = path.join(ROOT_DIR, 'node_modules', '.bin', 'vite');
 
-  if (!fs.existsSync(viteBin)) {
+  if (!pathExists(viteBin)) {
     throw new Error('Vite не найден в корневом node_modules. Выполни npm install в корне репозитория.');
   }
 
@@ -162,7 +71,7 @@ function main() {
 
   const config = resolveProjectConfig(projectPath);
   assertConfig(config);
-  const configPath = createViteConfig(config);
+  const configPath = createRunnerViteConfig(config);
 
   console.log(`Experiment: ${config.name}`);
   console.log(`Entry: ${path.relative(ROOT_DIR, path.join(config.projectDir, config.entry))}`);

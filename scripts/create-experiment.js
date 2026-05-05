@@ -5,7 +5,7 @@ const path = require('node:path');
 const readline = require('node:readline/promises');
 const {stdin: input, stdout: output} = require('node:process');
 
-const ROOT_DIR = path.resolve(__dirname, '..');
+const {ROOT_DIR, buildProjectDir} = require('./lib/projects.js');
 const TEMPLATE_DIR = path.join(ROOT_DIR, 'templates', 'monkey-experiment');
 
 const MATCH_PRESETS = {
@@ -134,12 +134,6 @@ async function main() {
     const projectName = toKebabCase(rawName);
     assertValidProjectName(projectName);
 
-    const projectDir = path.join(ROOT_DIR, projectName);
-
-    if (fs.existsSync(projectDir)) {
-      throw new Error(`Папка ${projectName} уже существует.`);
-    }
-
     const rawBrand = args.brand || await rl.question('Площадка [coral/sunmar/both/custom]: ');
     const brand = rawBrand.trim().toLowerCase() || 'coral';
 
@@ -155,6 +149,12 @@ async function main() {
 
     if (!match.trim()) {
       throw new Error('match URL не может быть пустым.');
+    }
+
+    const projectDir = buildProjectDir(projectName, brand);
+
+    if (fs.existsSync(projectDir)) {
+      throw new Error(`Папка ${path.relative(ROOT_DIR, projectDir)} уже существует.`);
     }
 
     const entry = await resolveOption(
@@ -173,8 +173,10 @@ async function main() {
     );
 
     fs.mkdirSync(projectDir, {recursive: true});
+    const projectPath = path.relative(ROOT_DIR, projectDir).split(path.sep).join('/');
     copyTemplate(TEMPLATE_DIR, projectDir, {
       PROJECT_NAME: projectName,
+      PROJECT_PATH: projectPath,
       ENTRY_NAME: entry,
       ENTRY_FILE: `${entry}.js`,
       STYLE_FILE: `style.${style}`,
@@ -188,8 +190,8 @@ async function main() {
     console.log(`Entry: src/${entry}.js`);
     console.log(`Style: src/style.${style}`);
     console.log('\nСледующие команды:');
-    console.log(`  npm run dev:experiment -- ${projectName}`);
-    console.log(`  npm run build:experiment -- ${projectName}`);
+    console.log(`  npm run dev:experiment -- ${projectPath}`);
+    console.log(`  npm run build:experiment -- ${projectPath}`);
   } finally {
     rl.close();
   }

@@ -1,0 +1,8 @@
+{
+  "name": "lead-form-add-passegers",
+  "entry": "src/home.js",
+  "brand": "coral",
+  "match": [
+    "https://www.coral.ru/*"
+  ]
+}

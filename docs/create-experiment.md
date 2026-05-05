@@ -6,6 +6,12 @@
 npm run create:experiment -- experiment-name --brand coral
 ```
 
+Папка создается не в корне, а в брендовой зоне:
+
+- `brands/coral/experiment-name`
+- `brands/sunmar/experiment-name`
+- `special/experiment-name` для `both` и `custom`
+
 ## Базовые варианты
 
 ```bash
@@ -52,7 +58,7 @@ npm run dev:experiment -- experiment-name
 npm run build:experiment -- experiment-name
 ```
 
-В папке нового эксперимента больше нет локальных `package.json`, `vite.config.js` и `node_modules`. Инфраструктура сборки общая и живет в корне.
+В папке нового эксперимента больше нет локальных `package.json`, `vite.config.js` и `node_modules`. Инфраструктура сборки общая и живет в корне, а запуск идет через `scripts/run-experiment.js`.
 
 ## Зачем это нужно
 

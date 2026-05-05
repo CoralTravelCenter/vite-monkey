@@ -1,0 +1,8 @@
+{
+  "name": "sunmar-egei-quiz-2025",
+  "entry": "src/home.js",
+  "brand": "sunmar",
+  "match": [
+    "https://www.sunmar.ru/*"
+  ]
+}

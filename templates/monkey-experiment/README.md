@@ -12,8 +12,8 @@ Mindbox experiment based on Vite and vite-plugin-monkey.
 ## Commands
 
 ```bash
-npm run dev:experiment -- __PROJECT_NAME__
-npm run build:experiment -- __PROJECT_NAME__
+npm run dev:experiment -- __PROJECT_PATH__
+npm run build:experiment -- __PROJECT_PATH__
 ```
 
 ## Files

@@ -1,0 +1,8 @@
+{
+  "name": "onlyhotel-sunmar-hightlight-2025",
+  "entry": "src/main.js",
+  "brand": "sunmar",
+  "match": [
+    "https://www.sunmar.ru/*"
+  ]
+}

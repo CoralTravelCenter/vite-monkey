@@ -1,0 +1,8 @@
+{
+  "name": "lead-form-bitrix-24-coralby",
+  "entry": "src/home.js",
+  "brand": "coral",
+  "match": [
+    "https://www.coral.by/*"
+  ]
+}

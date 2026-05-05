@@ -1,0 +1,8 @@
+{
+  "name": "add-passeger-a-b",
+  "entry": "src/main.js",
+  "brand": "coral",
+  "match": [
+    "https://www.coral.ru/booking/add-passenger/*"
+  ]
+}

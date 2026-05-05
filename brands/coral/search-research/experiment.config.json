@@ -1,0 +1,8 @@
+{
+  "name": "search-research",
+  "entry": "src/home.js",
+  "brand": "coral",
+  "match": [
+    "https://www.coral.ru/poleznaya-informatsiya/offers/start-prodazh-vietnam/*"
+  ]
+}

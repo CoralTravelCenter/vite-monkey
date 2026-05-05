@@ -4,7 +4,8 @@
     "check:hygiene": "node scripts/check-hygiene.js",
     "dev:experiment": "node scripts/run-experiment.js dev",
     "build:experiment": "node scripts/run-experiment.js build",
-    "update:catalog": "node scripts/update-projects-catalog.js"
+    "update:catalog": "node scripts/update-projects-catalog.js",
+    "migrate:structure": "node scripts/migrate-repository-structure.js"
   },
   "dependencies": {
     "rxjs": "^7.8.2",

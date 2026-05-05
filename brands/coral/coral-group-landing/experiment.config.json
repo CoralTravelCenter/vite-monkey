@@ -1,0 +1,8 @@
+{
+  "name": "coral-group-landing",
+  "entry": "src/main.js",
+  "brand": "coral",
+  "match": [
+    "https://www.coral.ru/monkey/"
+  ]
+}

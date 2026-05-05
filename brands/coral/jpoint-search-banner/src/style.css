@@ -1,0 +1,14 @@
+[class*="BannerHotelListCard_bannerHotelListCard__"] {
+    display: none;
+}
+
+#custom-elite-banner {
+    margin-block: 12px;
+}
+
+#custom-elite-banner img {
+    object-fit: cover;
+    width: 100%;
+    height: 100%;
+    display: block;
+}

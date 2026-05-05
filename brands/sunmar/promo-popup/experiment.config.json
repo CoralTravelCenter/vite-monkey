@@ -1,0 +1,8 @@
+{
+  "name": "promo-popup",
+  "entry": "src/home.js",
+  "brand": "sunmar",
+  "match": [
+    "https://www.sunmar.ru/*"
+  ]
+}

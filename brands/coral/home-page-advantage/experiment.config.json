@@ -1,0 +1,8 @@
+{
+  "name": "home-page-advantage",
+  "entry": "src/home.js",
+  "brand": "coral",
+  "match": [
+    "https://www.coral.ru/"
+  ]
+}
