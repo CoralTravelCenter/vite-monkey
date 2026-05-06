@@ -1,9 +1,9 @@
 #!/usr/bin/env node
 
-const fs = require('node:fs');
-const path = require('node:path');
+import fs from 'node:fs';
+import path from 'node:path';
 
-const {
+import {
   BRANDS_DIR,
   ROOT_DIR,
   SPECIAL_DIR,
@@ -14,7 +14,7 @@ const {
   normalizePath,
   pathExists,
   readJson,
-} = require('./lib/projects.js');
+} from './lib/projects.js';
 
 const LEGACY_FILES = [
   '.gitignore',

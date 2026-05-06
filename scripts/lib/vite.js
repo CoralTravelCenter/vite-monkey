@@ -1,11 +1,11 @@
-const fs = require('node:fs');
-const path = require('node:path');
+import fs from 'node:fs';
+import path from 'node:path';
 
-const {ROOT_DIR} = require('./projects.js');
+import {ROOT_DIR} from './projects.js';
 
-const TEMP_DIR = path.join(ROOT_DIR, '.vite-monkey-runner');
+export const TEMP_DIR = path.join(ROOT_DIR, '.vite-monkey-runner');
 
-function createRunnerViteConfig(config) {
+export function createRunnerViteConfig(config) {
   fs.mkdirSync(TEMP_DIR, {recursive: true});
 
   const configPath = path.join(TEMP_DIR, `${config.name}.vite.config.mjs`);
@@ -48,8 +48,3 @@ export default defineConfig({
 
   return configPath;
 }
-
-module.exports = {
-  TEMP_DIR,
-  createRunnerViteConfig,
-};

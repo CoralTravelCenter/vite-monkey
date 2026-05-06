@@ -1,9 +1,9 @@
 #!/usr/bin/env node
 
-const fs = require('node:fs');
-const path = require('node:path');
+import fs from 'node:fs';
+import path from 'node:path';
 
-const {ROOT_DIR} = require('./lib/projects.js');
+import {ROOT_DIR} from './lib/projects.js';
 const IGNORED_DIRS = new Set(['.git']);
 const TEMP_FILE_PATTERN = /(^|[-_.])(temp|tmp)([-_.]|$)/i;
 const SOURCE_FILE_PATTERN = /\.(js|ts|jsx|tsx)$/;

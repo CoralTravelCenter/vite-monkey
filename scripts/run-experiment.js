@@ -1,12 +1,12 @@
 #!/usr/bin/env node
 
-const fs = require('node:fs');
-const path = require('node:path');
-const {spawnSync} = require('node:child_process');
-const {transformSync} = require('esbuild');
+import fs from 'node:fs';
+import path from 'node:path';
+import {spawnSync} from 'node:child_process';
+import {transformSync} from 'esbuild';
 
-const {ROOT_DIR, getProjectMetadata, pathExists, resolveProjectDir} = require('./lib/projects.js');
-const {createRunnerViteConfig} = require('./lib/vite.js');
+import {ROOT_DIR, getProjectMetadata, pathExists, resolveProjectDir} from './lib/projects.js';
+import {createRunnerViteConfig} from './lib/vite.js';
 
 function parseArgs(argv) {
   const [command, projectPath] = argv;

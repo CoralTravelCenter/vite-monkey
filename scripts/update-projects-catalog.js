@@ -1,9 +1,17 @@
 #!/usr/bin/env node
 
-const fs = require('node:fs');
-const path = require('node:path');
+import fs from 'node:fs';
+import path from 'node:path';
 
-const {ROOT_DIR, getProjectArea, getProjectMetadata, listProjectDirs, normalizePath, pathExists, readJson} = require('./lib/projects.js');
+import {
+  ROOT_DIR,
+  getProjectArea,
+  getProjectMetadata,
+  listProjectDirs,
+  normalizePath,
+  pathExists,
+  readJson,
+} from './lib/projects.js';
 const CATALOG_PATH = path.join(ROOT_DIR, 'docs', 'projects-catalog.md');
 const STATUSES = new Set(['active', 'experiment', 'archive', 'needs-review']);
 

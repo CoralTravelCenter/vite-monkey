@@ -1,11 +1,14 @@
-const fs = require('node:fs');
-const path = require('node:path');
+import fs from 'node:fs';
+import path from 'node:path';
+import {fileURLToPath} from 'node:url';
 
-const ROOT_DIR = path.resolve(__dirname, '..', '..');
-const BRANDS_DIR = path.join(ROOT_DIR, 'brands');
-const SPECIAL_DIR = path.join(ROOT_DIR, 'special');
+const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
-const ROOT_INFRASTRUCTURE_DIRS = new Set([
+export const ROOT_DIR = path.resolve(__dirname, '..', '..');
+export const BRANDS_DIR = path.join(ROOT_DIR, 'brands');
+export const SPECIAL_DIR = path.join(ROOT_DIR, 'special');
+
+export const ROOT_INFRASTRUCTURE_DIRS = new Set([
   '.git',
   '.idea',
   '.vite-monkey-runner',
@@ -40,15 +43,15 @@ const GENERIC_PACKAGE_NAMES = new Set([
   'ym-banner',
 ]);
 
-function normalizePath(relativePath) {
+export function normalizePath(relativePath) {
   return relativePath.split(path.sep).join('/');
 }
 
-function pathExists(targetPath) {
+export function pathExists(targetPath) {
   return fs.existsSync(targetPath);
 }
 
-function readJson(filePath) {
+export function readJson(filePath) {
   return JSON.parse(fs.readFileSync(filePath, 'utf8'));
 }
 
@@ -63,7 +66,7 @@ function toProjectSlug(value) {
     .replace(/-{2,}/g, '-');
 }
 
-function isProjectDir(projectDir) {
+export function isProjectDir(projectDir) {
   return (
     pathExists(path.join(projectDir, 'experiment.config.json')) ||
     pathExists(path.join(projectDir, 'package.json'))
@@ -88,7 +91,7 @@ function walkDirectories(dir, result = []) {
   return result;
 }
 
-function listProjectDirs({legacyOnly = false} = {}) {
+export function listProjectDirs({legacyOnly = false} = {}) {
   const directories = walkDirectories(ROOT_DIR);
   const projectDirs = directories.filter((dir) => {
     if (legacyOnly) {
@@ -171,7 +174,7 @@ function inferBrandFromPath(projectPath) {
   return 'unknown';
 }
 
-function inferBrand(projectDir) {
+export function inferBrand(projectDir) {
   const experimentConfigPath = path.join(projectDir, 'experiment.config.json');
 
   if (pathExists(experimentConfigPath)) {
@@ -260,7 +263,7 @@ function deriveProjectName(relativePath, packageJson) {
   return toProjectSlug(relativePath);
 }
 
-function getProjectMetadata(projectDir) {
+export function getProjectMetadata(projectDir) {
   const relativePath = normalizePath(path.relative(ROOT_DIR, projectDir));
   const experimentConfigPath = path.join(projectDir, 'experiment.config.json');
   const packageJsonPath = path.join(projectDir, 'package.json');
@@ -285,7 +288,7 @@ function getProjectMetadata(projectDir) {
   };
 }
 
-function mapBrandToArea(brand) {
+export function mapBrandToArea(brand) {
   if (brand === 'coral') {
     return 'coral';
   }
@@ -297,11 +300,11 @@ function mapBrandToArea(brand) {
   return 'special';
 }
 
-function getProjectArea(projectDir) {
+export function getProjectArea(projectDir) {
   return mapBrandToArea(inferBrand(projectDir));
 }
 
-function buildProjectDir(projectName, brand) {
+export function buildProjectDir(projectName, brand) {
   const area = mapBrandToArea(brand);
 
   if (area === 'special') {
@@ -311,7 +314,7 @@ function buildProjectDir(projectName, brand) {
   return path.join(BRANDS_DIR, area, projectName);
 }
 
-function resolveProjectDir(projectInput) {
+export function resolveProjectDir(projectInput) {
   const normalizedInput = normalizePath(projectInput.trim());
   const candidates = listProjectDirs();
   const exactPath = path.join(ROOT_DIR, normalizedInput);
@@ -344,28 +347,9 @@ function resolveProjectDir(projectInput) {
   throw new Error(`Папка проекта не найдена: ${projectInput}`);
 }
 
-function listTopLevelEntries() {
+export function listTopLevelEntries() {
   return fs.readdirSync(ROOT_DIR, {withFileTypes: true})
     .filter((entry) => entry.isDirectory() && !ROOT_INFRASTRUCTURE_DIRS.has(entry.name))
     .map((entry) => entry.name)
     .sort();
 }
-
-module.exports = {
-  ROOT_DIR,
-  BRANDS_DIR,
-  SPECIAL_DIR,
-  ROOT_INFRASTRUCTURE_DIRS,
-  buildProjectDir,
-  getProjectArea,
-  getProjectMetadata,
-  inferBrand,
-  isProjectDir,
-  listProjectDirs,
-  listTopLevelEntries,
-  mapBrandToArea,
-  normalizePath,
-  pathExists,
-  readJson,
-  resolveProjectDir,
-};

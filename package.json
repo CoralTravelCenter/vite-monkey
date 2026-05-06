@@ -1,4 +1,5 @@
 {
+  "type": "module",
   "scripts": {
     "create:experiment": "node scripts/create-experiment.js",
     "check:hygiene": "node scripts/check-hygiene.js",

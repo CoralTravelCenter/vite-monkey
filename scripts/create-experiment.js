@@ -1,11 +1,11 @@
 #!/usr/bin/env node
 
-const fs = require('node:fs');
-const path = require('node:path');
-const readline = require('node:readline/promises');
-const {stdin: input, stdout: output} = require('node:process');
+import fs from 'node:fs';
+import path from 'node:path';
+import readline from 'node:readline/promises';
+import {stdin as input, stdout as output} from 'node:process';
 
-const {ROOT_DIR, buildProjectDir} = require('./lib/projects.js');
+import {ROOT_DIR, buildProjectDir} from './lib/projects.js';
 const TEMPLATE_DIR = path.join(ROOT_DIR, 'templates', 'monkey-experiment');
 
 const MATCH_PRESETS = {
