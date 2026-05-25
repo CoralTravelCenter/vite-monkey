@@ -4,6 +4,8 @@
 
 #custom-elite-banner {
     margin-block: 12px;
+    display: block;
+    position: relative;
 }
 
 #custom-elite-banner img {
@@ -11,4 +13,12 @@
     width: 100%;
     height: 100%;
     display: block;
+}
+
+#custom-elite-banner .erid {
+    position: absolute;
+    bottom: 4px;
+    right: 8px;
+    font-size: 8px;
+    color: #FFFFFF;
 }

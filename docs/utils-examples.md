@@ -37,6 +37,7 @@ import {
   waitUntilElementsGone,
   ClickOutside,
   reactDomObserver,
+  awaitDomElement,
   setYMTarget,
   sendYandexEventOnce,
   createDataLayerWatcher,
@@ -44,6 +45,12 @@ import {
   vimeoAutoPlay,
   CoralCookieObserver,
 } from './utils/index.js';
+```
+
+Внутри экспериментов можно импортировать то же самое короче через alias:
+
+```js
+import {awaitDomElement, reactDomObserver, createDataLayerWatcher} from '@utils';
 ```
 
 ## Storage
@@ -394,6 +401,34 @@ Reactive watcher для DOM. Подробные примеры: [docs/watchers-e
 ```js
 const domWatcher = reactDomObserver();
 const gallery = await domWatcher.waitElement('[class*="PhotoGalleryMainCarousel"]');
+```
+
+### `awaitDomElement(selector, options?)`
+
+Минимальный helper на чистом `MutationObserver`: просто дождаться DOM-элемента по селектору.
+
+```js
+const banner = await awaitDomElement('#custom-banner');
+
+console.log('Banner ready:', banner);
+```
+
+С таймаутом:
+
+```js
+const popup = await awaitDomElement('.custom-popup', {
+  timeoutMs: 15000,
+});
+```
+
+С кастомным root:
+
+```js
+const modalBody = document.querySelector('.modal-body');
+const field = await awaitDomElement('[name="email"]', {
+  root: modalBody,
+  timeoutMs: 5000,
+});
 ```
 
 ## Analytics

@@ -16,6 +16,11 @@ import monkey from 'vite-plugin-monkey';
 export default defineConfig({
   root: ${JSON.stringify(config.projectDir)},
   publicDir: false,
+  resolve: {
+    alias: {
+      '@utils': ${JSON.stringify(path.join(ROOT_DIR, 'utils'))},
+    },
+  },
   build: {
     outDir: 'dist',
     emptyOutDir: true,

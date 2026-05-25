@@ -13,6 +13,7 @@ npm install rxjs selector-observer
 ```js
 import {
   reactDomObserver,
+  awaitDomElement,
   createDataLayerWatcher,
   waitSelector,
   insertOnce,
@@ -28,6 +29,8 @@ import {
 ```txt
 DOM изменился -> selector-observer нашел элемент -> RxJS stream -> твоя логика
 ```
+
+Для максимально простого случая без `selector-observer` можно использовать `awaitDomElement()`.
 
 ### Создать watcher
 
@@ -146,6 +149,41 @@ const subscription = merge(
   domWatcher.added$('[class*="PriceBlock"]', {name: 'price'})
 ).subscribe(({name, element}) => {
   console.log(`[${name}] rendered`, element);
+});
+```
+
+## Lightweight DOM helper
+
+### Когда брать `awaitDomElement`
+
+- когда нужен только `await` на селектор
+- когда не нужен watcher API
+- когда хочется решение только на `MutationObserver`, без дополнительных библиотек
+
+### Базовое использование
+
+```js
+const popup = await awaitDomElement('.custom-popup');
+
+console.log('Popup appeared:', popup);
+```
+
+### С таймаутом
+
+```js
+const price = await awaitDomElement('.price-block', {
+  timeoutMs: 15000,
+});
+```
+
+### С кастомным root
+
+```js
+const modalBody = document.querySelector('.modal-body');
+
+const field = await awaitDomElement('[name="email"]', {
+  root: modalBody,
+  timeoutMs: 5000,
 });
 ```
 

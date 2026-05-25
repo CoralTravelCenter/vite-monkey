@@ -39,6 +39,12 @@ docs/
 
 Локальные `package.json` и `vite.config.*` в экспериментах больше не используются. Все запускается из корня.
 
+Во всех экспериментах доступен alias `@utils` на корневую папку [utils](/Users/mike/Documents/GitHub/vite-monkey/utils), так что можно писать:
+
+```js
+import {awaitDomElement, reactDomObserver} from '@utils';
+```
+
 ### Установить зависимости
 
 ```bash

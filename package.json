@@ -9,8 +9,13 @@
     "migrate:structure": "node scripts/migrate-repository-structure.js"
   },
   "dependencies": {
+    "@emailjs/browser": "^4.4.1",
     "rxjs": "^7.8.2",
-    "selector-observer": "^2.1.6"
+    "selector-observer": "^2.1.6",
+    "survey-core": "^2.5.23",
+    "survey-js-ui": "^2.5.23",
+    "tippy.js": "^6.3.7",
+    "xlsx": "^0.18.5"
   },
   "devDependencies": {
     "sass": "^1.99.0",

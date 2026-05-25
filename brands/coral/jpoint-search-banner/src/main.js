@@ -1,10 +1,8 @@
-import {reactDomObserver} from "../../utils/index.js";
 import markup from './markup.html?raw'
 import './style.css'
+import {awaitDomElement} from "@utils";
 
-const selectorWatcher = reactDomObserver();
-
-const gallery = await selectorWatcher.waitElement(
+const gallery = await awaitDomElement(
   '[class*="BannerHotelListCard_bannerHotelListCard__"]'
 );
 gallery.insertAdjacentHTML('beforebegin', markup)
