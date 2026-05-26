@@ -1,0 +1,8 @@
+{
+  "name": "home-page-polish",
+  "entry": "src/home.js",
+  "brand": "sunmar",
+  "match": [
+    "https://new.sunmar.ru/"
+  ]
+}

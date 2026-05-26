@@ -1,0 +1,8 @@
+{
+  "name": "kalendar-vigod-home-page",
+  "entry": "src/main.js",
+  "brand": "coral",
+  "match": [
+    "https://www.coral.ru/*"
+  ]
+}

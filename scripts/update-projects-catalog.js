@@ -1,57 +1,19 @@
 #!/usr/bin/env node
 
-const fs = require('node:fs');
-const path = require('node:path');
+import fs from 'node:fs';
+import path from 'node:path';
 
-const ROOT_DIR = path.resolve(__dirname, '..');
+import {
+  ROOT_DIR,
+  getProjectArea,
+  getProjectMetadata,
+  listProjectDirs,
+  normalizePath,
+  pathExists,
+  readJson,
+} from './lib/projects.js';
 const CATALOG_PATH = path.join(ROOT_DIR, 'docs', 'projects-catalog.md');
 const STATUSES = new Set(['active', 'experiment', 'archive', 'needs-review']);
-
-function walk(dir, result = []) {
-  for (const entry of fs.readdirSync(dir, {withFileTypes: true})) {
-    if (entry.name === '.git' || entry.name === 'node_modules' || entry.name === 'dist') {
-      continue;
-    }
-
-    const fullPath = path.join(dir, entry.name);
-    const relativePath = path.relative(ROOT_DIR, fullPath);
-
-    if (relativePath === 'templates') {
-      continue;
-    }
-
-    if (entry.isDirectory()) {
-      walk(fullPath, result);
-      continue;
-    }
-
-    if (entry.name === 'package.json' && relativePath !== 'package.json') {
-      result.push(fullPath);
-    }
-  }
-
-  return result;
-}
-
-function readJson(filePath) {
-  return JSON.parse(fs.readFileSync(filePath, 'utf8'));
-}
-
-function inferBrandArea(projectPath) {
-  if (projectPath.includes('magic-promo-sunmar') || projectPath.includes('sunmar')) {
-    return 'sunmar';
-  }
-
-  if (projectPath.includes('coral')) {
-    return 'coral';
-  }
-
-  if (projectPath.includes('kalendar-vigod')) {
-    return 'campaign';
-  }
-
-  return 'unknown';
-}
 
 function hasSpaces(projectPath) {
   return projectPath.split(path.sep).some((part) => part.includes(' '));
@@ -101,7 +63,7 @@ function parseExistingCatalog() {
   return rows;
 }
 
-function collectDuplicatePackageNames(projects) {
+function collectDuplicateProjectNames(projects) {
   const counts = new Map();
 
   for (const project of projects) {
@@ -116,37 +78,28 @@ function collectDuplicatePackageNames(projects) {
 }
 
 function collectProjects() {
-  return walk(ROOT_DIR)
-    .sort()
-    .map((packagePath) => {
-      const packageJson = readJson(packagePath);
-      const projectDir = path.dirname(packagePath);
-      const projectPath = path
-        .relative(ROOT_DIR, projectDir)
-        .split(path.sep)
-        .join('/');
+  return listProjectDirs()
+    .map((projectDir) => {
+      const metadata = getProjectMetadata(projectDir);
       const experimentConfigPath = path.join(projectDir, 'experiment.config.json');
-      const experimentConfig = fs.existsSync(experimentConfigPath)
+      const experimentConfig = pathExists(experimentConfigPath)
         ? readJson(experimentConfigPath)
         : null;
-      const dependencies = {
-        ...packageJson.dependencies,
-        ...packageJson.devDependencies,
-      };
 
       return {
-        path: projectPath,
-        packageName: packageJson.name || '',
-        brandArea: experimentConfig?.brand || inferBrandArea(projectPath),
-        vite: dependencies.vite || '',
-        monkey: dependencies['vite-plugin-monkey'] || '',
+        path: metadata.relativePath,
+        packageName: metadata.name,
+        brandArea: getProjectArea(projectDir),
+        entry: metadata.entry,
+        match: metadata.match,
         hasExperimentConfig: Boolean(experimentConfig),
       };
-    });
+    })
+    .sort((left, right) => left.path.localeCompare(right.path));
 }
 
 function buildCatalog(projects, existingRows) {
-  const duplicateNames = collectDuplicatePackageNames(projects);
+  const duplicateNames = collectDuplicateProjectNames(projects);
   const lines = [
     '# Каталог проектов',
     '',
@@ -173,7 +126,7 @@ function buildCatalog(projects, existingRows) {
     '',
     '## Проекты',
     '',
-    '| Path | Package name | Brand/area | Status | Vite | Monkey | Notes |',
+    '| Path | Name | Area | Status | Entry | Match | Notes |',
     '|---|---|---|---|---|---|---|',
   ];
 
@@ -187,11 +140,11 @@ function buildCatalog(projects, existingRows) {
     }
 
     if (project.packageName && duplicateNames.get(project.packageName) > 1) {
-      notes = appendNote(notes, `package name duplicates \`${project.packageName}\``);
+      notes = appendNote(notes, `project name duplicates \`${project.packageName}\``);
     }
 
     if (project.packageName && !project.path.endsWith(project.packageName)) {
-      notes = appendNote(notes, 'package name does not match folder');
+      notes = appendNote(notes, 'project name does not match folder');
     }
 
     if (project.hasExperimentConfig) {
@@ -203,8 +156,8 @@ function buildCatalog(projects, existingRows) {
       `\`${project.packageName}\``,
       project.brandArea,
       status,
-      `\`${project.vite}\``,
-      `\`${project.monkey}\``,
+      `\`${project.entry}\``,
+      `\`${project.match.join(', ')}\``,
       notes,
     ];
 

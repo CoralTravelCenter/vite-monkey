@@ -1,0 +1,302 @@
+$popup-bg: #f3f3f3;
+$field-bg: #ffffff;
+$content-bg: #ffffff;
+
+$text-color: #2b2b2b;
+$label-color: #3b3b3b;
+$muted-color: #a8a8a8;
+$border-color: #d7d7d7;
+
+$primary-color: #077dad;
+$primary-color-hover: #0092d0;
+$error-color: #d13b3b;
+
+$font-family: Arial, sans-serif;
+$font-size: 16px;
+$error-font-size: 12px;
+
+#elite-franch-mail-popup-trigger {
+  position: fixed;
+  left: 16px;
+  bottom: 16px;
+  z-index: 1000;
+}
+
+/* Popup */
+.elite-franch-mail-popup {
+  width: 100%;
+  max-width: 560px;
+  min-width: 0;
+  padding: 24px;
+  border-radius: 20px;
+  background: $popup-bg;
+  color: $text-color;
+  font-family: $font-family;
+  font-size: $font-size;
+  box-sizing: border-box;
+
+  *,
+  *::before,
+  *::after {
+    box-sizing: border-box;
+  }
+
+  &__success {
+    padding: 24px 12px;
+    color: $text-color;
+    font-size: $font-size;
+    line-height: 1.4;
+    text-align: center;
+  }
+}
+
+/* SurveyJS */
+#lead-form {
+  width: 100%;
+  max-width: 100%;
+  min-width: 0;
+  color: $text-color;
+  font-family: $font-family;
+  font-size: $font-size;
+
+  *,
+  *::before,
+  *::after {
+    box-sizing: border-box;
+  }
+
+  /* Theme variables */
+  .sd-root-modern {
+    width: 100%;
+    max-width: 100%;
+    min-width: 0;
+
+    --sjs-font-size: #{$font-size};
+    --sjs-primary-backcolor: #{$primary-color};
+    --sjs-primary-backcolor-light: #{$primary-color};
+    --sjs-primary-backcolor-dark: #{$primary-color-hover};
+    --sjs-primary-forecolor: #ffffff;
+    --sjs-border-default: #{$border-color};
+    --sjs-general-backcolor: transparent;
+    --sjs-question-background: transparent;
+  }
+
+  .sd-root-modern,
+  .sd-root-modern * {
+    font-family: $font-family;
+    font-size: $font-size;
+  }
+
+  /* Layout */
+  .sd-container-modern,
+  .sd-body,
+  .sd-body__page,
+  .sd-page,
+  .sd-row,
+  .sd-element,
+  .sd-question,
+  .sd-question__content {
+    width: 100%;
+    max-width: 100%;
+    min-width: 0;
+  }
+
+  .sd-container-modern,
+  .sd-body {
+    padding: 0;
+    background: transparent;
+  }
+
+  .sd-page {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    margin: 0;
+    padding: 32px 0 0;
+    background: transparent;
+  }
+
+  .sd-row {
+    display: block;
+    margin: 0;
+  }
+
+  .sd-question {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    margin: 0;
+    padding: 0;
+    border: 0;
+    background: transparent;
+    box-shadow: none;
+  }
+
+  .sd-question__header {
+    order: 1;
+    padding: 0;
+  }
+
+  .sd-question__content {
+    order: 2;
+  }
+
+  .sd-question__erbox {
+    order: 3;
+    margin-top: 6px;
+    padding: 0;
+    background: transparent;
+  }
+
+  /* Label */
+  .sd-title {
+    margin: 0 0 8px;
+    color: $label-color;
+    font-size: $font-size !important;
+    font-weight: 500;
+    line-height: 1.35;
+  }
+
+  .sd-question__required-text {
+    color: $error-color;
+  }
+
+  /* Fields */
+  .sd-input,
+  .sd-text,
+  .sd-textarea,
+  input.sd-input,
+  textarea.sd-input,
+  .sd-dropdown,
+  .sd-selectbase {
+    display: block;
+    width: 100% !important;
+    max-width: 100% !important;
+    min-width: 0;
+    min-height: 48px;
+    padding: 12px 18px !important;
+    border: 1px solid $border-color !important;
+    border-radius: 12px !important;
+    background: $field-bg !important;
+    color: $text-color;
+    font-size: $font-size !important;
+    line-height: 1.4;
+    outline: none;
+    box-shadow: none !important;
+    transition: border-color 0.2s ease,
+    box-shadow 0.2s ease;
+  }
+
+  textarea.sd-input,
+  .sd-textarea {
+    min-height: 120px;
+    resize: vertical;
+  }
+
+  .sd-input::placeholder,
+  input.sd-input::placeholder,
+  textarea.sd-input::placeholder {
+    color: $muted-color;
+    font-size: $font-size;
+  }
+
+  .sd-input:focus,
+  .sd-text:focus,
+  .sd-textarea:focus,
+  input.sd-input:focus,
+  textarea.sd-input:focus {
+    border-color: $primary-color !important;
+    box-shadow: 0 0 0 3px rgba(7, 125, 173, 0.12) !important;
+  }
+
+  /* Errors */
+  .sd-question__erbox,
+  .sd-error {
+    color: $error-color;
+    font-size: 14px;
+    line-height: 1.35;
+  }
+
+  .sd-error {
+    margin-top: 0;
+    padding: 0;
+    background: transparent;
+  }
+
+  .sd-error .sv-string-viewer {
+    color: $error-color;
+    font-size: $error-font-size;
+    font-weight: 400;
+    line-height: 1.35;
+  }
+
+  .sd-question--error {
+    .sd-input,
+    input.sd-input,
+    textarea.sd-input {
+      border-color: $error-color !important;
+    }
+  }
+
+  /* Boolean / checkbox */
+  .sd-boolean {
+    margin-top: 4px;
+  }
+
+  .sd-boolean__label {
+    color: $text-color;
+    font-size: $font-size !important;
+    line-height: 1.4;
+  }
+
+  .sd-boolean__switch {
+    margin-right: 10px;
+  }
+
+  /* Actions */
+  .sd-actions {
+    width: 100%;
+    margin: 0;
+    padding: 8px 0 0;
+  }
+
+  .sd-action {
+    width: 100%;
+    margin: 0;
+  }
+
+  .sd-btn {
+    min-height: 56px;
+    padding: 0 24px;
+    border: 0 !important;
+    border-radius: 16px !important;
+    background: $primary-color !important;
+    color: #ffffff !important;
+    font-size: $font-size !important;
+    font-weight: 600;
+    line-height: 1;
+    cursor: pointer;
+    box-shadow: none !important;
+    transition: background 0.2s ease,
+    transform 0.1s ease;
+  }
+
+  .sd-btn:hover {
+    background: $primary-color-hover !important;
+  }
+
+  .sd-btn:active {
+    transform: translateY(1px);
+  }
+
+  .sd-btn:disabled {
+    opacity: 0.7;
+    cursor: not-allowed;
+  }
+
+  /* SurveyJS inner content */
+  .sv-components-column {
+    padding-top: 0;
+    background: $content-bg;
+  }
+}

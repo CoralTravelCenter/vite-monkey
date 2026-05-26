@@ -1,6 +1,8 @@
-# Utils / Watchers examples
+# Watchers examples
 
-## Установка зависимостей для reactive watchers
+Короткий справочник по реактивным watcher-утилитам из `utils`.
+
+## Что нужно установить
 
 ```bash
 npm install rxjs selector-observer
@@ -10,7 +12,8 @@ npm install rxjs selector-observer
 
 ```js
 import {
-  createSelectorWatcher,
+  reactDomObserver,
+  awaitDomElement,
   createDataLayerWatcher,
   waitSelector,
   insertOnce,
@@ -19,107 +22,215 @@ import {
 } from './utils/index.js';
 ```
 
----
+## DOM watcher
 
-# 1. DOM watcher
-
-## Общая схема
+### Общая схема
 
 ```txt
-DOM изменился → selector-observer поймал элемент → RxJS stream → твоя логика
+DOM изменился -> selector-observer нашел элемент -> RxJS stream -> твоя логика
 ```
 
-## Дождаться появления элемента
+Для максимально простого случая без `selector-observer` можно использовать `awaitDomElement()`.
+
+### Создать watcher
 
 ```js
-const selectorWatcher = reactDomObserver();
-
-selectorWatcher
-  .waitElement('[class*="PhotoGalleryMainCarousel_mainSwiperContainer"]')
-  .then((gallery) => {
-    console.log('Галерея появилась:', gallery);
-
-    // renderCustomBlock(gallery);
-  });
+const domWatcher = reactDomObserver();
 ```
 
-## Подписаться на появление элементов
+По умолчанию watcher умеет:
+
+- `observeSelector$(selector, options)` - общий поток событий `initialize | add | remove`
+- `added$(selector, options)` - поток только добавленных элементов
+- `removed$(selector, options)` - поток только удаленных элементов
+- `initialized$(selector, options)` - поток элементов, уже бывших в DOM на момент старта
+- `element$(selector, options)` - поток только `element`
+- `waitElement$(selector, options)` - поток с первым найденным элементом
+- `waitElement(selector, options)` - `Promise` с первым найденным элементом
+
+### Дождаться появления элемента
 
 ```js
-const selectorWatcher = reactDomObserver();
+const domWatcher = reactDomObserver();
 
-const subscription = selectorWatcher
+const gallery = await domWatcher.waitElement(
+  '[class*="PhotoGalleryMainCarousel_mainSwiperContainer"]'
+);
+
+console.log('Gallery ready:', gallery);
+```
+
+С таймаутом:
+
+```js
+const price = await domWatcher.waitElement('[class*="PriceBlock"]', {
+  timeoutMs: 15000,
+});
+```
+
+### Подписаться на добавление элементов
+
+```js
+const domWatcher = reactDomObserver();
+
+const subscription = domWatcher
   .added$('[class*="HotelCard"]', {
     name: 'hotel-card',
   })
-  .subscribe(({element, name}) => {
-    console.log(`[${name}] added`, element);
-
-    // handleHotelCard(element);
+  .subscribe(({element, name, selector}) => {
+    console.log(`[${name}] added`, selector, element);
   });
 
 subscription.unsubscribe();
 ```
 
-## Обработать элемент только один раз
+### Подписаться на удаление элементов
 
 ```js
-const selectorWatcher = reactDomObserver();
+const domWatcher = reactDomObserver();
 
-selectorWatcher
-  .added$('[class*="PhotoGalleryMainCarousel_mainSwiperContainer"]', {
-    name: 'gallery',
-  })
+const subscription = domWatcher
+  .removed$('[class*="HotelCard"]')
+  .subscribe(({element}) => {
+    console.log('Hotel card removed:', element);
+  });
+```
+
+### Обработать уже существующие элементы
+
+```js
+const domWatcher = reactDomObserver();
+
+const subscription = domWatcher
+  .initialized$('[class*="HotelInfo"]')
+  .subscribe(({element}) => {
+    console.log('Element was already on page:', element);
+  });
+```
+
+### Получать только DOM-элементы
+
+```js
+const domWatcher = reactDomObserver();
+
+const subscription = domWatcher
+  .element$('[class*="PriceBlock"]')
+  .subscribe((priceBlock) => {
+    console.log('Price block:', priceBlock);
+  });
+```
+
+### Обработать элемент только один раз
+
+```js
+const domWatcher = reactDomObserver();
+
+domWatcher
+  .added$('[class*="PhotoGalleryMainCarousel_mainSwiperContainer"]')
   .subscribe(({element}) => {
     if (element.dataset.customHandled) return;
 
     element.dataset.customHandled = 'true';
 
-    // initGalleryFeature(element);
+    // initFeature(element);
   });
 ```
 
-## Слушать несколько DOM-зон
+### Слушать несколько DOM-зон
 
 ```js
 import {merge} from 'rxjs';
 
-const selectorWatcher = reactDomObserver();
+const domWatcher = reactDomObserver();
 
 const subscription = merge(
-  selectorWatcher.added$('[class*="PhotoGalleryMainCarousel"]', {name: 'gallery'}),
-  selectorWatcher.added$('[class*="HotelInfo"]', {name: 'hotel-info'}),
-  selectorWatcher.added$('[class*="PriceBlock"]', {name: 'price'})
+  domWatcher.added$('[class*="PhotoGalleryMainCarousel"]', {name: 'gallery'}),
+  domWatcher.added$('[class*="HotelInfo"]', {name: 'hotel-info'}),
+  domWatcher.added$('[class*="PriceBlock"]', {name: 'price'})
 ).subscribe(({name, element}) => {
   console.log(`[${name}] rendered`, element);
 });
 ```
 
----
+## Lightweight DOM helper
 
-# 2. dataLayer watcher
+### Когда брать `awaitDomElement`
 
-## Общая схема
+- когда нужен только `await` на селектор
+- когда не нужен watcher API
+- когда хочется решение только на `MutationObserver`, без дополнительных библиотек
 
-```txt
-dataLayer.push(...) → watcher поймал событие → RxJS stream → твоя логика
+### Базовое использование
+
+```js
+const popup = await awaitDomElement('.custom-popup');
+
+console.log('Popup appeared:', popup);
 ```
 
-## Дождаться события
+### С таймаутом
+
+```js
+const price = await awaitDomElement('.price-block', {
+  timeoutMs: 15000,
+});
+```
+
+### С кастомным root
+
+```js
+const modalBody = document.querySelector('.modal-body');
+
+const field = await awaitDomElement('[name="email"]', {
+  root: modalBody,
+  timeoutMs: 5000,
+});
+```
+
+## dataLayer watcher
+
+### Общая схема
+
+```txt
+dataLayer.push(...) -> watcher поймал событие -> RxJS stream -> твоя логика
+```
+
+### Создать watcher
+
+```js
+const dataLayerWatcher = createDataLayerWatcher();
+```
+
+Возвращаемый API:
+
+- `dataLayer` - ссылка на массив `window.dataLayer`
+- `dataLayer$` - поток всех событий
+- `event$(eventName)` - поток по имени события
+- `waitEvent$(eventName)` - поток с первым совпавшим событием
+- `waitEvent(eventName, options)` - `Promise` с первым совпавшим событием
+- `getLastEvent(eventName)` - последнее событие этого типа
+- `subscribe(listener, options)` - подписка на все push/replay
+- `destroy()` - снять monkey-patch с `dataLayer.push`
+
+### Дождаться события
 
 ```js
 const dataLayerWatcher = createDataLayerWatcher();
 
-dataLayerWatcher
-  .waitEvent('view_item')
-  .then((eventData) => {
-    console.log('view_item:', eventData);
+const viewItem = await dataLayerWatcher.waitEvent('view_item');
 
-    // handleViewItem(eventData);
-  });
+console.log('view_item:', viewItem);
 ```
 
-## Подписаться на событие
+С таймаутом:
+
+```js
+await dataLayerWatcher.waitEvent('begin_checkout', {
+  timeoutMs: 20000,
+});
+```
+
+### Подписаться на событие
 
 ```js
 const dataLayerWatcher = createDataLayerWatcher();
@@ -128,14 +239,35 @@ const subscription = dataLayerWatcher
   .event$('view_item')
   .subscribe((eventData) => {
     console.log('view_item:', eventData);
-
-    // handleViewItem(eventData);
   });
 
 subscription.unsubscribe();
 ```
 
-## Получить последнее событие
+### Слушать все dataLayer-события
+
+```js
+const dataLayerWatcher = createDataLayerWatcher();
+
+const unsubscribe = dataLayerWatcher.subscribe((item, source) => {
+  console.log(`[dataLayer:${source}]`, item);
+});
+
+unsubscribe();
+```
+
+Если replay не нужен:
+
+```js
+const unsubscribe = dataLayerWatcher.subscribe(
+  (item, source) => {
+    console.log(source, item);
+  },
+  {replay: false}
+);
+```
+
+### Получить последнее событие из истории
 
 ```js
 const dataLayerWatcher = createDataLayerWatcher();
@@ -143,14 +275,14 @@ const dataLayerWatcher = createDataLayerWatcher();
 const lastViewItem = dataLayerWatcher.getLastEvent('view_item');
 
 if (lastViewItem) {
-  // handleViewItem(lastViewItem);
+  console.log('Last view_item:', lastViewItem);
 }
 ```
 
-## Реагировать только на новый hotel id
+### Реагировать только на новый hotel id
 
 ```js
-import { distinctUntilChanged, map } from 'rxjs';
+import {distinctUntilChanged, map} from 'rxjs';
 
 const dataLayerWatcher = createDataLayerWatcher();
 
@@ -163,46 +295,48 @@ const subscription = dataLayerWatcher
     })),
     distinctUntilChanged((prev, next) => prev.hotelId === next.hotelId)
   )
-  .subscribe(({ eventData, hotelId }) => {
-    console.log('Новый hotelId:', hotelId);
-
-    // handleHotel(eventData, hotelId);
+  .subscribe(({eventData, hotelId}) => {
+    console.log('New hotelId:', hotelId);
   });
 ```
 
----
+### Отключить watcher
 
-# 3. DOM + dataLayer
+```js
+const dataLayerWatcher = createDataLayerWatcher();
 
-## Запустить код, когда готов DOM и dataLayer
+dataLayerWatcher.destroy();
+```
+
+## DOM + dataLayer together
+
+### Запустить код, когда готов DOM и пришел `view_item`
 
 ```js
 import {combineLatest} from 'rxjs';
 
-const selectorWatcher = reactDomObserver();
+const domWatcher = reactDomObserver();
 const dataLayerWatcher = createDataLayerWatcher();
 
 const subscription = combineLatest([
-  selectorWatcher.waitElement$('[class*="PhotoGalleryMainCarousel_mainSwiperContainer"]'),
+  domWatcher.waitElement$('[class*="PhotoGalleryMainCarousel_mainSwiperContainer"]'),
   dataLayerWatcher.waitEvent$('view_item'),
 ]).subscribe(([gallery, viewItem]) => {
-  console.log('DOM готов:', gallery);
-  console.log('dataLayer готов:', viewItem);
-
-  // renderCustomFeature(gallery, viewItem);
+  console.log('DOM ready:', gallery);
+  console.log('dataLayer ready:', viewItem);
 });
 ```
 
-## Один раз отработать и завершить
+### Один раз отработать и завершить
 
 ```js
 import {combineLatest, take} from 'rxjs';
 
-const selectorWatcher = reactDomObserver();
+const domWatcher = reactDomObserver();
 const dataLayerWatcher = createDataLayerWatcher();
 
 combineLatest([
-  selectorWatcher.waitElement$('[class*="PhotoGalleryMainCarousel"]'),
+  domWatcher.waitElement$('[class*="PhotoGalleryMainCarousel"]'),
   dataLayerWatcher.waitEvent$('view_item'),
 ])
   .pipe(take(1))
@@ -215,254 +349,43 @@ combineLatest([
   });
 ```
 
----
+## Практичные сценарии
 
-# 4. Storage helpers
-
-## Записать значение с TTL
+### Вставить блок один раз после появления контейнера
 
 ```js
-setLocalStorageWithExpiry('june_26_segment', 'family', 7);
+const domWatcher = reactDomObserver();
+
+domWatcher
+  .added$('[class*="HotelInfo"]')
+  .subscribe(({element}) => {
+    insertOnce(
+      element,
+      'beforeend',
+      '<div class="custom-info">Подборка для семейного отдыха</div>',
+      'family-info-block'
+    );
+  });
 ```
 
-## Прочитать значение с TTL
+### Сохранить событие в localStorage с TTL
 
 ```js
-const segment = getLocalStorageWithExpiry('june_26_segment');
+const dataLayerWatcher = createDataLayerWatcher();
 
-if (segment) {
-  console.log('segment:', segment);
+dataLayerWatcher
+  .event$('purchase')
+  .subscribe((eventData) => {
+    setLocalStorageWithExpiry('last_purchase_event', eventData, 1);
+  });
+```
+
+### Восстановить последнее сохраненное событие
+
+```js
+const cachedPurchase = getLocalStorageWithExpiry('last_purchase_event');
+
+if (cachedPurchase) {
+  console.log('Cached purchase:', cachedPurchase);
 }
-```
-
-## Выполнить код один раз за сессию
-
-```js
-if (runOncePerSession('june_26_popup')) {
-  // showPopup();
-}
-```
-
----
-
-# 5. Wait helpers
-
-## Дождаться DOMContentLoaded
-
-```js
-await asap();
-```
-
-## Дождаться селектора
-
-```js
-const button = await waitSelector('[data-route-switch="family"]');
-```
-
-## Дождаться внешней библиотеки
-
-```js
-const PopMechanic = await waitForWindowVar('PopMechanic');
-```
-
-```js
-const Cookies = await waitForLibrary(() => window.Cookies);
-```
-
----
-
-# 6. DOM insert helpers
-
-## Вставить HTML один раз
-
-```js
-insertOnce(
-  document.body,
-  'beforeend',
-  '<div class="custom-banner">Hello</div>',
-  'custom-banner-v1'
-);
-```
-
-## Добавить DOM-элемент один раз
-
-```js
-const badge = document.createElement('div');
-badge.className = 'custom-badge';
-badge.textContent = 'Рекомендовано';
-
-appendOnce(document.body, badge, 'custom-badge-v1');
-```
-
-## Вставить после элемента
-
-```js
-const title = document.querySelector('h1');
-const badge = document.createElement('span');
-badge.textContent = 'NEW';
-
-insertAfter(badge, title);
-```
-
----
-
-# 7. Intersection helpers
-
-## Запустить callback, когда элемент попал во viewport
-
-```js
-const io = watchIntersection(
-  '.hotel-card',
-  { threshold: 0.5 },
-  (element) => {
-    console.log('visible:', element);
-  },
-  (element) => {
-    console.log('hidden:', element);
-  }
-);
-
-io.disconnect();
-```
-
-## Дождаться исчезновения элементов
-
-```js
-waitUntilElementsGone(
-  {
-    required: ['.loader'],
-    floating: ['.ant-spin'],
-  },
-  () => {
-    console.log('loading finished');
-  }
-);
-```
-
----
-
-# 8. Analytics helpers
-
-## Отправить цель Яндекс.Метрики по клику
-
-```js
-const button = document.querySelector('[data-send-goal]');
-
-setYMTarget(button, 96674199, 'june_26_click');
-```
-
-## Отправить событие один раз за TTL
-
-```js
-sendYandexEventOnce('june_26_pop_up_show', 2, () => {
-  ym(96674199, 'reachGoal', 'june_26_pop_up_show');
-});
-```
-
----
-
-# 9. Network helpers
-
-## Собрать endpoint URL
-
-```js
-const url = endpointUrl('/endpoints/Customer/SubmitCommercialOfferForm');
-```
-
-## Отправить JSON на сервер
-
-```js
-const result = await doRequestToServer(
-  '/endpoints/Customer/SubmitCommercialOfferForm',
-  payload
-);
-```
-
-## Превратить объект в query string
-
-```js
-const query = params2query({ hotelId: 123, segment: 'family' });
-```
-
----
-
-# 10. UI helpers
-
-## Click outside
-
-```js
-const clickOutside = new ClickOutside('.modal', () => {
-  console.log('click outside modal');
-});
-
-clickOutside.destroy();
-```
-
-## Media matcher
-
-```js
-mediaMatcher(768, (isDesktop) => {
-  console.log(isDesktop ? 'desktop' : 'mobile');
-});
-```
-
----
-
-# 11. Media helpers
-
-## Подгрузить внешний script
-
-```js
-await preloadScript('https://example.com/script.js');
-```
-
-## Vimeo autoplay для элементов с data-vimeo-vid
-
-```html
-<div data-vimeo-vid="123456789"></div>
-```
-
-```js
-await vimeoAutoPlay({ threshold: 0.33 });
-```
-
----
-
-# 12. Legacy observers
-
-## SimpleReactDomObserver
-
-```js
-const observer = new SimpleReactDomObserver('[class*="HotelCard"]', {
-  once: false,
-  debug: true,
-  onAppear(element) {
-    console.log('appeared:', element);
-  },
-});
-
-observer.start();
-
-// observer.stop();
-```
-
-## ReactDomObserver в режиме all
-
-```js
-const observer = new ReactDomObserver(
-  [
-    '[class*="PhotoGalleryMainCarousel"]',
-    '[class*="HotelInfo"]',
-  ],
-  {
-    mode: 'all',
-    once: true,
-    debug: true,
-    onAllAppear(elements, selectors) {
-      console.log('all ready:', elements, selectors);
-    },
-  }
-);
-
-observer.start();
 ```

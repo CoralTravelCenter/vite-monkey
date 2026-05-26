@@ -1,0 +1,8 @@
+{
+  "name": "magic-promo-sunmar-info-actions",
+  "entry": "src/main.js",
+  "brand": "sunmar",
+  "match": [
+    "https://www.sunmar.ru/info-actions/"
+  ]
+}

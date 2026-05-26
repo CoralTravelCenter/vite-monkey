@@ -1,0 +1,124 @@
+#zaglushka .container {
+  width: 100%;
+  @media (min-width: 768px) {
+    display: flex;
+    gap: 12px;
+  }
+}
+
+#zaglushka article {
+  min-height: 160px;
+  width: 100%;
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: right center;
+  border-radius: 12px;
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+}
+
+#zaglushka article:first-of-type {
+  margin: 0 0 12px 0;
+
+  @media (min-width: 768px) {
+    margin: 0;
+  }
+}
+
+#zaglushka h3 {
+  color: var(--colorPrimaryBase, #0093D0);
+  font-size: var(--font-font_Size_Heading_3, 28px);
+  font-style: normal;
+  font-weight: var(--font-font_Weight_Semibold, 600);
+  line-height: var(--font-font_Line_Height_Heading_3, 36px); /* 128.571% */
+  margin: 0 0 8px 0;
+
+  @media (min-width: 768px) {
+    margin: 0 auto 8px 0;
+  }
+}
+
+#zaglushka span {
+  color: var(--CORAL-black, #000);
+  font-size: var(--font-font_Size_Body, 16px);
+  font-style: normal;
+  font-weight: var(--font-font_Weight_Regular, 400);
+  line-height: var(--font-font_Line_Height_Body, 24px); /* 150% */
+  margin: 0 0 16px 0;
+
+  @media (min-width: 768px) {
+    margin: 0 auto 16px 0;
+  }
+}
+
+#zaglushka h4 {
+  color: #FFF;
+  font-size: var(--font-font_Size_Heading_4, 24px);
+  font-style: normal;
+  font-weight: var(--font-font_Weight_Semibold, 600);
+  line-height: var(--font-font_Line_Height_Heading_4, 32px);
+  margin: 0 0 4px 0;
+}
+
+#zaglushka article span {
+  color: #FFF;
+  margin: 0;
+  font-size: var(--font-font_Size_Body, 16px);
+  font-style: normal;
+  font-weight: var(--font-font_Weight_Regular, 400);
+  line-height: var(--font-font_Line_Height_Body, 24px); /* 150% */
+}
+
+#zaglushka article a {
+  margin-top: auto;
+  border-radius: 48px;
+  width: fit-content;
+  border: 1px solid var(--Buttons-color_Btn_Border_Ghost_Default, rgba(0, 0, 0, 0.15));
+  background: var(--Buttons-color_Btn_Bg_Alt, #FFF);
+  padding: 8px 16px;
+  color: #000;
+}
+
+#zaglushka::part(popup-content) {
+  gap: 0;
+}
+
+#zaglushka::part(popup-dialog) {
+  max-width: 900px;
+}
+
+#zaglushka::part(popup-content):after {
+  --number: 35%;
+  content: '';
+  background: url('https://b2ccdn.coral.ru/content/coral_ai_3d_blue_passenger_airplane.png');
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: contain;
+  position: absolute;
+  top: 20px;
+  right: -26px;
+  width: min(var(--number), 150px);
+  height: min(var(--number), 150px);
+
+  @media (min-width: 768px) {
+    --number: 80%;
+    width: min(var(--number), 250px);
+    height: min(var(--number), 250px);
+    top: -100px;
+    right: 7%;
+  }
+}
+
+
+#zaglushka::part(popup-body) {
+  align-items: center;
+}
+
+
+@media (any-hover: hover) {
+  #zaglushka article a:hover {
+    color: #0A6FBC;
+    border-color: #0A6FBC;
+  }
+}

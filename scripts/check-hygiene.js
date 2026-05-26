@@ -1,12 +1,18 @@
 #!/usr/bin/env node
 
-const fs = require('node:fs');
-const path = require('node:path');
+import fs from 'node:fs';
+import path from 'node:path';
 
-const ROOT_DIR = path.resolve(__dirname, '..');
+import {ROOT_DIR} from './lib/projects.js';
 const IGNORED_DIRS = new Set(['.git']);
 const TEMP_FILE_PATTERN = /(^|[-_.])(temp|tmp)([-_.]|$)/i;
 const SOURCE_FILE_PATTERN = /\.(js|ts|jsx|tsx)$/;
+const LEGACY_CONFIG_FILES = new Set([
+  'package.json',
+  'package-lock.json',
+  'vite.config.js',
+  'vite.config.ts',
+]);
 
 function walk(dir, result = []) {
   for (const entry of fs.readdirSync(dir, {withFileTypes: true})) {
@@ -83,6 +89,14 @@ function main() {
   const dirsWithSpaces = entries
     .filter((entry) => entry.isDirectory && entry.path.split('/').some((part) => part.includes(' ')))
     .map((entry) => entry.path);
+  const legacyConfigs = entries
+    .filter((entry) => (
+      entry.isFile &&
+      LEGACY_CONFIG_FILES.has(entry.name) &&
+      entry.path !== 'package.json' &&
+      entry.path !== 'package-lock.json'
+    ))
+    .map((entry) => entry.path);
   const consoleLogs = findConsoleLogs(entries);
 
   console.log('Repository hygiene report');
@@ -93,6 +107,7 @@ function main() {
   printSection('dist directories', distDirs);
   printSection('temporary files', tempFiles);
   printSection('directories with spaces', dirsWithSpaces);
+  printSection('legacy local package/vite files', legacyConfigs);
   printSection('console.log/debugger entries', consoleLogs);
 
   console.log('\nNo files were changed.');

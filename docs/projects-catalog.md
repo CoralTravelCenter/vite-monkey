@@ -23,128 +23,126 @@ npm run update:catalog
 
 ## Проекты
 
-| Path | Package name | Brand/area | Status | Vite | Monkey | Notes |
+| Path | Name | Area | Status | Entry | Match | Notes |
 |---|---|---|---|---|---|---|
-| `SGN-airport-message` | `sgn-airport-message` | unknown | needs-review | `^5.2.12` | `^4.0.0` | package name does not match folder |
-| `a_b-fast-lead` | `a_b-fast-lead` | unknown | needs-review | `^5.2.12` | `^4.0.0` |  |
-| `add-passeger-a-b` | `add-passeger-a-b` | unknown | needs-review | `^6.0.5` | `^5.0.3` |  |
-| `add-passenger-sidebar-test` | `add-passenger-sidebar-test` | unknown | needs-review | `^5.2.12` | `^4.0.0` |  |
-| `atlantis-promo` | `atlantis-promo` | unknown | needs-review | `^6.0.5` | `^5.0.3` |  |
-| `bilety-podojdut` | `bilety-podojdut` | unknown | needs-review | `^6.0.5` | `^5.0.3` |  |
-| `bitrix-backend-payload` | `bitrix-backend-payload` | unknown | needs-review | `^6.0.5` | `^5.0.3` |  |
-| `bitrix-on-flight-page` | `bitrix-on-flight-page` | unknown | needs-review | `^6.0.5` | `^5.0.3` |  |
-| `black-friday-2025-landing` | `black-friday-2025-landing` | unknown | needs-review | `^5.2.12` | `^4.0.0` |  |
-| `black-friday-links` | `black-friday-links` | unknown | needs-review | `^5.2.12` | `^4.0.0` |  |
-| `bobr quiz` | `bobr-quiz` | unknown | needs-review | `^6.0.5` | `^5.0.3` | path has spaces; package name does not match folder |
-| `bobr-aside` | `bobr-aside` | unknown | needs-review | `^6.0.5` | `^5.0.3` |  |
-| `bobr-pipka` | `bobr-pipka` | unknown | needs-review | `^6.0.5` | `^5.0.3` |  |
-| `bobr-skvoz-mob` | `bobr-skvoz` | unknown | needs-review | `^6.0.5` | `^5.0.3` | package name duplicates `bobr-skvoz`; package name does not match folder |
-| `bobr-skvoz` | `bobr-skvoz` | unknown | needs-review | `^6.0.5` | `^5.0.3` | package name duplicates `bobr-skvoz` |
-| `busines-turkey-popup` | `busines-turkey-popup` | unknown | needs-review | `^5.2.12` | `^4.0.0` |  |
-| `carousel-metrika` | `carousel-metrika` | unknown | needs-review | `^5.2.12` | `^4.0.0` |  |
-| `chernaya-pyatnica/link` | `link` | unknown | needs-review | `^5.2.12` | `^4.0.0` | generic package name; package name duplicates `link` |
-| `china-form` | `china-form` | unknown | needs-review | `^5.2.12` | `^4.0.0` |  |
-| `clean-screen` | `clean-screen` | unknown | needs-review | `^6.0.5` | `^5.0.3` |  |
-| `close-jivo-2025` | `close-jivo-2025` | unknown | needs-review | `^6.0.5` | `^5.0.3` |  |
-| `comment-injection` | `comment-injection` | coral | experiment | `^6.0.5` | `^5.0.3` | has experiment.config.json |
-| `coral-group-landing` | `coral-group-landing` | coral | needs-review | `^6.0.5` | `^5.0.3` |  |
-| `coral-popup-cyber-promo` | `coral-popup` | coral | needs-review | `^5.2.12` | `^4.0.0` | package name duplicates `coral-popup`; package name does not match folder |
-| `coral-search-tweeks` | `coral-search-tweeks` | coral | needs-review | `^5.2.12` | `^4.0.0` |  |
-| `coral-tax-shild` | `redirect-to-new-site` | coral | needs-review | `^5.0.11` | `^3.5.1` | package name does not match folder; package name duplicates `redirect-to-new-site` |
-| `dubai-tours-calendare` | `dubai-tours-calendare` | unknown | needs-review | `^5.0.11` | `^3.5.1` |  |
-| `fantiet-block` | `fantiet-block` | unknown | needs-review | `^6.0.5` | `^5.0.3` |  |
-| `filters-desintegration` | `filters-desintegration` | unknown | needs-review | `^6.0.5` | `^5.0.3` |  |
-| `gipoteza-karusel-napravleniya` | `gipoteza-karusel-napravleniya` | unknown | needs-review | `^5.2.12` | `^4.0.0` |  |
-| `gnb` | `gnb` | unknown | needs-review | `^5.2.12` | `^4.0.0` |  |
-| `hello-banner-main-russia` | `hello-banner-main-russia` | unknown | needs-review | `^5.2.12` | `^4.0.0` |  |
-| `hide-email-checkbox` | `hide-email-checkbox` | unknown | needs-review | `^6.0.5` | `^5.0.3` |  |
-| `home-page-advantage` | `home-page-advantage` | unknown | needs-review | `^6.0.5` | `^5.0.3` |  |
-| `hotels-set-redisign` | `hotels-set-redisign` | unknown | needs-review | `^6.0.5` | `^5.0.3` |  |
-| `jivo-ab` | `jivo-ab` | unknown | needs-review | `^6.0.5` | `^5.0.3` |  |
-| `jivo-desktop-2025` | `jivo-desktop-2025` | unknown | needs-review | `^5.2.12` | `^4.0.0` |  |
-| `june-aside-mob` | `june-aside-mob` | unknown | needs-review | `^6.0.5` | `^5.0.3` |  |
-| `june-aside` | `june-aside` | unknown | needs-review | `^6.0.5` | `^5.0.3` |  |
-| `june-popup-family` | `june-popup-family` | unknown | needs-review | `^5.2.12` | `^4.0.0` |  |
-| `june-shild` | `june-shild` | unknown | needs-review | `^6.0.5` | `^5.0.3` |  |
-| `june-stories` | `june-stories` | unknown | needs-review | `^5.2.12` | `^4.0.0` |  |
-| `kalendar-vigod/home-page` | `home-page` | campaign | needs-review | `^6.0.5` | `^5.0.3` | generic package name |
-| `kalendar-vigod/link` | `link` | campaign | needs-review | `^6.0.5` | `^5.0.3` | generic package name; package name duplicates `link` |
-| `kalendar-vigod/popup` | `popup` | campaign | needs-review | `^6.0.5` | `^5.0.3` | generic package name; package name duplicates `popup` |
-| `kalendar-vigod/search-card` | `search-card` | campaign | needs-review | `^6.0.5` | `^5.0.3` |  |
-| `kalendar-vigod/ym-banner` | `ym-banner` | campaign | needs-review | `^6.0.5` | `^5.0.3` |  |
-| `lead-form-add-passegers` | `lead-form-add-passegers` | unknown | needs-review | `^5.2.12` | `^4.0.0` |  |
-| `lead-form-bitrix-24-coralby` | `lead-form-bitrix-24-coralby` | coral | needs-review | `^5.2.12` | `^4.0.0` |  |
-| `lead-form-bitrix-24` | `lead-form-bitrix-24` | unknown | needs-review | `^5.2.12` | `^4.0.0` |  |
-| `lead-form` | `lead-form` | unknown | needs-review | `^5.2.12` | `^4.0.0` |  |
-| `magic-ball` | `magic-ball` | unknown | needs-review | `^5.2.12` | `^4.0.0` |  |
-| `magic-promo-sunmar/info-actions` | `info-actions` | sunmar | needs-review | `^6.0.5` | `^5.0.3` | generic package name |
-| `magic-promo-sunmar/link-mobile` | `link-mobile` | sunmar | needs-review | `^6.0.5` | `^5.0.3` |  |
-| `magic-promo-sunmar/link` | `link` | sunmar | needs-review | `^6.0.5` | `^5.0.3` | generic package name; package name duplicates `link` |
-| `magic-promo-sunmar/popup` | `popup` | sunmar | needs-review | `^6.0.5` | `^5.0.3` | generic package name; package name duplicates `popup` |
-| `magic-promo-sunmar/search-metrika` | `search-metrika` | sunmar | needs-review | `^6.0.5` | `^5.0.3` |  |
-| `midbox-quiz-css-fix` | `midbox-quiz-css-fix` | unknown | needs-review | `^5.2.12` | `^4.0.0` |  |
-| `mindbox-subscribe-2025` | `mindbox-subscribe-2025` | unknown | needs-review | `^6.0.5` | `^5.0.3` |  |
-| `new-year-ticker` | `new-year-ticker` | unknown | needs-review | `^5.2.12` | `^4.0.0` |  |
-| `ny-popup` | `ny-popup` | unknown | needs-review | `^6.0.5` | `^5.0.3` |  |
-| `one-click-tweeks` | `one-click-tweeks` | unknown | needs-review | `^6.0.5` | `^5.0.3` |  |
-| `only-hotel-highlight-2025/highlight-popup` | `highlight-popup` | unknown | needs-review | `^5.2.12` | `^4.0.0` |  |
-| `only-hotel-highlight-2025/link-highlight` | `link-highlight` | unknown | needs-review | `^5.2.12` | `^4.0.0` |  |
-| `only-hotel-highlight-2025/ribbon` | `ribbon` | unknown | needs-review | `^6.0.5` | `^5.0.3` |  |
-| `only-hotel-highlight-2025/shild` | `shild` | unknown | needs-review | `^5.2.12` | `^4.0.0` |  |
-| `only-hotel-shild-v2` | `only-hotel-shild-v2` | unknown | needs-review | `^6.0.5` | `^5.0.3` |  |
-| `onlyhotel-sunmar-hightlight-2025` | `onlyhotel-sunmar-hightlight-2025` | sunmar | needs-review | `^6.0.5` | `^5.0.3` |  |
-| `oplata-bez-komisii` | `oplata-bez-komisii` | unknown | needs-review | `^6.0.5` | `^5.0.3` |  |
-| `package-ctx` | `package-ctx` | unknown | needs-review | `^6.0.5` | `^5.0.3` |  |
-| `pay-attention-slider-fix` | `pay-attention-slider-fix` | unknown | needs-review | `^5.2.12` | `^4.0.0` |  |
-| `payment-page-ui-improov` | `payment-page-ui-improov` | unknown | needs-review | `^5.2.12` | `^4.0.0` |  |
-| `podborky-cen` | `podborky-cen` | unknown | needs-review | `^6.0.5` | `^5.0.3` |  |
-| `popup-attention-uae` | `popup-attention-uae` | unknown | needs-review | `^6.0.5` | `^5.0.3` |  |
-| `popup-management` | `popup-management` | unknown | needs-review | `^5.0.11` | `^3.5.1` |  |
-| `promo-popup` | `promo-popup` | unknown | needs-review | `^5.2.12` | `^4.0.0` |  |
-| `promo-tooltip-mobile` | `promo-tooltip` | unknown | needs-review | `^5.2.12` | `^4.0.0` | package name duplicates `promo-tooltip`; package name does not match folder |
-| `promo-tooltip` | `promo-tooltip` | unknown | needs-review | `^5.2.12` | `^4.0.0` | package name duplicates `promo-tooltip` |
-| `push-notify` | `push-notify` | unknown | needs-review | `^6.0.5` | `^5.0.3` |  |
-| `rb-home-markup` | `rb-home-markup` | unknown | needs-review | `^6.0.5` | `^5.0.3` |  |
-| `rb-popup-aside` | `rb-popup-aside` | unknown | needs-review | `^6.0.5` | `^5.0.3` |  |
-| `redirect-to-new-site` | `redirect-to-new-site` | unknown | needs-review | `^5.0.11` | `^3.5.1` | package name duplicates `redirect-to-new-site` |
-| `renovation` | `renovation` | unknown | needs-review | `^5.2.12` | `^4.0.0` |  |
-| `search-banner-css-fix` | `search-banner-css-fix` | unknown | needs-review | `^6.0.5` | `^5.0.3` |  |
-| `search-research` | `search-research` | unknown | needs-review | `^6.0.5` | `^5.0.3` |  |
-| `search-shild-universal` | `search-shild-universal` | unknown | needs-review | `^6.0.5` | `^5.0.3` |  |
-| `secret-popup` | `secret-popup` | unknown | needs-review | `^6.0.5` | `^5.0.3` |  |
-| `sm-form-adaptive-height` | `sm-form-adaptive-height` | unknown | needs-review | `^5.0.11` | `^3.5.1` |  |
-| `stories test` | `stories-test` | unknown | needs-review | `^6.0.5` | `^5.0.3` | path has spaces; package name does not match folder |
-| `sunmar-bf-shilds-hotel` | `sunmar-bf-shilds-hotel` | sunmar | needs-review | `^5.2.12` | `^4.0.0` |  |
-| `sunmar-bf-shilds` | `sunmar-bf-shilds` | sunmar | needs-review | `^5.2.12` | `^4.0.0` |  |
-| `sunmar-bobr-quiz` | `sunmar-bobr-quiz` | sunmar | needs-review | `^6.0.5` | `^5.0.3` |  |
-| `sunmar-bonus-shild-search` | `sunmar-bonus-shild-search` | sunmar | needs-review | `^5.2.12` | `^4.0.0` |  |
-| `sunmar-egei-quiz-2025` | `sunmar-egei-quiz-2025` | sunmar | needs-review | `^5.2.12` | `^4.0.0` |  |
-| `sunmar-home-page-polish` | `home-page-polish` | sunmar | needs-review | `^5.0.11` | `^3.5.1` | package name does not match folder |
-| `sunmar-mindbox-subscribe` | `sunmar-mindbox-subscribe` | sunmar | needs-review | `^5.2.12` | `^4.0.0` |  |
-| `sunmar-onlyhotel-higlight` | `sunmar-onlyhotel-higlight` | sunmar | needs-review | `^6.0.5` | `^5.0.3` |  |
-| `sunmar-popup-cyber-promo` | `coral-popup` | sunmar | needs-review | `^5.2.12` | `^4.0.0` | package name does not match folder; package name duplicates `coral-popup` |
-| `sunmar-popup-ne-otkladivy` | `sunmar-popup-ne-otkladivy` | sunmar | needs-review | `^5.2.12` | `^4.0.0` |  |
-| `sunmar-shild-new` | `sunmar-shild-new` | sunmar | needs-review | `^6.0.5` | `^5.0.3` |  |
-| `sunmar-video-kv` | `sunmar-video-kv` | sunmar | needs-review | `^5.2.12` | `^4.0.0` |  |
-| `t-bank-payment-banner` | `t-bank-payment-banner` | unknown | needs-review | `^5.2.12` | `^4.0.0` |  |
-| `t-bank` | `t-bank` | unknown | needs-review | `^5.2.12` | `^4.0.0` |  |
-| `test-form-subscribe` | `test-form-subscribe` | unknown | needs-review | `^5.2.12` | `^4.0.0` |  |
-| `test-pilot-subscribe` | `test-pilot-subscribe` | unknown | needs-review | `^6.0.5` | `^5.0.3` |  |
-| `thankyou-subscribition` | `thankyou-subscribition` | unknown | needs-review | `^6.0.5` | `^5.0.3` |  |
-| `timer-rb-home` | `timer-rb-home` | unknown | needs-review | `^5.2.12` | `^4.0.0` |  |
-| `tiny-search` | `tiny-search` | unknown | needs-review | `^5.2.12` | `^4.0.0` |  |
-| `turkey-vs-egypt` | `turkey-vs-egypt` | unknown | needs-review | `^6.0.5` | `^5.0.3` |  |
-| `uae-attention` | `uae-attention` | unknown | needs-review | `^6.0.5` | `^5.0.3` |  |
-| `url-decrypt` | `url-decrypt` | unknown | needs-review | `^6.0.5` | `^5.0.3` |  |
-| `url-listener` | `url-listener` | unknown | needs-review | `^5.2.12` | `^4.0.0` |  |
-| `utm-switch-blocks` | `utm-switch-blocks` | unknown | needs-review | `^6.0.5` | `^5.0.3` |  |
-| `ux-mobile-menu` | `ux-mobile-menu` | unknown | needs-review | `^6.0.5` | `^5.0.3` |  |
-| `ux-mobile-popup` | `ux-mobile-popup` | unknown | needs-review | `^6.0.5` | `^5.0.3` |  |
-| `video-banner-carousel` | `video-banner-carousel` | unknown | needs-review | `^6.0.5` | `^5.0.3` |  |
-| `vk-deleter-2` | `vk-deleter-2` | unknown | needs-review | `^6.0.5` | `^5.0.3` |  |
-| `vk-photo-mark` | `vk-photo-mark` | unknown | needs-review | `^6.0.5` | `^5.0.3` |  |
-| `vk-posts-deleter` | `vk-posts-deleter` | unknown | needs-review | `^6.0.5` | `^5.0.3` |  |
-| `welcome-to-app-potap` | `welcome-to-app-potap` | unknown | needs-review | `^6.0.5` | `^5.0.3` |  |
-| `welcome-to-app` | `welcome-to-app` | unknown | needs-review | `^5.2.12` | `^4.0.0` |  |
-| `ym-test` | `ym-test` | unknown | needs-review | `^5.2.12` | `^4.0.0` |  |
-| `youth_day_2025_entry` | `youth_day_2025_entry` | unknown | needs-review | `^6.0.5` | `^5.0.3` |  |
+| `brands/coral/a_b-fast-lead` | `a-b-fast-lead` | coral | needs-review | `src/main.js` | `https://www.coral.ru/*` | package name does not match folder; has experiment.config.json; project name does not match folder |
+| `brands/coral/add-passeger-a-b` | `add-passeger-a-b` | coral | needs-review | `src/main.js` | `https://www.coral.ru/booking/add-passenger/*` | has experiment.config.json |
+| `brands/coral/add-passenger-sidebar-test` | `add-passenger-sidebar-test` | coral | needs-review | `src/main.js` | `https://www.coral.ru/*` | has experiment.config.json |
+| `brands/coral/atlantis-promo` | `atlantis-promo` | coral | needs-review | `src/main.js` | `https://www.coral.ru/*` | has experiment.config.json |
+| `brands/coral/bilety-podojdut` | `bilety-podojdut` | coral | needs-review | `src/main.js` | `https://www.coral.ru/*` | has experiment.config.json |
+| `brands/coral/bitrix-backend-payload` | `bitrix-backend-payload` | coral | needs-review | `src/main.js` | `https://www.coral.ru/corporate-clients-club/*` | has experiment.config.json |
+| `brands/coral/bitrix-on-flight-page` | `bitrix-on-flight-page` | coral | needs-review | `src/main.js` | `https://www.coral.ru/*` | has experiment.config.json |
+| `brands/coral/black-friday-2025-landing` | `black-friday-2025-landing` | coral | needs-review | `src/main.js` | `https://www.coral.ru/monkey/` | has experiment.config.json |
+| `brands/coral/busines-turkey-popup` | `busines-turkey-popup` | coral | needs-review | `src/main.js` | `https://www.coral.ru/*` | has experiment.config.json |
+| `brands/coral/carousel-metrika` | `carousel-metrika` | coral | needs-review | `src/main.js` | `https://www.coral.ru/` | has experiment.config.json |
+| `brands/coral/cb-tooltip` | `cb-tooltip` | coral | needs-review | `src/main.js` | `https://b2cpilotui.coral.ru/*` | has experiment.config.json |
+| `brands/coral/chernaya-pyatnica/link` | `chernaya-pyatnica-link` | coral | needs-review | `src/main.js` | `https://www.coral.ru/*` | package name does not match folder; has experiment.config.json; project name does not match folder |
+| `brands/coral/china-form` | `china-form` | coral | needs-review | `src/main.js` | `https://www.coral.ru/*` | has experiment.config.json |
+| `brands/coral/clean-screen` | `clean-screen` | coral | needs-review | `src/main.js` | `https://www.coral.ru/` | has experiment.config.json |
+| `brands/coral/close-jivo-2025` | `close-jivo-2025` | coral | needs-review | `src/main.js` | `https://www.coral.ru/*` | has experiment.config.json |
+| `brands/coral/comment-injection` | `comment-injection` | coral | needs-review | `src/main.js` | `https://www.coral.ru/*` | has experiment.config.json |
+| `brands/coral/coral-group-landing` | `coral-group-landing` | coral | needs-review | `src/main.js` | `https://www.coral.ru/monkey/` | has experiment.config.json |
+| `brands/coral/coral-popup-cyber-promo` | `coral-popup` | coral | needs-review | `src/home.js` | `https://www.coral.ru/` | package name duplicates `coral-popup`; package name does not match folder; has experiment.config.json; project name duplicates `coral-popup`; project name does not match folder |
+| `brands/coral/coral-search-tweeks` | `coral-search-tweeks` | coral | needs-review | `src/main.js` | `https://www.coral.ru/*` | has experiment.config.json |
+| `brands/coral/coral-tax-shild` | `redirect-to-new-site` | coral | needs-review | `src/home.js` | `https://new.coral.ru/hotels/bahrain/swiss-belhotel-seef-bahrain-seef/?qp=lWOJw1XDa14WeujkN6zDTrTzWWKAniWQbAbKEbIb2fjAEjMHo2RZYlS7BjLMnN7N7KC8wbdIKR1HIJ17r9SS%2FsrEdAsIdgvE2cwbRtrjupQ6S%2BLo%2Fq7g%2BKzWZpaXPll8nVktM3cnxNeWzzo%2FdvGPN5eItXPds8RPcEyNQOFMv6I3U9XPkTvpUrX0IG6917qxcxU1B5k70qGsEZ0ZdvcUqsb6QRJZO3XJmkV1y0uX2v7AH5U5wD7wO4q1%2BD67phsrxNuZQjLyIHaKNFhbBoAyySMl8tA%2F%2Fm3e2Vc2F5b3ldg%3D&p=1&w=null&s=5&hlu=packagetours%2Fmoskva-to-bahreyn-tours&hlqp=lWOJw1XDa14WeujkN6zDTrTzWWKAniWQbAbKEbIb2fjAEjMHo2RZYlS7BjLMnN7N7KC8wbdIKR1HIJ17r9SS%2FsrEdAsIdgvE2cwbRtrjupQ6S%20Lo%2Fq7g%20KzWZpaXPll8hFaQdJRrGY5fKHvI5zkcpE%2FwXjEotcRjnaqM0ag%2FSHhECB9wz39Uh5cdVAzHUZCoYIwTyPzDK7wOuHTftLPIZtBcmk%20oygkfpv8gfUgBTfpNRK7%20PLHJR%2FcC8F2y690n%2FgiifRgcqTmlsQc3aMtYkw%3D%3D` | package name duplicates `redirect-to-new-site`; package name does not match folder; has experiment.config.json; project name duplicates `redirect-to-new-site`; project name does not match folder |
+| `brands/coral/filters-desintegration` | `filters-desintegration` | coral | needs-review | `src/main.js` | `https://www.coral.ru/*` | has experiment.config.json |
+| `brands/coral/gipoteza-karusel-napravleniya` | `gipoteza-karusel-napravleniya` | coral | needs-review | `src/main.js` | `https://www.coral.ru/*` | has experiment.config.json |
+| `brands/coral/gnb` | `gnb` | coral | needs-review | `src/main.js` | `https://www.coral.ru/*` | has experiment.config.json |
+| `brands/coral/hello-banner-main-russia` | `hello-banner-main-russia` | coral | needs-review | `src/home.js` | `https://www.coral.ru/main/russia/` | has experiment.config.json |
+| `brands/coral/hide-email-checkbox` | `hide-email-checkbox` | coral | needs-review | `src/main.js` | `https://www.coral.ru/*` | has experiment.config.json |
+| `brands/coral/home-page-advantage` | `home-page-advantage` | coral | needs-review | `src/home.js` | `https://www.coral.ru/` | has experiment.config.json |
+| `brands/coral/hotels-set-redisign` | `hotels-set-redisign` | coral | needs-review | `src/main.js` | `https://www.coral.ru/*` | has experiment.config.json |
+| `brands/coral/jivo-ab` | `jivo-ab` | coral | needs-review | `src/main.js` | `https://www.coral.ru/*` | has experiment.config.json |
+| `brands/coral/jivo-desktop-2025` | `jivo-desktop-2025` | coral | needs-review | `src/main.js` | `https://www.coral.ru/` | has experiment.config.json |
+| `brands/coral/jpoint-search-banner` | `jpoint-search-banner` | coral | needs-review | `src/main.js` | `https://www.coral.ru/*` | has experiment.config.json |
+| `brands/coral/june-aside` | `june-aside` | coral | needs-review | `src/main.js` | `https://www.coral.ru/*` | has experiment.config.json |
+| `brands/coral/june-aside-mob` | `june-aside-mob` | coral | needs-review | `src/main.js` | `https://www.coral.ru/*` | has experiment.config.json |
+| `brands/coral/june-popup-family` | `june-popup-family` | coral | needs-review | `src/main.js` | `https://www.coral.ru/*` | has experiment.config.json |
+| `brands/coral/june-shild` | `june-shild` | coral | needs-review | `src/main.js` | `https://www.coral.ru/*` | has experiment.config.json |
+| `brands/coral/june-stories` | `june-stories` | coral | needs-review | `src/main.js` | `https://www.coral.ru/*` | has experiment.config.json |
+| `brands/coral/kalendar-vigod/home-page` | `kalendar-vigod-home-page` | coral | needs-review | `src/main.js` | `https://www.coral.ru/*` | package name does not match folder; has experiment.config.json; project name does not match folder |
+| `brands/coral/kalendar-vigod/link` | `kalendar-vigod-link` | coral | needs-review | `src/main.js` | `https://www.coral.ru/` | package name does not match folder; has experiment.config.json; project name does not match folder |
+| `brands/coral/kalendar-vigod/popup` | `kalendar-vigod-popup` | coral | needs-review | `src/main.js` | `https://www.coral.ru/` | package name does not match folder; has experiment.config.json; project name does not match folder |
+| `brands/coral/kalendar-vigod/search-card` | `kalendar-vigod-search-card` | coral | needs-review | `src/main.js` | `https://www.coral.ru/*` | package name does not match folder; has experiment.config.json; project name does not match folder |
+| `brands/coral/kalendar-vigod/ym-banner` | `kalendar-vigod-ym-banner` | coral | needs-review | `src/main.js` | `https://www.coral.ru/*` | package name does not match folder; has experiment.config.json; project name does not match folder |
+| `brands/coral/lead-form-add-passegers` | `lead-form-add-passegers` | coral | needs-review | `src/home.js` | `https://www.coral.ru/*` | has experiment.config.json |
+| `brands/coral/lead-form-bitrix-24-coralby` | `lead-form-bitrix-24-coralby` | coral | needs-review | `src/home.js` | `https://www.coral.by/*` | has experiment.config.json |
+| `brands/coral/magic-ball` | `magic-ball` | coral | needs-review | `src/main-mob.js` | `https://www.coral.ru/*` | has experiment.config.json |
+| `brands/coral/mindbox-subscribe-2025` | `mindbox-subscribe-2025` | coral | needs-review | `src/main.js` | `https://www.coral.ru/*` | has experiment.config.json |
+| `brands/coral/new-year-ticker` | `new-year-ticker` | coral | needs-review | `src/main.js` | `https://www.coral.ru/` | has experiment.config.json |
+| `brands/coral/ny-popup` | `ny-popup` | coral | needs-review | `src/main.js` | `https://www.coral.ru/` | has experiment.config.json |
+| `brands/coral/one-click-tweeks` | `one-click-tweeks` | coral | needs-review | `src/main.js` | `https://www.coral.ru/*` | has experiment.config.json |
+| `brands/coral/only-hotel-highlight-2025/highlight-popup` | `highlight-popup` | coral | needs-review | `src/main.js` | `https://www.coral.ru/*` | has experiment.config.json |
+| `brands/coral/only-hotel-highlight-2025/link-highlight` | `link-highlight` | coral | needs-review | `src/main.js` | `https://www.coral.ru/*` | has experiment.config.json |
+| `brands/coral/only-hotel-highlight-2025/ribbon` | `ribbon` | coral | needs-review | `src/main.js` | `https://www.coral.ru/*` | has experiment.config.json |
+| `brands/coral/only-hotel-highlight-2025/shild` | `shild` | coral | needs-review | `src/main.js` | `https://www.coral.ru/*` | has experiment.config.json |
+| `brands/coral/only-hotel-shild-v2` | `only-hotel-shild-v2` | coral | needs-review | `src/main.js` | `https://www.coral.ru/*` | has experiment.config.json |
+| `brands/coral/oplata-bez-komisii` | `oplata-bez-komisii` | coral | needs-review | `src/main.js` | `https://www.coral.ru/*` | has experiment.config.json |
+| `brands/coral/package-ctx` | `package-ctx` | coral | needs-review | `src/main.ts` | `https://www.coral.ru/*` | has experiment.config.json |
+| `brands/coral/pay-attention-slider-fix` | `pay-attention-slider-fix` | coral | needs-review | `src/home.js` | `https://www.coral.ru/preview/360f3d83-7c9d-45d3-8fe0-1d77a98259db/ru-RU/` | has experiment.config.json |
+| `brands/coral/payment-page-ui-improov` | `payment-page-ui-improov` | coral | needs-review | `src/main.js` | `https://www.coral.ru/payment/*` | has experiment.config.json |
+| `brands/coral/podborky-cen` | `podborky-cen` | coral | needs-review | `src/main.js` | `https://www.coral.ru/*` | has experiment.config.json |
+| `brands/coral/popup-attention-uae` | `popup-attention-uae` | coral | needs-review | `src/main.js` | `https://www.coral.ru/*` | has experiment.config.json |
+| `brands/coral/promo-tooltip` | `promo-tooltip` | coral | needs-review | `src/main.js` | `https://www.coral.ru/*` | package name duplicates `promo-tooltip`; has experiment.config.json; project name duplicates `promo-tooltip` |
+| `brands/coral/promo-tooltip-mobile` | `promo-tooltip` | coral | needs-review | `src/main.js` | `https://www.coral.ru/*` | package name duplicates `promo-tooltip`; package name does not match folder; has experiment.config.json; project name duplicates `promo-tooltip`; project name does not match folder |
+| `brands/coral/push-notify` | `push-notify` | coral | needs-review | `src/main.js` | `https://www.coral.ru/*` | has experiment.config.json |
+| `brands/coral/rb-home-markup` | `rb-home-markup` | coral | needs-review | `src/main.js` | `https://www.coral.ru/*` | has experiment.config.json |
+| `brands/coral/rb-popup-aside` | `rb-popup-aside` | coral | needs-review | `src/main.js` | `https://www.coral.ru/main/turkey/*` | has experiment.config.json |
+| `brands/coral/renovation` | `renovation` | coral | needs-review | `src/main.js` | `https://www.coral.ru/*` | has experiment.config.json |
+| `brands/coral/search-banner-css-fix` | `search-banner-css-fix` | coral | needs-review | `src/main.js` | `https://www.coral.ru/*` | has experiment.config.json |
+| `brands/coral/search-research` | `search-research` | coral | needs-review | `src/home.js` | `https://www.coral.ru/poleznaya-informatsiya/offers/start-prodazh-vietnam/*` | has experiment.config.json |
+| `brands/coral/search-shild-universal` | `search-shild-universal` | coral | needs-review | `src/main.js` | `https://www.coral.ru/*` | has experiment.config.json |
+| `brands/coral/SGN-airport-message` | `sgn-airport-message` | coral | needs-review | `src/main.js` | `https://www.coral.ru/*` | package name does not match folder; has experiment.config.json; project name does not match folder |
+| `brands/coral/stories test` | `stories-test` | coral | needs-review | `src/main.js` | `https://www.coral.ru/*` | path has spaces; package name does not match folder; has experiment.config.json; project name does not match folder |
+| `brands/coral/t-bank` | `t-bank` | coral | needs-review | `src/main.js` | `https://www.coral.ru/*` | has experiment.config.json |
+| `brands/coral/t-bank-payment-banner` | `t-bank-payment-banner` | coral | needs-review | `src/main.js` | `https://www.coral.ru/*` | has experiment.config.json |
+| `brands/coral/test-form-subscribe` | `test-form-subscribe` | coral | needs-review | `src/main.js` | `https://www.coral.ru/` | has experiment.config.json |
+| `brands/coral/test-pilot-subscribe` | `test-pilot-subscribe` | coral | needs-review | `src/main.js` | `https://b2cpilotui.coral.ru/` | has experiment.config.json |
+| `brands/coral/thankyou-subscribition` | `thankyou-subscribition` | coral | needs-review | `src/main.js` | `https://www.coral.ru/monkey/*` | has experiment.config.json |
+| `brands/coral/timer-rb-home` | `timer-rb-home` | coral | needs-review | `src/main.js` | `https://www.coral.ru/*` | has experiment.config.json |
+| `brands/coral/tiny-search` | `tiny-search` | coral | needs-review | `src/main.js` | `https://www.coral.ru/*` | has experiment.config.json |
+| `brands/coral/uae-attention` | `uae-attention` | coral | needs-review | `src/main.js` | `https://www.coral.ru/*` | has experiment.config.json |
+| `brands/coral/url-decrypt` | `url-decrypt` | coral | needs-review | `src/main.js` | `https://www.coral.ru/*` | has experiment.config.json |
+| `brands/coral/url-listener` | `url-listener` | coral | needs-review | `src/main.js` | `https://www.coral.ru/*` | has experiment.config.json |
+| `brands/coral/utm-switch-blocks` | `utm-switch-blocks` | coral | needs-review | `src/main.js` | `https://www.coral.ru/*` | has experiment.config.json |
+| `brands/coral/ux-mobile-menu` | `ux-mobile-menu` | coral | needs-review | `src/main.js` | `https://www.coral.ru/*` | has experiment.config.json |
+| `brands/coral/ux-mobile-popup` | `ux-mobile-popup` | coral | needs-review | `src/main.js` | `https://www.coral.ru/*` | has experiment.config.json |
+| `brands/coral/video-banner-carousel` | `video-banner-carousel` | coral | needs-review | `src/main.js` | `https://www.coral.ru/*` | has experiment.config.json |
+| `brands/coral/welcome-to-app` | `welcome-to-app` | coral | needs-review | `src/main.js` | `https://www.coral.ru/*` | has experiment.config.json |
+| `brands/coral/welcome-to-app-potap` | `welcome-to-app-potap` | coral | needs-review | `src/main.js` | `https://www.coral.ru/` | has experiment.config.json |
+| `brands/coral/ym-test` | `ym-test` | coral | needs-review | `src/home.js` | `https://www.coral.ru/preview/1c107d6f-4240-4adc-88e4-30b0ff8563da/ru-RU/` | has experiment.config.json |
+| `brands/sunmar/black-friday-links` | `black-friday-links` | sunmar | needs-review | `src/main.js` | `https://www.sunmar.ru/*` | has experiment.config.json |
+| `brands/sunmar/bobr quiz` | `bobr-quiz` | sunmar | needs-review | `src/main.js` | `https://www.sunmar.ru/*` | path has spaces; package name does not match folder; has experiment.config.json; project name does not match folder |
+| `brands/sunmar/bobr-aside` | `bobr-aside` | sunmar | needs-review | `src/main.js` | `https://www.sunmar.ru/*` | has experiment.config.json |
+| `brands/sunmar/bobr-pipka` | `bobr-pipka` | sunmar | needs-review | `src/main.js` | `https://www.sunmar.ru/*` | has experiment.config.json |
+| `brands/sunmar/bobr-skvoz` | `bobr-skvoz` | sunmar | needs-review | `src/main.js` | `https://www.sunmar.ru/*` | package name duplicates `bobr-skvoz`; has experiment.config.json; project name duplicates `bobr-skvoz` |
+| `brands/sunmar/bobr-skvoz-mob` | `bobr-skvoz` | sunmar | needs-review | `src/main.js` | `https://www.sunmar.ru/*` | package name duplicates `bobr-skvoz`; package name does not match folder; has experiment.config.json; project name duplicates `bobr-skvoz`; project name does not match folder |
+| `brands/sunmar/fantiet-block` | `fantiet-block` | sunmar | needs-review | `src/main.js` | `https://www.sunmar.ru/*` | has experiment.config.json |
+| `brands/sunmar/lead-form` | `lead-form` | sunmar | needs-review | `src/home.js` | `https://www.sunmar.ru/*` | has experiment.config.json |
+| `brands/sunmar/lead-form-bitrix-24` | `lead-form-bitrix-24` | sunmar | needs-review | `src/home.js` | `https://www.sunmar.ru/info-actions/` | has experiment.config.json |
+| `brands/sunmar/magic-promo-sunmar/info-actions` | `magic-promo-sunmar-info-actions` | sunmar | needs-review | `src/main.js` | `https://www.sunmar.ru/info-actions/` | package name does not match folder; has experiment.config.json; project name does not match folder |
+| `brands/sunmar/magic-promo-sunmar/link` | `magic-promo-sunmar-link` | sunmar | needs-review | `src/main.js` | `https://www.sunmar.ru/` | package name does not match folder; has experiment.config.json; project name does not match folder |
+| `brands/sunmar/magic-promo-sunmar/link-mobile` | `link-mobile` | sunmar | needs-review | `src/main.js` | `https://www.sunmar.ru/` | has experiment.config.json |
+| `brands/sunmar/magic-promo-sunmar/popup` | `magic-promo-sunmar-popup` | sunmar | needs-review | `src/main.js` | `https://www.sunmar.ru/*` | package name does not match folder; has experiment.config.json; project name does not match folder |
+| `brands/sunmar/magic-promo-sunmar/search-metrika` | `search-metrika` | sunmar | needs-review | `src/main.js` | `https://www.sunmar.ru/*` | has experiment.config.json |
+| `brands/sunmar/midbox-quiz-css-fix` | `midbox-quiz-css-fix` | sunmar | needs-review | `src/main.js` | `https://www.sunmar.ru/*` | has experiment.config.json |
+| `brands/sunmar/onlyhotel-sunmar-hightlight-2025` | `onlyhotel-sunmar-hightlight-2025` | sunmar | needs-review | `src/main.js` | `https://www.sunmar.ru/*` | has experiment.config.json |
+| `brands/sunmar/popup-management` | `popup-management` | sunmar | needs-review | `src/home.js` | `https://www.sunmar.ru/info-actions/` | has experiment.config.json |
+| `brands/sunmar/promo-popup` | `promo-popup` | sunmar | needs-review | `src/home.js` | `https://www.sunmar.ru/*` | has experiment.config.json |
+| `brands/sunmar/redirect-to-new-site` | `redirect-to-new-site` | sunmar | needs-review | `src/home.js` | `https://www.sunmar.ru/` | package name duplicates `redirect-to-new-site`; has experiment.config.json; project name duplicates `redirect-to-new-site` |
+| `brands/sunmar/secret-popup` | `secret-popup` | sunmar | needs-review | `src/main.js` | `https://www.sunmar.ru/*` | has experiment.config.json |
+| `brands/sunmar/sm-form-adaptive-height` | `sm-form-adaptive-height` | sunmar | needs-review | `src/home.js` | `https://new.sunmar.ru/` | has experiment.config.json |
+| `brands/sunmar/sunmar-bf-shilds` | `sunmar-bf-shilds` | sunmar | needs-review | `src/main.js` | `https://www.sunmar.ru/*` | has experiment.config.json |
+| `brands/sunmar/sunmar-bf-shilds-hotel` | `sunmar-bf-shilds-hotel` | sunmar | needs-review | `src/main.js` | `https://www.sunmar.ru/*` | has experiment.config.json |
+| `brands/sunmar/sunmar-bobr-quiz` | `sunmar-bobr-quiz` | sunmar | needs-review | `src/main.js` | `https://www.sunmar.ru/*` | has experiment.config.json |
+| `brands/sunmar/sunmar-bonus-shild-search` | `sunmar-bonus-shild-search` | sunmar | needs-review | `src/home.js` | `https://www.sunmar.ru/` | has experiment.config.json |
+| `brands/sunmar/sunmar-egei-quiz-2025` | `sunmar-egei-quiz-2025` | sunmar | needs-review | `src/home.js` | `https://www.sunmar.ru/*` | has experiment.config.json |
+| `brands/sunmar/sunmar-home-page-polish` | `home-page-polish` | sunmar | needs-review | `src/home.js` | `https://new.sunmar.ru/` | has experiment.config.json |
+| `brands/sunmar/sunmar-mindbox-subscribe` | `sunmar-mindbox-subscribe` | sunmar | needs-review | `src/main.js` | `https://www.sunmar.ru/*` | has experiment.config.json |
+| `brands/sunmar/sunmar-onlyhotel-higlight` | `sunmar-onlyhotel-higlight` | sunmar | needs-review | `src/main.js` | `https://www.sunmar.ru/*` | has experiment.config.json |
+| `brands/sunmar/sunmar-popup-cyber-promo` | `coral-popup` | sunmar | needs-review | `src/home.js` | `https://www.sunmar.ru/` | package name duplicates `coral-popup`; package name does not match folder; has experiment.config.json; project name duplicates `coral-popup`; project name does not match folder |
+| `brands/sunmar/sunmar-popup-ne-otkladivy` | `sunmar-popup-ne-otkladivy` | sunmar | needs-review | `src/main.js` | `https://www.sunmar.ru/*` | has experiment.config.json |
+| `brands/sunmar/sunmar-shild-new` | `sunmar-shild-new` | sunmar | needs-review | `src/main.js` | `https://www.sunmar.ru/*` | has experiment.config.json |
+| `brands/sunmar/sunmar-video-kv` | `sunmar-video-kv` | sunmar | needs-review | `src/main.js` | `https://www.sunmar.ru/monkey/*` | has experiment.config.json |
+| `brands/sunmar/turkey-vs-egypt` | `turkey-vs-egypt` | sunmar | needs-review | `src/main.js` | `https://www.sunmar.ru/*` | has experiment.config.json |
+| `brands/sunmar/youth_day_2025_entry` | `youth-day-2025-entry` | sunmar | needs-review | `src/search-shield.js` | `https://www.sunmar.ru/*` | package name does not match folder; has experiment.config.json; project name does not match folder |

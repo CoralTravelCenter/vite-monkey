@@ -1,0 +1,8 @@
+{
+  "name": "coral-popup",
+  "entry": "src/home.js",
+  "brand": "coral",
+  "match": [
+    "https://www.coral.ru/"
+  ]
+}

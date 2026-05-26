@@ -1,0 +1,8 @@
+{
+  "name": "package-ctx",
+  "entry": "src/main.ts",
+  "brand": "coral",
+  "match": [
+    "https://www.coral.ru/*"
+  ]
+}

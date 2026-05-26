@@ -1,0 +1,26 @@
+#paymentCoralBonusArea h4 {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+}
+
+.tippy-box {
+    background-color: #fff;
+    color: #000;
+    font-weight: 400;
+    font-size: 14px;
+    box-shadow: rgba(149, 157, 165, 0.2) 0 8px 24px;
+    border-radius: 8px;
+    padding: 8px 12px;
+}
+
+.tippy-arrow {
+    color: #FFFFFF;
+}
+
+#cb-tooltip-trigger {
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}

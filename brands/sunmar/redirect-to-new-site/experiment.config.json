@@ -1,0 +1,8 @@
+{
+  "name": "redirect-to-new-site",
+  "entry": "src/home.js",
+  "brand": "sunmar",
+  "match": [
+    "https://www.sunmar.ru/"
+  ]
+}

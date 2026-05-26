@@ -1,0 +1,8 @@
+{
+  "name": "youth-day-2025-entry",
+  "entry": "src/search-shield.js",
+  "brand": "sunmar",
+  "match": [
+    "https://www.sunmar.ru/*"
+  ]
+}
