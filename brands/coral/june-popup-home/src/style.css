@@ -1,0 +1,7 @@
+#june-promo::part(popup-dialog) {
+    max-width: 374px;
+}
+
+#june-promo::part(popup-content) {
+    gap: 0;
+}

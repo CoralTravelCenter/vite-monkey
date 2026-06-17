@@ -5,3 +5,5 @@ export {waitUntilElementsGone} from './waitUntilElementsGone.js';
 export {ClickOutside} from './click-outside.js';
 export {reactDomObserver} from './reactDomObserver.js';
 export {awaitDomElement} from './awaitDomElement.js';
+export {spyMainCarousel} from './spyMainCarousel.js';
+export {watchMainCarouselSlides} from './watchMainCarouselSlides.js';

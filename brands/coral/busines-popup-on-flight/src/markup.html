@@ -1,0 +1,44 @@
+<coral-popup id="business-button-modal" class="business-button-modal business-button-modal__content">
+    <div class="business-button-modal__visual" slot="visual">
+        <img
+                class="business-button-modal__image business-button-modal__header"
+                src="https://b2ccdn.coral.ru/content/cms/russia/busines-class-block/bc_image.webp"
+        >
+        <h3 class="business-button-modal__title">Хотите <br>бизнес-класс?</h3>
+        <svg
+                class="business-button-modal__icon"
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 40 36"
+                fill="none"
+        >
+            <path
+                    d="M8.36415 3.59691C9.55185 2.68257 10.1457 2.22541 10.8312 1.93098C11.142 1.79747 11.4651 1.68962 11.7968 1.60864C12.5283 1.43005 13.304 1.43005 14.8554 1.43005H24.6714C26.2228 1.43005 26.9985 1.43005 27.73 1.60864C28.0616 1.68962 28.3848 1.79747 28.6956 1.93098C29.3811 2.22541 29.9749 2.68257 31.1627 3.59691C35.0981 6.6266 37.066 8.14147 37.7405 10.1032C38.0406 10.9757 38.1526 11.8934 38.0707 12.8052C37.8863 14.855 36.3329 16.7311 33.2261 20.483L25.9047 29.3248C23.0865 32.7284 21.6774 34.4301 19.7634 34.4301C17.8494 34.4301 16.4403 32.7284 13.6221 29.3248L6.30069 20.483C3.19387 16.7311 1.64045 14.855 1.45609 12.8052C1.37409 11.8934 1.48623 11.8934 1.78627 12.8052C2.46083 8.14147 4.4286 6.6266 8.36415 3.59691Z"
+                    stroke="black"
+                    stroke-width="2.86"
+            />
+            <path
+                    d="M16.0968 11.5133H23.4301"
+                    stroke="black"
+                    stroke-width="2.2"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+            />
+        </svg>
+    </div>
+    <div class="business-button-modal__info" slot="subline">
+        <p class="business-button-modal__text">
+            <strong>Мы вам поможем</strong>, даже если вы не смогли найти на сайте перелёт на этом тарифе.
+        </p>
+        <p class="business-button-modal__text">- Просто нажмите на кнопку "Хочу бизнес-класс"</p>
+        <p class="business-button-modal__text">- Забронируйте тур с любым перелётом</p>
+        <p class="business-button-modal__text">
+            - Мы скорректируем тариф на бизнес-класс и пересчитаем стоимость тура
+        </p>
+    </div>
+    <button class="business-button-modal-action" slot="action" id="trigger-flight" type="button">
+                        <span class="business-button-modal-notice" data-visible="false">
+                            Мы применим промокод на этапе бронирования.
+                        </span>
+        Хочу бизнес-класс
+    </button>
+</coral-popup>

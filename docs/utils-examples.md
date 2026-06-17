@@ -38,6 +38,8 @@ import {
   ClickOutside,
   reactDomObserver,
   awaitDomElement,
+  spyMainCarousel,
+  watchMainCarouselSlides,
   setYMTarget,
   sendYandexEventOnce,
   createDataLayerWatcher,
@@ -51,6 +53,14 @@ import {
 
 ```js
 import {awaitDomElement, reactDomObserver, createDataLayerWatcher} from '@utils';
+```
+
+```js
+import {spyMainCarousel} from '@utils';
+```
+
+```js
+import {watchMainCarouselSlides} from '@utils';
 ```
 
 ## Storage
@@ -235,6 +245,67 @@ const query = params2query({
   filters: ['sea', 'spa'],
 });
 ```
+
+## DOM helpers
+
+### `spyMainCarousel(options)`
+
+Утилита для наблюдения за баннерами в главной карусели: находит элементы внутри карусели, отдает наружу контекст баннера и один раз навешивает `click`-обработчик.
+
+```js
+import {spyMainCarousel} from '@utils';
+
+const carouselSpy = spyMainCarousel({
+  carouselSelector: '[class*="MainCarousel"]',
+  itemSelector: 'a[href*="banner_on_site="]',
+  onItem: ({href, index, item}) => {
+    console.log('Banner found:', index, href, item);
+  },
+  onClick: ({href, index}) => {
+    ym(96674199, 'reachGoal', 'main_carousel_click', {
+      href,
+      index,
+    });
+  },
+});
+
+// carouselSpy.stop();
+```
+
+В callback приходит объект с полями `type`, `root`, `slide`, `item`, `href`, `index`.
+
+### `watchMainCarouselSlides(options)`
+
+Lifecycle-helper для главной карусели. Ждет появления `BannerLinkWrapper...` как сигнала рендера карусели, потом следит за каждым `.glide__slide.swiper-slide`: если контент есть, вызывает `mount`, если контент зачищен или слайд удален, вызывает `unmount`.
+
+```js
+import {watchMainCarouselSlides} from '@utils';
+
+const carouselLifecycle = watchMainCarouselSlides({
+  carouselSelector: '[class*="MainCarousel"]',
+  mount: ({slide, index}) => {
+    const link = slide.querySelector('[class*="BannerLinkWrapper_bannerLinkWrapper"]');
+
+    if (!link) {
+      return null;
+    }
+
+    const onClick = () => {
+      ym(96674199, 'reachGoal', 'main_carousel_click', {index});
+    };
+
+    link.addEventListener('click', onClick);
+
+    return () => {
+      link.removeEventListener('click', onClick);
+    };
+  },
+});
+
+// carouselLifecycle.stop();
+```
+
+Если нужно, `mount` может вернуть либо функцию `unmount`, либо объект `{unmount()}`.
 
 ## Next.js
 
