@@ -1,0 +1,73 @@
+#promo_page_coral::part(popup-dialog) {
+    max-width: 374px;
+}
+
+#promocode-copied {
+    width: 100%;
+    position: relative;
+}
+
+#promo_page_coral h4 {
+    font-size: 32px;
+    margin: 0;
+}
+
+#promo_page_coral h4 strong {
+    color: #0092D0;
+}
+
+#promo_page_coral p {
+    margin: 0;
+    text-align: center;
+}
+
+#promo_page_coral p.undertext {
+    font-size: 10px;
+    text-align: center;
+}
+
+#promo_page_coral ul {
+    padding-left: 0;
+    margin: 0;
+    font-size: 14px;
+}
+
+#promo_page_coral ul li::marker {
+    font-size: 12px;
+}
+
+.promo-copy-tooltip {
+    position: absolute;
+    left: 50%;
+    bottom: calc(100% + 8px);
+    transform: translateX(-50%) translateY(4px);
+    padding: 8px 12px;
+    border-radius: 10px;
+    background: #1f2937;
+    color: #fff;
+    font-size: 12px;
+    line-height: 1.35;
+    text-wrap: auto;
+    text-align: center;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.18);
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.2s ease, transform 0.2s ease;
+    z-index: 20;
+}
+
+.promo-copy-tooltip.is-visible {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0);
+}
+
+.promo-copy-tooltip::after {
+    content: '';
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    border-width: 6px;
+    border-style: solid;
+    border-color: #1f2937 transparent transparent transparent;
+}

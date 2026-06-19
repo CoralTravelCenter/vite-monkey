@@ -2,9 +2,10 @@ import {fromEvent, map, startWith, throttleTime} from 'rxjs';
 
 import {
   COUNTER_ID,
-  THROTTLE_DELAY,
-  SCROLL_GOALS,
+  GROUP_NAME,
+  GROUP_SCROLL_GOALS,
   SCROLL_THRESHOLDS,
+  THROTTLE_DELAY,
 } from './constants.js';
 
 function getScrollProgressPercent() {
@@ -47,20 +48,7 @@ export function initScrollGoalTracking() {
   }
 
   window.__miniPageScrollGoalInitialized = true;
-
   const sentThresholds = new Set();
-
-  const sendScrollGoal = threshold => {
-    const goalName = SCROLL_GOALS[threshold];
-
-    if (!goalName) {
-      return;
-    }
-
-    window.ym?.(COUNTER_ID, 'reachGoal', goalName, {
-      scroll: String(threshold),
-    });
-  };
 
   const isThresholdReached = (scrollPercent, threshold) => {
     if (threshold === 100) {
@@ -77,7 +65,9 @@ export function initScrollGoalTracking() {
         isThresholdReached(scrollPercent, threshold)
       ) {
         sentThresholds.add(threshold);
-        sendScrollGoal(threshold);
+        window.ym?.(COUNTER_ID, 'reachGoal', GROUP_SCROLL_GOALS, {
+          scroll: String(threshold),
+        });
       }
     });
   };
@@ -103,5 +93,5 @@ export function initScrollGoalTracking() {
 }
 
 export function sendExperimentGoal() {
-  window.ym?.(COUNTER_ID, 'reachGoal', 'min_home_page_group_B');
+  window.ym?.(COUNTER_ID, 'reachGoal', GROUP_NAME);
 }

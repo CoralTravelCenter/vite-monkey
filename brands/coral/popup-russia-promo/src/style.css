@@ -1,0 +1,7 @@
+#promo_page_coral-rus::part(popup-dialog) {
+    max-width: 374px;
+}
+
+#promo_page_coral-rus::part(popup-content) {
+    gap: 16px;
+}

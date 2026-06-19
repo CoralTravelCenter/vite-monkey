@@ -1,13 +1,24 @@
 import {MINI_PAGE_BLOCKS} from './constants.js';
 
+function getRenderedBlocksSet() {
+  if (!window.__miniPageRenderedBlocks) {
+    window.__miniPageRenderedBlocks = new Set();
+  }
+
+  return window.__miniPageRenderedBlocks;
+}
+
 function renderIntoPlaceholder({selector, blockName, renderName}) {
   const target = document.querySelector(selector);
   const render = window.MiniPageBlocks?.[renderName];
+  const renderedBlocks = getRenderedBlocksSet();
 
   if (
     !target ||
     typeof render !== 'function' ||
-    target.querySelector(`[data-mini-page-block="${blockName}"]`)
+    target.querySelector(`[data-mini-page-block="${blockName}"]`) ||
+    target.dataset.miniPageBlockRendered === blockName ||
+    renderedBlocks.has(blockName)
   ) {
     return false;
   }
@@ -23,6 +34,8 @@ function renderIntoPlaceholder({selector, blockName, renderName}) {
     }
 
     target.replaceChildren(...Array.from(tempContainer.childNodes));
+    target.dataset.miniPageBlockRendered = blockName;
+    renderedBlocks.add(blockName);
     return true;
   } catch (error) {
     target.replaceChildren(...previousChildren);

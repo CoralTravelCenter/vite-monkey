@@ -7,7 +7,6 @@ import {
 } from './constants.js';
 import {findNearestDivInsideAntCol} from './dom.js';
 import {renderMiniPageBlocks} from './blocks.js';
-import {replaceMainBannerWithCustomSlider} from './slider.js';
 
 function removeBlocksInsideAntCol() {
   REMOVABLE_BLOCK_SELECTORS.forEach(selector => {
@@ -67,7 +66,7 @@ export function runStaticCleanup() {
 }
 
 export function runSliderCleanup() {
-  replaceMainBannerWithCustomSlider();
+  // Main banner is hidden via CSS only.
 }
 
 export function runCleanup() {
