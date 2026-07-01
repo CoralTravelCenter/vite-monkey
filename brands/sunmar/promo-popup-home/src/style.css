@@ -1,0 +1,27 @@
+#promo_page_sunmar::part(popup-dialog) {
+    max-width: 480px;
+}
+
+#promo_page_sunmar::part(popup-content) {
+    gap: 16px;
+}
+
+#promo-trigger-sunmar::part(sunmar-popup-trigger) {
+    font-size: 16px;
+    color: #000;
+}
+
+#promo_page_sunmar::part(popup-content):before {
+    content: 'Подборка обновилась';
+    width: fit-content;
+    height: fit-content;
+    border-radius: 56px;
+    background: url(https://b2ccdn.sunmar.ru/content/fire-icon.png), linear-gradient(270deg, #0C1467 -1.95%, #0F1B78 49.03%, #14268D 74.51%, #173096 87.26%, #1A379D 100%);
+    background-repeat: no-repeat;
+    background-size: 18px, contain;
+    background-position: 16px 50%, center;
+    padding: 8px 16px 8px 42px;
+    color: #fff;
+    font-size: 12px;
+    line-height: 1.5;
+}

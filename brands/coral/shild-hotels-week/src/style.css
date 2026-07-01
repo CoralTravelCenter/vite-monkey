@@ -1,0 +1,21 @@
+body[data-promo="hotels-of-week"] div[class*="HotelDetailBlock_hotelDetailGalleryWrapper__"] {
+    position: relative;
+}
+
+body[data-promo="hotels-of-week"] div[class*="HotelDetailBlock_hotelDetailGalleryWrapper__"]::after {
+    content: "Отель недели";
+    position: absolute;
+    right: 16px;
+    top: 8px;
+    border-radius: 56px;
+    background-image: url("https://b2ccdn.coral.ru/content/star.png"),
+    url("https://b2ccdn.coral.ru/content/star_bg.png");
+    background-repeat: no-repeat, no-repeat;
+    background-size: 22px 22px, 100% 100%;
+    background-position: 12px center, center;
+    padding: 6px 12px 6px 42px;
+    color: #fff;
+    font-size: 12px;
+    line-height: 1.5;
+    z-index: 10;
+}
