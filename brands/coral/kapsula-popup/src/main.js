@@ -21,7 +21,7 @@ import {interceptXhr} from './interceptXhr.js';
 import {getCustomerName} from './getCustomerName.js';
 
 const HEADER_SELECTOR =
-  '[class*="HeaderMobile_rightGroup__"]';
+  '[class*="HeaderTopBar_iconContainer__"]';
 
 const AUTH_SELECTOR =
   '.user-profile-dropdown-button';
@@ -52,6 +52,44 @@ function sendCapsulaClickMetric(buttonName) {
     'capsula_elite_pop_up_click',
     {
       button_name: buttonName,
+    }
+  );
+}
+
+function bindShadowCloseMetric(popup) {
+  const shadowRoot = popup?.shadowRoot;
+
+  if (!shadowRoot) {
+    console.warn(
+      '[Elite] Shadow DOM popup недоступен'
+    );
+    return;
+  }
+
+  const closeSelector =
+    '[part~="close-button"], ' +
+    '[part~="popup-close"], ' +
+    '[part~="close"], ' +
+    'button[aria-label="Закрыть"], ' +
+    'button[aria-label="Close"], ' +
+    '[data-close], ' +
+    '.close';
+
+  const closeButton = shadowRoot.querySelector(
+    closeSelector
+  );
+
+  if (!closeButton) {
+    console.warn(
+      '[Elite] Кнопка закрытия popup не найдена'
+    );
+    return;
+  }
+
+  closeButton.addEventListener(
+    'click',
+    () => {
+      sendCapsulaClickMetric('close');
     }
   );
 }
@@ -185,17 +223,9 @@ function renderContent(content) {
       content.clientName
     );
 
-    const description = hasClientName
-      ? 'пусть ваше путешествие будет,\n' +
-        'как капсула гардероба, где каждая\n' +
-        'деталь подобрана под вас.\n' +
-        'Получите индивидуальное предложение\n' +
-        'от персонального стилиста вашего отдыха.'
-      : 'Пусть ваше путешествие будет,\n' +
-        'как капсула гардероба, где каждая\n' +
-        'деталь подобрана под вас.\n' +
-        'Получите индивидуальное предложение\n' +
-        'от персонального стилиста вашего отдыха.';
+    const description =
+      `${hasClientName ? 'с' : 'С'}оберите идеальное путешествие\n` +
+      'под ваш неповторимый стиль.';
 
     const contentNodes = [
       createContentElement('p', description),
@@ -255,6 +285,7 @@ async function mountPopup() {
     );
   }
 
+  bindShadowCloseMetric(popup);
 }
 
 function bindPopupInteractions() {
@@ -322,29 +353,6 @@ function bindPopupInteractions() {
       return;
     }
 
-    const clickedPopupClose = event
-      .composedPath()
-      .some((element) => {
-        if (!(element instanceof Element)) {
-          return false;
-        }
-
-        return element.matches(
-          '[part~="close"], ' +
-          '[part~="close-button"], ' +
-          '[part~="popup-close"], ' +
-          '[data-close], ' +
-          '.close'
-        );
-      });
-
-    if (
-      popup &&
-      event.composedPath().includes(popup) &&
-      clickedPopupClose
-    ) {
-      sendCapsulaClickMetric('close');
-    }
   });
 }
 
