@@ -47,12 +47,20 @@ function getViteBin() {
 function runVite(command, configPath) {
   const viteBin = getViteBin();
   const args = command === 'build'
-    ? ['build', '--config', configPath]
-    : ['--config', configPath];
+      ? ['build', '--config', configPath]
+      : ['--config', configPath];
+
   const result = spawnSync(viteBin, args, {
     cwd: ROOT_DIR,
     stdio: 'inherit',
+    shell: true
   });
+
+  if (result.error) {
+    console.error(`\nКритическая ошибка при запуске Vite: ${result.error.message}`);
+    process.exitCode = 1;
+    return false;
+  }
 
   if (result.status !== 0) {
     process.exitCode = result.status || 1;

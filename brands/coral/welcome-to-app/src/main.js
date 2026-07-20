@@ -1,6 +1,6 @@
 import './style.css';
 import MARKUP from './markup.html?raw';
-import {SimpleReactDomObserver} from "../../utils.js";
+import {SimpleReactDomObserver} from "@utils";
 
 (function () {
   'use strict';
