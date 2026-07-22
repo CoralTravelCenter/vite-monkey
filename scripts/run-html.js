@@ -30,6 +30,7 @@ function assertConfig(config) {
 
 function generateIndexHtml(config) {
     const htmlPath = path.join(config.projectDir, 'index.html');
+    const webEntryPath = config.entry.replaceAll('\\', '/');
 
     const htmlContent = `<!DOCTYPE html>
 <html lang="ru">
@@ -40,7 +41,7 @@ function generateIndexHtml(config) {
 </head>
 <body>
   <div id="app"></div>
-  <script type="module" src="./${config.entry}"></script>
+  <script type="module" src="./${webEntryPath}"></script>
 </body>
 </html>`;
 
