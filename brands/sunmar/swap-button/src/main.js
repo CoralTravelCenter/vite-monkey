@@ -1,5 +1,8 @@
-import markup from './markup.html?raw';
+import { initInjector } from './scripts/initInjector.js';
+import { initSwapAnimation } from './scripts/initSwapAnimations.js';
 import './style.css';
 
 await hostReactAppReady();
-document.querySelector('.HeaderMenuBar_menu__WkOx4').insertAdjacentHTML('afterend', markup);
+
+initInjector();
+initSwapAnimation();
