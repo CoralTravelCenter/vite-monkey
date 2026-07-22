@@ -4,6 +4,10 @@
   margin: 0 auto;
 }
 
+.china-headline {
+  text-align: center;
+}
+
 .cards {
   display: grid;
   grid-template-columns: repeat(12, 1fr);

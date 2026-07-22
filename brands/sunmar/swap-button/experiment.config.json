@@ -1,0 +1,8 @@
+{
+  "name": "swap-button",
+  "entry": "src/main.js",
+  "brand": "sunmar",
+  "match": [
+    "https://www.sunmar.ru/*"
+  ]
+}
