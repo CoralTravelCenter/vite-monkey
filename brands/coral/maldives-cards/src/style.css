@@ -23,7 +23,7 @@ a.card-btn:visited,
 a.card-btn:hover,
 a.card-btn:active,
 a.card-btn:focus {
-  text-decoration: none !important;
+  text-decoration: var(--ant-link-decoration, none) !important;
   border-bottom: none !important;
 }
 
@@ -46,12 +46,12 @@ a.card-btn:focus {
 
 .cards li {
   position: relative;
-  border-radius: 16px;
+  border-radius: var(--sunmar-radius-s, 16px);
   overflow: hidden;
   display: flex;
   border: none !important;
   outline: none !important;
-  box-shadow: 0 -8px 24px rgba(0, 0, 0, 0.15);
+  box-shadow: var(--sunmar-shadow-main, 0 16px 40px 0 rgba(20, 20, 22, .1));
 }
 
 .cards li::after {
@@ -90,10 +90,11 @@ a.card-btn:focus {
 }
 
 .card-headline {
-  color: #ffffff;
+  color: var(--ant-color-text-light-solid, #ffffff);
   font-size: 28px;
   line-height: 1.1;
-  font-weight: 500;
+  font-weight: var(--ant-font-weight-strong, 600);
+  font-family: var(--ant-font-family, inherit);
   margin: 0;
 }
 
@@ -101,7 +102,7 @@ a.card-btn:focus {
   position: absolute;
   inset: 0;
   z-index: 3;
-  background-color: #ffffff;
+  background-color: var(--ant-color-bg-container, #ffffff);
   padding: 20px;
   display: flex;
   flex-direction: column;
@@ -116,9 +117,10 @@ a.card-btn:focus {
 }
 
 .card-desc {
-  font-size: 14px;
-  line-height: 1.4;
-  color: #111111;
+  font-size: var(--ant-font-size, 14px);
+  line-height: var(--ant-line-height, 1.4);
+  color: var(--ant-color-text, rgba(0,0,0,0.85));
+  font-family: var(--ant-font-family, inherit);
   margin: 0;
 }
 
@@ -131,13 +133,14 @@ a.card-btn:focus {
   align-self: flex-start;
   display: inline-block;
   text-decoration: none;
-  background: #ffffff;
-  color: #111111;
+  background: var(--ant-color-bg-container, #ffffff);
+  color: var(--ant-color-text-base, #000000);
   border: none;
   border-radius: 999px;
   padding: 10px 24px;
-  font-size: 14px;
-  font-weight: 600;
+  font-size: var(--ant-font-size, 14px);
+  font-weight: var(--ant-font-weight-strong, 600);
+  font-family: var(--ant-font-family, inherit);
   cursor: pointer;
   transition: opacity 0.2s ease, transform 0.2s ease;
   box-sizing: border-box;
@@ -153,14 +156,14 @@ a.card-btn:focus {
 }
 
 .card-btn--blue {
-  background: #0092D0;
-  color: #ffffff !important;
+  background: var(--ant-color-primary, #077DAD);
+  color: var(--ant-color-text-light-solid, #ffffff) !important;
 }
 
 .card-btn--blue:visited,
 .card-btn--blue:active,
 .card-btn--blue:link {
-  color: #ffffff !important;
+  color: var(--ant-color-text-light-solid, #ffffff) !important;
 }
 
 .card-btn:hover {

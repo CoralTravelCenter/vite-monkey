@@ -44,7 +44,6 @@ div[class*="HeaderMobile_rightGroup"] {
     pointer-events: auto;
 }
 
-/* Десктопная обертка: делаем ее поверх всего и добавляем плавность */
 .desktop-swap-wrapper {
     display: flex;
     align-items: center;
@@ -53,8 +52,8 @@ div[class*="HeaderMobile_rightGroup"] {
     margin-left: auto;
     margin-right: 16px;
     position: relative;
-    z-index: 1050; /* Вытаскиваем кнопку поверх раскрывающегося поиска */
-    transition: transform 0.3s cubic-bezier(0.645, 0.045, 0.355, 1); /* Фирменная плавность Ant Design */
+    z-index: 1050;
+    transition: transform 0.3s cubic-bezier(0.645, 0.045, 0.355, 1);
 }
 
 .HeaderMenuBar_container__KIGJj:has(#none-product-search-input) .desktop-swap-wrapper {
