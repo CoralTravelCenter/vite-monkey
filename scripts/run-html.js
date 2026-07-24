@@ -50,6 +50,7 @@ function generateIndexHtml(config) {
 
 function createHtmlViteConfig(config) {
     const configPath = path.join(config.projectDir, 'vite-html.config.js');
+    const outDir = path.join(ROOT_DIR, 'html-build', config.name);
 
     const configContent = `import {defineConfig} from 'vite';
 import {viteSingleFile} from 'vite-plugin-singlefile';
@@ -58,7 +59,7 @@ export default defineConfig({
   root: ${JSON.stringify(config.projectDir)},
   plugins: [viteSingleFile()],
   build: {
-    outDir: 'dist-html',
+    outDir: ${JSON.stringify(outDir)},
     emptyOutDir: true,
     minify: true,
     target: 'esnext',
