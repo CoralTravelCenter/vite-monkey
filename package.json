@@ -8,7 +8,8 @@
     "update:catalog": "node scripts/update-projects-catalog.js",
     "migrate:structure": "node scripts/migrate-repository-structure.js",
     "dev:html": "node scripts/run-html.js dev",
-    "build:html": "node scripts/run-html.js build"
+    "build:html": "node scripts/run-html.js build",
+    "crm-build:html": "node scripts/crm-build-html.js build"
   },
   "dependencies": {
     "@emailjs/browser": "^4.4.1",

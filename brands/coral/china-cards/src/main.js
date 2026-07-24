@@ -1,5 +1,8 @@
-import {markup} from "./scripts/includeImages.js";
+import { markup } from "./scripts/includeImages.js";
 import './style.css';
 
-await hostReactAppReady();
-document.getElementById('monkey-app').insertAdjacentHTML('afterbegin', markup);
+const container = document.getElementById('widget-china-card');
+
+if (container) {
+    container.insertAdjacentHTML('afterbegin', markup);
+}
