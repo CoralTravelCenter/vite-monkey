@@ -8,6 +8,10 @@
   text-align: center;
 }
 
+.a card-btn{
+  text-decoration: none;
+}
+
 .cards {
   display: grid;
   grid-template-columns: repeat(12, 1fr);
