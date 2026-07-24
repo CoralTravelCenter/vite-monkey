@@ -1,6 +1,5 @@
 .maldives-cards {
   width: 100%;
-  max-width: 1200px;
   margin: 0 auto;
 }
 
@@ -16,6 +15,16 @@
   list-style: none;
   padding: 0;
   margin: 0;
+}
+
+a.card-btn,
+a.card-btn:link,
+a.card-btn:visited,
+a.card-btn:hover,
+a.card-btn:active,
+a.card-btn:focus {
+  text-decoration: none !important;
+  border-bottom: none !important;
 }
 
 .premium-seclusion {

@@ -120,7 +120,25 @@ function postProcessForCrm(config, outDir) {
     let bodyContent = html.match(/<body[^>]*>([\s\S]*?)<\/body>/i)?.[1] || `<div id="widget-${config.name}"></div>`;
     bodyContent = bodyContent.replace(/<script[^>]*>[\s\S]*?<\/script>/gi, '').trim();
 
-    const crmWidgetContent = `<div data-widget-type="1">\n${styles}\n${bodyContent}\n${scripts}\n</div>`;
+    bodyContent = bodyContent.replace(/<h([1-6])([^>]*)>/gi, (match, level, attrs) => {
+        const defaultClass = level === '1' ? 'title-1 mb-16' : 'title-2 mb-16';
+        if (attrs.includes('class="')) {
+            return `<h${level}${attrs.replace('class="', `class="${defaultClass} `)}>`;
+        }
+        return `<h${level} class="${defaultClass}"${attrs}>`;
+    });
+
+    const crmWidgetContent = `<div data-widget-type="1">
+${styles}
+<section class="coral">
+    <article>
+        <div class="wrapper">
+            ${bodyContent}
+        </div>
+    </article>
+</section>
+${scripts}
+</div>`;
 
     const crmOutPath = path.join(outDir, 'crm-widget.html');
     fs.writeFileSync(crmOutPath, crmWidgetContent, 'utf8');
