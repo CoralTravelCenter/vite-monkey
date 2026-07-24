@@ -1,0 +1,28 @@
+<script>
+(() => {
+  // Автоматическая инъекция стилей
+  function ensureStyles() {
+    if (document.getElementById('swap-button-styles')) return;
+    const style = document.createElement('style');
+    style.id = 'swap-button-styles';
+    style.textContent = `div[class*=HeaderMobile_rightGroup]{display:flex;align-items:center}.swap-button{position:relative;display:block;width:100%;aspect-ratio:177 / 40;border-radius:50px;overflow:hidden;margin:0}.swap-button picture{position:absolute;inset:0;display:block;width:100%;height:100%;transition:opacity .5s ease-in-out}.swap-button picture img{display:block;width:100%;height:100%;object-fit:contain}.swap-button__picture_end,.swap-button.is-swapped .swap-button__picture_start{opacity:0;pointer-events:none}.swap-button.is-swapped .swap-button__picture_end{opacity:1;pointer-events:auto}.desktop-swap-wrapper{display:flex;align-items:center;width:177px;flex-shrink:0;margin-left:auto;margin-right:16px;position:relative;z-index:1050;transition:transform .3s cubic-bezier(.645,.045,.355,1)}.HeaderMenuBar_container__KIGJj:has(#none-product-search-input) .desktop-swap-wrapper{transform:translate(-160px)}.mobile-swap-wrapper{display:none}@media(max-width:991px){.desktop-swap-wrapper{display:none}.HeaderMobile_header__AoLKy{position:relative;display:flex;align-items:center;justify-content:space-between}.HeaderMobile_headerLogo__Zsc_z{position:absolute;left:50%;transform:translate(-50%)}.mobile-swap-wrapper{display:flex;align-items:center;justify-content:center;width:32px;height:32px;flex-shrink:0;margin-left:auto;margin-right:8px;padding:0}.mobile-swap-wrapper .desktop-swap-wrapper{display:block!important;width:100%!important;height:100%!important;margin:0!important}.mobile-swap-wrapper .swap-button{width:100%;height:100%;aspect-ratio:1 / 1;border-radius:50%}.mobile-swap-wrapper .swap-button picture img{object-fit:cover}}`;
+    document.head.appendChild(style);
+  }
+  ensureStyles();
+
+  // Основной код
+  (function(){const t=document.createElement("link").relList;if(t&&t.supports&&t.supports("modulepreload"))return;for(const e of document.querySelectorAll('link[rel="modulepreload"]'))o(e);new MutationObserver(e=>{for(const r of e)if(r.type==="childList")for(const i of r.addedNodes)i.tagName==="LINK"&&i.rel==="modulepreload"&&o(i)}).observe(document,{childList:!0,subtree:!0});function n(e){const r={};return e.integrity&&(r.integrity=e.integrity),e.referrerPolicy&&(r.referrerPolicy=e.referrerPolicy),e.crossOrigin==="use-credentials"?r.credentials="include":e.crossOrigin==="anonymous"?r.credentials="omit":r.credentials="same-origin",r}function o(e){if(e.ep)return;e.ep=!0;const r=n(e);fetch(e.href,r)}})();const l=`<div class="desktop-swap-wrapper">
+  <a href="https://www.sunmar.ru/directclient/info-actions/rb-2026-2027/" class="swap-button">
+    <picture class="swap-button__picture_start">
+      <source media="(min-width: 992px)" srcset="https://b2ccdn.sunmar.ru/content/img/actions/pc_vesrion_image_start.svg" type="image/svg+xml">
+      <img src="https://b2ccdn.sunmar.ru/content/img/actions/mobile_version_image_start.svg" alt="swap button start">
+    </picture>
+
+    <picture class="swap-button__picture_end">
+      <source media="(min-width: 992px)" srcset="https://b2ccdn.sunmar.ru/content/img/actions/pc_version_image_end.svg" type="image/svg+xml">
+      <img src="https://b2ccdn.sunmar.ru/content/img/actions/mobile_version_image_end.svg" alt="swap button end">
+    </picture>
+  </a>
+</div>`,c=l.replaceAll("visuals/mobile_version_image_start.svg","https://b2ccdn.sunmar.ru/content/img/actions/mobile_version_image_start.svg").replaceAll("visuals/pc_vesrion_image_start.svg","https://b2ccdn.sunmar.ru/content/img/actions/pc_vesrion_image_start.svg").replaceAll("visuals/mobile_version_image_end.svg","https://b2ccdn.sunmar.ru/content/img/actions/mobile_version_image_end.svg").replaceAll("visuals/pc_version_image_end.svg","https://b2ccdn.sunmar.ru/content/img/actions/pc_version_image_end.svg");function u(s){const t=document.querySelector('[class*="HeaderMobile_headerLogo"]');if(t&&!document.querySelector(".mobile-swap-wrapper")){const n=document.createElement("div");n.className="mobile-swap-wrapper",n.innerHTML=s,t.after(n)}}function a(){const s=document.querySelector('[class*="HeaderMenuBar_container"] > div');if(s&&!document.querySelector(".desktop-swap-wrapper")){const t=document.createElement("div");t.className="desktop-swap-wrapper",t.innerHTML=c;const n=s.lastElementChild;n?s.insertBefore(t,n):s.appendChild(t)}u(c)}function p(){a(),setInterval(a,1e3)}function m(){setInterval(()=>{const s=document.querySelectorAll(".swap-button");s.length>0&&s.forEach(t=>{t.classList.toggle("is-swapped")})},2e3)}await hostReactAppReady();p();m();
+})();
+</script>
