@@ -112,7 +112,9 @@ function postProcessForCrm(config, outDir) {
         return;
     }
 
-    const html = fs.readFileSync(builtHtmlPath, 'utf8').replace(/\r/g, '');
+    const html = fs.readFileSync(builtHtmlPath, 'utf8')
+        .replace(/\r/g, '')
+        .replace(/\\r/g, '');
 
     const styles = (html.match(/<style[^>]*>[\s\S]*?<\/style>/gi) || []).join('\n');
     const scripts = (html.match(/<script[^>]*>[\s\S]*?<\/script>/gi) || []).join('\n');
