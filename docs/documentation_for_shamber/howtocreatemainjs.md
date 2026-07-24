@@ -55,8 +55,9 @@ import './style.css';
 const container = document.getElementById('widget-china-cards');
 
 // Безопасно вставляем разметку
-if (container) {
+if (container && !container.dataset.injected) {
     container.insertAdjacentHTML('afterbegin', markup);
+    container.dataset.injected = 'true';
 }
 
 ```
@@ -74,27 +75,25 @@ import { markup } from "./scripts/includeImages.js";
 import './style.css';
 
 async function initWidget() {
-    // 1. Проверяем наличие Dev-среды (Tampermonkey или локальный запуск)
     if (typeof hostReactAppReady === 'function') {
         await hostReactAppReady();
         const devContainer = document.getElementById('monkey-app');
-        
-        if (devContainer) {
-            devContainer.insertAdjacentHTML('afterbegin', markup);
+
+        if (devContainer && !devContainer.dataset.injected) {
+            devContainer.innerHTML = markup;
+            devContainer.dataset.injected = 'true';
         }
-        return; // Прерываем выполнение, чтобы не сработал код для продакшена
+        return;
     }
 
-    // 2. Логика для Prod-среды (внутри CRM)
-    // ВАЖНО: Замени 'widget-china-cards' на актуальный ID своего проекта
     const prodContainer = document.getElementById('widget-china-cards');
-    
-    if (prodContainer) {
-        prodContainer.insertAdjacentHTML('afterbegin', markup);
+
+    if (prodContainer && !prodContainer.dataset.injected) {
+        prodContainer.innerHTML = markup;
+        prodContainer.dataset.injected = 'true';
     }
 }
 
-// Запускаем инициализацию
 initWidget();
 
 ```
