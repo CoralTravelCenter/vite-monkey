@@ -62,6 +62,7 @@ export default defineConfig({
     emptyOutDir: true,
     minify: true,
     target: 'esnext',
+    modulePreload: false
   }
 });`;
 
@@ -104,7 +105,7 @@ function runVite(command, configPath) {
     return result.status === 0;
 }
 
-function postProcessForCrm(config, outDir) {
+function postProcessBuilds(config, outDir) {
     const builtHtmlPath = path.join(outDir, 'index.html');
 
     if (!fs.existsSync(builtHtmlPath)) {
@@ -116,22 +117,34 @@ function postProcessForCrm(config, outDir) {
         .replace(/\r/g, '')
         .replace(/\\r/g, '');
 
-    const styles = (html.match(/<style[^>]*>[\s\S]*?<\/style>/gi) || []).join('\n');
-    const scripts = (html.match(/<script[^>]*>[\s\S]*?<\/script>/gi) || []).join('\n');
+    const stylesTag = (html.match(/<style[^>]*>[\s\S]*?<\/style>/gi) || []).join('\n');
+    const scriptsTag = (html.match(/<script[^>]*>[\s\S]*?<\/script>/gi) || []).join('\n');
+
+    let rawStyles = '';
+    for (const match of html.matchAll(/<style[^>]*>([\s\S]*?)<\/style>/gi)) {
+        rawStyles += match[1] + '\n';
+    }
+    rawStyles = rawStyles.trim();
+
+    let rawScripts = '';
+    for (const match of html.matchAll(/<script[^>]*>([\s\S]*?)<\/script>/gi)) {
+        rawScripts += match[1] + '\n';
+    }
+    rawScripts = rawScripts.trim();
 
     let bodyContent = html.match(/<body[^>]*>([\s\S]*?)<\/body>/i)?.[1] || `<div id="widget-${config.name}"></div>`;
     bodyContent = bodyContent.replace(/<script[^>]*>[\s\S]*?<\/script>/gi, '').trim();
 
     bodyContent = bodyContent.replace(/<h([1-6])([^>]*)>/gi, (match, level, attrs) => {
         const defaultClass = level === '1' ? 'title-1 mb-16' : 'title-2 mb-16';
-        if (attrs.includes('class="')) {
-            return `<h${level}${attrs.replace('class="', `class="${defaultClass} `)}>`;
+        if (/class=(["'])/.test(attrs)) {
+            return match.replace(/class=["']/, `$&${defaultClass} `);
         }
         return `<h${level} class="${defaultClass}"${attrs}>`;
     });
 
     const crmWidgetContent = `<div data-widget-type="1">
-${styles}
+${stylesTag}
 <section class="coral">
     <article>
         <div class="wrapper">
@@ -139,13 +152,43 @@ ${styles}
         </div>
     </article>
 </section>
-${scripts}
+${scriptsTag}
 </div>`;
 
     const crmOutPath = path.join(outDir, 'crm-widget.html');
     fs.writeFileSync(crmOutPath, crmWidgetContent, 'utf8');
 
-    console.log(`\nУспешно! Файл для вставки в CRM сохранен: ${path.relative(ROOT_DIR, crmOutPath)}`);
+    let mindboxContent = `<script>\n(() => {\n`;
+
+    if (rawStyles) {
+        const escapedStyles = rawStyles
+            .replace(/\\/g, '\\\\')
+            .replace(/`/g, '\\`')
+            .replace(/\$/g, '\\$')
+            .replace(/<\/script>/gi, '<\\/script>');
+
+        mindboxContent += `  function ensureStyles() {
+    if (document.getElementById('${config.name}-styles')) return;
+    const style = document.createElement('style');
+    style.id = '${config.name}-styles';
+    style.textContent = \`${escapedStyles}\`;
+    document.head.appendChild(style);
+  }
+  ensureStyles();\n\n`;
+    }
+
+    if (rawScripts) {
+        mindboxContent += `  ${rawScripts}\n`;
+    }
+
+    mindboxContent += `})();\n</script>`;
+
+    const mindboxOutPath = path.join(outDir, 'mindbox-widget.html');
+    fs.writeFileSync(mindboxOutPath, mindboxContent, 'utf8');
+
+    console.log(`\nУспешно! Сгенерированы файлы:`);
+    console.log(`- Для CRM:     ${path.relative(ROOT_DIR, crmOutPath)}`);
+    console.log(`- Для Mindbox: ${path.relative(ROOT_DIR, mindboxOutPath)}`);
 }
 
 function main() {
@@ -172,7 +215,7 @@ function main() {
     const isSuccess = runVite(command, configPath);
 
     if (isSuccess && command === 'build') {
-        postProcessForCrm(config, outDir);
+        postProcessBuilds(config, outDir);
     }
 }
 

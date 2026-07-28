@@ -7,11 +7,8 @@
     "build:experiment": "node scripts/run-experiment.js build",
     "update:catalog": "node scripts/update-projects-catalog.js",
     "migrate:structure": "node scripts/migrate-repository-structure.js",
-    "dev:html": "node scripts/run-html.js dev",
-    "build:html": "node scripts/run-html.js build",
-    "crm-build:html": "node scripts/crm-build-html.js build",
-    "crm-build:html-production": "node scripts/crm-build-production-html.js build",
-    "maidbox-build:html": "node scripts/maidbox-crm-build-production.js build"
+    "ultimate-dev:html": "node scripts/ultimate-crm-build-production.js dev",
+    "ultimate-crm-build-production:html": "node scripts/ultimate-crm-build-production.js build"
   },
   "dependencies": {
     "@emailjs/browser": "^4.4.1",
