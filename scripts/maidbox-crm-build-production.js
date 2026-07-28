@@ -62,6 +62,7 @@ export default defineConfig({
     emptyOutDir: true,
     minify: true,
     target: 'esnext',
+    modulePreload: false
   }
 });`;
 
