@@ -8,9 +8,8 @@ div[class*="HeaderMobile_rightGroup"] {
     display: block;
     width: 100%;
     aspect-ratio: 177 / 40;
-    border-radius: 50px;
-    overflow: hidden;
     margin: 0;
+    isolation: isolate;
 }
 
 .swap-button picture {
@@ -20,6 +19,8 @@ div[class*="HeaderMobile_rightGroup"] {
     width: 100%;
     height: 100%;
     transition: opacity 0.5s ease-in-out;
+    /* Скругление перенесли сюда */
+    border-radius: 50px;
 }
 
 .swap-button picture img {
@@ -27,6 +28,7 @@ div[class*="HeaderMobile_rightGroup"] {
     width: 100%;
     height: 100%;
     object-fit: contain;
+    border-radius: 50px;
 }
 
 .swap-button__picture_end {
@@ -105,6 +107,10 @@ div[class*="HeaderMobile_rightGroup"] {
         width: 100%;
         height: 100%;
         aspect-ratio: 1 / 1;
+    }
+
+    .mobile-swap-wrapper .swap-button picture,
+    .mobile-swap-wrapper .swap-button picture img {
         border-radius: 50%;
     }
 
