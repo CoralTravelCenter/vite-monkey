@@ -109,7 +109,7 @@ a.card-btn:focus {
 }
 
 .card-headline {
-  color: #ffffff;
+  color: #ffffff !important;
   font-size: 28px;
   line-height: 1.1;
   font-weight: 500;
