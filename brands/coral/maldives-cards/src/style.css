@@ -3,8 +3,27 @@
   margin: 0 auto;
 }
 
-.maldives-card {
-  text-align: center;
+.maldives-cards article {
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.maldives-cards .contenu {
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.maldives-headline {
+  font-family: var(--ant-font-family, inherit);
+  font-size: 2em;
+  line-height: 1.25;
+  color: inherit;
+  margin: 0 0 16px 0;
+  font-weight: 600;
+  overflow-wrap: break-word;
+  word-break: normal;
+  hyphens: auto;
+  box-sizing: border-box;
 }
 
 .cards {
@@ -23,7 +42,7 @@ a.card-btn:visited,
 a.card-btn:hover,
 a.card-btn:active,
 a.card-btn:focus {
-  text-decoration: var(--ant-link-decoration, none) !important;
+  text-decoration: none !important;
   border-bottom: none !important;
 }
 
@@ -46,12 +65,12 @@ a.card-btn:focus {
 
 .cards li {
   position: relative;
-  border-radius: var(--sunmar-radius-s, 16px);
+  border-radius: 16px;
   overflow: hidden;
   display: flex;
   border: none !important;
   outline: none !important;
-  box-shadow: var(--sunmar-shadow-main, 0 16px 40px 0 rgba(20, 20, 22, .1));
+  box-shadow: 0 -8px 24px rgba(0, 0, 0, 0.15);
 }
 
 .cards li::after {
@@ -90,11 +109,10 @@ a.card-btn:focus {
 }
 
 .card-headline {
-  color: var(--ant-color-text-light-solid, #ffffff);
+  color: #ffffff;
   font-size: 28px;
   line-height: 1.1;
-  font-weight: var(--ant-font-weight-strong, 600);
-  font-family: var(--ant-font-family, inherit);
+  font-weight: 500;
   margin: 0;
 }
 
@@ -102,7 +120,7 @@ a.card-btn:focus {
   position: absolute;
   inset: 0;
   z-index: 3;
-  background-color: var(--ant-color-bg-container, #ffffff);
+  background-color: #ffffff;
   padding: 20px;
   display: flex;
   flex-direction: column;
@@ -117,10 +135,9 @@ a.card-btn:focus {
 }
 
 .card-desc {
-  font-size: var(--ant-font-size, 14px);
-  line-height: var(--ant-line-height, 1.4);
-  color: var(--ant-color-text, rgba(0,0,0,0.85));
-  font-family: var(--ant-font-family, inherit);
+  font-size: 14px;
+  line-height: 1.4;
+  color: #111111;
   margin: 0;
 }
 
@@ -133,14 +150,13 @@ a.card-btn:focus {
   align-self: flex-start;
   display: inline-block;
   text-decoration: none;
-  background: var(--ant-color-bg-container, #ffffff);
-  color: var(--ant-color-text-base, #000000);
+  background: #ffffff;
+  color: #111111;
   border: none;
   border-radius: 999px;
   padding: 10px 24px;
-  font-size: var(--ant-font-size, 14px);
-  font-weight: var(--ant-font-weight-strong, 600);
-  font-family: var(--ant-font-family, inherit);
+  font-size: 14px;
+  font-weight: 600;
   cursor: pointer;
   transition: opacity 0.2s ease, transform 0.2s ease;
   box-sizing: border-box;
@@ -156,14 +172,14 @@ a.card-btn:focus {
 }
 
 .card-btn--blue {
-  background: var(--ant-color-primary, #077DAD);
-  color: var(--ant-color-text-light-solid, #ffffff) !important;
+  background: #0092D0;
+  color: #ffffff !important;
 }
 
 .card-btn--blue:visited,
 .card-btn--blue:active,
 .card-btn--blue:link {
-  color: var(--ant-color-text-light-solid, #ffffff) !important;
+  color: #ffffff !important;
 }
 
 .card-btn:hover {
@@ -171,25 +187,10 @@ a.card-btn:focus {
 }
 
 @media (max-width: 1024px) {
-  .cards {
-    grid-template-columns: repeat(2, 1fr);
+  .maldives-headline {
+    font-size: 36px !important;
   }
 
-  .premium-seclusion,
-  .beach-classic,
-  .romantical-duet,
-  .family-happiness {
-    grid-column: span 1;
-    grid-row: span 1;
-  }
-
-  .beach-classic,
-  .family-happiness {
-    grid-column: span 2;
-  }
-}
-
-@media (max-width: 768px) {
   .cards {
     grid-template-columns: 1fr;
     grid-auto-rows: 244px;
