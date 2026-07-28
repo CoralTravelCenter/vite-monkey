@@ -71,7 +71,7 @@ if (container && !container.dataset.injected) {
 **Шаблон идеального `main.js`:**
 
 ```javascript
-import { markup } from "./scripts/includeImages.js";
+import { markup } from "./markup.html?raw";
 import './style.css';
 
 async function initWidget() {
@@ -85,8 +85,9 @@ async function initWidget() {
         }
         return;
     }
-
-    const prodContainer = document.getElementById('widget-china-cards');
+}
+function onProdContainer() {
+    const prodContainer = document.getElementById('block-name');
 
     if (prodContainer && !prodContainer.dataset.injected) {
         prodContainer.innerHTML = markup;
@@ -95,6 +96,7 @@ async function initWidget() {
 }
 
 initWidget();
+onProdContainer();
 
 ```
 

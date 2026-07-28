@@ -1,7 +1,19 @@
 import { markup } from "./scripts/includeImages.js";
 import './style.css';
 
-function startOnCrm(){
+async function initWidget() {
+    if (typeof hostReactAppReady === 'function') {
+        await hostReactAppReady();
+        const devContainer = document.getElementById('monkey-app');
+
+        if (devContainer && !devContainer.dataset.injected) {
+            devContainer.innerHTML = markup;
+            devContainer.dataset.injected = 'true';
+        }
+        return console.error('Failed to load monkey-app');
+    }
+}
+function onProdContainer() {
     const prodContainer = document.getElementById('widget-maldives-cards');
 
     if (prodContainer && !prodContainer.dataset.injected) {
@@ -10,4 +22,5 @@ function startOnCrm(){
     }
 }
 
-startOnCrm();
+initWidget();
+onProdContainer();
