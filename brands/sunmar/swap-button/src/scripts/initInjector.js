@@ -1,4 +1,4 @@
-import { markup } from './includeImages.js';
+import markup from '../markup.html?raw';
 import { sendMetric } from './metrics.js';
 
 function ensureButtonsExist() {

@@ -1,0 +1,8 @@
+{
+  "name": "metrica-sunmar-rb-2027-all-pages",
+  "entry": "src/main.js",
+  "brand": "sunmar",
+  "match": [
+    "https://www.sunmar.ru/*"
+  ]
+}
