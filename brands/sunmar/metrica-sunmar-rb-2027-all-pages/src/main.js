@@ -1,36 +1,65 @@
 import markup from "./markup.html?raw";
 import './style.css';
-import {sendMetrica} from "./scripts/metric.js";
+import { sendMetrica } from "./scripts/metric.js";
 
-if (import.meta.env.DEV) {
-  async function initWidget() {
-    if (typeof hostReactAppReady === 'function') {
-      await hostReactAppReady();
-      const devContainer = document.getElementById('monkey-app');
-
-      if (devContainer && !devContainer.dataset.injected) {
-        devContainer.innerHTML = markup;
-        devContainer.dataset.injected = 'true';
-        sendMetrica();
-        return;
+function hostReactAppReady(selector = '#__next > div', timeout = 500) {
+  return new Promise(resolve => {
+    const waiter = () => {
+      const host_el = document.querySelector(selector);
+      if (host_el?.getBoundingClientRect().height) {
+        resolve();
+      } else {
+        setTimeout(waiter, timeout);
       }
-      console.error('Failed to load monkey-app');
+    };
+    waiter();
+  });
+}
+
+hostReactAppReady().then(() => {
+  if (import.meta.env.DEV) {
+    const devContainer = document.querySelector('[id^="widget-"]') || document.getElementById('monkey-app');
+    if (devContainer && !devContainer.dataset.injected) {
+      devContainer.innerHTML = markup;
+      devContainer.dataset.injected = 'true';
+      sendMetrica();
     }
+    return;
   }
 
-  initWidget();
-}
+  const obs = new MutationObserver(() => {
+    const hotelsBlock = document.querySelector('[data-v-app]');
+    const hotDealsBlock = document.querySelector('.hot-deals-block');
+    const customBlock = document.querySelector('#seo-block-place');
 
-function onProdContainer() {
-  const prodContainer = document.getElementById('metrica-sunmar-rb-2027-all-pages');
+    let inserted = false;
 
-  if (prodContainer && !prodContainer.dataset.injected) {
-    prodContainer.innerHTML = markup;
-    prodContainer.dataset.injected = 'true';
-    sendMetrica();
-  }
-}
+    if (hotelsBlock?.parentElement) {
+      const hotelsParent = hotelsBlock.parentElement;
+      hotelsParent.insertAdjacentHTML('afterbegin', markup);
+      inserted = true;
+      obs.disconnect();
+    } else if (hotDealsBlock) {
+      hotDealsBlock.insertAdjacentHTML('beforebegin', markup);
+      inserted = true;
+      obs.disconnect();
+    } else if (!hotDealsBlock && !hotelsBlock && customBlock) {
+      customBlock.insertAdjacentHTML('afterbegin', markup);
+      inserted = true;
+      obs.disconnect();
+    } else if (hotDealsBlock && hotelsBlock && customBlock) {
+      customBlock.insertAdjacentHTML('afterbegin', markup);
+      inserted = true;
+      obs.disconnect();
+    }
 
-if (!import.meta.env.DEV) {
-  onProdContainer();
-}
+    if (inserted) {
+      sendMetrica();
+    }
+  });
+
+  obs.observe(document, {
+    childList: true,
+    subtree: true,
+  });
+});
