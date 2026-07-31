@@ -32,7 +32,7 @@ async function promotionMetric() {
         obs.disconnect();
       }
     } catch (err) {
-      console.error("Ошибка в MutationObserver:", err);
+      console.error("Ошибка отслеживания элемента:", err);
       obs.disconnect();
     }
   });
@@ -49,6 +49,6 @@ async function promotionMetric() {
     await promotionMetric();
   }
   catch (error) {
-    console.error(`Не удалось запустить отправку метрики: ${error}`);
+    console.error(`Не удалось запустить функцию отправку метрики: ${error}`);
   }
 })();
