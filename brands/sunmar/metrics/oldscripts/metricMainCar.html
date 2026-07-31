@@ -1,0 +1,8 @@
+<script>
+    (function () {
+        'use strict';
+
+        class n{constructor(e,{onAppear:t,once:s=true,debug:i=false}={}){this.selector=e,this.onAppear=t,this.once=s,this.debug=i,this._seen=new WeakSet,this._active=false,this._observer=new MutationObserver(()=>this._check());}start(){this._active||(this._active=true,this._observer.observe(document.body,{childList:true,subtree:true}),this._check(),this._log("▶️ started"));}stop(){this._active&&(this._observer.disconnect(),this._active=false,this._log("⏹️ stopped"));}_check(){document.querySelectorAll(this.selector).forEach(t=>{var s;this._seen.has(t)||(this._seen.add(t),this._log(`✅ appear: ${this.selector}`,t),(s=this.onAppear)==null||s.call(this,t),this.once&&this.stop());});}_log(...e){this.debug&&console.log("[SimpleObserver]",...e);}}new n('a[href*="banner_on_site=main-december-january"]',{onAppear:r=>{if(!r)return;const e=r==null?void 0:r.closest(".swiper-slide");console.log(e);const t=e&&(e==null?void 0:e.querySelectorAll("a"));t&&t.length>0&&t.forEach(s=>{s.addEventListener("click",i=>{i.preventDefault(),ym(215233,"reachGoal","entry_point",{name_stock:{eb_winter_27:{name_point:"main_carousel"}}}),window.open(i.currentTarget.href,"_blank");});});}}).start();
+
+    })();
+</script>

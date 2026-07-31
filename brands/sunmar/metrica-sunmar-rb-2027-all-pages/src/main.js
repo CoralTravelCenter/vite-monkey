@@ -2,67 +2,81 @@ import markup from "./markup.html?raw";
 import './style.css';
 import { sendMetrica } from "./scripts/metric.js";
 
-const TARGET_INDICES = [3];
+async function initWidget() {
+  if (typeof hostReactAppReady === 'function') {
+    try {
+      await hostReactAppReady();
+    } catch(e) {}
 
-function injectProd() {
-  const containers = document.querySelectorAll('#section-column-1');
+    const devContainer = document.getElementById('monkey-app');
 
-  let activeContainer = null;
-  let targetWidgets = null;
-
-  for (const container of containers) {
-    const widgets = container.querySelectorAll('[data-widget-type="1"]');
-    if (widgets.length > 0) {
-      activeContainer = container;
-      targetWidgets = widgets;
-      break;
+    if (devContainer && !devContainer.dataset.injected) {
+      devContainer.innerHTML = markup;
+      devContainer.dataset.injected = 'true';
+      sendMetrica(devContainer);
     }
   }
-
-  if (!activeContainer || !targetWidgets) return;
-
-  TARGET_INDICES.forEach(index => {
-    if (targetWidgets.length > index) {
-      const targetWidget = targetWidgets[index];
-
-      const nextSibling = targetWidget.nextElementSibling;
-      if (nextSibling && nextSibling.classList.contains('custom-injected-widget-wrapper')) {
-        return;
-      }
-
-      const wrapper = document.createElement('div');
-      wrapper.className = 'custom-injected-widget-wrapper';
-      wrapper.innerHTML = markup;
-
-      targetWidget.after(wrapper);
-
-      sendMetrica(wrapper);
-    }
-  });
 }
 
 async function onProdContainer() {
   if (typeof hostReactAppReady === 'function') {
     try {
       await hostReactAppReady();
-    } catch(e) {
-      console.warn("Ошибка hostReactAppReady:", e);
-    }
+    } catch(e) {}
   }
 
-  injectProd();
+  const obs = new MutationObserver(() => {
+    const hotelsBlock = document.querySelector('[data-v-app]');
+    const hotDealsBlock = document.querySelector('.hot-deals-block');
+    const customBlock = document.querySelector('#seo-block-place');
+    const siblingMenu = document.querySelectorAll('.sibling-menu');
 
-  const observer = new MutationObserver(() => {
-    injectProd();
+    if (document.querySelector('.custom-injected-widget-wrapper')) {
+      obs.disconnect();
+      return;
+    }
+
+    if (!hotelsBlock && !hotDealsBlock && !customBlock) {
+      return;
+    }
+
+    const bannerBlock = document.createElement('div');
+    bannerBlock.className = 'custom-injected-widget-wrapper';
+
+    if (siblingMenu.length > 0) {
+      bannerBlock.classList.add('seo-banner--with-menu');
+    }
+
+    bannerBlock.innerHTML = markup;
+    let inserted = false;
+
+    if (hotelsBlock?.parentElement) {
+      hotelsBlock.parentElement.insertAdjacentElement('afterbegin', bannerBlock);
+      inserted = true;
+    } else if (hotDealsBlock) {
+      hotDealsBlock.insertAdjacentElement('beforebegin', bannerBlock);
+      inserted = true;
+    } else if (customBlock) {
+      customBlock.insertAdjacentElement('afterbegin', bannerBlock);
+      inserted = true;
+    }
+
+    if (inserted) {
+      sendMetrica(bannerBlock);
+      obs.disconnect();
+    }
   });
 
-  if (document.body) {
-    observer.observe(document.body, { childList: true, subtree: true });
-  } else {
-    document.addEventListener('DOMContentLoaded', () => {
-      observer.observe(document.body, { childList: true, subtree: true });
-    });
-  }
+  obs.observe(document, {
+    childList: true,
+    subtree: true,
+  });
 }
 
-onProdContainer();
+(async function bootstrap() {
+  if (!import.meta.env.DEV) {
+    await onProdContainer();
+  } else {
+    await initWidget();
+  }
+})();
