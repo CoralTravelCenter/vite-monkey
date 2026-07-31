@@ -6,7 +6,9 @@ async function initWidget() {
   if (typeof hostReactAppReady === 'function') {
     try {
       await hostReactAppReady();
-    } catch(e) {}
+    } catch(e) {
+      console.error(`Ошибка хоста: ${e}`);
+    }
 
     const devContainer = document.getElementById('monkey-app');
 
@@ -22,7 +24,9 @@ async function onProdContainer() {
   if (typeof hostReactAppReady === 'function') {
     try {
       await hostReactAppReady();
-    } catch(e) {}
+    } catch(e) {
+      console.error(`Ошибка хоста: ${e}`);
+    }
   }
 
   const obs = new MutationObserver(() => {
@@ -73,10 +77,18 @@ async function onProdContainer() {
   });
 }
 
-(async function bootstrap() {
+(async function startBanner() {
   if (!import.meta.env.DEV) {
-    await onProdContainer();
+    try {
+      await onProdContainer();
+    } catch(e) {
+      console.error(`Ошибка запуска функции внедрения баннера: ${e}`);
+    }
   } else {
-    await initWidget();
+    try {
+      await initWidget();
+    } catch(e) {
+      console.error(`Ошибка запуска функции внедрения баннера: ${e}`);
+    }
   }
 })();

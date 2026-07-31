@@ -14,21 +14,24 @@ async function promotionMetric() {
 
   const selector = 'a.promo-card__link[href*="offers-eb-zima2027"]';
 
-  if (document.querySelector(selector)) {
-    sendMetric("promo_page");
+  function handleClick(event) {
+    const link = event.target.closest(selector);
+    if (link) {
+      sendMetric("promo_page");
+    }
+  }
+
+  const existingLink = document.querySelector(selector);
+  if (existingLink) {
+    existingLink.addEventListener('click', handleClick);
     return;
   }
 
-  const targetNode = document.body;
-  let isSent = false;
-
   const observer = new MutationObserver((mutations, obs) => {
-    if (isSent) return;
-
     try {
-      if (document.querySelector(selector)) {
-        isSent = true;
-        sendMetric("promo_page");
+      const link = document.querySelector(selector);
+      if (link) {
+        link.addEventListener('click', handleClick);
         obs.disconnect();
       }
     } catch (err) {
@@ -37,7 +40,7 @@ async function promotionMetric() {
     }
   });
 
-  observer.observe(targetNode, {
+  observer.observe(document.body, {
     childList: true,
     subtree: true,
     attributes: true,
