@@ -1,0 +1,16 @@
+{
+  "compilerOptions": {
+    "baseUrl": ".",
+    "checkJs": false,
+    "paths": {
+      "@utils": ["./utils/index.js"],
+      "@utils/*": ["./utils/*"]
+    }
+  },
+  "include": [
+    "brands/**/*.js",
+    "special/**/*.js",
+    "templates/**/*.js",
+    "utils/**/*.js"
+  ]
+}

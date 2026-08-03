@@ -39,10 +39,10 @@ docs/
 
 Локальные `package.json` и `vite.config.*` в экспериментах больше не используются. Все запускается из корня.
 
-Во всех экспериментах доступен alias `@utils` на корневую папку [utils](/Users/mike/Documents/GitHub/vite-monkey/utils), так что можно писать:
+Во всех экспериментах доступен alias `@utils` на корневую папку [utils](./utils), так что можно писать:
 
 ```js
-import {awaitDomElement, reactDomObserver} from '@utils';
+import { waitForElement, reactDomObserver } from "@utils";
 ```
 
 ### Установить зависимости
@@ -119,7 +119,7 @@ npm run create:experiment -- promo-banner --brand custom --match "https://exampl
 
 ### `npm run update:catalog`
 
-Перестраивает [docs/projects-catalog.md](/Users/mike/Documents/GitHub/vite-monkey/docs/projects-catalog.md) на основе реальной структуры проекта.
+Перестраивает [docs/projects-catalog.md](./docs/projects-catalog.md) на основе реальной структуры проекта.
 
 ### `npm run migrate:structure`
 
@@ -148,16 +148,11 @@ npm run create:experiment -- promo-banner --brand custom --match "https://exampl
   "name": "comment-injection",
   "entry": "src/main.js",
   "brand": "coral",
-  "match": [
-    "https://www.coral.ru/*"
-  ]
+  "match": ["https://www.coral.ru/*"]
 }
 ```
 
 ## Документация
 
-- [docs/create-experiment.md](/Users/mike/Documents/GitHub/vite-monkey/docs/create-experiment.md)
-- [docs/repository-hygiene.md](/Users/mike/Documents/GitHub/vite-monkey/docs/repository-hygiene.md)
-- [docs/projects-catalog.md](/Users/mike/Documents/GitHub/vite-monkey/docs/projects-catalog.md)
-- [docs/utils-examples.md](/Users/mike/Documents/GitHub/vite-monkey/docs/utils-examples.md)
-- [docs/watchers-examples.md](/Users/mike/Documents/GitHub/vite-monkey/docs/watchers-examples.md)
+- [Единая документация](./docs/README.md)
+- [Каталог проектов](./docs/projects-catalog.md)

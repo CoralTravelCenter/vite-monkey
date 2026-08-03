@@ -1,23 +1,26 @@
 #!/usr/bin/env node
 
-import fs from 'node:fs';
-import path from 'node:path';
+import fs from "node:fs";
+import path from "node:path";
 
-import {ROOT_DIR} from './lib/projects.js';
-const IGNORED_DIRS = new Set(['.git']);
+import { ROOT_DIR } from "./lib/projects.js";
+const IGNORED_DIRS = new Set([".git"]);
 const TEMP_FILE_PATTERN = /(^|[-_.])(temp|tmp)([-_.]|$)/i;
 const SOURCE_FILE_PATTERN = /\.(js|ts|jsx|tsx)$/;
 const LEGACY_CONFIG_FILES = new Set([
-  'package.json',
-  'package-lock.json',
-  'vite.config.js',
-  'vite.config.ts',
+  "package.json",
+  "package-lock.json",
+  "vite.config.js",
+  "vite.config.ts",
 ]);
 
 function walk(dir, result = []) {
-  for (const entry of fs.readdirSync(dir, {withFileTypes: true})) {
+  for (const entry of fs.readdirSync(dir, { withFileTypes: true })) {
     const fullPath = path.join(dir, entry.name);
-    const relativePath = path.relative(ROOT_DIR, fullPath).split(path.sep).join('/');
+    const relativePath = path
+      .relative(ROOT_DIR, fullPath)
+      .split(path.sep)
+      .join("/");
 
     if (entry.isDirectory() && IGNORED_DIRS.has(entry.name)) {
       continue;
@@ -31,7 +34,11 @@ function walk(dir, result = []) {
       isFile: entry.isFile(),
     });
 
-    if (entry.isDirectory() && entry.name !== 'node_modules' && entry.name !== 'dist') {
+    if (
+      entry.isDirectory() &&
+      entry.name !== "node_modules" &&
+      entry.name !== "dist"
+    ) {
       walk(fullPath, result);
     }
   }
@@ -47,15 +54,15 @@ function findConsoleLogs(files) {
       continue;
     }
 
-    if (!file.path.includes('/src/')) {
+    if (!file.path.includes("/src/")) {
       continue;
     }
 
-    const content = fs.readFileSync(file.fullPath, 'utf8');
-    const lines = content.split('\n');
+    const content = fs.readFileSync(file.fullPath, "utf8");
+    const lines = content.split("\n");
 
     lines.forEach((line, index) => {
-      if (line.includes('console.log') || line.includes('debugger')) {
+      if (line.includes("console.log") || line.includes("debugger")) {
         matches.push(`${file.path}:${index + 1}`);
       }
     });
@@ -75,42 +82,47 @@ function printSection(title, items) {
 function main() {
   const entries = walk(ROOT_DIR);
   const dsStoreFiles = entries
-    .filter((entry) => entry.isFile && entry.name === '.DS_Store')
+    .filter((entry) => entry.isFile && entry.name === ".DS_Store")
     .map((entry) => entry.path);
   const nodeModulesDirs = entries
-    .filter((entry) => entry.isDirectory && entry.name === 'node_modules')
+    .filter((entry) => entry.isDirectory && entry.name === "node_modules")
     .map((entry) => entry.path);
   const distDirs = entries
-    .filter((entry) => entry.isDirectory && entry.name === 'dist')
+    .filter((entry) => entry.isDirectory && entry.name === "dist")
     .map((entry) => entry.path);
   const tempFiles = entries
     .filter((entry) => entry.isFile && TEMP_FILE_PATTERN.test(entry.name))
     .map((entry) => entry.path);
   const dirsWithSpaces = entries
-    .filter((entry) => entry.isDirectory && entry.path.split('/').some((part) => part.includes(' ')))
+    .filter(
+      (entry) =>
+        entry.isDirectory &&
+        entry.path.split("/").some((part) => part.includes(" ")),
+    )
     .map((entry) => entry.path);
   const legacyConfigs = entries
-    .filter((entry) => (
-      entry.isFile &&
-      LEGACY_CONFIG_FILES.has(entry.name) &&
-      entry.path !== 'package.json' &&
-      entry.path !== 'package-lock.json'
-    ))
+    .filter(
+      (entry) =>
+        entry.isFile &&
+        LEGACY_CONFIG_FILES.has(entry.name) &&
+        entry.path !== "package.json" &&
+        entry.path !== "package-lock.json",
+    )
     .map((entry) => entry.path);
   const consoleLogs = findConsoleLogs(entries);
 
-  console.log('Repository hygiene report');
+  console.log("Repository hygiene report");
   console.log(`Root: ${ROOT_DIR}`);
 
-  printSection('.DS_Store files', dsStoreFiles);
-  printSection('node_modules directories', nodeModulesDirs);
-  printSection('dist directories', distDirs);
-  printSection('temporary files', tempFiles);
-  printSection('directories with spaces', dirsWithSpaces);
-  printSection('legacy local package/vite files', legacyConfigs);
-  printSection('console.log/debugger entries', consoleLogs);
+  printSection(".DS_Store files", dsStoreFiles);
+  printSection("node_modules directories", nodeModulesDirs);
+  printSection("dist directories", distDirs);
+  printSection("temporary files", tempFiles);
+  printSection("directories with spaces", dirsWithSpaces);
+  printSection("legacy local package/vite files", legacyConfigs);
+  printSection("console.log/debugger entries", consoleLogs);
 
-  console.log('\nNo files were changed.');
+  console.log("\nNo files were changed.");
 }
 
 main();

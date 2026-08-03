@@ -1,19 +1,27 @@
-import {awaitDomElement} from "../../../../utils/index.js";
-import markup from './markup.html?raw'
-import './style.scss'
+import { waitForElement } from "@utils/dom/mutation.js";
+import markup from "./markup.html?raw";
+import "./style.scss";
+import { getTransfer } from "./getTransfer.js";
 
-const host = await awaitDomElement('div[class*="ReservationWidgetV2_reservationWidgetContainer__"]');
-const servicesContainer = await awaitDomElement('div[class*="addedServiceItem');
-const banner = document?.querySelector('.promotion-banner');
-if (!banner) {
-  host.insertAdjacentHTML('beforeend', markup)
+const host = await waitForElement(
+  'div[class*="ReservationWidgetV2_reservationWidgetContainer__"]',
+);
+
+if (!host.querySelector(".promotion-banner")) {
+  host.insertAdjacentHTML("beforeend", markup);
 }
 
-// const transfer = getTransfer(servicesContainer);
-// const transferButton = transfer?.querySelector('.basic-button-container');
-// const trigger = document?.querySelector('[data-trigger-transfer]');
-// if (trigger && transferButton) {
-//   trigger.addEventListener('click', (e) => {
-//     transferButton.click();
-//   })
-// }
+const transferHost = await waitForElement(
+  'div[class*="AddedServiceItem_addedServiceItem__"]',
+);
+const transferList = transferHost.closest(
+  'div[class*="ListAdvanced_listItemsContainer__"]',
+);
+const transferButton = getTransfer(transferList)?.querySelector(
+  ".basic-button-container",
+);
+const trigger = host.querySelector("[data-trigger-transfer]");
+
+if (trigger && transferButton) {
+  trigger.addEventListener("click", () => transferButton.click());
+}

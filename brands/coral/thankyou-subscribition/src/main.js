@@ -1,6 +1,6 @@
 import './style.scss';
 // import markup from './markup.html?raw';
-import {hostReactAppReady, preloadScript} from "../../utils.js";
+import {hostReactAppReady, loadScript} from "../../utils.js";
 
 // document.getElementById('monkey-app').innerHTML = markup;
 
@@ -8,7 +8,7 @@ async function vimeoAutoPlay() {
   const target = document.querySelector('[data-vimeo-vid]');
   if (!target) return;
 
-  await preloadScript('https://player.vimeo.com/api/player.js');
+  await loadScript('https://player.vimeo.com/api/player.js');
 
   if (target['vimeo-player']) return;
 

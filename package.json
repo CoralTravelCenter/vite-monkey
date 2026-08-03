@@ -1,6 +1,14 @@
 {
   "type": "module",
   "scripts": {
+    "test": "node --test",
+    "lint": "eslint utils scripts test eslint.config.js",
+    "format": "prettier --write \"{utils,scripts,test}/**/*.js\" \"*.{js,json}\" \"docs/*.md\"",
+    "format:check": "prettier --check \"{utils,scripts,test}/**/*.js\" \"*.{js,json}\" \"docs/*.md\"",
+    "typecheck": "tsc --project jsconfig.typecheck.json",
+    "validate:configs": "node scripts/validate-experiment-configs.js",
+    "check:deprecated-utils": "node scripts/check-deprecated-utils.js",
+    "migrate:utils": "node scripts/migrate-utils-imports.js",
     "create:experiment": "node scripts/create-experiment.js",
     "check:hygiene": "node scripts/check-hygiene.js",
     "dev:experiment": "node scripts/run-experiment.js dev",
@@ -16,15 +24,22 @@
     "dayjs": "^1.11.21",
     "rxjs": "^7.8.2",
     "selector-observer": "^2.1.6",
-    "survey-core": "^2.5.23",
-    "survey-js-ui": "^2.5.23",
-    "tippy.js": "^6.3.7",
-    "xlsx": "^0.18.5"
+    "survey-core": "^2.5.33",
+    "survey-js-ui": "^2.5.33",
+    "tippy.js": "^6.3.7"
   },
   "devDependencies": {
-    "sass": "^1.99.0",
-    "vite": "^7.3.2",
-    "vite-plugin-monkey": "^7.1.9",
+    "@eslint/js": "^10.0.1",
+    "@types/node": "^26.1.1",
+    "@types/punycode": "^2.1.4",
+    "eslint": "^10.7.0",
+    "globals": "^17.7.0",
+    "prettier": "^3.9.5",
+    "sass": "^1.101.0",
+    "typograf": "^7.7.0",
+    "typescript": "^7.0.2",
+    "vite": "^8.1.4",
+    "vite-plugin-monkey": "^8.0.6",
     "vite-plugin-singlefile": "^2.3.3"
   }
 }

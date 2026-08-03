@@ -1,9 +1,15 @@
-import {Observable, Subscription, animationFrameScheduler, auditTime} from 'rxjs';
+import {
+  Observable,
+  Subscription,
+  animationFrameScheduler,
+  auditTime,
+} from "rxjs";
 
-import {reactDomObserver} from './reactDomObserver.js';
+import { reactDomObserver } from "./reactDomObserver.js";
 
-const DEFAULT_RENDER_TRIGGER_SELECTOR = '[class*="BannerLinkWrapper_bannerLinkWrapper"]';
-const DEFAULT_SLIDE_SELECTOR = '.glide__slide.swiper-slide';
+const DEFAULT_RENDER_TRIGGER_SELECTOR =
+  '[class*="BannerLinkWrapper_bannerLinkWrapper"]';
+const DEFAULT_SLIDE_SELECTOR = ".glide__slide.swiper-slide";
 
 const createMutations$ = (target, options) => {
   return new Observable((subscriber) => {
@@ -16,9 +22,7 @@ const createMutations$ = (target, options) => {
     return () => {
       mutationObserver.disconnect();
     };
-  }).pipe(
-    auditTime(0, animationFrameScheduler)
-  );
+  }).pipe(auditTime(0, animationFrameScheduler));
 };
 
 const defaultHasContent = (slide) => {
@@ -26,29 +30,36 @@ const defaultHasContent = (slide) => {
 };
 
 const defaultIgnoreSlide = (slide) => {
-  return slide.classList.contains('glide__slide--clone')
-    || slide.classList.contains('swiper-slide-duplicate');
+  return (
+    slide.classList.contains("glide__slide--clone") ||
+    slide.classList.contains("swiper-slide-duplicate")
+  );
 };
 
 const getStableSlideIndex = (slide, root, slideSelector, ignoreSlide) => {
-  const swiperIndex = slide.getAttribute('data-swiper-slide-index');
+  const swiperIndex = slide.getAttribute("data-swiper-slide-index");
 
-  if (swiperIndex !== null && swiperIndex !== '' && !Number.isNaN(Number(swiperIndex))) {
+  if (
+    swiperIndex !== null &&
+    swiperIndex !== "" &&
+    !Number.isNaN(Number(swiperIndex))
+  ) {
     return Number(swiperIndex);
   }
 
-  const slides = [...root.querySelectorAll(slideSelector)]
-    .filter((item) => !ignoreSlide(item));
+  const slides = [...root.querySelectorAll(slideSelector)].filter(
+    (item) => !ignoreSlide(item),
+  );
 
   return slides.indexOf(slide);
 };
 
 const toUnmount = (mountResult) => {
-  if (typeof mountResult === 'function') {
+  if (typeof mountResult === "function") {
     return mountResult;
   }
 
-  if (typeof mountResult?.unmount === 'function') {
+  if (typeof mountResult?.unmount === "function") {
     return () => mountResult.unmount();
   }
 
@@ -70,7 +81,7 @@ export function watchMainCarouselSlides(options = {}) {
   } = options;
 
   if (!carouselSelector) {
-    throw new Error('watchMainCarouselSlides requires carouselSelector');
+    throw new Error("watchMainCarouselSlides requires carouselSelector");
   }
 
   const roots = new Map();
@@ -91,7 +102,7 @@ export function watchMainCarouselSlides(options = {}) {
   };
 
   const syncSlideState = (controller) => {
-    const {slide, context} = controller;
+    const { slide, context } = controller;
 
     if (!slide.isConnected) {
       destroySlideController(controller);
@@ -101,7 +112,12 @@ export function watchMainCarouselSlides(options = {}) {
     const nextHasContent = hasContent(slide, context);
 
     if (nextHasContent && !controller.mounted) {
-      context.index = getStableSlideIndex(slide, context.root, slideSelector, ignoreSlide);
+      context.index = getStableSlideIndex(
+        slide,
+        context.root,
+        slideSelector,
+        ignoreSlide,
+      );
       controller.unmount = toUnmount(mount(context));
       controller.mounted = true;
     }
@@ -127,7 +143,12 @@ export function watchMainCarouselSlides(options = {}) {
     const context = {
       root: rootState.root,
       slide,
-      index: getStableSlideIndex(slide, rootState.root, slideSelector, ignoreSlide),
+      index: getStableSlideIndex(
+        slide,
+        rootState.root,
+        slideSelector,
+        ignoreSlide,
+      ),
     };
 
     const controller = {
@@ -147,7 +168,7 @@ export function watchMainCarouselSlides(options = {}) {
         if (!syncSlideState(controller)) {
           rootState.slides.delete(slide);
         }
-      })
+      }),
     );
 
     rootState.slides.set(slide, controller);
@@ -157,15 +178,21 @@ export function watchMainCarouselSlides(options = {}) {
   };
 
   const syncRootSlides = (rootState) => {
-    const slides = [...rootState.root.querySelectorAll(slideSelector)]
-      .filter((slide) => !ignoreSlide(slide));
+    const slides = [...rootState.root.querySelectorAll(slideSelector)].filter(
+      (slide) => !ignoreSlide(slide),
+    );
     const currentSlides = new Set(slides);
 
     slides.forEach((slide) => {
       const controller = rootState.slides.get(slide);
 
       if (controller) {
-        controller.context.index = getStableSlideIndex(slide, rootState.root, slideSelector, ignoreSlide);
+        controller.context.index = getStableSlideIndex(
+          slide,
+          rootState.root,
+          slideSelector,
+          ignoreSlide,
+        );
       }
     });
 
@@ -222,11 +249,11 @@ export function watchMainCarouselSlides(options = {}) {
         }
 
         syncRootSlides(rootState);
-      })
+      }),
     );
 
     roots.set(root, rootState);
-    onRender({root});
+    onRender({ root });
     syncRootSlides(rootState);
 
     return rootState;
@@ -235,20 +262,22 @@ export function watchMainCarouselSlides(options = {}) {
   const triggerSelector = `${carouselSelector} ${renderTriggerSelector}`;
 
   rootSubscription.add(
-    observer.observeSelector$(triggerSelector).subscribe(({type, element}) => {
-      const root = element.closest(carouselSelector);
+    observer
+      .observeSelector$(triggerSelector)
+      .subscribe(({ type, element }) => {
+        const root = element.closest(carouselSelector);
 
-      if (!root) {
-        return;
-      }
+        if (!root) {
+          return;
+        }
 
-      if (type === 'remove') {
-        destroyRootState(root);
-        return;
-      }
+        if (type === "remove") {
+          destroyRootState(root);
+          return;
+        }
 
-      ensureRootState(root);
-    })
+        ensureRootState(root);
+      }),
   );
 
   return {

@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 
-import fs from 'node:fs';
-import path from 'node:path';
+import fs from "node:fs";
+import path from "node:path";
 
 import {
   BRANDS_DIR,
@@ -13,19 +13,18 @@ import {
   mapBrandToArea,
   normalizePath,
   pathExists,
-  readJson,
-} from './lib/projects.js';
+} from "./lib/projects.js";
 
 const LEGACY_FILES = [
-  '.gitignore',
-  'package-lock.json',
-  'package.json',
-  'vite.config.js',
-  'vite.config.ts',
+  ".gitignore",
+  "package-lock.json",
+  "package.json",
+  "vite.config.js",
+  "vite.config.ts",
 ];
 
 function ensureExperimentConfig(projectDir) {
-  const configPath = path.join(projectDir, 'experiment.config.json');
+  const configPath = path.join(projectDir, "experiment.config.json");
 
   if (pathExists(configPath)) {
     return;
@@ -47,7 +46,7 @@ function removeLegacyFiles(projectDir) {
     const filePath = path.join(projectDir, fileName);
 
     if (pathExists(filePath)) {
-      fs.rmSync(filePath, {force: true});
+      fs.rmSync(filePath, { force: true });
     }
   }
 }
@@ -55,28 +54,36 @@ function removeLegacyFiles(projectDir) {
 function resolveTopLevelArea(topLevelDirName, projectDirs) {
   const nestedProjects = projectDirs.filter((projectDir) => {
     const relativePath = normalizePath(path.relative(ROOT_DIR, projectDir));
-    return relativePath === topLevelDirName || relativePath.startsWith(`${topLevelDirName}/`);
+    return (
+      relativePath === topLevelDirName ||
+      relativePath.startsWith(`${topLevelDirName}/`)
+    );
   });
 
   if (nestedProjects.length === 0) {
     return null;
   }
 
-  const areas = [...new Set(nestedProjects.map((projectDir) => {
-    const metadata = getProjectMetadata(projectDir);
-    return mapBrandToArea(metadata.brand);
-  }))];
+  const areas = [
+    ...new Set(
+      nestedProjects.map((projectDir) => {
+        const metadata = getProjectMetadata(projectDir);
+        return mapBrandToArea(metadata.brand);
+      }),
+    ),
+  ];
 
   if (areas.length === 1) {
     return areas[0];
   }
 
-  return 'special';
+  return "special";
 }
 
 function moveTopLevelDir(topLevelDirName, area) {
   const sourcePath = path.join(ROOT_DIR, topLevelDirName);
-  const baseDir = area === 'special' ? SPECIAL_DIR : path.join(BRANDS_DIR, area);
+  const baseDir =
+    area === "special" ? SPECIAL_DIR : path.join(BRANDS_DIR, area);
   const targetPath = path.join(baseDir, topLevelDirName);
 
   if (sourcePath === targetPath) {
@@ -84,10 +91,12 @@ function moveTopLevelDir(topLevelDirName, area) {
   }
 
   if (pathExists(targetPath)) {
-    throw new Error(`Целевая папка уже существует: ${normalizePath(path.relative(ROOT_DIR, targetPath))}`);
+    throw new Error(
+      `Целевая папка уже существует: ${normalizePath(path.relative(ROOT_DIR, targetPath))}`,
+    );
   }
 
-  fs.mkdirSync(baseDir, {recursive: true});
+  fs.mkdirSync(baseDir, { recursive: true });
   fs.renameSync(sourcePath, targetPath);
 
   return {
@@ -97,7 +106,7 @@ function moveTopLevelDir(topLevelDirName, area) {
 }
 
 function main() {
-  const projectDirs = listProjectDirs({legacyOnly: true});
+  const projectDirs = listProjectDirs({ legacyOnly: true });
   const updatedProjects = [];
 
   for (const projectDir of projectDirs) {
@@ -126,7 +135,7 @@ function main() {
   console.log(`Перемещено верхнеуровневых папок: ${moves.length}`);
 
   if (moves.length > 0) {
-    console.log('\nПеремещения:');
+    console.log("\nПеремещения:");
 
     for (const move of moves) {
       console.log(`  - ${move.from} -> ${move.to}`);

@@ -10,7 +10,7 @@ function insertOnce(target, place, markup, name) {
 
 insertOnce(document.body, 'beforeend', mobileMarkup, 'ball')
 
-async function preloadScript(url, cb) {
+async function loadScript(url, cb) {
   return new Promise(resolve => {
     const script_el = document.createElement('script');
     script_el.addEventListener('load', () => {
@@ -34,7 +34,7 @@ function getRandomElement(array) {
 async function vimeoAutoPlay(observer_options = {}) {
   const vboxes = document.querySelectorAll('.vimeo-video-box [data-vimeo-vid]');
   if (vboxes.length) {
-    await preloadScript('https://player.vimeo.com/api/player.js');
+    await loadScript('https://player.vimeo.com/api/player.js');
     const io = new IntersectionObserver((entries, observer) => {
       entries.forEach(entry => {
         const target = entry.target;

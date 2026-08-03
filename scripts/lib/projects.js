@@ -1,50 +1,50 @@
-import fs from 'node:fs';
-import path from 'node:path';
-import {fileURLToPath} from 'node:url';
+import fs from "node:fs";
+import path from "node:path";
+import { fileURLToPath } from "node:url";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
-export const ROOT_DIR = path.resolve(__dirname, '..', '..');
-export const BRANDS_DIR = path.join(ROOT_DIR, 'brands');
-export const SPECIAL_DIR = path.join(ROOT_DIR, 'special');
+export const ROOT_DIR = path.resolve(__dirname, "..", "..");
+export const BRANDS_DIR = path.join(ROOT_DIR, "brands");
+export const SPECIAL_DIR = path.join(ROOT_DIR, "special");
 
 export const ROOT_INFRASTRUCTURE_DIRS = new Set([
-  '.git',
-  '.idea',
-  '.vite-monkey-runner',
-  'brands',
-  'dist',
-  'docs',
-  'node_modules',
-  'scripts',
-  'special',
-  'templates',
-  'utils',
+  ".git",
+  ".idea",
+  ".vite-monkey-runner",
+  "brands",
+  "dist",
+  "docs",
+  "node_modules",
+  "scripts",
+  "special",
+  "templates",
+  "utils",
 ]);
 
 const WALK_IGNORED_DIRS = new Set([
-  '.git',
-  '.idea',
-  '.vite-monkey-runner',
-  'docs',
-  'dist',
-  'node_modules',
-  'scripts',
-  'templates',
-  'utils',
+  ".git",
+  ".idea",
+  ".vite-monkey-runner",
+  "docs",
+  "dist",
+  "node_modules",
+  "scripts",
+  "templates",
+  "utils",
 ]);
 
 const GENERIC_PACKAGE_NAMES = new Set([
-  'home-page',
-  'info-actions',
-  'link',
-  'popup',
-  'search-card',
-  'ym-banner',
+  "home-page",
+  "info-actions",
+  "link",
+  "popup",
+  "search-card",
+  "ym-banner",
 ]);
 
 export function normalizePath(relativePath) {
-  return relativePath.split(path.sep).join('/');
+  return relativePath.split(path.sep).join("/");
 }
 
 export function pathExists(targetPath) {
@@ -52,29 +52,29 @@ export function pathExists(targetPath) {
 }
 
 export function readJson(filePath) {
-  return JSON.parse(fs.readFileSync(filePath, 'utf8'));
+  return JSON.parse(fs.readFileSync(filePath, "utf8"));
 }
 
 function toProjectSlug(value) {
   return value
-    .split('/')
-    .join('-')
+    .split("/")
+    .join("-")
     .trim()
     .toLowerCase()
-    .replace(/[^a-z0-9а-яё-]+/gi, '-')
-    .replace(/^-+|-+$/g, '')
-    .replace(/-{2,}/g, '-');
+    .replace(/[^a-z0-9а-яё-]+/gi, "-")
+    .replace(/^-+|-+$/g, "")
+    .replace(/-{2,}/g, "-");
 }
 
 export function isProjectDir(projectDir) {
   return (
-    pathExists(path.join(projectDir, 'experiment.config.json')) ||
-    pathExists(path.join(projectDir, 'package.json'))
+    pathExists(path.join(projectDir, "experiment.config.json")) ||
+    pathExists(path.join(projectDir, "package.json"))
   );
 }
 
 function walkDirectories(dir, result = []) {
-  for (const entry of fs.readdirSync(dir, {withFileTypes: true})) {
+  for (const entry of fs.readdirSync(dir, { withFileTypes: true })) {
     if (!entry.isDirectory()) {
       continue;
     }
@@ -91,11 +91,11 @@ function walkDirectories(dir, result = []) {
   return result;
 }
 
-export function listProjectDirs({legacyOnly = false} = {}) {
+export function listProjectDirs({ legacyOnly = false } = {}) {
   const directories = walkDirectories(ROOT_DIR);
   const projectDirs = directories.filter((dir) => {
     if (legacyOnly) {
-      return pathExists(path.join(dir, 'package.json'));
+      return pathExists(path.join(dir, "package.json"));
     }
 
     return isProjectDir(dir);
@@ -105,23 +105,23 @@ export function listProjectDirs({legacyOnly = false} = {}) {
 }
 
 function readLegacyViteConfig(projectDir) {
-  const jsConfig = path.join(projectDir, 'vite.config.js');
-  const tsConfig = path.join(projectDir, 'vite.config.ts');
+  const jsConfig = path.join(projectDir, "vite.config.js");
+  const tsConfig = path.join(projectDir, "vite.config.ts");
 
   if (pathExists(jsConfig)) {
-    return fs.readFileSync(jsConfig, 'utf8');
+    return fs.readFileSync(jsConfig, "utf8");
   }
 
   if (pathExists(tsConfig)) {
-    return fs.readFileSync(tsConfig, 'utf8');
+    return fs.readFileSync(tsConfig, "utf8");
   }
 
-  return '';
+  return "";
 }
 
 function extractEntryFromViteConfig(content) {
   const match = content.match(/entry:\s*['"`]([^'"`]+)['"`]/);
-  return match?.[1] || '';
+  return match?.[1] || "";
 }
 
 function extractMatchFromViteConfig(content) {
@@ -142,46 +142,46 @@ function inferBrandFromMatch(match) {
     .filter(Boolean)
     .map((value) => String(value).toLowerCase());
 
-  const hasCoral = lowerCaseValues.some((value) => value.includes('coral'));
-  const hasSunmar = lowerCaseValues.some((value) => value.includes('sunmar'));
+  const hasCoral = lowerCaseValues.some((value) => value.includes("coral"));
+  const hasSunmar = lowerCaseValues.some((value) => value.includes("sunmar"));
 
   if (hasCoral && hasSunmar) {
-    return 'both';
+    return "both";
   }
 
   if (hasCoral) {
-    return 'coral';
+    return "coral";
   }
 
   if (hasSunmar) {
-    return 'sunmar';
+    return "sunmar";
   }
 
-  return 'unknown';
+  return "unknown";
 }
 
 function inferBrandFromPath(projectPath) {
   const lowerCasePath = projectPath.toLowerCase();
 
-  if (lowerCasePath.includes('sunmar')) {
-    return 'sunmar';
+  if (lowerCasePath.includes("sunmar")) {
+    return "sunmar";
   }
 
-  if (lowerCasePath.includes('coral')) {
-    return 'coral';
+  if (lowerCasePath.includes("coral")) {
+    return "coral";
   }
 
-  return 'unknown';
+  return "unknown";
 }
 
 export function inferBrand(projectDir) {
-  const experimentConfigPath = path.join(projectDir, 'experiment.config.json');
+  const experimentConfigPath = path.join(projectDir, "experiment.config.json");
 
   if (pathExists(experimentConfigPath)) {
     const experimentConfig = readJson(experimentConfigPath);
     const fromMatch = inferBrandFromMatch(experimentConfig.match || []);
 
-    if (fromMatch !== 'unknown') {
+    if (fromMatch !== "unknown") {
       return fromMatch;
     }
 
@@ -193,9 +193,11 @@ export function inferBrand(projectDir) {
   const viteConfigContent = readLegacyViteConfig(projectDir);
 
   if (viteConfigContent) {
-    const fromMatch = inferBrandFromMatch(extractMatchFromViteConfig(viteConfigContent));
+    const fromMatch = inferBrandFromMatch(
+      extractMatchFromViteConfig(viteConfigContent),
+    );
 
-    if (fromMatch !== 'unknown') {
+    if (fromMatch !== "unknown") {
       return fromMatch;
     }
   }
@@ -214,27 +216,30 @@ function inferEntry(projectDir, experimentConfig, viteConfigContent) {
     return legacyEntry;
   }
 
-  if (pathExists(path.join(projectDir, 'src', 'main.js'))) {
-    return 'src/main.js';
+  if (pathExists(path.join(projectDir, "src", "main.js"))) {
+    return "src/main.js";
   }
 
-  if (pathExists(path.join(projectDir, 'src', 'main.ts'))) {
-    return 'src/main.ts';
+  if (pathExists(path.join(projectDir, "src", "main.ts"))) {
+    return "src/main.ts";
   }
 
-  if (pathExists(path.join(projectDir, 'src', 'home.js'))) {
-    return 'src/home.js';
+  if (pathExists(path.join(projectDir, "src", "home.js"))) {
+    return "src/home.js";
   }
 
-  if (pathExists(path.join(projectDir, 'src', 'home.ts'))) {
-    return 'src/home.ts';
+  if (pathExists(path.join(projectDir, "src", "home.ts"))) {
+    return "src/home.ts";
   }
 
-  return 'src/main.js';
+  return "src/main.js";
 }
 
 function inferMatch(projectDir, experimentConfig, viteConfigContent, brand) {
-  if (Array.isArray(experimentConfig?.match) && experimentConfig.match.length > 0) {
+  if (
+    Array.isArray(experimentConfig?.match) &&
+    experimentConfig.match.length > 0
+  ) {
     return experimentConfig.match;
   }
 
@@ -244,12 +249,12 @@ function inferMatch(projectDir, experimentConfig, viteConfigContent, brand) {
     return legacyMatch;
   }
 
-  if (brand === 'coral') {
-    return ['https://www.coral.ru/*'];
+  if (brand === "coral") {
+    return ["https://www.coral.ru/*"];
   }
 
-  if (brand === 'sunmar') {
-    return ['https://www.sunmar.ru/*'];
+  if (brand === "sunmar") {
+    return ["https://www.sunmar.ru/*"];
   }
 
   return [];
@@ -265,15 +270,25 @@ function deriveProjectName(relativePath, packageJson) {
 
 export function getProjectMetadata(projectDir) {
   const relativePath = normalizePath(path.relative(ROOT_DIR, projectDir));
-  const experimentConfigPath = path.join(projectDir, 'experiment.config.json');
-  const packageJsonPath = path.join(projectDir, 'package.json');
-  const experimentConfig = pathExists(experimentConfigPath) ? readJson(experimentConfigPath) : null;
-  const packageJson = pathExists(packageJsonPath) ? readJson(packageJsonPath) : null;
+  const experimentConfigPath = path.join(projectDir, "experiment.config.json");
+  const packageJsonPath = path.join(projectDir, "package.json");
+  const experimentConfig = pathExists(experimentConfigPath)
+    ? readJson(experimentConfigPath)
+    : null;
+  const packageJson = pathExists(packageJsonPath)
+    ? readJson(packageJsonPath)
+    : null;
   const viteConfigContent = readLegacyViteConfig(projectDir);
   const brand = inferBrand(projectDir);
   const entry = inferEntry(projectDir, experimentConfig, viteConfigContent);
-  const match = inferMatch(projectDir, experimentConfig, viteConfigContent, brand);
-  const name = experimentConfig?.name || deriveProjectName(relativePath, packageJson);
+  const match = inferMatch(
+    projectDir,
+    experimentConfig,
+    viteConfigContent,
+    brand,
+  );
+  const name =
+    experimentConfig?.name || deriveProjectName(relativePath, packageJson);
 
   return {
     name,
@@ -282,22 +297,22 @@ export function getProjectMetadata(projectDir) {
     match,
     projectDir,
     relativePath,
-    packageName: packageJson?.name || '',
+    packageName: packageJson?.name || "",
     hasExperimentConfig: Boolean(experimentConfig),
     hasLegacyPackageJson: Boolean(packageJson),
   };
 }
 
 export function mapBrandToArea(brand) {
-  if (brand === 'coral') {
-    return 'coral';
+  if (brand === "coral") {
+    return "coral";
   }
 
-  if (brand === 'sunmar') {
-    return 'sunmar';
+  if (brand === "sunmar") {
+    return "sunmar";
   }
 
-  return 'special';
+  return "special";
 }
 
 export function getProjectArea(projectDir) {
@@ -307,7 +322,7 @@ export function getProjectArea(projectDir) {
 export function buildProjectDir(projectName, brand) {
   const area = mapBrandToArea(brand);
 
-  if (area === 'special') {
+  if (area === "special") {
     return path.join(SPECIAL_DIR, projectName);
   }
 
@@ -339,17 +354,23 @@ export function resolveProjectDir(projectInput) {
   if (matches.length > 1) {
     const paths = matches
       .map((projectDir) => normalizePath(path.relative(ROOT_DIR, projectDir)))
-      .join(', ');
+      .join(", ");
 
-    throw new Error(`Неоднозначный проект "${projectInput}". Подходят: ${paths}`);
+    throw new Error(
+      `Неоднозначный проект "${projectInput}". Подходят: ${paths}`,
+    );
   }
 
   throw new Error(`Папка проекта не найдена: ${projectInput}`);
 }
 
 export function listTopLevelEntries() {
-  return fs.readdirSync(ROOT_DIR, {withFileTypes: true})
-    .filter((entry) => entry.isDirectory() && !ROOT_INFRASTRUCTURE_DIRS.has(entry.name))
+  return fs
+    .readdirSync(ROOT_DIR, { withFileTypes: true })
+    .filter(
+      (entry) =>
+        entry.isDirectory() && !ROOT_INFRASTRUCTURE_DIRS.has(entry.name),
+    )
     .map((entry) => entry.name)
     .sort();
 }

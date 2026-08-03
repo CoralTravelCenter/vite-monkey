@@ -1,17 +1,19 @@
-import {reactDomObserver} from './reactDomObserver.js';
+import { reactDomObserver } from "./reactDomObserver.js";
 
-const DEFAULT_SLIDE_SELECTOR = '.swiper-slide, .slick-slide, [data-swiper-slide-index], [class*="slide"]';
+const DEFAULT_SLIDE_SELECTOR =
+  '.swiper-slide, .slick-slide, [data-swiper-slide-index], [class*="slide"]';
 
 const getItemIndex = (item, slide, root, itemSelector) => {
   if (slide) {
-    const slideIndex = slide.getAttribute('data-swiper-slide-index');
+    const slideIndex = slide.getAttribute("data-swiper-slide-index");
 
     if (slideIndex !== null) {
       return Number(slideIndex);
     }
 
-    const siblingSlides = [...slide.parentElement?.children || []]
-      .filter((node) => node.matches?.(DEFAULT_SLIDE_SELECTOR));
+    const siblingSlides = [...(slide.parentElement?.children || [])].filter(
+      (node) => node.matches?.(DEFAULT_SLIDE_SELECTOR),
+    );
     const siblingIndex = siblingSlides.indexOf(slide);
 
     if (siblingIndex >= 0) {
@@ -29,17 +31,17 @@ const getItemIndex = (item, slide, root, itemSelector) => {
 export function spyMainCarousel(options = {}) {
   const {
     carouselSelector,
-    itemSelector = 'a[href]',
+    itemSelector = "a[href]",
     slideSelector = DEFAULT_SLIDE_SELECTOR,
     observer = reactDomObserver(),
     onItem = () => {},
     onClick = () => {},
     attachClickListener = true,
-    processedAttribute = 'data-main-carousel-spy-bound',
+    processedAttribute = "data-main-carousel-spy-bound",
   } = options;
 
   if (!carouselSelector) {
-    throw new Error('spyMainCarousel requires carouselSelector');
+    throw new Error("spyMainCarousel requires carouselSelector");
   }
 
   const targetSelector = `${carouselSelector} ${itemSelector}`;
@@ -48,7 +50,7 @@ export function spyMainCarousel(options = {}) {
     .observeSelector$(targetSelector, {
       emitRemove: false,
     })
-    .subscribe(({type, element}) => {
+    .subscribe(({ type, element }) => {
       if (!element || element.nodeType !== Node.ELEMENT_NODE) {
         return;
       }
@@ -66,7 +68,7 @@ export function spyMainCarousel(options = {}) {
         root,
         item: element,
         slide,
-        href: element.getAttribute('href'),
+        href: element.getAttribute("href"),
         index,
       };
 
@@ -76,8 +78,8 @@ export function spyMainCarousel(options = {}) {
         return;
       }
 
-      element.addEventListener('click', () => onClick(context));
-      element.setAttribute(processedAttribute, 'true');
+      element.addEventListener("click", () => onClick(context));
+      element.setAttribute(processedAttribute, "true");
     });
 
   return {
