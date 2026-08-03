@@ -280,11 +280,9 @@ export function watchMainCarouselSlides(options = {}) {
       }),
   );
 
-  return {
-    subscription: rootSubscription,
-    stop() {
-      rootSubscription.unsubscribe();
-      [...roots.keys()].forEach((root) => destroyRootState(root));
-    },
-  };
+  rootSubscription.add(() => {
+    [...roots.keys()].forEach((root) => destroyRootState(root));
+  });
+
+  return rootSubscription;
 }

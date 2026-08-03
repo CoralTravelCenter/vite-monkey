@@ -1,17 +1,14 @@
-import {Observable, animationFrameScheduler, auditTime, filter} from 'rxjs';
+import { Observable, animationFrameScheduler, auditTime, filter } from "rxjs";
 
-import {
-  ORIGINAL_SLIDE_SELECTOR,
-  MINI_PAGE_BLOCKS,
-} from './constants.js';
+import { ORIGINAL_SLIDE_SELECTOR, MINI_PAGE_BLOCKS } from "./constants.js";
 
 export function hasFirstOriginalSlide() {
   return Boolean(document.querySelector(ORIGINAL_SLIDE_SELECTOR));
 }
 
 function shouldRunCleanup(mutations) {
-  return mutations.some(mutation => {
-    return Array.from(mutation.addedNodes).some(node => {
+  return mutations.some((mutation) => {
+    return Array.from(mutation.addedNodes).some((node) => {
       if (node.nodeType !== Node.ELEMENT_NODE) {
         return false;
       }
@@ -19,7 +16,7 @@ function shouldRunCleanup(mutations) {
       return (
         node.matches?.(ORIGINAL_SLIDE_SELECTOR) ||
         node.querySelector?.(ORIGINAL_SLIDE_SELECTOR) ||
-        MINI_PAGE_BLOCKS.some(block => {
+        MINI_PAGE_BLOCKS.some((block) => {
           return (
             node.matches?.(block.selector) ||
             node.querySelector?.(block.selector)
@@ -31,8 +28,8 @@ function shouldRunCleanup(mutations) {
 }
 
 export function createCleanupObserver(runCleanup) {
-  const mutations$ = new Observable(subscriber => {
-    const observer = new MutationObserver(mutations => {
+  const mutations$ = new Observable((subscriber) => {
+    const observer = new MutationObserver((mutations) => {
       subscriber.next(mutations);
     });
 
@@ -48,16 +45,12 @@ export function createCleanupObserver(runCleanup) {
 
   const subscription = mutations$
     .pipe(
-      filter(mutations => shouldRunCleanup(mutations)),
-      auditTime(0, animationFrameScheduler)
+      filter((mutations) => shouldRunCleanup(mutations)),
+      auditTime(0, animationFrameScheduler),
     )
     .subscribe(() => {
       runCleanup();
     });
 
-  return {
-    disconnect() {
-      subscription.unsubscribe();
-    },
-  };
+  return subscription;
 }

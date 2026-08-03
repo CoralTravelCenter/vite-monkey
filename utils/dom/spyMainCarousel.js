@@ -82,10 +82,5 @@ export function spyMainCarousel(options = {}) {
       element.setAttribute(processedAttribute, "true");
     });
 
-  return {
-    subscription,
-    stop() {
-      subscription.unsubscribe();
-    },
-  };
+  return subscription;
 }

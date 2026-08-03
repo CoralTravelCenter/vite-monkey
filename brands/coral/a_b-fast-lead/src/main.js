@@ -1,8 +1,8 @@
 import { createDataLayerWatcher, waitForCondition } from "@utils";
+import { firstValueFrom } from "rxjs";
 
-createDataLayerWatcher()
-  .waitEvent("begin_checkout", { timeoutMs: 0 })
-  .then((evt) => {
+firstValueFrom(createDataLayerWatcher().event$("begin_checkout")).then(
+  (evt) => {
     const raw = evt?.ecommerce?.items?.[0]?.item_dates?.[0];
     const limit = new Date(Date.now() + 21 * 86400000)
       .toISOString()
@@ -12,4 +12,5 @@ createDataLayerWatcher()
     waitForCondition(() => window.PopMechanic, { timeoutMs: 0 }).then(() => {
       window.PopMechanic.update();
     });
-  });
+  },
+);
