@@ -22,7 +22,7 @@
     isolation: isolate;
 }
 
-.swap-button-mobile picture {
+.swap-button-mobile img {
     position: absolute;
     inset: 0;
     display: block;
@@ -31,15 +31,9 @@
     transition: opacity 0.5s ease-in-out;
     border-radius: 50px;
     overflow: hidden;
+    object-fit: cover;
 }
 
-.swap-button-mobile picture img {
-    display: block;
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    border-radius: 50%;
-}
 
 .swap-button-mobile__picture-end {
     opacity: 0;

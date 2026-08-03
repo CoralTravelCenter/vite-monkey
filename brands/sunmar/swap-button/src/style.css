@@ -20,7 +20,7 @@ div[class*="HeaderMenuNonProductSearch_nonProductSearchContainer__"] {
     isolation: isolate;
 }
 
-.swap-button picture {
+.swap-button img {
     position: absolute;
     inset: 0;
     display: block;
@@ -29,14 +29,7 @@ div[class*="HeaderMenuNonProductSearch_nonProductSearchContainer__"] {
     transition: opacity 0.5s ease-in-out;
     border-radius: 50px;
     overflow: hidden;
-}
-
-.swap-button picture img {
-    display: block;
-    width: 100%;
-    height: 100%;
     object-fit: contain;
-    border-radius: 50px;
 }
 
 .swap-button__picture_end {

@@ -1,6 +1,6 @@
 import scriptInner from './markup.html?raw'
 import './style.css'
-import {waiteSelector} from "../../utils.js";
+import {waitSelector} from "../../utils.js";
 
 function isMobileDevice() {
 	return /Mobi|Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
@@ -30,7 +30,7 @@ function appendOnceLeadForm(container) {
 }
 
 if (isMobileDevice()) {
-	waiteSelector('.ant-alert-success').then(() => {
+	waitSelector('.ant-alert-success').then(() => {
 		const container = document.querySelector('.ant-alert-success')?.parentElement?.firstChild;
 		if (container) {
 			appendOnceLeadForm(container);
@@ -38,7 +38,7 @@ if (isMobileDevice()) {
 
 		const SEARCH_PARAMS = location.pathname;
 
-		waiteSelector('.b24-form-click-btn').then(() => {
+		waitSelector('.b24-form-click-btn').then(() => {
 			const btn = document.querySelector('.b24-form-click-btn');
 			if (btn) {
 				btn.addEventListener('click', () => {

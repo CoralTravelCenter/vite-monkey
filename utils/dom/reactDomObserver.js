@@ -1,5 +1,13 @@
-import {filter, firstValueFrom, map, Observable, share, take, timeout} from 'rxjs';
-import {observe} from 'selector-observer';
+import {
+  filter,
+  firstValueFrom,
+  map,
+  Observable,
+  share,
+  take,
+  timeout,
+} from "rxjs";
+import { observe } from "selector-observer";
 
 export const reactDomObserver = (defaultOptions = {}) => {
   const {
@@ -21,19 +29,19 @@ export const reactDomObserver = (defaultOptions = {}) => {
         initialize(element) {
           if (!shouldEmitInitialize) return;
 
-          subscriber.next({type: 'initialize', selector, name, element});
+          subscriber.next({ type: "initialize", selector, name, element });
         },
 
         add(element) {
           if (!shouldEmitAdd) return;
 
-          subscriber.next({type: 'add', selector, name, element});
+          subscriber.next({ type: "add", selector, name, element });
         },
 
         remove(element) {
           if (!shouldEmitRemove) return;
 
-          subscriber.next({type: 'remove', selector, name, element});
+          subscriber.next({ type: "remove", selector, name, element });
         },
       });
 
@@ -43,26 +51,24 @@ export const reactDomObserver = (defaultOptions = {}) => {
 
   const added$ = (selector, options = {}) => {
     return observeSelector$(selector, options).pipe(
-      filter((event) => event.type === 'add')
+      filter((event) => event.type === "add"),
     );
   };
 
   const removed$ = (selector, options = {}) => {
     return observeSelector$(selector, options).pipe(
-      filter((event) => event.type === 'remove')
+      filter((event) => event.type === "remove"),
     );
   };
 
   const initialized$ = (selector, options = {}) => {
     return observeSelector$(selector, options).pipe(
-      filter((event) => event.type === 'initialize')
+      filter((event) => event.type === "initialize"),
     );
   };
 
   const element$ = (selector, options = {}) => {
-    return added$(selector, options).pipe(
-      map((event) => event.element)
-    );
+    return added$(selector, options).pipe(map((event) => event.element));
   };
 
   const waitElement$ = (selector, options = {}) => {
@@ -70,12 +76,10 @@ export const reactDomObserver = (defaultOptions = {}) => {
   };
 
   const waitElement = (selector, options = {}) => {
-    const {timeoutMs = 10000, ...watchOptions} = options;
+    const { timeoutMs = 10000, ...watchOptions } = options;
 
     return firstValueFrom(
-      waitElement$(selector, watchOptions).pipe(
-        timeout({first: timeoutMs})
-      )
+      waitElement$(selector, watchOptions).pipe(timeout({ first: timeoutMs })),
     );
   };
 

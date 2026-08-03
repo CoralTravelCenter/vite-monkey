@@ -1,22 +1,21 @@
 #!/usr/bin/env node
 
-import fs from 'node:fs';
-import path from 'node:path';
+import fs from "node:fs";
+import path from "node:path";
 
 import {
   ROOT_DIR,
   getProjectArea,
   getProjectMetadata,
   listProjectDirs,
-  normalizePath,
   pathExists,
   readJson,
-} from './lib/projects.js';
-const CATALOG_PATH = path.join(ROOT_DIR, 'docs', 'projects-catalog.md');
-const STATUSES = new Set(['active', 'experiment', 'archive', 'needs-review']);
+} from "./lib/projects.js";
+const CATALOG_PATH = path.join(ROOT_DIR, "docs", "projects-catalog.md");
+const STATUSES = new Set(["active", "experiment", "archive", "needs-review"]);
 
 function hasSpaces(projectPath) {
-  return projectPath.split(path.sep).some((part) => part.includes(' '));
+  return projectPath.split(path.sep).some((part) => part.includes(" "));
 }
 
 function appendNote(notes, note) {
@@ -28,7 +27,7 @@ function appendNote(notes, note) {
 }
 
 function stripCell(value) {
-  return value.trim().replace(/^`|`$/g, '');
+  return value.trim().replace(/^`|`$/g, "");
 }
 
 function parseExistingCatalog() {
@@ -37,14 +36,17 @@ function parseExistingCatalog() {
   }
 
   const rows = new Map();
-  const lines = fs.readFileSync(CATALOG_PATH, 'utf8').split('\n');
+  const lines = fs.readFileSync(CATALOG_PATH, "utf8").split("\n");
 
   for (const line of lines) {
-    if (!line.startsWith('| `')) {
+    if (!line.startsWith("| `")) {
       continue;
     }
 
-    const cells = line.split('|').slice(1, -1).map((cell) => cell.trim());
+    const cells = line
+      .split("|")
+      .slice(1, -1)
+      .map((cell) => cell.trim());
 
     if (cells.length < 7) {
       continue;
@@ -55,7 +57,7 @@ function parseExistingCatalog() {
     const notes = cells[6];
 
     rows.set(projectPath, {
-      status: STATUSES.has(status) ? status : 'needs-review',
+      status: STATUSES.has(status) ? status : "needs-review",
       notes,
     });
   }
@@ -81,7 +83,10 @@ function collectProjects() {
   return listProjectDirs()
     .map((projectDir) => {
       const metadata = getProjectMetadata(projectDir);
-      const experimentConfigPath = path.join(projectDir, 'experiment.config.json');
+      const experimentConfigPath = path.join(
+        projectDir,
+        "experiment.config.json",
+      );
       const experimentConfig = pathExists(experimentConfigPath)
         ? readJson(experimentConfigPath)
         : null;
@@ -101,54 +106,57 @@ function collectProjects() {
 function buildCatalog(projects, existingRows) {
   const duplicateNames = collectDuplicateProjectNames(projects);
   const lines = [
-    '# Каталог проектов',
-    '',
-    'Этот файл фиксирует текущие mini-experiments в репозитории. Статус `needs-review` означает, что проект найден автоматически, но его реальное состояние нужно подтвердить вручную.',
-    '',
-    '## Статусы',
-    '',
-    '- `active` - используется сейчас.',
-    '- `experiment` - гипотеза или временный тест.',
-    '- `archive` - больше не используется, но оставлен для истории.',
-    '- `needs-review` - статус пока неизвестен.',
-    '',
-    '## Как обновлять',
-    '',
-    'При разборе проекта меняем `Status` и дополняем `Notes`: где используется, кто владелец, можно ли архивировать, есть ли связанные задачи.',
-    '',
-    'Автоматическое обновление списка проектов:',
-    '',
-    '```bash',
-    'npm run update:catalog',
-    '```',
-    '',
-    'Скрипт сохраняет ручные значения `Status` и `Notes` для уже известных путей.',
-    '',
-    '## Проекты',
-    '',
-    '| Path | Name | Area | Status | Entry | Match | Notes |',
-    '|---|---|---|---|---|---|---|',
+    "# Каталог проектов",
+    "",
+    "Этот файл фиксирует текущие mini-experiments в репозитории. Статус `needs-review` означает, что проект найден автоматически, но его реальное состояние нужно подтвердить вручную.",
+    "",
+    "## Статусы",
+    "",
+    "- `active` - используется сейчас.",
+    "- `experiment` - гипотеза или временный тест.",
+    "- `archive` - больше не используется, но оставлен для истории.",
+    "- `needs-review` - статус пока неизвестен.",
+    "",
+    "## Как обновлять",
+    "",
+    "При разборе проекта меняем `Status` и дополняем `Notes`: где используется, кто владелец, можно ли архивировать, есть ли связанные задачи.",
+    "",
+    "Автоматическое обновление списка проектов:",
+    "",
+    "```bash",
+    "npm run update:catalog",
+    "```",
+    "",
+    "Скрипт сохраняет ручные значения `Status` и `Notes` для уже известных путей.",
+    "",
+    "## Проекты",
+    "",
+    "| Path | Name | Area | Status | Entry | Match | Notes |",
+    "|---|---|---|---|---|---|---|",
   ];
 
   for (const project of projects) {
     const existing = existingRows.get(project.path);
-    const status = existing?.status || 'needs-review';
-    let notes = existing?.notes || '';
+    const status = existing?.status || "needs-review";
+    let notes = existing?.notes || "";
 
     if (hasSpaces(project.path)) {
-      notes = appendNote(notes, 'path has spaces');
+      notes = appendNote(notes, "path has spaces");
     }
 
     if (project.packageName && duplicateNames.get(project.packageName) > 1) {
-      notes = appendNote(notes, `project name duplicates \`${project.packageName}\``);
+      notes = appendNote(
+        notes,
+        `project name duplicates \`${project.packageName}\``,
+      );
     }
 
     if (project.packageName && !project.path.endsWith(project.packageName)) {
-      notes = appendNote(notes, 'project name does not match folder');
+      notes = appendNote(notes, "project name does not match folder");
     }
 
     if (project.hasExperimentConfig) {
-      notes = appendNote(notes, 'has experiment.config.json');
+      notes = appendNote(notes, "has experiment.config.json");
     }
 
     const row = [
@@ -157,14 +165,14 @@ function buildCatalog(projects, existingRows) {
       project.brandArea,
       status,
       `\`${project.entry}\``,
-      `\`${project.match.join(', ')}\``,
+      `\`${project.match.join(", ")}\``,
       notes,
     ];
 
-    lines.push(`| ${row.join(' | ')} |`);
+    lines.push(`| ${row.join(" | ")} |`);
   }
 
-  return `${lines.join('\n')}\n`;
+  return `${lines.join("\n")}\n`;
 }
 
 function main() {

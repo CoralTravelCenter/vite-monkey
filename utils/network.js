@@ -1,24 +1,29 @@
-import { endpointUrl } from './url.js';
+import { endpointUrl } from "./url.js";
+
+/** @param {string | URL} url @param {RequestInit} [options] */
+export async function requestJson(url, options = {}) {
+  const response = await fetch(url, options);
+  if (!response.ok) {
+    throw new Error(`API Error: ${response.status} ${response.statusText}`);
+  }
+  return response.json();
+}
 
 export async function doRequestToServer(endpoint, data, method = "POST") {
-    try {
-        const url = endpointUrl(endpoint);
-        const response = await fetch(url, {
-            method,
-            headers: {
-                "Content-Type": "application/json;charset=utf-8",
-            },
-            body: JSON.stringify(data),
-        });
-
-        if (!response.ok) {
-            console.error(`API Error: ${response.status} ${response.statusText} for ${endpoint}`);
-            throw new Error(`API Error: ${response.status} ${response.statusText}`);
-        }
-
-        return await response.json();
-    } catch (error) {
-        console.error(`Error in doRequestToServer for endpoint ${endpoint}:`, error);
-        throw error;
-    }
+  try {
+    const url = endpointUrl(endpoint);
+    return await requestJson(url, {
+      method,
+      headers: {
+        "Content-Type": "application/json;charset=utf-8",
+      },
+      body: JSON.stringify(data),
+    });
+  } catch (error) {
+    console.error(
+      `Error in doRequestToServer for endpoint ${endpoint}:`,
+      error,
+    );
+    throw error;
+  }
 }

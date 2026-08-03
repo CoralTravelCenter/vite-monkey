@@ -1,49 +1,49 @@
 #!/usr/bin/env node
 
-import fs from 'node:fs';
-import path from 'node:path';
-import readline from 'node:readline/promises';
-import {stdin as input, stdout as output} from 'node:process';
+import fs from "node:fs";
+import path from "node:path";
+import readline from "node:readline/promises";
+import { stdin as input, stdout as output } from "node:process";
 
-import {ROOT_DIR, buildProjectDir} from './lib/projects.js';
-const TEMPLATE_DIR = path.join(ROOT_DIR, 'templates', 'monkey-experiment');
+import { ROOT_DIR, buildProjectDir } from "./lib/projects.js";
+const TEMPLATE_DIR = path.join(ROOT_DIR, "templates", "monkey-experiment");
 
 const MATCH_PRESETS = {
-  coral: 'https://www.coral.ru/*',
-  sunmar: 'https://www.sunmar.ru/*',
-  both: 'https://www.coral.ru/*,https://www.sunmar.ru/*',
-  custom: '',
+  coral: "https://www.coral.ru/*",
+  sunmar: "https://www.sunmar.ru/*",
+  both: "https://www.coral.ru/*,https://www.sunmar.ru/*",
+  custom: "",
 };
 
 function parseArgs(argv) {
   const result = {
-    name: '',
-    brand: '',
-    match: '',
-    entry: '',
-    style: '',
+    name: "",
+    brand: "",
+    match: "",
+    entry: "",
+    style: "",
   };
 
   for (let i = 0; i < argv.length; i++) {
     const arg = argv[i];
 
-    if (arg === '--brand') {
-      result.brand = argv[++i] || '';
+    if (arg === "--brand") {
+      result.brand = argv[++i] || "";
       continue;
     }
 
-    if (arg === '--match') {
-      result.match = argv[++i] || '';
+    if (arg === "--match") {
+      result.match = argv[++i] || "";
       continue;
     }
 
-    if (arg === '--entry') {
-      result.entry = argv[++i] || '';
+    if (arg === "--entry") {
+      result.entry = argv[++i] || "";
       continue;
     }
 
-    if (arg === '--style') {
-      result.style = argv[++i] || '';
+    if (arg === "--style") {
+      result.style = argv[++i] || "";
       continue;
     }
 
@@ -59,38 +59,43 @@ function toKebabCase(value) {
   return value
     .trim()
     .toLowerCase()
-    .replace(/[^a-z0-9а-яё]+/gi, '-')
-    .replace(/^-+|-+$/g, '');
+    .replace(/[^a-z0-9а-яё]+/gi, "-")
+    .replace(/^-+|-+$/g, "");
 }
 
 function assertValidProjectName(name) {
   if (!name) {
-    throw new Error('Имя проекта не может быть пустым.');
+    throw new Error("Имя проекта не может быть пустым.");
   }
 
   if (!/^[a-z0-9][a-z0-9-]*[a-z0-9]$|^[a-z0-9]$/.test(name)) {
-    throw new Error('Имя проекта должно быть в kebab-case: только латиница, цифры и дефисы.');
+    throw new Error(
+      "Имя проекта должно быть в kebab-case: только латиница, цифры и дефисы.",
+    );
   }
 }
 
 function resolveTemplateFileName(fileName, replacements) {
   return fileName
-    .replaceAll('__ENTRY_FILE__', replacements.ENTRY_FILE)
-    .replaceAll('__STYLE_FILE__', replacements.STYLE_FILE);
+    .replaceAll("__ENTRY_FILE__", replacements.ENTRY_FILE)
+    .replaceAll("__STYLE_FILE__", replacements.STYLE_FILE);
 }
 
 function copyTemplate(sourceDir, targetDir, replacements) {
-  for (const entry of fs.readdirSync(sourceDir, {withFileTypes: true})) {
+  for (const entry of fs.readdirSync(sourceDir, { withFileTypes: true })) {
     const sourcePath = path.join(sourceDir, entry.name);
-    const targetPath = path.join(targetDir, resolveTemplateFileName(entry.name, replacements));
+    const targetPath = path.join(
+      targetDir,
+      resolveTemplateFileName(entry.name, replacements),
+    );
 
     if (entry.isDirectory()) {
-      fs.mkdirSync(targetPath, {recursive: true});
+      fs.mkdirSync(targetPath, { recursive: true });
       copyTemplate(sourcePath, targetPath, replacements);
       continue;
     }
 
-    let content = fs.readFileSync(sourcePath, 'utf8');
+    let content = fs.readFileSync(sourcePath, "utf8");
 
     for (const [token, value] of Object.entries(replacements)) {
       content = content.replaceAll(`__${token}__`, value);
@@ -103,23 +108,29 @@ function copyTemplate(sourceDir, targetDir, replacements) {
 function formatJsonArray(value) {
   return JSON.stringify(
     value
-      .split(',')
+      .split(",")
       .map((item) => item.trim())
       .filter(Boolean),
     null,
     2,
   )
-    .split('\n')
-    .map((line, index) => index === 0 ? line : `  ${line}`)
-    .join('\n');
+    .split("\n")
+    .map((line, index) => (index === 0 ? line : `  ${line}`))
+    .join("\n");
 }
 
-async function resolveOption(rl, currentValue, question, allowedValues, fallbackValue) {
-  const rawValue = currentValue || await rl.question(question);
+async function resolveOption(
+  rl,
+  currentValue,
+  question,
+  allowedValues,
+  fallbackValue,
+) {
+  const rawValue = currentValue || (await rl.question(question));
   const value = rawValue.trim().toLowerCase() || fallbackValue;
 
   if (!allowedValues.includes(value)) {
-    throw new Error(`Допустимые значения: ${allowedValues.join(', ')}.`);
+    throw new Error(`Допустимые значения: ${allowedValues.join(", ")}.`);
   }
 
   return value;
@@ -127,53 +138,63 @@ async function resolveOption(rl, currentValue, question, allowedValues, fallback
 
 async function main() {
   const args = parseArgs(process.argv.slice(2));
-  const rl = readline.createInterface({input, output});
+  const rl = readline.createInterface({ input, output });
 
   try {
-    const rawName = args.name || await rl.question('Имя эксперимента в kebab-case: ');
+    const rawName =
+      args.name || (await rl.question("Имя эксперимента в kebab-case: "));
     const projectName = toKebabCase(rawName);
     assertValidProjectName(projectName);
 
-    const rawBrand = args.brand || await rl.question('Площадка [coral/sunmar/both/custom]: ');
-    const brand = rawBrand.trim().toLowerCase() || 'coral';
+    const rawBrand =
+      args.brand ||
+      (await rl.question("Площадка [coral/sunmar/both/custom]: "));
+    const brand = rawBrand.trim().toLowerCase() || "coral";
 
     if (!Object.hasOwn(MATCH_PRESETS, brand)) {
-      throw new Error('Площадка должна быть одной из: coral, sunmar, both, custom.');
+      throw new Error(
+        "Площадка должна быть одной из: coral, sunmar, both, custom.",
+      );
     }
 
     let match = args.match || MATCH_PRESETS[brand];
 
-    if (brand === 'custom' && !match) {
-      match = await rl.question('match URL, можно несколько через запятую: ');
+    if (brand === "custom" && !match) {
+      match = await rl.question("match URL, можно несколько через запятую: ");
     }
 
     if (!match.trim()) {
-      throw new Error('match URL не может быть пустым.');
+      throw new Error("match URL не может быть пустым.");
     }
 
     const projectDir = buildProjectDir(projectName, brand);
 
     if (fs.existsSync(projectDir)) {
-      throw new Error(`Папка ${path.relative(ROOT_DIR, projectDir)} уже существует.`);
+      throw new Error(
+        `Папка ${path.relative(ROOT_DIR, projectDir)} уже существует.`,
+      );
     }
 
     const entry = await resolveOption(
       rl,
       args.entry,
-      'Entry file [main/home]: ',
-      ['main', 'home'],
-      'main',
+      "Entry file [main/home]: ",
+      ["main", "home"],
+      "main",
     );
     const style = await resolveOption(
       rl,
       args.style,
-      'Style format [css/scss]: ',
-      ['css', 'scss'],
-      'css',
+      "Style format [css/scss]: ",
+      ["css", "scss"],
+      "css",
     );
 
-    fs.mkdirSync(projectDir, {recursive: true});
-    const projectPath = path.relative(ROOT_DIR, projectDir).split(path.sep).join('/');
+    fs.mkdirSync(projectDir, { recursive: true });
+    const projectPath = path
+      .relative(ROOT_DIR, projectDir)
+      .split(path.sep)
+      .join("/");
     copyTemplate(TEMPLATE_DIR, projectDir, {
       PROJECT_NAME: projectName,
       PROJECT_PATH: projectPath,
@@ -189,7 +210,7 @@ async function main() {
     console.log(`Папка: ${projectDir}`);
     console.log(`Entry: src/${entry}.js`);
     console.log(`Style: src/style.${style}`);
-    console.log('\nСледующие команды:');
+    console.log("\nСледующие команды:");
     console.log(`  npm run dev:experiment -- ${projectPath}`);
     console.log(`  npm run build:experiment -- ${projectPath}`);
   } finally {

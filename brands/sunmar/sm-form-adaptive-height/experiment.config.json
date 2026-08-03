@@ -1,6 +1,6 @@
 {
   "name": "sm-form-adaptive-height",
-  "entry": "src/home.js",
+  "entry": "src/main.js",
   "brand": "sunmar",
   "match": [
     "https://new.sunmar.ru/"

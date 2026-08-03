@@ -1,6 +1,6 @@
 {
   "name": "ym-test",
-  "entry": "src/home.js",
+  "entry": "src/main.js",
   "brand": "coral",
   "match": [
     "https://www.coral.ru/preview/1c107d6f-4240-4adc-88e4-30b0ff8563da/ru-RU/"

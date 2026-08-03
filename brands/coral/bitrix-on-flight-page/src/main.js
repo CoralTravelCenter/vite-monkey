@@ -12,7 +12,7 @@
 
   const scriptInner = "(function (w, d, u) {\nconst s = d.createElement('script')\ns.async = true\ns.src = u + '?' + ((Date.now() / 180000) | 0)\nconst h = d.getElementsByTagName('script')[0]\nh.parentNode.insertBefore(s, h)\n})\n(\nwindow,\ndocument,\n'https://cdn-ru.bitrix24.ru/b9730187/crm/form/loader_414.js'\n)";
 
-  async function waiteSelector(selector, timeout = 200) {
+  async function waitSelector(selector, timeout = 200) {
     return new Promise((resolve) => {
       const waiter = () => {
         const host_el = document.querySelector(selector);
@@ -51,12 +51,12 @@
   }
 
   if (isMobileDevice()) {
-    waiteSelector('#package-tour-flight-hotel-overview-heading-area').then(() => {
+    waitSelector('#package-tour-flight-hotel-overview-heading-area').then(() => {
       const container = document.querySelector("#package-tour-flight-hotel-overview-heading-area");
       if (container) {
         prependOnceLeadForm(container);
       }
-      waiteSelector(".b24-form-click-btn").then(() => {
+      waitSelector(".b24-form-click-btn").then(() => {
         const btn = document.querySelector(".b24-form-click-btn");
         if (btn) {
           btn.addEventListener("click", () => {

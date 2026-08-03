@@ -1,1 +1,1 @@
-export { CoralCookieObserver } from './coral-cookie-observer.js';
+export { CoralCookieObserver } from "./coral-cookie-observer.js";

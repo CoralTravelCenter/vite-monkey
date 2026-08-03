@@ -1,6 +1,6 @@
 {
   "name": "hello-banner-main-russia",
-  "entry": "src/home.js",
+  "entry": "src/main.js",
   "brand": "coral",
   "match": [
     "https://www.coral.ru/main/russia/"

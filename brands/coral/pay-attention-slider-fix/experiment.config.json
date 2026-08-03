@@ -1,6 +1,6 @@
 {
   "name": "pay-attention-slider-fix",
-  "entry": "src/home.js",
+  "entry": "src/main.js",
   "brand": "coral",
   "match": [
     "https://www.coral.ru/preview/360f3d83-7c9d-45d3-8fe0-1d77a98259db/ru-RU/"

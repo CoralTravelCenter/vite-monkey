@@ -1,8 +1,8 @@
 import markup from './markup.html?raw'
 import './style.css'
-import {awaitDomElement} from "@utils";
+import {waitForElement} from "@utils";
 
-const gallery = await awaitDomElement(
+const gallery = await waitForElement(
   '[class*="BannerHotelListCard_bannerHotelListCard__"]'
 );
 gallery.insertAdjacentHTML('beforebegin', markup)

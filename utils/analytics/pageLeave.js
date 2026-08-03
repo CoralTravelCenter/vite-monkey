@@ -1,9 +1,9 @@
 export function createExitTracker({
-                                    onExitIntent,
-                                    onLikelyLeave,
-                                    hasUnsavedChanges,
-                                    endpoint = "/analytics/exit",
-                                  }) {
+  onExitIntent,
+  onLikelyLeave,
+  hasUnsavedChanges,
+  endpoint = "/analytics/exit",
+}) {
   let exitIntentFired = false;
   let leaveSent = false;
 
