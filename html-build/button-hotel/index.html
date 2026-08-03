@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>button-hotel</title>
+  <script type="module" crossorigin>const i=`<div class="promo-badge">\r
+  <picture class="promo-badge__bg">\r
+    <source media="(max-width: 768px)" srcset="https://b2ccdn.sunmar.ru/content/img/_Badge_%20_Ribbonm.webp">\r
+    <img src="https://b2ccdn.sunmar.ru/content/img/_Badge_%20_Ribbon.webp" alt="Семейный номер">\r
+  </picture>\r
+\r
+  <div class="promo-badge__content">\r
+    <span class="promo-badge__title">Семейный номер:</span>\r
+    <span class="promo-badge__text">уютно каждому, не тесно никому</span>\r
+  </div>\r
+</div>`,a=["82010","947","12879","20518","4407","11051","4093","952","988","58628","11754","983","50000","125","9965","10796","127","8387","78607","54272","3928","64951","35893","2039","50797","1043","9515","47063","25536","33294","9824","7559"];async function s(){if(typeof window.hostReactAppReady=="function")try{await window.hostReactAppReady()}catch(t){console.error(t)}}async function d(){return new Promise(t=>{let e=0;const n=setInterval(()=>{const r=window.dataLayer||[];for(let o=e;o<r.length;o++)if(r[o]?.event==="view_item"){const c=r[o]?.ecommerce?.items?.[0]?.item_id;if(c)return clearInterval(n),t(c.toString())}e=r.length},300);setTimeout(()=>{clearInterval(n),t(null)},1e4)})}function l(){const t=new MutationObserver(()=>{const e=document.querySelector(".PhotoGalleryMainCarousel_mainSwiperContainer__CDJDk");if(!e||e.querySelector(".custom-injected-widget-wrapper"))return;const n=document.createElement("div");n.className="custom-injected-widget-wrapper",n.innerHTML=i,e.insertAdjacentElement("beforeend",n),t.disconnect()});t.observe(document.body,{childList:!0,subtree:!0})}(async function(){try{await s()}catch(e){console.error(e)}{const e=await d();e&&a.includes(e)&&l()}})();</script>
+  <style rel="stylesheet" crossorigin>.promo-badge{display:inline-flex;position:relative;font-family:Manrope,system-ui,-apple-system,sans-serif;color:#fff}.promo-badge__bg{display:block}.promo-badge__bg img{display:block;max-width:100%;height:auto}.promo-badge__content{position:absolute;top:0;left:0;width:100%;height:100%;display:flex;flex-direction:column;justify-content:center;padding:0 80px 0 16px;box-sizing:border-box}.promo-badge__title{font-size:18px;font-weight:700;line-height:1.1;margin-bottom:2px}.promo-badge__text{font-size:15px;font-weight:500;line-height:1.1}.PhotoGalleryMainCarousel_mainSwiperContainer__CDJDk{position:relative}.custom-injected-widget-wrapper{position:absolute;top:16px;left:16px;z-index:100;pointer-events:auto}@media(max-width:768px){.promo-badge__content{padding:0 60px 0 10px}.promo-badge__title{font-size:14px;margin-bottom:1px}.promo-badge__text{font-size:12px;max-width:167px}}</style>
+</head>
+<body>
+  <div id="widget-button-hotel"></div>
+</body>
+</html>
