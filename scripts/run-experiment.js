@@ -2,7 +2,6 @@
 
 import fs from "node:fs";
 import path from "node:path";
-import { spawnSync } from "node:child_process";
 import { minifySync } from "vite";
 
 import {
@@ -11,7 +10,7 @@ import {
   pathExists,
   resolveProjectDir,
 } from "./lib/projects.js";
-import { createRunnerViteConfig } from "./lib/vite.js";
+import { createRunnerViteConfig, runVite } from "./lib/vite.js";
 
 function parseArgs(argv) {
   const [command, projectPath] = argv;
@@ -41,45 +40,6 @@ function assertConfig(config) {
       "В experiment.config.json поле match должно быть непустым массивом.",
     );
   }
-}
-
-function getViteBin() {
-  const viteBin = path.join(ROOT_DIR, "node_modules", ".bin", "vite");
-
-  if (!pathExists(viteBin)) {
-    throw new Error(
-      "Vite не найден в корневом node_modules. Выполни npm install в корне репозитория.",
-    );
-  }
-
-  return viteBin;
-}
-
-function runVite(command, configPath) {
-  const viteBin = getViteBin();
-  const args =
-    command === "build"
-      ? ["build", "--config", configPath]
-      : ["--config", configPath];
-
-  const result = spawnSync(viteBin, args, {
-    cwd: ROOT_DIR,
-    stdio: "inherit",
-  });
-
-  if (result.error) {
-    console.error(
-      `\nКритическая ошибка при запуске Vite: ${result.error.message}`,
-    );
-    process.exitCode = 1;
-    return false;
-  }
-
-  if (result.status !== 0) {
-    process.exitCode = result.status || 1;
-  }
-
-  return result.status === 0;
 }
 
 function minifyUserscriptOutput(config) {
