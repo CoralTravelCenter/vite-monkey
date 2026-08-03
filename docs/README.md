@@ -231,14 +231,10 @@ import {
   asap,
   debounce,
   hostReactAppReady,
-  waitSelector,
   waitForCondition,
-  waitForLibrary,
-  waitForWindowVar,
   getMobileOS,
   getBrand,
   mediaMatcher,
-  isMobile,
   copyToClipboard,
   queryParam,
   endpointUrl,
@@ -265,7 +261,6 @@ import {
   sendYandexEventOnce,
   createDataLayerWatcher,
   loadScript,
-  vimeoAutoPlay,
   CoralCookieObserver,
 } from "./utils/index.js";
 ```
@@ -360,14 +355,6 @@ const host = await hostReactAppReady("#__next > div");
 console.log("React host ready:", host);
 ```
 
-#### `waitSelector(selector, timeout = 200)`
-
-Ожидает появления DOM-элемента.
-
-```js
-const gallery = await waitSelector('[class*="PhotoGalleryMainCarousel"]');
-```
-
 #### `waitForCondition(check, options)`
 
 Универсальное Promise-ожидание значения с интервалом, таймаутом и `AbortSignal`.
@@ -377,22 +364,6 @@ const api = await waitForCondition(() => window.partnerApi, {
   intervalMs: 200,
   timeoutMs: 10000,
 });
-```
-
-#### `waitForLibrary(getterFn, timeout = 200)`
-
-Периодически вызывает `getterFn`, пока тот не вернет truthy-значение.
-
-```js
-const Swiper = await waitForLibrary(() => window.Swiper);
-```
-
-#### `waitForWindowVar(name, intervalMs = 300)`
-
-Ждет переменную в `window`.
-
-```js
-const PopMechanic = await waitForWindowVar("PopMechanic");
 ```
 
 ### Environment
@@ -413,7 +384,7 @@ const os = getMobileOS();
 const brand = getBrand();
 ```
 
-#### `mediaMatcher(size, callback)`
+#### `mediaMatcher(size, callback, mode = "min")`
 
 Подписывает на media query `(min-width: ${size}px)`.
 
@@ -421,16 +392,14 @@ const brand = getBrand();
 mediaMatcher(768, (isDesktop) => {
   document.body.classList.toggle("is-desktop", isDesktop);
 });
-```
 
-#### `isMobile`
-
-Быстрый флаг по user-agent.
-
-```js
-if (isMobile) {
-  console.log("Mobile device");
-}
+mediaMatcher(
+  768,
+  (isMobile) => {
+    document.body.classList.toggle("is-mobile", isMobile);
+  },
+  "max",
+);
 ```
 
 ### Clipboard
@@ -797,24 +766,6 @@ const viewItem = await dataLayerWatcher.waitEvent("view_item");
 await loadScript("https://example.com/widget.js");
 ```
 
-#### `vimeoAutoPlay(observerOptions = {})`
-
-Находит элементы с `data-vimeo-vid`, подгружает Vimeo API и запускает/ставит на паузу видео по `IntersectionObserver`.
-
-HTML:
-
-```html
-<div data-vimeo-vid="123456789"></div>
-```
-
-JS:
-
-```js
-vimeoAutoPlay({
-  threshold: 0.5,
-});
-```
-
 ### Cookies
 
 #### `CoralCookieObserver`
@@ -864,7 +815,6 @@ import {
   waitForMutation,
   waitForIntersection,
   createDataLayerWatcher,
-  waitSelector,
   insertOnce,
   setLocalStorageWithExpiry,
   getLocalStorageWithExpiry,

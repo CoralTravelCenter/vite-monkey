@@ -34,10 +34,3 @@ export function loadScript(url, options = {}) {
   pendingScripts.set(url, promise);
   return promise;
 }
-
-/** @deprecated Use loadScript instead. */
-export async function preloadScript(url, callback) {
-  const script = await loadScript(url, { removeAfterLoad: true });
-  callback?.();
-  return script;
-}

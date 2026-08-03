@@ -8,6 +8,9 @@ import { ROOT_DIR } from "./lib/projects.js";
 const deprecated = [
   /\bawaitDomElement\b/,
   /\bwaiteSelector\b/,
+  /\bwaitSelector\b/,
+  /\bwaitForDLEvent\b/,
+  /\bwaitForWindowVar\b/,
   /\bpreloadScript\b/,
 ];
 const matches = [];

@@ -1,6 +1,6 @@
 import './style.scss';
 import MARKUP from './markup.html?raw';
-import {SimpleReactDomObserver} from "../../utils.js";
+import {getBrand, getMobileOS, insertOnce, reactDomObserver} from "@utils";
 import Hammer from 'hammerjs';
 import Cookies from 'js-cookie';
 
@@ -35,16 +35,6 @@ import Cookies from 'js-cookie';
   const CLOSED_COOKIE = 'wta_closed';
   const CLOSED_COOKIE_DAYS = 7;
 
-  // ===== вставка баннера =====
-  function insertOnce(target, position, html, marker = 'data-wta-inserted') {
-    if (!target) return null;
-    if (!target.hasAttribute(marker)) {
-      target.insertAdjacentHTML(position, html);
-      target.setAttribute(marker, '1');
-    }
-    return target.querySelector(SELECTORS.banner);
-  }
-
   function sendYM(event) {
     try {
       if (typeof window.ym === 'function') window.ym(YM_ID, 'reachGoal', event);
@@ -61,7 +51,8 @@ import Cookies from 'js-cookie';
   const placeToInsert = document.querySelector(SELECTORS.containerToInsert);
   if (!placeToInsert) return;
 
-  const banner = insertOnce(placeToInsert, 'afterbegin', MARKUP);
+  insertOnce(placeToInsert, 'afterbegin', MARKUP, 'welcome-to-app');
+  const banner = placeToInsert.querySelector(SELECTORS.banner);
   if (!banner) return;
 
   // проверка куки (раз в неделю)
@@ -73,20 +64,6 @@ import Cookies from 'js-cookie';
   }
 
   sendYM(YM_EVENTS.show);
-
-  function getMobileOS() {
-    const ua = navigator.userAgent || '';
-    if (/android/i.test(ua)) return 'android';
-    if (/iPad|iPhone|iPod/i.test(ua)) return 'iOS';
-    return 'other';
-  }
-
-  function getBrand() {
-    const host = location.host;
-    if (host.includes('sunmar')) return 'sunmar';
-    if (host.includes('coral')) return 'coral';
-    return null;
-  }
 
   const OS = getMobileOS();
   const BRAND = getBrand();
@@ -127,10 +104,9 @@ import Cookies from 'js-cookie';
   const containerResizeObserver = new ResizeObserver(updateLayout);
   containerResizeObserver.observe(placeToInsert);
 
-  const menuObserver = new SimpleReactDomObserver(SELECTORS.menuContainer, {
-    onAppear: updateLayout,
-  });
-  menuObserver.start();
+  reactDomObserver()
+    .observeSelector$(SELECTORS.menuContainer, {emitRemove: false})
+    .subscribe(updateLayout);
 
   updateLayout();
 

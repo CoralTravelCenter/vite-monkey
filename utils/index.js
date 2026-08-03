@@ -8,17 +8,8 @@ export {
   debounce,
   hostReactAppReady,
   waitForCondition,
-  waitSelector,
-  waiteSelector,
-  waitForLibrary,
-  waitForWindowVar,
 } from "./lifecycle.js";
-export {
-  getMobileOS,
-  getBrand,
-  mediaMatcher,
-  isMobile,
-} from "./environment.js";
+export { getMobileOS, getBrand, mediaMatcher } from "./environment.js";
 export { copyToClipboard } from "./clipboard.js";
 export { queryParam, endpointUrl, params2query } from "./url.js";
 export { getNextData } from "./next.js";

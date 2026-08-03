@@ -96,21 +96,3 @@ export async function hostReactAppReady(
     { intervalMs: timeout, timeoutMs: 0 },
   );
 }
-
-export async function waitSelector(selector, timeout = 200) {
-  return waitForCondition(() => document.querySelector(selector), {
-    intervalMs: timeout,
-    timeoutMs: 0,
-  });
-}
-
-// Backward compatibility with old typo in utils.js
-export const waiteSelector = waitSelector;
-
-export async function waitForLibrary(getterFn, timeout = 200) {
-  return waitForCondition(getterFn, { intervalMs: timeout, timeoutMs: 0 });
-}
-
-export function waitForWindowVar(name, intervalMs = 300) {
-  return waitForCondition(() => window[name], { intervalMs, timeoutMs: 0 });
-}

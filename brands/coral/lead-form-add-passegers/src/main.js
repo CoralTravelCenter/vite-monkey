@@ -1,50 +1,51 @@
-import scriptInner from './markup.html?raw'
-import './style.css'
-import {waitSelector} from "../../utils.js";
+import scriptInner from "./markup.html?raw";
+import "./style.css";
+import { waitForElement } from "@utils";
 
 function isMobileDevice() {
-	return /Mobi|Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
+  return /Mobi|Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
 }
 
 function createLeadFormBlock() {
-	const wrapper = document.createElement('div');
-	wrapper.classList.add('lead-form-bitrix-toogle');
-	wrapper.id = 'lead-form-bitrix-toggle';
+  const wrapper = document.createElement("div");
+  wrapper.classList.add("lead-form-bitrix-toogle");
+  wrapper.id = "lead-form-bitrix-toggle";
 
-	const span = document.createElement('span');
-	span.textContent = 'Оформим тур за вас! 💬';
+  const span = document.createElement("span");
+  span.textContent = "Оформим тур за вас! 💬";
 
-	const script = document.createElement('script');
-	script.setAttribute('data-b24-form', 'click/414/m4q4ey');
-	script.setAttribute('data-skip-moving', 'true');
-	script.innerHTML = scriptInner;
+  const script = document.createElement("script");
+  script.setAttribute("data-b24-form", "click/414/m4q4ey");
+  script.setAttribute("data-skip-moving", "true");
+  script.innerHTML = scriptInner;
 
-	wrapper.append(span, script);
-	return wrapper;
+  wrapper.append(span, script);
+  return wrapper;
 }
 
 function appendOnceLeadForm(container) {
-	if (!document.querySelector('#lead-form-bitrix-toggle')) {
-		container.appendChild(createLeadFormBlock());
-	}
+  if (!document.querySelector("#lead-form-bitrix-toggle")) {
+    container.appendChild(createLeadFormBlock());
+  }
 }
 
 if (isMobileDevice()) {
-	waitSelector('.ant-alert-success').then(() => {
-		const container = document.querySelector('.ant-alert-success')?.parentElement?.firstChild;
-		if (container) {
-			appendOnceLeadForm(container);
-		}
+  waitForElement(".ant-alert-success").then(() => {
+    const container =
+      document.querySelector(".ant-alert-success")?.parentElement?.firstChild;
+    if (container) {
+      appendOnceLeadForm(container);
+    }
 
-		const SEARCH_PARAMS = location.pathname;
+    const SEARCH_PARAMS = location.pathname;
 
-		waitSelector('.b24-form-click-btn').then(() => {
-			const btn = document.querySelector('.b24-form-click-btn');
-			if (btn) {
-				btn.addEventListener('click', () => {
-					ym(96674199, 'reachGoal', 'fill', {page: SEARCH_PARAMS});
-				});
-			}
-		});
-	});
+    waitForElement(".b24-form-click-btn").then(() => {
+      const btn = document.querySelector(".b24-form-click-btn");
+      if (btn) {
+        btn.addEventListener("click", () => {
+          ym(96674199, "reachGoal", "fill", { page: SEARCH_PARAMS });
+        });
+      }
+    });
+  });
 }

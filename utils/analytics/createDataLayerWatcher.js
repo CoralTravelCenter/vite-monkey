@@ -55,23 +55,24 @@ export const createDataLayerWatcher = (options = {}) => {
 
   const waitEvent = (eventName, waitOptions = {}) => {
     const { timeoutMs = 10000 } = waitOptions;
+    const source$ = waitEvent$(eventName);
 
     return firstValueFrom(
-      event$(eventName).pipe(take(1), timeout({ first: timeoutMs })),
+      timeoutMs > 0 ? source$.pipe(timeout({ first: timeoutMs })) : source$,
     );
   };
 
   const waitFreshEvent = (eventName, waitOptions = {}) => {
     const { timeoutMs = 10000 } = waitOptions;
-    return firstValueFrom(
-      dataLayer$.pipe(
-        filter(
-          ({ item, source }) => source === "push" && item.event === eventName,
-        ),
-        map(({ item }) => item),
-        take(1),
-        timeout({ first: timeoutMs }),
+    const source$ = dataLayer$.pipe(
+      filter(
+        ({ item, source }) => source === "push" && item.event === eventName,
       ),
+      map(({ item }) => item),
+      take(1),
+    );
+    return firstValueFrom(
+      timeoutMs > 0 ? source$.pipe(timeout({ first: timeoutMs })) : source$,
     );
   };
 

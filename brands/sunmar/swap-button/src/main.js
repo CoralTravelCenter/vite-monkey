@@ -1,5 +1,5 @@
 import  "./style.css";
-import {waitForElement} from "../../../../utils/index.js";
+import {waitForElement} from "@utils";
 import {createDesktopButton} from "./scripts/createDesktopButton.js";
 import {initSwapAnimation} from "./scripts/initSwapAnimations.js";
 

@@ -1,3 +1,5 @@
+import { waitForElement } from "@utils";
+
 (t => {
   if (typeof GM_addStyle == "function") {
     GM_addStyle(t);
@@ -11,20 +13,6 @@
   'use strict';
 
   const scriptInner = "(function (w, d, u) {\nconst s = d.createElement('script')\ns.async = true\ns.src = u + '?' + ((Date.now() / 180000) | 0)\nconst h = d.getElementsByTagName('script')[0]\nh.parentNode.insertBefore(s, h)\n})\n(\nwindow,\ndocument,\n'https://cdn-ru.bitrix24.ru/b9730187/crm/form/loader_414.js'\n)";
-
-  async function waitSelector(selector, timeout = 200) {
-    return new Promise((resolve) => {
-      const waiter = () => {
-        const host_el = document.querySelector(selector);
-        if (host_el) {
-          resolve();
-        } else {
-          setTimeout(waiter, timeout);
-        }
-      };
-      waiter();
-    });
-  }
 
   function isMobileDevice() {
     return /Mobi|Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
@@ -51,12 +39,12 @@
   }
 
   if (isMobileDevice()) {
-    waitSelector('#package-tour-flight-hotel-overview-heading-area').then(() => {
+    waitForElement('#package-tour-flight-hotel-overview-heading-area').then(() => {
       const container = document.querySelector("#package-tour-flight-hotel-overview-heading-area");
       if (container) {
         prependOnceLeadForm(container);
       }
-      waitSelector(".b24-form-click-btn").then(() => {
+      waitForElement(".b24-form-click-btn").then(() => {
         const btn = document.querySelector(".b24-form-click-btn");
         if (btn) {
           btn.addEventListener("click", () => {

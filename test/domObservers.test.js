@@ -3,6 +3,7 @@ import test from "node:test";
 
 import { waitForIntersection } from "../utils/dom/intersection.js";
 import { waitForElement, waitForMutation } from "../utils/dom/mutation.js";
+import { waitUntilElementsGone } from "../utils/dom/waitUntilElementsGone.js";
 
 class FakeMutationObserver {
   static latest;
@@ -63,6 +64,22 @@ test("waitForMutation applies a predicate", async () => {
   FakeMutationObserver.latest.emit([{}]);
   FakeMutationObserver.latest.emit([{}, {}]);
   assert.equal((await promise).length, 2);
+});
+
+test("waitUntilElementsGone reuses the mutation promise", async () => {
+  const visible = new Set([".required"]);
+  globalThis.document = {
+    body: {},
+    querySelector: (selector) => (visible.has(selector) ? {} : null),
+  };
+  let completed = false;
+  const promise = waitUntilElementsGone({ required: [".required"] }, () => {
+    completed = true;
+  });
+  visible.clear();
+  FakeMutationObserver.latest.emit([{}]);
+  await promise;
+  assert.equal(completed, true);
 });
 
 test("waitForIntersection resolves the first visible entry", async () => {
