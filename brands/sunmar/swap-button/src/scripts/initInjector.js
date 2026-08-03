@@ -1,23 +1,37 @@
 import markup from '../markup.html?raw';
+import { initMobileButton } from './initMobile.js';
 import { sendMetric } from './metrics.js';
 
+let injectorObserver = null;
+
+function createDesktopButton() {
+    const wrapper = document.createElement('div');
+    wrapper.className = 'desktop-swap-wrapper';
+    wrapper.innerHTML = markup.trim();
+
+    const link = wrapper.querySelector('.swap-button');
+    link?.addEventListener('click', () => {
+        sendMetric('PC');
+    });
+
+    return wrapper;
+}
+
 function ensureButtonsExist() {
-    const desktopHeader = document.querySelector('[class*="HeaderMenuBar_container"] > div');
+    const desktopHeader = document.querySelector(
+        '[class*="HeaderMenuBar_container"] > div',
+    );
 
-    if (desktopHeader && !document.querySelector('.desktop-swap-wrapper')) {
-        const wrapper = document.createElement('div');
-        wrapper.className = 'desktop-swap-wrapper';
-        wrapper.innerHTML = markup;
+    const desktopButtonExists = desktopHeader
+        ? Array.from(desktopHeader.children).some((element) =>
+            element.classList.contains('desktop-swap-wrapper'),
+        )
+        : false;
 
-        const link = wrapper.querySelector('.swap-button');
-        if (link && !link.dataset.goalBound) {
-            link.dataset.goalBound = 'true';
-            link.addEventListener('click', () => {
-                sendMetric('PC');
-            });
-        }
-
+    if (desktopHeader && !desktopButtonExists) {
+        const wrapper = createDesktopButton();
         const lastChild = desktopHeader.lastElementChild;
+
         if (lastChild) {
             desktopHeader.insertBefore(wrapper, lastChild);
         } else {
@@ -28,39 +42,33 @@ function ensureButtonsExist() {
     initMobileButton(markup);
 }
 
-export function initInjector() {
-    ensureButtonsExist();
-    setInterval(ensureButtonsExist, 1000);
-}
-
-export function initMobileButton(markup) {
-    const logoContainer = document.querySelector('[class*="HeaderMobile_headerLogo"]');
-
-    if (logoContainer && !document.querySelector('.mobile-swap-wrapper')) {
-        const wrapper = document.createElement('div');
-        wrapper.className = 'mobile-swap-wrapper';
-        wrapper.innerHTML = markup;
-
-        const link = wrapper.querySelector('.swap-button');
-        if (link && !link.dataset.goalBound) {
-            link.dataset.goalBound = 'true';
-            link.addEventListener('click', () => {
-                sendMetric('mobile');
-            });
-        }
-
-        logoContainer.after(wrapper);
+function safelyEnsureButtonsExist() {
+    try {
+        ensureButtonsExist();
+    } catch (error) {
+        console.error('Ошибка внедрения блока:', error);
     }
 }
 
-export function initSwapAnimation() {
-    setInterval(() => {
-        const swapButtons = document.querySelectorAll('.swap-button');
+export function initInjector() {
+    if (injectorObserver !== null) {
+        return;
+    }
 
-        if (swapButtons.length > 0) {
-            swapButtons.forEach((button) => {
-                button.classList.toggle('is-swapped');
-            });
-        }
-    }, 2000);
+    safelyEnsureButtonsExist();
+
+    try {
+        const observer = new MutationObserver(() => {
+            safelyEnsureButtonsExist();
+        });
+
+        observer.observe(document.documentElement, {
+            childList: true,
+            subtree: true,
+        });
+
+        injectorObserver = observer;
+    } catch (error) {
+        console.error('Ошибка запуска MutationObserver:', error);
+    }
 }

@@ -1,11 +1,16 @@
-export function initSwapAnimation() {
-    setInterval(() => {
-        const swapButtons = document.querySelectorAll('.swap-button');
+const SWAP_INTERVAL_MS = 2000;
+let animationIntervalId = null;
+let isSwapped = false;
 
-        if (swapButtons.length > 0) {
-            swapButtons.forEach((button) => {
-                button.classList.toggle('is-swapped');
-            });
-        }
-    }, 2000);
+export function initSwapAnimation() {
+    if (animationIntervalId !== null) {
+        return;
+    }
+
+    animationIntervalId = window.setInterval(() => {
+        isSwapped = !isSwapped;
+        document.querySelectorAll('.swap-button').forEach((button) => {
+            button.classList.toggle('is-swapped', isSwapped);
+        });
+    }, SWAP_INTERVAL_MS);
 }

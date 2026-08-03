@@ -19,8 +19,8 @@ div[class*="HeaderMobile_rightGroup"] {
     width: 100%;
     height: 100%;
     transition: opacity 0.5s ease-in-out;
-    /* Скругление перенесли сюда */
     border-radius: 50px;
+    overflow: hidden;
 }
 
 .swap-button picture img {
@@ -58,7 +58,7 @@ div[class*="HeaderMobile_rightGroup"] {
     transition: transform 0.3s cubic-bezier(0.645, 0.045, 0.355, 1);
 }
 
-.HeaderMenuBar_container__KIGJj:has(#none-product-search-input) .desktop-swap-wrapper {
+[class*="HeaderMenuBar_container"]:has(#none-product-search-input) .desktop-swap-wrapper {
     transform: translateX(-160px);
 }
 
@@ -71,14 +71,14 @@ div[class*="HeaderMobile_rightGroup"] {
         display: none;
     }
 
-    .HeaderMobile_header__AoLKy {
+    [class*="HeaderMobile_header__"] {
         position: relative;
         display: flex;
         align-items: center;
         justify-content: space-between;
     }
 
-    .HeaderMobile_headerLogo__Zsc_z {
+    [class*="HeaderMobile_headerLogo"] {
         position: absolute;
         left: 50%;
         transform: translateX(-50%);
@@ -94,13 +94,6 @@ div[class*="HeaderMobile_rightGroup"] {
         margin-left: auto;
         margin-right: 8px;
         padding: 0;
-    }
-
-    .mobile-swap-wrapper .desktop-swap-wrapper {
-        display: block !important;
-        width: 100% !important;
-        height: 100% !important;
-        margin: 0 !important;
     }
 
     .mobile-swap-wrapper .swap-button {
