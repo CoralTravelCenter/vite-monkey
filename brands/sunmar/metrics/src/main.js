@@ -1,10 +1,10 @@
 import {sendMetric} from "./scripts/metric.js";
-import {awaitDomElement} from "@utils";
+import {waitForElement} from "@utils";
 
 try {
   (async function promotionMetric() {
     const selector = 'a.promo-card__link[href*="offers-eb-zima2027"]';
-    const link = await awaitDomElement(selector);
+    const link = await waitForElement(selector);
 
     if (!link) {
       return;

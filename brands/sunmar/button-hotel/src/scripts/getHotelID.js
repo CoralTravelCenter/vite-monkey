@@ -1,24 +1,14 @@
+import { waitForElement } from '@utils';
+
 export async function getHotelId() {
-    return new Promise((resolve) => {
-        let cursor = 0;
+    try {
+        await waitForElement('.hotel-container');
 
-        const timer = setInterval(() => {
-            const dl = window.dataLayer || [];
-            for (let i = cursor; i < dl.length; i++) {
-                if (dl[i]?.event === 'view_item') {
-                    const id = dl[i]?.ecommerce?.items?.[0]?.item_id;
-                    if (id) {
-                        clearInterval(timer);
-                        return resolve(id.toString());
-                    }
-                }
-            }
-            cursor = dl.length;
-        }, 300);
+        const dl = window.dataLayer || [];
+        const event = dl.find(item => item?.event === 'view_item');
 
-        setTimeout(() => {
-            clearInterval(timer);
-            resolve(null);
-        }, 10000);
-    });
+        return event?.ecommerce?.items?.[0]?.item_id?.toString() || null;
+    } catch (error) {
+        return null;
+    }
 }

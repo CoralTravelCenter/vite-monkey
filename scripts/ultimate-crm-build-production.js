@@ -63,6 +63,11 @@ import {viteSingleFile} from 'vite-plugin-singlefile';
 
 export default defineConfig({
   root: ${JSON.stringify(config.projectDir)},
+  resolve: {
+    alias: {
+      '@utils': ${JSON.stringify(path.join(ROOT_DIR, "utils"))},
+    },
+  },
   plugins: [viteSingleFile()],
   build: {
     outDir: ${JSON.stringify(outDir)},
