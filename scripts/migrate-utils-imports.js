@@ -7,7 +7,8 @@ import { ROOT_DIR } from "./lib/projects.js";
 
 const replacements = [
   [/\bawaitDomElement\b/g, "waitForElement"],
-  [/\bwaiteSelector\b/g, "waitSelector"],
+  [/\bwaiteSelector\b/g, "waitForElement"],
+  [/\bwaitSelector\b/g, "waitForElement"],
   [/\bpreloadScript\b/g, "loadScript"],
 ];
 

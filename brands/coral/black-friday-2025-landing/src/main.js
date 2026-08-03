@@ -4,6 +4,7 @@ import plate from './markup/plate.html?raw';
 import contacts from './markup/contacts.html?raw';
 import podborka from './markup/podborka.html?raw';
 import './style.css';
+import {hostReactAppReady} from '@utils';
 
 const markup = kv + text + plate + podborka + contacts;
 document.querySelector('#monkey-app').insertAdjacentHTML('afterbegin', markup)
@@ -438,17 +439,6 @@ window._toursByCountry = [
     ],
   },
 ];
-
-async function hostReactAppReady(selector = "#__next > div", timeout = 300) {
-  return new Promise((resolve) => {
-    const waiter = () => {
-      const host_el = document.querySelector(selector);
-      if (host_el?.getBoundingClientRect().height) resolve();
-      else setTimeout(waiter, timeout);
-    };
-    waiter();
-  });
-}
 
 /* ===========================
  *СЕТЕВОЙ СЛОЙ (DOM-нечувствительный)

@@ -1,4 +1,4 @@
-import {copyToClipboard} from "./utils.js";
+import {copyToClipboard} from "@utils";
 
 export class Tooltip {
 	constructor(container, settings) {
@@ -49,7 +49,7 @@ export class Tooltip {
 		});
 
 		this.tooltip.querySelector('[data-copy-code]').addEventListener('click', () => {
-			copyToClipboard(this.tooltip.querySelector('.erid'))
+			copyToClipboard(this.tooltip.querySelector('.erid')?.textContent || '')
 		})
 	}
 }

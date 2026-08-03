@@ -1,11 +1,6 @@
 import './main.css'
 import markup from './main.html?raw'
+import {insertOnce} from '@utils'
 
 const placeInDOM = document.querySelector('section.benefits')
-function insertOnce(position, parent, html) {
-	const parentElement = parent.parentElement
-	if (parentElement.hasAttribute('inserted')) return
-	parent.insertAdjacentHTML(position, html)
-	parentElement.setAttribute('inserted', true)
-}
-insertOnce('afterend', placeInDOM, markup)
+insertOnce(placeInDOM, 'afterend', markup, 'hello-banner-main-russia')

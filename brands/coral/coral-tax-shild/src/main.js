@@ -60,7 +60,7 @@ const HTML_TEMPLATE = `
 			if (location.pathname.includes('bahrain')) {
 				const mobileWidthMediaQuery = window.matchMedia('(max-width: 768px)')
 
-				function mediaMatcher(isMobileSize) {
+				function applyMediaLayout(isMobileSize) {
 					if (isMobileSize) {
 						const DOM_place_mobile = document.querySelectorAll('.target-departure');
 						DOM_place_mobile.forEach(el => {
@@ -73,14 +73,13 @@ const HTML_TEMPLATE = `
 					}
 				}
 
-				mediaMatcher(mobileWidthMediaQuery.matches)
+				applyMediaLayout(mobileWidthMediaQuery.matches)
 				mobileWidthMediaQuery.addEventListener('change', (e) => {
-					mediaMatcher(e.matches)
+					applyMediaLayout(e.matches)
 				})
 			}
 		});
 	});
 })();
-
 
 

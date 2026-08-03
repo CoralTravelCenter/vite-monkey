@@ -1,18 +1,18 @@
-import './style-for-hotel-shild.scss';
-import './popover.scss';
-import 'tippy.js/dist/tippy.css';
-import trigger from './trigger.html?raw';
-import svgIcon from './icon.html?raw';
-import {ReactDomObserver, waitForDLEvent} from '../../utils.js';
+import "./style-for-hotel-shild.scss";
+import "./popover.scss";
+import "tippy.js/dist/tippy.css";
+import trigger from "./trigger.html?raw";
+import svgIcon from "./icon.html?raw";
+import { createDataLayerWatcher, reactDomObserver } from "@utils";
 import tippy from "tippy.js";
 // --- КОНСТАНТЫ / УТИЛИТЫ ---
 
-const HOTEL_CARD_SELECTOR = '#hotelDetailSummaryCard';
-const BONUS_CONTAINER_SELECTOR = '.coral-bonus';
-const BONUS_TRIGGER_ID = '#bonus-trigger';
+const HOTEL_CARD_SELECTOR = "#hotelDetailSummaryCard";
+const BONUS_CONTAINER_SELECTOR = ".coral-bonus";
+const BONUS_TRIGGER_ID = "#bonus-trigger";
 
 const METRIKA_COUNTER_ID = 96674199;
-const METRIKA_GOAL = 'view_hotel_bf25';
+const METRIKA_GOAL = "view_hotel_bf25";
 
 const hotelIndex = new Map();
 
@@ -20,21 +20,21 @@ const hotelIndex = new Map();
  * Мапа: название акции → ссылка
  */
 const PROMO_URLS = {
-  'Добро пожаловать':
-    'https://www.coral.ru/poleznaya-informatsiya/offers/akciya-dobro-pozhalovat/?banner_on_site=cb-dobro-pozhalovat&erid=2W5zFJN6fz8',
-  'Сокровища Востока':
-    'https://www.coral.ru/poleznaya-informatsiya/offers/aktsiya-sokrovischa-vostoka/?banner_on_site=cb-aktsiya-sokrovischa-vostoka&erid=2W5zFHYpsWY',
-  'Первым рейсом':
-    'https://www.coral.ru/poleznaya-informatsiya/offers/aktsiya-pervym-rejsom/?banner_on_site=cb-pervym-rejsom&erid=2W5zFFyD5wN',
-  'На волне доверия':
-    'https://www.coral.ru/poleznaya-informatsiya/offers/aktsiya-na-volne-doveriya/?banner_on_site=cb-akciya-na-volne&erid=2W5zFGXpp8x',
+  "Добро пожаловать":
+    "https://www.coral.ru/poleznaya-informatsiya/offers/akciya-dobro-pozhalovat/?banner_on_site=cb-dobro-pozhalovat&erid=2W5zFJN6fz8",
+  "Сокровища Востока":
+    "https://www.coral.ru/poleznaya-informatsiya/offers/aktsiya-sokrovischa-vostoka/?banner_on_site=cb-aktsiya-sokrovischa-vostoka&erid=2W5zFHYpsWY",
+  "Первым рейсом":
+    "https://www.coral.ru/poleznaya-informatsiya/offers/aktsiya-pervym-rejsom/?banner_on_site=cb-pervym-rejsom&erid=2W5zFFyD5wN",
+  "На волне доверия":
+    "https://www.coral.ru/poleznaya-informatsiya/offers/aktsiya-na-volne-doveriya/?banner_on_site=cb-akciya-na-volne&erid=2W5zFGXpp8x",
 };
 
 function normalizePromotions(promotions) {
   if (!Array.isArray(promotions) || promotions.length === 0) return [];
 
   return promotions
-    .map(promoObj => {
+    .map((promoObj) => {
       const [name, rawValue] = Object.entries(promoObj || {})[0] || [];
       const amount = Number(rawValue) || 0;
 
@@ -44,16 +44,16 @@ function normalizePromotions(promotions) {
         url: PROMO_URLS[name] || null,
       };
     })
-    .filter(p => p.name && p.amount > 0);
+    .filter((p) => p.name && p.amount > 0);
 }
 
 /**
  * Форматирование суммы в валюту
  */
 function formatCurrency(value) {
-  return new Intl.NumberFormat('ru-RU', {
-    style: 'currency',
-    currency: 'RUB',
+  return new Intl.NumberFormat("ru-RU", {
+    style: "currency",
+    currency: "RUB",
     maximumFractionDigits: 0,
   }).format(value);
 }
@@ -64,10 +64,10 @@ function formatCurrency(value) {
 function buildHotelIndex(data) {
   if (!Array.isArray(data)) return;
 
-  data.forEach(country => {
+  data.forEach((country) => {
     if (!country?.hotels) return;
 
-    country.hotels.forEach(hotel => {
+    country.hotels.forEach((hotel) => {
       if (!hotel?.id) return;
       hotelIndex.set(Number(hotel.id), hotel);
     });
@@ -114,15 +114,15 @@ function buildBonusTooltipHtml(promotions) {
 
   const rowsHtml = hasPromos
     ? normalizedPromos
-      .map(promo => {
-        return `
+        .map((promo) => {
+          return `
             <div class="row">
               <b>+ ${promo.amount} бонусов</b><a href="${promo.url}" target="_blank" rel="noopener noreferrer" class="bonus-link">по акции «${promo.name}»</a>
             </div>
           `;
-      })
-      .join('')
-    : '';
+        })
+        .join("")
+    : "";
   return `
     <div id="bonus-tip" class="bonus-tooltip">
       <div class="bonus-content">
@@ -144,11 +144,14 @@ function buildBonusTooltipHtml(promotions) {
 function insertBonusTrigger(container) {
   const firstChildElement = container.firstElementChild || container.firstChild;
 
-  const icon = firstChildElement?.querySelector('.anticon');
+  const icon = firstChildElement?.querySelector(".anticon");
   if (icon) icon.innerHTML = svgIcon;
 
-  if (firstChildElement && typeof firstChildElement.insertAdjacentHTML === 'function') {
-    firstChildElement.insertAdjacentHTML('beforeend', trigger);
+  if (
+    firstChildElement &&
+    typeof firstChildElement.insertAdjacentHTML === "function"
+  ) {
+    firstChildElement.insertAdjacentHTML("beforeend", trigger);
   }
 }
 
@@ -156,7 +159,7 @@ function insertBonusTrigger(container) {
  * Обновление текста с суммой кешбэка
  */
 function setBonusValue(container, totalBonus) {
-  const spans = container.querySelectorAll('span');
+  const spans = container.querySelectorAll("span");
   const priceContainer = spans[2];
 
   if (!priceContainer) return;
@@ -178,8 +181,8 @@ function initBonusTooltip(container, promotions) {
     content,
     allowHTML: true,
     interactive: true,
-    theme: 'bf',
-    placement: 'top',
+    theme: "bf",
+    placement: "top",
   });
 }
 
@@ -187,7 +190,9 @@ function initBonusTooltip(container, promotions) {
  * Основная логика при появлении карточки отеля
  */
 async function handleHotelCardAppear(el) {
-  const DL = await waitForDLEvent('view_item', 300);
+  const DL = await createDataLayerWatcher().waitEvent("view_item", {
+    timeoutMs: 0,
+  });
   const item = DL?.ecommerce?.items?.[0];
 
   if (!item) return;
@@ -204,11 +209,11 @@ async function handleHotelCardAppear(el) {
     return;
   }
 
-  ym(METRIKA_COUNTER_ID, 'reachGoal', METRIKA_GOAL, {
+  ym(METRIKA_COUNTER_ID, "reachGoal", METRIKA_GOAL, {
     name_hotel: productName,
   });
 
-  el.setAttribute('data-promotion', 'BlackFriday');
+  el.setAttribute("data-promotion", "BlackFriday");
 
   const bonusContainer = el.querySelector(BONUS_CONTAINER_SELECTOR);
   if (!bonusContainer) return;
@@ -226,8 +231,8 @@ async function handleHotelCardAppear(el) {
  */
 buildHotelIndex(window._blackPromotion || []);
 
-new ReactDomObserver(HOTEL_CARD_SELECTOR, {
-  onAppear(el) {
-    handleHotelCardAppear(el).catch(console.error);
-  },
-}).start();
+reactDomObserver()
+  .observeSelector$(HOTEL_CARD_SELECTOR, { emitRemove: false })
+  .subscribe(({ element }) => {
+    void handleHotelCardAppear(element).catch(console.error);
+  });

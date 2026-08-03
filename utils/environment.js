@@ -11,13 +11,8 @@ export function getBrand() {
   return null;
 }
 
-export function mediaMatcher(size, callback) {
-  const mobileWidthMediaQuery = window.matchMedia(`(min-width: ${size}px)`);
+export function mediaMatcher(size, callback, mode = "min") {
+  const mobileWidthMediaQuery = window.matchMedia(`(${mode}-width: ${size}px)`);
   callback(mobileWidthMediaQuery.matches);
   mobileWidthMediaQuery.addEventListener("change", (e) => callback(e.matches));
 }
-
-export const isMobile =
-  /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(
-    navigator.userAgent,
-  );

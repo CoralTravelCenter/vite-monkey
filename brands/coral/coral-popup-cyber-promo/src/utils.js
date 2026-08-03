@@ -21,19 +21,6 @@ export function runOncePerDay(callback) {
 	callback(); // Выполняем колбэк, если куки не установлены
 }
 
-export function mediaMatcher(size, callback) {
-	const mobileWidthMediaQuery = window.matchMedia(`(max-width: ${size}px)`);
-	callback(mobileWidthMediaQuery.matches);
-	mobileWidthMediaQuery.addEventListener('change', e => callback(e.matches));
-}
-
-export function insertOnce(element, parentElement) {
-	if (parentElement && !parentElement.hasAttribute('data-inserted')) {
-		parentElement.append(element)
-		parentElement.setAttribute('data-inserted', 'true')
-	}
-}
-
 export function vimeoPopupAutoPlay(target) {
 	const vimeo = new Player(target, {
 		id: target.getAttribute('data-vimeo'),

@@ -2,20 +2,7 @@ import MicroModal from "micromodal";
 import { pop_up_manager } from "@/popup.settings";
 import Bubble from "@/components/Bubble";
 import Modal from "@/components/Modal";
-
-async function hostReactAppReady(selector = "#__next > div", timeout = 500) {
-	return new Promise((resolve) => {
-		const waiter = () => {
-			const host_el = document.querySelector(selector);
-			if (host_el?.getBoundingClientRect().height) {
-				resolve();
-			} else {
-				setTimeout(waiter, timeout);
-			}
-		};
-		waiter();
-	});
-}
+import { hostReactAppReady } from "@utils";
 
 hostReactAppReady().then(() => {
 	pop_up_manager.forEach((el) => {

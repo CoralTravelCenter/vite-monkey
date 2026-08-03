@@ -22,6 +22,15 @@ test("waitFreshEvent ignores history and resolves on a new push", async () => {
   watcher.destroy();
 });
 
+test("waitEvent supports waiting without a timeout", async () => {
+  window.dataLayer = [];
+  const watcher = createDataLayerWatcher();
+  const promise = watcher.waitEvent("purchase", { timeoutMs: 0 });
+  window.dataLayer.push({ event: "purchase", id: 3 });
+  assert.equal((await promise).id, 3);
+  watcher.destroy();
+});
+
 test("keeps independent watchers for different dataLayer names", () => {
   window.firstLayer = [];
   window.secondLayer = [];

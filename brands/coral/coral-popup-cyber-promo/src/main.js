@@ -2,7 +2,8 @@ import './popup.settings.js';
 import './style.css';
 import './bubble.css';
 import {CoralPopup} from "./popup.class.js";
-import {insertOnce, isElementDefined, mediaMatcher, runOncePerDay} from "./utils.js";
+import {isElementDefined, runOncePerDay} from "./utils.js";
+import {appendOnce, mediaMatcher} from '@utils';
 import {CoralPromoShild} from "./shild.class.js";
 
 
@@ -18,11 +19,11 @@ isElementDefined('coral-popup', () => {
 const trigger = new CoralPromoShild();
 mediaMatcher(768, isMobile => {
 	if (isMobile) {
-		insertOnce(trigger, document.querySelector('.right-group'))
+		appendOnce(document.querySelector('.right-group'), trigger, 'cyber-promo-trigger')
 	} else {
-		insertOnce(trigger, document.querySelector('.header-logo').nextElementSibling)
+		appendOnce(document.querySelector('.header-logo').nextElementSibling, trigger, 'cyber-promo-trigger')
 	}
-})
+}, 'max')
 trigger.addEventListener('click', () => coralPopup.show())
 
 const coralPopup = new CoralPopup();
@@ -31,7 +32,5 @@ document.body.append(coralPopup)
 runOncePerDay(() => {
 	coralPopup.show()
 })
-
-
 
 
