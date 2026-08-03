@@ -5,7 +5,7 @@ import {initSwapAnimation} from "./scripts/initSwapAnimations.js";
 
 (async function startSwapButton() {
     const element = createDesktopButton();
-    const desktopHeader = '[class*="HeaderMobile_container__"] > div';
+    const desktopHeader = '[class*="HeaderMenuBar_container"] > div';
     const host = await awaitDomElement(desktopHeader);
     const swapButton = document.querySelector('.swap-button');
     if (!swapButton) {
