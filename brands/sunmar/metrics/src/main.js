@@ -1,5 +1,5 @@
 import {sendMetric} from "./scripts/metric.js";
-import {awaitDomElement} from "../../../../utils/index.js";
+import {awaitDomElement} from "@utils";
 
 try {
   (async function promotionMetric() {
