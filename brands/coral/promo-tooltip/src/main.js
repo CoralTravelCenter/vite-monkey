@@ -4,6 +4,7 @@ import "tippy.js/dist/tippy.css";
 import trigger from "./trigger.html?raw";
 import svgIcon from "./icon.html?raw";
 import { createDataLayerWatcher, reactDomObserver } from "@utils";
+import { firstValueFrom } from "rxjs";
 import tippy from "tippy.js";
 // --- КОНСТАНТЫ / УТИЛИТЫ ---
 
@@ -190,9 +191,7 @@ function initBonusTooltip(container, promotions) {
  * Основная логика при появлении карточки отеля
  */
 async function handleHotelCardAppear(el) {
-  const DL = await createDataLayerWatcher().waitEvent("view_item", {
-    timeoutMs: 0,
-  });
+  const DL = await firstValueFrom(createDataLayerWatcher().event$("view_item"));
   const item = DL?.ecommerce?.items?.[0];
 
   if (!item) return;

@@ -1,10 +1,11 @@
 import './style.css';
 import dayjs from 'dayjs';
-import {createDataLayerWatcher} from "../../../../utils/index.js";
+import {createDataLayerWatcher} from "@utils";
+import {firstValueFrom} from "rxjs";
 
 (async () => {
   const dataLayerWatcher = createDataLayerWatcher();
-  const viewItem = await dataLayerWatcher.waitEvent("search_tour");
+  const viewItem = await firstValueFrom(dataLayerWatcher.event$("search_tour"));
 
   const hasChild = viewItem.ecommerce.items[0].item_child_count > 0;
 

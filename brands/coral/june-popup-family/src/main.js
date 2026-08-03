@@ -1,12 +1,15 @@
 import {getJunePopupSegmentFromViewItemList} from './getJunePopupSegmentFromViewItemList';
-import {createDataLayerWatcher} from "../../utils";
+import {createDataLayerWatcher} from "@utils";
+import {firstValueFrom} from "rxjs";
 import markup from './markup.html?raw';
 import './style.css'
-import {createExitTracker} from "../../utils/analytics/pageLeave.js";
+import {createExitTracker} from "@utils/analytics/pageLeave.js";
 
 const dataLayerWatcher = createDataLayerWatcher();
 
-const eventData = await dataLayerWatcher.waitEvent('view_item_list');
+const eventData = await firstValueFrom(
+  dataLayerWatcher.event$('view_item_list'),
+);
 
 const popupResult = getJunePopupSegmentFromViewItemList(eventData);
 

@@ -1,12 +1,4 @@
-import {
-  filter,
-  firstValueFrom,
-  map,
-  ReplaySubject,
-  Subject,
-  take,
-  timeout,
-} from "rxjs";
+import { filter, map, ReplaySubject, Subject } from "rxjs";
 
 const watcherInstances = new Map();
 
@@ -51,50 +43,13 @@ export const createDataLayerWatcher = (options = {}) => {
       filter((item) => item && item.event === eventName),
     );
 
-  const waitEvent$ = (eventName) => event$(eventName).pipe(take(1));
-
-  const waitEvent = (eventName, waitOptions = {}) => {
-    const { timeoutMs = 10000 } = waitOptions;
-    const source$ = waitEvent$(eventName);
-
-    return firstValueFrom(
-      timeoutMs > 0 ? source$.pipe(timeout({ first: timeoutMs })) : source$,
-    );
-  };
-
-  const waitFreshEvent = (eventName, waitOptions = {}) => {
-    const { timeoutMs = 10000 } = waitOptions;
-    const source$ = dataLayer$.pipe(
+  const freshEvent$ = (eventName) =>
+    dataLayer$.pipe(
       filter(
         ({ item, source }) => source === "push" && item.event === eventName,
       ),
       map(({ item }) => item),
-      take(1),
     );
-    return firstValueFrom(
-      timeoutMs > 0 ? source$.pipe(timeout({ first: timeoutMs })) : source$,
-    );
-  };
-
-  const getLastEvent = (eventName) => {
-    for (let i = dataLayer.length - 1; i >= 0; i -= 1) {
-      const item = dataLayer[i];
-
-      if (item && item.event === eventName) {
-        return item;
-      }
-    }
-
-    return null;
-  };
-
-  const subscribe = (listener, subscribeOptions = {}) => {
-    const { includeReplay = true } = subscribeOptions;
-    const subscription = dataLayer$
-      .pipe(filter(({ source }) => includeReplay || source !== "replay"))
-      .subscribe(({ item, source }) => listener(item, source));
-    return () => subscription.unsubscribe();
-  };
 
   const destroy = () => {
     dataLayer.push = originalPush;
@@ -103,14 +58,9 @@ export const createDataLayerWatcher = (options = {}) => {
   };
 
   const watcherInstance = {
-    dataLayer,
     dataLayer$,
     event$,
-    waitEvent$,
-    waitEvent,
-    waitFreshEvent,
-    getLastEvent,
-    subscribe,
+    freshEvent$,
     destroy,
   };
 

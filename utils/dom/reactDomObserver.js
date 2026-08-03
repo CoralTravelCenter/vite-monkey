@@ -1,12 +1,4 @@
-import {
-  filter,
-  firstValueFrom,
-  map,
-  Observable,
-  share,
-  take,
-  timeout,
-} from "rxjs";
+import { Observable, share } from "rxjs";
 import { observe } from "selector-observer";
 
 export const reactDomObserver = (defaultOptions = {}) => {
@@ -49,47 +41,5 @@ export const reactDomObserver = (defaultOptions = {}) => {
     }).pipe(share());
   };
 
-  const added$ = (selector, options = {}) => {
-    return observeSelector$(selector, options).pipe(
-      filter((event) => event.type === "add"),
-    );
-  };
-
-  const removed$ = (selector, options = {}) => {
-    return observeSelector$(selector, options).pipe(
-      filter((event) => event.type === "remove"),
-    );
-  };
-
-  const initialized$ = (selector, options = {}) => {
-    return observeSelector$(selector, options).pipe(
-      filter((event) => event.type === "initialize"),
-    );
-  };
-
-  const element$ = (selector, options = {}) => {
-    return added$(selector, options).pipe(map((event) => event.element));
-  };
-
-  const waitElement$ = (selector, options = {}) => {
-    return element$(selector, options).pipe(take(1));
-  };
-
-  const waitElement = (selector, options = {}) => {
-    const { timeoutMs = 10000, ...watchOptions } = options;
-
-    return firstValueFrom(
-      waitElement$(selector, watchOptions).pipe(timeout({ first: timeoutMs })),
-    );
-  };
-
-  return {
-    observeSelector$,
-    added$,
-    removed$,
-    initialized$,
-    element$,
-    waitElement$,
-    waitElement,
-  };
+  return { observeSelector$ };
 };

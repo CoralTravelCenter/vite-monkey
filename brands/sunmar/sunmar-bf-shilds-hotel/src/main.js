@@ -1,9 +1,8 @@
 import "./style.scss";
 import { createDataLayerWatcher } from "@utils";
+import { firstValueFrom } from "rxjs";
 
-const DL = await createDataLayerWatcher().waitEvent("view_item", {
-  timeoutMs: 0,
-});
+const DL = await firstValueFrom(createDataLayerWatcher().event$("view_item"));
 const productId = DL?.ecommerce?.items[0].item_id;
 const detailWidget = document?.querySelector("#hotel-detail-area");
 if (detailWidget) {

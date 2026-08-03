@@ -466,7 +466,7 @@ const carouselSpy = spyMainCarousel({
   },
 });
 
-// carouselSpy.stop();
+// carouselSpy.unsubscribe();
 ```
 
 В callback приходит объект с полями `type`, `root`, `slide`, `item`, `href`, `index`.
@@ -501,7 +501,7 @@ const carouselLifecycle = watchMainCarouselSlides({
   },
 });
 
-// carouselLifecycle.stop();
+// carouselLifecycle.unsubscribe();
 ```
 
 Если нужно, `mount` может вернуть либо функцию `unmount`, либо объект `{unmount()}`.
@@ -669,9 +669,15 @@ clickOutside.destroy();
 Reactive watcher для DOM. Подробные примеры: [разделу Watchers](#watchers-api-и-примеры).
 
 ```js
+import { filter, firstValueFrom, map, timeout } from "rxjs";
+
 const domWatcher = reactDomObserver();
-const gallery = await domWatcher.waitElement(
-  '[class*="PhotoGalleryMainCarousel"]',
+const gallery = await firstValueFrom(
+  domWatcher.observeSelector$('[class*="PhotoGalleryMainCarousel"]').pipe(
+    filter(({ type }) => type !== "remove"),
+    map(({ element }) => element),
+    timeout({ first: 10000 }),
+  ),
 );
 ```
 
@@ -752,8 +758,10 @@ sendYandexEventOnce("custom_popup_show", 2, () => {
 Reactive watcher для `dataLayer`. Подробные примеры: [разделу Watchers](#watchers-api-и-примеры).
 
 ```js
+import { firstValueFrom } from "rxjs";
+
 const dataLayerWatcher = createDataLayerWatcher();
-const viewItem = await dataLayerWatcher.waitEvent("view_item");
+const viewItem = await firstValueFrom(dataLayerWatcher.event$("view_item"));
 ```
 
 ### Media
@@ -837,23 +845,22 @@ DOM изменился -> selector-observer нашел элемент -> RxJS st
 const domWatcher = reactDomObserver();
 ```
 
-По умолчанию watcher умеет:
-
-- `observeSelector$(selector, options)` - общий поток событий `initialize | add | remove`
-- `added$(selector, options)` - поток только добавленных элементов
-- `removed$(selector, options)` - поток только удаленных элементов
-- `initialized$(selector, options)` - поток элементов, уже бывших в DOM на момент старта
-- `element$(selector, options)` - поток только `element`
-- `waitElement$(selector, options)` - поток с первым найденным элементом
-- `waitElement(selector, options)` - `Promise` с первым найденным элементом
+Watcher предоставляет один метод: `observeSelector$(selector, options)` — поток событий `initialize | add | remove`. Фильтрация, преобразование, ожидание и таймаут выполняются стандартными операторами RxJS.
 
 #### Дождаться появления элемента
 
 ```js
+import { filter, firstValueFrom, map } from "rxjs";
+
 const domWatcher = reactDomObserver();
 
-const gallery = await domWatcher.waitElement(
-  '[class*="PhotoGalleryMainCarousel_mainSwiperContainer"]',
+const gallery = await firstValueFrom(
+  domWatcher
+    .observeSelector$('[class*="PhotoGalleryMainCarousel_mainSwiperContainer"]')
+    .pipe(
+      filter(({ type }) => type !== "remove"),
+      map(({ element }) => element),
+    ),
 );
 
 console.log("Gallery ready:", gallery);
@@ -862,9 +869,13 @@ console.log("Gallery ready:", gallery);
 С таймаутом:
 
 ```js
-const price = await domWatcher.waitElement('[class*="PriceBlock"]', {
-  timeoutMs: 15000,
-});
+import { firstValueFrom, timeout } from "rxjs";
+
+const price = await firstValueFrom(
+  domWatcher
+    .observeSelector$('[class*="PriceBlock"]')
+    .pipe(timeout({ first: 15000 })),
+);
 ```
 
 #### Подписаться на добавление элементов
@@ -873,9 +884,10 @@ const price = await domWatcher.waitElement('[class*="PriceBlock"]', {
 const domWatcher = reactDomObserver();
 
 const subscription = domWatcher
-  .added$('[class*="HotelCard"]', {
+  .observeSelector$('[class*="HotelCard"]', {
     name: "hotel-card",
   })
+  .pipe(filter(({ type }) => type === "add"))
   .subscribe(({ element, name, selector }) => {
     console.log(`[${name}] added`, selector, element);
   });
@@ -1019,21 +1031,19 @@ const dataLayerWatcher = createDataLayerWatcher();
 
 Возвращаемый API:
 
-- `dataLayer` - ссылка на массив `window.dataLayer`
-- `dataLayer$` - поток всех событий
-- `event$(eventName)` - поток по имени события
-- `waitEvent$(eventName)` - поток с первым совпавшим событием
-- `waitEvent(eventName, options)` - `Promise` с первым совпавшим событием
-- `getLastEvent(eventName)` - последнее событие этого типа
-- `subscribe(listener, options)` - подписка на все push/replay
+- `dataLayer$` - поток всех событий вместе с источником `replay` или `push`
+- `event$(eventName)` - поток события с replay истории
+- `freshEvent$(eventName)` - поток только новых событий из `push`
 - `destroy()` - снять monkey-patch с `dataLayer.push`
 
 #### Дождаться события
 
 ```js
+import { firstValueFrom } from "rxjs";
+
 const dataLayerWatcher = createDataLayerWatcher();
 
-const viewItem = await dataLayerWatcher.waitEvent("view_item");
+const viewItem = await firstValueFrom(dataLayerWatcher.event$("view_item"));
 
 console.log("view_item:", viewItem);
 ```
@@ -1041,9 +1051,11 @@ console.log("view_item:", viewItem);
 С таймаутом:
 
 ```js
-await dataLayerWatcher.waitEvent("begin_checkout", {
-  timeoutMs: 20000,
-});
+import { firstValueFrom, timeout } from "rxjs";
+
+await firstValueFrom(
+  dataLayerWatcher.event$("begin_checkout").pipe(timeout({ first: 20000 })),
+);
 ```
 
 #### Подписаться на событие
@@ -1065,34 +1077,30 @@ subscription.unsubscribe();
 ```js
 const dataLayerWatcher = createDataLayerWatcher();
 
-const unsubscribe = dataLayerWatcher.subscribe((item, source) => {
-  console.log(`[dataLayer:${source}]`, item);
-});
+const subscription = dataLayerWatcher.dataLayer$.subscribe(
+  ({ item, source }) => {
+    console.log(`[dataLayer:${source}]`, item);
+  },
+);
 
-unsubscribe();
+subscription.unsubscribe();
 ```
 
 Если replay не нужен:
 
 ```js
-const unsubscribe = dataLayerWatcher.subscribe(
-  (item, source) => {
-    console.log(source, item);
-  },
-  { replay: false },
-);
+const subscription = dataLayerWatcher
+  .freshEvent$("view_item")
+  .subscribe((item) => console.log(item));
 ```
 
 #### Получить последнее событие из истории
 
 ```js
+import { firstValueFrom } from "rxjs";
+
 const dataLayerWatcher = createDataLayerWatcher();
-
-const lastViewItem = dataLayerWatcher.getLastEvent("view_item");
-
-if (lastViewItem) {
-  console.log("Last view_item:", lastViewItem);
-}
+const viewItem = await firstValueFrom(dataLayerWatcher.event$("view_item"));
 ```
 
 #### Реагировать только на новый hotel id
@@ -1129,16 +1137,19 @@ dataLayerWatcher.destroy();
 #### Запустить код, когда готов DOM и пришел `view_item`
 
 ```js
-import { combineLatest } from "rxjs";
+import { combineLatest, filter, map } from "rxjs";
 
 const domWatcher = reactDomObserver();
 const dataLayerWatcher = createDataLayerWatcher();
 
 const subscription = combineLatest([
-  domWatcher.waitElement$(
-    '[class*="PhotoGalleryMainCarousel_mainSwiperContainer"]',
-  ),
-  dataLayerWatcher.waitEvent$("view_item"),
+  domWatcher
+    .observeSelector$('[class*="PhotoGalleryMainCarousel_mainSwiperContainer"]')
+    .pipe(
+      filter(({ type }) => type !== "remove"),
+      map(({ element }) => element),
+    ),
+  dataLayerWatcher.event$("view_item"),
 ]).subscribe(([gallery, viewItem]) => {
   console.log("DOM ready:", gallery);
   console.log("dataLayer ready:", viewItem);
@@ -1148,14 +1159,17 @@ const subscription = combineLatest([
 #### Один раз отработать и завершить
 
 ```js
-import { combineLatest, take } from "rxjs";
+import { combineLatest, filter, map, take } from "rxjs";
 
 const domWatcher = reactDomObserver();
 const dataLayerWatcher = createDataLayerWatcher();
 
 combineLatest([
-  domWatcher.waitElement$('[class*="PhotoGalleryMainCarousel"]'),
-  dataLayerWatcher.waitEvent$("view_item"),
+  domWatcher.observeSelector$('[class*="PhotoGalleryMainCarousel"]').pipe(
+    filter(({ type }) => type !== "remove"),
+    map(({ element }) => element),
+  ),
+  dataLayerWatcher.event$("view_item"),
 ])
   .pipe(take(1))
   .subscribe(([gallery, viewItem]) => {

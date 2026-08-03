@@ -1,33 +1,24 @@
 import assert from "node:assert/strict";
 import test from "node:test";
+import { firstValueFrom } from "rxjs";
 
 globalThis.window = {};
 const { createDataLayerWatcher } =
   await import("../utils/analytics/createDataLayerWatcher.js");
 
-test("replays history and tracks the last event", async () => {
+test("event$ replays matching history", async () => {
   window.dataLayer = [{ event: "view_item", id: 1 }];
   const watcher = createDataLayerWatcher();
-  assert.equal((await watcher.waitEvent("view_item")).id, 1);
-  assert.equal(watcher.getLastEvent("view_item").id, 1);
+  assert.equal((await firstValueFrom(watcher.event$("view_item"))).id, 1);
   watcher.destroy();
 });
 
-test("waitFreshEvent ignores history and resolves on a new push", async () => {
+test("freshEvent$ ignores history and emits a new push", async () => {
   window.dataLayer = [{ event: "purchase", id: 1 }];
   const watcher = createDataLayerWatcher();
-  const promise = watcher.waitFreshEvent("purchase");
+  const promise = firstValueFrom(watcher.freshEvent$("purchase"));
   window.dataLayer.push({ event: "purchase", id: 2 });
   assert.equal((await promise).id, 2);
-  watcher.destroy();
-});
-
-test("waitEvent supports waiting without a timeout", async () => {
-  window.dataLayer = [];
-  const watcher = createDataLayerWatcher();
-  const promise = watcher.waitEvent("purchase", { timeoutMs: 0 });
-  window.dataLayer.push({ event: "purchase", id: 3 });
-  assert.equal((await promise).id, 3);
   watcher.destroy();
 });
 

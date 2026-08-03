@@ -1,4 +1,5 @@
 import { createDataLayerWatcher, waitForCondition } from "@utils";
+import { firstValueFrom } from "rxjs";
 
 const DLEvent = "begin_checkout";
 
@@ -17,28 +18,26 @@ function checkBookingDate(departureDateStr, dayDelay = SEGMENT_IN_DAYS) {
   return diffDays >= dayDelay;
 }
 
-createDataLayerWatcher()
-  .waitEvent(DLEvent, { timeoutMs: 0 })
-  .then((evt) => {
-    const rawDate = evt?.ecommerce.items[0].item_dates[0];
+firstValueFrom(createDataLayerWatcher().event$(DLEvent)).then((evt) => {
+  const rawDate = evt?.ecommerce.items[0].item_dates[0];
 
-    if (!rawDate) {
-      console.warn("item_dates is missing in begin_checkout event");
-      return;
-    }
+  if (!rawDate) {
+    console.warn("item_dates is missing in begin_checkout event");
+    return;
+  }
 
-    window.__isSegment = checkBookingDate(rawDate);
-    console.log(window.__isSegment);
+  window.__isSegment = checkBookingDate(rawDate);
+  console.log(window.__isSegment);
 
-    waitForCondition(() => window.PopMechanic, { timeoutMs: 0 }).then(
-      (popmechanic) => {
-        console.log();
+  waitForCondition(() => window.PopMechanic, { timeoutMs: 0 }).then(
+    (popmechanic) => {
+      console.log();
 
-        if (!popmechanic) {
-          console.warn("PopMechanic is not defined");
-          return;
-        }
-        popmechanic?.update();
-      },
-    );
-  });
+      if (!popmechanic) {
+        console.warn("PopMechanic is not defined");
+        return;
+      }
+      popmechanic?.update();
+    },
+  );
+});
