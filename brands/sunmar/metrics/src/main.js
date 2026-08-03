@@ -1,57 +1,26 @@
 import {sendMetric} from "./scripts/metric.js";
+import {awaitDomElement} from "../../../../utils/index.js";
 
-async function promotionMetric() {
-  if (typeof hostReactAppReady !== 'function') {
-    console.error("Приложение не найдено!");
-    return;
-  }
+try {
+  (async function promotionMetric() {
+    const selector = 'a.promo-card__link[href*="offers-eb-zima2027"]';
+    const link = await awaitDomElement(selector);
 
-  try {
-    await hostReactAppReady();
-  } catch (err) {
-    throw new Error(`Ошибка инициализации хоста: ${err.message}`);
-  }
-
-  const selector = 'a.promo-card__link[href*="offers-eb-zima2027"]';
-
-  function handleClick(event) {
-    const link = event.target.closest(selector);
-    if (link) {
-      sendMetric("promo_page");
+    if (!link) {
+      return;
     }
-  }
 
-  const existingLink = document.querySelector(selector);
-  if (existingLink) {
-    existingLink.addEventListener('click', handleClick);
-    return;
-  }
-
-  const observer = new MutationObserver((mutations, obs) => {
-    try {
-      const link = document.querySelector(selector);
-      if (link) {
-        link.addEventListener('click', handleClick);
-        obs.disconnect();
+    function handleClick(event) {
+      const targetLink = event.target.closest(selector);
+      if (targetLink) {
+        sendMetric("promo_page");
       }
-    } catch (err) {
-      console.error("Ошибка отслеживания элемента:", err);
-      obs.disconnect();
     }
-  });
 
-  observer.observe(document.body, {
-    childList: true,
-    subtree: true,
-    attributes: true,
-  });
+    link.addEventListener('click', handleClick);
+
+  })();
 }
-
-(async function startMetric() {
-  try {
-    await promotionMetric();
-  }
-  catch (error) {
-    console.error(`Не удалось запустить функцию отправку метрики: ${error}`);
-  }
-})();
+catch (error) {
+  console.error(`Не удалось запустить функцию отправки метрики: ${error}`);
+}
