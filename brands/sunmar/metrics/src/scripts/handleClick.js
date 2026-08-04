@@ -1,6 +1,6 @@
 import {sendMetric} from "./metric.js";
 
-export function handleClick(event, selector) {
+export async function handleClick(event, selector) {
     try {
         const targetLink = event.target.closest(selector);
         if (targetLink) {

@@ -11,9 +11,9 @@ import {outputErrorMessage} from "./scripts/utils/errorMessage.js";
       return;
     }
 
-    link.addEventListener('click', (event) => {
+    link.addEventListener('click', async (event) => {
       try {
-        handleClick(event, selector);
+        await handleClick(event, selector);
       } catch (error) {
         outputErrorMessage("Ошибка отслеживания клика по баннеру", error);
       }
