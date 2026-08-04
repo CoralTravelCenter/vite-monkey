@@ -1,8 +1,9 @@
-import {sendMetric} from "./scripts/metric.js";
 import {waitForElement} from "@utils";
+import {handleClick} from "./scripts/handleClick.js";
+import {outputErrorMessage} from "./scripts/utils/errorMessage.js";
 
-try {
-  (async function promotionMetric() {
+(async function promotionMetric() {
+  try {
     const selector = 'a.promo-card__link[href*="offers-eb-zima2027"]';
     const link = await waitForElement(selector);
 
@@ -10,17 +11,14 @@ try {
       return;
     }
 
-    function handleClick(event) {
-      const targetLink = event.target.closest(selector);
-      if (targetLink) {
-        sendMetric("promo_page");
+    link.addEventListener('click', (event) => {
+      try {
+        handleClick(event, selector);
+      } catch (error) {
+        outputErrorMessage("Ошибка отслеживания клика по баннеру", error);
       }
-    }
-
-    link.addEventListener('click', handleClick);
-
-  })();
-}
-catch (error) {
-  console.error(`Не удалось запустить функцию отправки метрики: ${error}`);
-}
+    });
+  } catch (error) {
+    outputErrorMessage("Ошибка отслеживания баннера акции", error);
+  }
+})();
