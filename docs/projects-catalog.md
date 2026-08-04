@@ -135,7 +135,7 @@ npm run update:catalog
 | `brands/sunmar/bobr-pipka` | `bobr-pipka` | sunmar | needs-review | `src/main.js` | `https://www.sunmar.ru/*` | has experiment.config.json |
 | `brands/sunmar/bobr-skvoz` | `bobr-skvoz` | sunmar | needs-review | `src/main.js` | `https://www.sunmar.ru/*` | package name duplicates `bobr-skvoz`; has experiment.config.json; project name duplicates `bobr-skvoz` |
 | `brands/sunmar/bobr-skvoz-mob` | `bobr-skvoz` | sunmar | needs-review | `src/main.js` | `https://www.sunmar.ru/*` | package name duplicates `bobr-skvoz`; package name does not match folder; has experiment.config.json; project name duplicates `bobr-skvoz`; project name does not match folder |
-| `brands/sunmar/button-hotel` | `button-hotel` | sunmar | needs-review | `src/main.js` | `https://www.sunmar.ru/*` | has experiment.config.json |
+| `../brands/sunmar/badge-family-hotels` | `badge-family-hotels` | sunmar | needs-review | `src/main.js` | `https://www.sunmar.ru/*` | has experiment.config.json |
 | `brands/sunmar/fantiet-block` | `fantiet-block` | sunmar | needs-review | `src/main.js` | `https://www.sunmar.ru/*` | has experiment.config.json |
 | `brands/sunmar/lead-form` | `lead-form` | sunmar | needs-review | `src/main.js` | `https://www.sunmar.ru/*` | has experiment.config.json |
 | `brands/sunmar/lead-form-bitrix-24` | `lead-form-bitrix-24` | sunmar | needs-review | `src/main.js` | `https://www.sunmar.ru/info-actions/` | has experiment.config.json |
@@ -144,9 +144,9 @@ npm run update:catalog
 | `brands/sunmar/magic-promo-sunmar/link-mobile` | `link-mobile` | sunmar | needs-review | `src/main.js` | `https://www.sunmar.ru/` | has experiment.config.json |
 | `brands/sunmar/magic-promo-sunmar/popup` | `magic-promo-sunmar-popup` | sunmar | needs-review | `src/main.js` | `https://www.sunmar.ru/*` | package name does not match folder; has experiment.config.json; project name does not match folder |
 | `brands/sunmar/magic-promo-sunmar/search-metrika` | `search-metrika` | sunmar | needs-review | `src/main.js` | `https://www.sunmar.ru/*` | has experiment.config.json |
-| `brands/sunmar/metric-rb-sunmar-2027` | `metric-rb-sunmar-2027` | sunmar | needs-review | `src/main.js` | `https://www.sunmar.ru/*` | has experiment.config.json |
-| `brands/sunmar/metrica-sunmar-rb-2027-all-pages` | `metrica-sunmar-rb-2027-all-pages` | sunmar | needs-review | `src/main.js` | `https://www.sunmar.ru/*` | has experiment.config.json |
-| `brands/sunmar/metrics` | `metrics` | sunmar | needs-review | `src/main.js` | `https://www.sunmar.ru/*` | has experiment.config.json |
+| `../brands/sunmar/metric-hotels-rb-sunmar-2027` | `metric-hotels-rb-sunmar-2027` | sunmar | needs-review | `src/main.js` | `https://www.sunmar.ru/*` | has experiment.config.json |
+| `../brands/sunmar/banner-rb-winter-2027-all-pages` | `banner-rb-winter-2027-all-pages` | sunmar | needs-review | `src/main.js` | `https://www.sunmar.ru/*` | has experiment.config.json |
+| `../brands/sunmar/button-promo-rb-winter-2027-metric` | `metrics` | sunmar | needs-review | `src/main.js` | `https://www.sunmar.ru/*` | has experiment.config.json |
 | `brands/sunmar/midbox-quiz-css-fix` | `midbox-quiz-css-fix` | sunmar | needs-review | `src/main.js` | `https://www.sunmar.ru/*` | has experiment.config.json |
 | `brands/sunmar/onlyhotel-sunmar-hightlight-2025` | `onlyhotel-sunmar-hightlight-2025` | sunmar | needs-review | `src/main.js` | `https://www.sunmar.ru/*` | has experiment.config.json |
 | `brands/sunmar/popup-management` | `popup-management` | sunmar | needs-review | `src/main.js` | `https://www.sunmar.ru/info-actions/` | has experiment.config.json |
@@ -167,7 +167,7 @@ npm run update:catalog
 | `brands/sunmar/sunmar-popup-ne-otkladivy` | `sunmar-popup-ne-otkladivy` | sunmar | needs-review | `src/main.js` | `https://www.sunmar.ru/*` | has experiment.config.json |
 | `brands/sunmar/sunmar-shild-new` | `sunmar-shild-new` | sunmar | needs-review | `src/main.js` | `https://www.sunmar.ru/*` | has experiment.config.json |
 | `brands/sunmar/sunmar-video-kv` | `sunmar-video-kv` | sunmar | needs-review | `src/main.js` | `https://www.sunmar.ru/monkey/*` | has experiment.config.json |
-| `brands/sunmar/swap-button` | `swap-button` | sunmar | needs-review | `src/main.js` | `https://www.sunmar.ru/*` | has experiment.config.json |
-| `brands/sunmar/swap-button-mobile` | `swap-button-mobile` | sunmar | needs-review | `src/main.js` | `https://www.sunmar.ru/*` | has experiment.config.json |
+| `../brands/sunmar/button-header-page-swap-animation-rb-winter-2027` | `button-header-page-swap-animation-rb-winter-2027` | sunmar | needs-review | `src/main.js` | `https://www.sunmar.ru/*` | has experiment.config.json |
+| `../brands/sunmar/button-header-page-swap-animation-rb-winter-2027-mobile` | `button-header-page-swap-animation-rb-winter-2027-mobile` | sunmar | needs-review | `src/main.js` | `https://www.sunmar.ru/*` | has experiment.config.json |
 | `brands/sunmar/turkey-vs-egypt` | `turkey-vs-egypt` | sunmar | needs-review | `src/main.js` | `https://www.sunmar.ru/*` | has experiment.config.json |
 | `brands/sunmar/youth_day_2025_entry` | `youth-day-2025-entry` | sunmar | needs-review | `src/search-shield.js` | `https://www.sunmar.ru/*` | package name does not match folder; has experiment.config.json; project name does not match folder |

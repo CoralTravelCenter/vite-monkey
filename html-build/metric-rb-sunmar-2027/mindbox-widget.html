@@ -1,5 +1,0 @@
-<script>
-(() => {
-  async function i(){await hostReactAppReady(),document.addEventListener("click",n=>{const s=n.target.closest(".hotels__button");if(!s)return;const t=s.closest(".hotels__item");if(t){const o=t.querySelector(".hotels__hotel-name")?.textContent.trim();let e=null;t.closest('[aria-labelledby="hotels-1-tab-turkey"]')?e="Turkey":t.closest('[aria-labelledby="hotels-1-tab-egypt"]')?e="Egypt":t.closest('[aria-labelledby="hotels-1-tab-uae"]')&&(e="UAE"),e&&typeof ym=="function"&&ym(215233,"reachGoal","eb_winter_2027_select_hotel_click",{country:{[e]:{name_hotel:`«${o}»`}}})}})}async function a(){const n="#hotel-selection",s=await new Promise(o=>{const e=document.querySelector(n);if(e)return o(e);const c=document.body||document.documentElement,r=new MutationObserver(()=>{const l=document.querySelector(n);l&&(r.disconnect(),o(l))});r.observe(c,{childList:!0,subtree:!0})});new IntersectionObserver((o,e)=>{o.forEach(c=>{c.isIntersecting&&(typeof ym=="function"&&ym(215233,"reachGoal","eb_winter_2027_hotel_list_show"),e.unobserve(c.target))})},{threshold:.3}).observe(s)}a();i();
-})();
-</script>

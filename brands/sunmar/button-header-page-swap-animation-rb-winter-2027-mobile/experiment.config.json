@@ -1,0 +1,8 @@
+{
+  "name": "button-header-page-swap-animation-rb-winter-2027-mobile",
+  "entry": "src/main.js",
+  "brand": "sunmar",
+  "match": [
+    "https://www.sunmar.ru/*"
+  ]
+}
