@@ -1,16 +1,15 @@
 import {waitForElement} from "@utils";
+import markup from "../markup.html?raw";
 
 export async function initDevWidget() {
-    const element = 'monkey-app';
     try {
-        const selector = await waitForElement(element);
-        const devContainer = document.getElementById(selector);
+        const element = '#monkey-app';
+        const devContainer = await waitForElement(element);
         if (devContainer && !devContainer.dataset.injected) {
-            devContainer.innerHTML = markup;
+            devContainer.insertAdjacentHTML('afterbegin', markup);
             devContainer.dataset.injected = 'true';
         }
-    }
-    catch (error) {
-        console.error(`Не удалось получить элемент: ${error}`);
+    } catch(error) {
+        throw new Error("Ошибка инициализации dev-widget", {cause: error});
     }
 }

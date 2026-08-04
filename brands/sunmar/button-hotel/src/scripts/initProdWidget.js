@@ -14,8 +14,7 @@ export async function initProdWidget() {
         badgeWrapper.innerHTML = markup;
 
         galleryTarget.insertAdjacentElement('beforeend', badgeWrapper);
-    }
-    catch (error) {
-        console.error(`Не удалось получить элемент: ${error}`);
+    } catch (error) {
+        throw new Error("Ошибка поиска галереи или вставки бейджа", {cause: error});
     }
 }

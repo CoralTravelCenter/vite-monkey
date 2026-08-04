@@ -1,32 +1,18 @@
 import './style.css';
 import {initDevWidget} from "./scripts/initDevWidget.js";
-import {initProdWidget} from "./scripts/initProdWidget.js";
-import {getHotelId} from "./scripts/getHotelID.js";
-import {TARGET_HOTEL_IDS} from "./scripts/targetHotels.js";
+import {parseHotelWidget} from "./scripts/parseHotelWidget.js";
+import {outputErrorMessage} from "./scripts/utils/errorMessage.js";
 
-try {
-  (async function installWidget() {
+(async function installWidget() {
+  try {
     if (import.meta.env.DEV) {
-      try {
-        await initDevWidget();
-      }
-      catch (error) {
-        console.error(`Ошибка инициализации dev-блока: ${error}`);
-      }
+      await initDevWidget();
     }
     else {
-      const currentHotelId = await getHotelId();
-      if (currentHotelId && TARGET_HOTEL_IDS.includes(currentHotelId)) {
-        try {
-          await initProdWidget();
-        }
-        catch (error) {
-          console.error(`Ошибка инициализации виджете отелей: ${error}`);
-        }
-      }
+      await parseHotelWidget();
     }
-  })();
-}
-catch(error) {
-  console.error(`Не удалось инициализировать запуск функции виджета: ${error}`);
-}
+  }
+  catch (error) {
+    outputErrorMessage("Ошибка загрузки главной функции бейджа отеля", error);
+  }
+})();
