@@ -1,5 +1,5 @@
 import {waitForElement} from "@utils";
-import markup from "../markup.html?raw";
+import markup from "../../markup.html?raw";
 
 export async function initProdWidget() {
     try {

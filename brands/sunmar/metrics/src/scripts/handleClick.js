@@ -7,6 +7,6 @@ export async function handleClick(event, selector) {
             sendMetric("promo_page");
         }
     } catch (error) {
-        throw new Error("Ошибка нажатия кнопки", {cause: error});
+        throw new Error("Ошибка при нажатии на кнопку", {cause: error});
     }
 }

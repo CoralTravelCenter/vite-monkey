@@ -1,4 +1,4 @@
-import targetHotelsJson from "../data/TARGET_HOTELS_IDS.json";
+import targetHotelsJson from "../../data/TARGET_HOTELS_IDS.json";
 
 function getHotelsID() {
     if(Array.isArray(targetHotelsJson) && targetHotelsJson.length > 0) {
