@@ -1,0 +1,152 @@
+.business-jet {
+  background-color: #363642;
+  border-radius: 16px;
+  border: none;
+  width: 100%;
+  max-width: 1368px;
+  min-height: 298px;
+  display: flex;
+  flex-direction: row;
+  overflow: hidden;
+  box-sizing: border-box;
+  font-family: Arial, sans-serif;
+}
+
+.text-business-jet {
+  color: #ffffff;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  flex: 0 0 55%;
+  min-width: 0;
+  order: 1;
+  padding: 32px 52px 32px 50px;
+  box-sizing: border-box;
+}
+
+.business-jet-image {
+  display: block;
+  flex: 0 0 45%;
+  order: 2;
+  overflow: hidden;
+  background-image: url("https://b2ccdn.coral.ru/content/bjet-bg-plane.webp");
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: left center;
+  clip-path: ellipse(100% 110% at 100% 50%);
+}
+
+.h2-text {
+  margin: 0 0 10px;
+  font-family: "TrajanPro3Regular", "Trajan Pro", serif;
+  font-weight: 400;
+  font-size: 32px;
+  line-height: 42px;
+  letter-spacing: 0;
+  text-transform: uppercase;
+  text-wrap: balance;
+  overflow-wrap: break-word;
+  word-break: break-word;
+}
+
+.p-text {
+  font-family: "Manrope", sans-serif;
+  max-width: 650px;
+  margin: 0;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 28px;
+  letter-spacing: 0;
+  overflow-wrap: break-word;
+  word-break: break-word;
+  hyphens: auto;
+}
+
+@media (max-width: 1024px) {
+  .business-jet {
+    height: auto;
+    min-height: 340px;
+  }
+
+  .text-business-jet {
+    flex-basis: 58%;
+    padding: 24px;
+  }
+
+  .business-jet-image {
+    position: relative;
+    align-self: stretch;
+    flex-basis: 42%;
+    height: auto;
+  }
+
+  .h2-text {
+    font-size: 26px;
+    line-height: 34px;
+  }
+
+  .p-text {
+    font-size: 15px;
+    line-height: 24px;
+  }
+}
+
+@media (max-width: 768px) {
+  .business-jet {
+    flex-direction: column;
+    width: 100%;
+    max-width: 100%;
+    min-height: 0;
+    margin-inline: auto;
+    border-radius: 20px;
+  }
+
+  .text-business-jet {
+    flex: none;
+    width: 100%;
+    order: 2;
+    padding: 16px 16px 15px;
+    text-align: center;
+  }
+
+  .business-jet-image {
+    position: relative;
+    flex: none;
+    width: 100%;
+    height: 240px;
+    order: 1;
+    background-image: url("https://b2ccdn.coral.ru/content/bjet-bg-plane-mobile.webp");
+    background-position: center;
+    clip-path: ellipse(75% 100% at 50% 0);
+  }
+
+  .h2-text {
+    max-width: 100%;
+    margin: 0 auto 10px;
+    font-size: 24px;
+    line-height: 32px;
+  }
+
+  .p-text {
+    max-width: 100%;
+    margin-inline: auto;
+    font-size: 14px;
+    line-height: 28px;
+  }
+}
+
+@media (max-width: 359px) {
+  .text-business-jet {
+    padding: 14px 12px 16px;
+  }
+
+  .h2-text {
+    font-size: 22px;
+    line-height: 30px;
+  }
+
+  .p-text {
+    font-size: 14px;
+    line-height: 26px;
+  }
+}
