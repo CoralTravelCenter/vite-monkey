@@ -1,0 +1,8 @@
+{
+  "name": "test1",
+  "entry": "src/main.js",
+  "brand": "sunmar",
+  "match": [
+    "https://www.sunmar.ru/*"
+  ]
+}
