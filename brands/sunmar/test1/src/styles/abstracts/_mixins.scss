@@ -1,9 +1,9 @@
 @use "variables" as v;
 
 @mixin form-standard{
-  border-radius: v.$form-gap;
-  border: 3px solid v.$border-color;
-  gap: v.$form-gap;
+  border-radius: var(--var-standard-form-radius);
+  border: 3px solid var(--var-standard-border-color);
+  gap: var(--var-standard-form-gap);
 }
 
 @mixin block-standard {

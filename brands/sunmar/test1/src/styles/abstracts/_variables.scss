@@ -1,5 +1,7 @@
-$background-color: aquamarine;
-$border-color: blue;
+:root {
+  --var-standard-backgroun-color: aquamarine;
+  --var-standard-border-color: blue;
 
-$form-gap: 15px;
-$form-radius: 10px;
+  --var-standard-form-gap: 5px;
+  --var-standard-form-radius: 10px;
+}
