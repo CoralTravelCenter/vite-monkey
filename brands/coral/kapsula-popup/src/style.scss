@@ -117,3 +117,21 @@
     color: #0092D0;
   }
 }
+
+@media (max-width: 768px) {
+  #kapsula-popup-home::part(popup-dialog) {
+    min-width: unset;
+  }
+
+  #kapsula-popup-home::part(popup-content) {
+    flex-direction: column-reverse;
+  }
+
+  #kapsula-popup-home .visual {
+    width: 100%;
+  }
+
+  #kapsula-popup-home .content {
+    width: 100%;
+  }
+}

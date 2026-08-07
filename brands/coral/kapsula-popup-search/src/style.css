@@ -1,0 +1,135 @@
+#coral-popup-trigger {
+    background: url("https://b2ccdn.coral.ru/content/cyganski-babl.webp");
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+    display: flex;
+    gap: 8px;
+    align-items: center;
+    justify-content: center;
+    box-sizing: border-box;
+    width: fit-content;
+    padding: 7px 16px 7px 8px;
+    min-height: 48px;
+    font-family: inherit;
+    text-decoration: none;
+    border: none;
+    border-radius: 40px;
+    cursor: pointer;
+    color: #FFFFFF;
+    transition: border-color .3s ease;
+}
+
+
+#kapsula-popup-search::part(popup-body) {
+    align-items: center;
+}
+
+#kapsula-popup-search::part(popup-dialog) {
+    min-width: 900px;
+    overflow: clip;
+}
+
+#kapsula-popup-search::part(popup-content) {
+    flex-direction: row;
+    align-items: stretch;
+    background: #262626;
+    padding: 0;
+    gap: 0;
+}
+
+#kapsula-popup-search {
+    h3 {
+        color: #FFFFFF;
+        font-size: var(--font-font_Size_Heading_2, 32px);
+        font-style: normal;
+        font-weight: var(--font-font_Weight_Semibold, 600);
+        line-height: var(--font-font_Line_Height_Heading_2, 40px); /* 125% */
+        margin: 0 0 8px;
+        text-align: center;
+    }
+
+    p {
+        color: var(--Base-color_Base_Light, #FFF);
+        font-size: var(--font-font_Size_Heading_5, 18px);
+        font-style: normal;
+        text-align: center;
+        font-weight: var(--font-font_Weight_Regular, 400);
+        margin: 0;
+        line-height: var(--font-font_Line_Height_Heading_4, 32px); /* 160% */
+        white-space: pre-line;
+    }
+
+    .content {
+        display: flex;
+        flex-direction: column;
+        box-sizing: border-box;
+        width: 40%;
+        min-height: 320px;
+        padding: 24px;
+        justify-content: center;
+    }
+
+    .visual {
+        align-self: stretch;
+        width: 60%;
+        height: auto;
+        min-height: 320px;
+        background-size: cover;
+        background-repeat: no-repeat;
+        background-position: center top;
+    }
+
+    .actions {
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+        margin-top: 32px;
+    }
+
+    a {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        box-sizing: border-box;
+        width: 100%;
+        min-height: 48px;
+        border-radius: 12px;
+        border: none;
+        text-decoration: none;
+    }
+
+    button {
+        height: 48px;
+        border-radius: 12px;
+        background: transparent;
+        border: none;
+        color: #FFFFFF;
+        font-size: 16px;
+        text-align: center;
+        width: 100%;
+        cursor: pointer;
+    }
+
+    .close-btn:hover {
+        color: #0092D0;
+    }
+}
+
+
+#kapsula-popup-search::part(popup-dialog) {
+    min-width: unset;
+}
+
+#kapsula-popup-search::part(popup-content) {
+    flex-direction: column-reverse;
+}
+
+#kapsula-popup-search .visual {
+    width: 100%;
+}
+
+#kapsula-popup-search .content {
+    width: 100%;
+    min-height: unset;
+}
