@@ -11,6 +11,7 @@ export default [
       "utils/**/*.js",
       "scripts/**/*.js",
       "test/**/*.js",
+      "brands/**/*.js",
       "eslint.config.js",
     ],
     languageOptions: {

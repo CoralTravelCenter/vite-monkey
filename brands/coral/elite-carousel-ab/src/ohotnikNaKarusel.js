@@ -1,3 +1,25 @@
+/*
+ * Логи только для отладки.
+ *
+ * Раньше console.log здесь вызывался безусловно, поэтому
+ * служебные сообщения видели все посетители сайта.
+ *
+ * Включить:  localStorage.coralGlideDebug = '1'
+ * Выключить: localStorage.removeItem('coralGlideDebug')
+ *
+ * Флаг читается один раз при загрузке — после переключения
+ * нужна перезагрузка страницы.
+ */
+const DEBUG =
+  typeof localStorage !== 'undefined' &&
+  localStorage.getItem('coralGlideDebug') === '1';
+
+function log(...args) {
+  if (DEBUG) {
+    console.log(...args);
+  }
+}
+
 export class getCoralGlide {
   constructor(selector = '#quick-search-tab-area') {
     this.selector = selector;
@@ -7,6 +29,10 @@ export class getCoralGlide {
 
     this.Glide = null;
     this.instance = null;
+
+    this.firstIndex = 0;
+    this.lastIndex = null;
+    this.rangeGuardBound = false;
 
     this.ready = this.init();
   }
@@ -177,6 +203,11 @@ export class getCoralGlide {
         }
       }
     } catch {
+      /*
+       * Object.values() может упасть на экзотическом
+       * объекте из чужого бандла. Это нормально:
+       * значит, Glide не здесь — идём дальше.
+       */
     }
 
     return null;
@@ -202,13 +233,17 @@ export class getCoralGlide {
       if (Glide) {
         window.__Glide = Glide;
 
-        console.log(
+        log(
           '[CoralGlide] Glide найден в webpack: 93542',
         );
 
         return Glide;
       }
     } catch {
+      /*
+       * Модуля с таким номером в сборке уже нет —
+       * ниже ищем перебором.
+       */
     }
 
     /*
@@ -245,12 +280,17 @@ export class getCoralGlide {
 
         window.__Glide = Glide;
 
-        console.log(
+        log(
           `[CoralGlide] Glide найден в webpack: ${id}`,
         );
 
         return Glide;
       } catch {
+        /*
+         * Модуль не выполнился (например, тянет
+         * недоступное окружение) — просто пробуем
+         * следующий.
+         */
       }
     }
 
@@ -357,7 +397,7 @@ export class getCoralGlide {
       );
 
     if (!found) {
-      console.log(
+      log(
         '[CoralGlide] Glide prototype properties:',
       );
 
@@ -365,7 +405,7 @@ export class getCoralGlide {
         this.Glide.prototype;
 
       while (current) {
-        console.log(
+        log(
           Object.getOwnPropertyNames(current),
         );
 
@@ -419,7 +459,7 @@ export class getCoralGlide {
           ) {
             captured = this;
 
-            console.log(
+            log(
               '[CoralGlide] System instance captured:',
               this,
             );
@@ -514,7 +554,7 @@ export class getCoralGlide {
       );
     }
 
-    console.log(
+    log(
       '[CoralGlide] Ready',
       {
         container: this.container,
@@ -526,104 +566,81 @@ export class getCoralGlide {
     return this;
   }
 
-  /*
-   * =========================================================
-   * CLEANUP
-   * =========================================================
-   */
-
-  cleanup() {
-    /*
-     * destroy() должен убрать clones сам.
-     * Это просто страховка.
-     */
-    this.root
-      .querySelectorAll(
-        '.glide__slide--clone',
-      )
-      .forEach((clone) => {
-        clone.remove();
-      });
-
-    return this;
-  }
-
-  renumberBullets() {
-    this.container
-      .querySelectorAll(
-        '.glide__bullet',
-      )
-      .forEach((bullet, index) => {
-        bullet.setAttribute(
-          'data-glide-dir',
-          `=${index}`,
-        );
-      });
-
-    return this;
-  }
-
-  /*
-   * =========================================================
-   * REINIT
-   * =========================================================
-   */
-
-  async reinit(mutator) {
+  async setRange(firstIndex, lastIndex) {
     await this.ready;
 
-    /*
-     * Это именно системный Glide instance.
-     *
-     * Его settings НЕ читаем,
-     * НЕ копируем и НЕ изменяем.
-     */
-    const glide =
-      this.instance;
+    const slideCount = this.slides.length;
+    const maxIndex = Math.max(0, slideCount - 1);
 
-    /*
-     * Останавливаем системную карусель.
-     */
-    glide.destroy();
+    this.firstIndex = Math.min(
+      Math.max(0, firstIndex),
+      maxIndex,
+    );
+    this.lastIndex = Math.min(
+      Math.max(this.firstIndex, lastIndex),
+      maxIndex,
+    );
 
-    /*
-     * После destroy убираем возможные
-     * оставшиеся clone-слайды.
-     */
-    this.cleanup();
+    this.bullets.forEach((bullet, index) => {
+      const visible =
+        index >= this.firstIndex &&
+        index <= this.lastIndex;
 
-    /*
-     * Меняем реальный DOM.
-     */
-    mutator?.(this.root);
+      bullet.hidden = !visible;
+      bullet.toggleAttribute(
+        'data-coral-glide-excluded',
+        !visible,
+      );
+      bullet.setAttribute(
+        'aria-hidden',
+        String(!visible),
+      );
+      bullet.setAttribute(
+        'data-glide-dir',
+        `=${index}`,
+      );
+    });
 
-    /*
-     * После удаления первых bullets
-     * старые data-glide-dir уже неправильные.
-     */
-    this.renumberBullets();
+    if (!this.rangeGuardBound) {
+      /*
+       * Не даём свайпу или стрелке увести пользователя к
+       * скрытым начальным слайдам. run.before вызывается до
+       * расчёта нового индекса, поэтому запрещённый слайд даже
+       * не успевает появиться на экране.
+       */
+      this.instance.on('run.before', (move) => {
+        if (
+          this.instance.index <= this.firstIndex &&
+          move.direction === '<'
+        ) {
+          move.direction = '=';
+          move.steps = this.firstIndex;
+        }
+      });
 
-    /*
-     * Начинаем с первого оставшегося слайда.
-     */
-    glide.index = 0;
+      /*
+       * Резервная защита на случай программного перехода или
+       * неожиданного поведения другой обвязки сайта.
+       */
+      this.instance.on('run.after', () => {
+        if (this.instance.index < this.firstIndex) {
+          this.instance.go(`=${this.firstIndex}`);
+        } else if (this.instance.index > this.lastIndex) {
+          this.instance.go(`=${this.firstIndex}`);
+        }
+      });
 
-    /*
-     * Главное:
-     *
-     * НИКАКОГО new Glide().
-     *
-     * Монтируем тот же системный instance.
-     * Его исходные настройки остаются внутри него.
-     */
-    glide.mount();
+      this.rangeGuardBound = true;
+    }
 
-    console.log(
-      '[CoralGlide] Reinitialized',
+    this.instance.go(`=${this.firstIndex}`);
+
+    log(
+      '[CoralGlide] Range configured',
       {
-        slides: this.slides.length,
-        bullets: this.bullets.length,
-        instance: glide,
+        firstIndex: this.firstIndex,
+        lastIndex: this.lastIndex,
+        slides: slideCount,
       },
     );
 
@@ -637,31 +654,12 @@ export class getCoralGlide {
    */
 
   async removeFirst(count = 3) {
-    return this.reinit((root) => {
-      const slides = [
-        ...root.querySelectorAll(
-          '.glide__slide:not(.glide__slide--clone)',
-        ),
-      ];
+    await this.ready;
 
-      slides
-        .slice(0, count)
-        .forEach((slide) => {
-          slide.remove();
-        });
-
-      const bullets = [
-        ...this.container.querySelectorAll(
-          '.glide__bullet',
-        ),
-      ];
-
-      bullets
-        .slice(0, count)
-        .forEach((bullet) => {
-          bullet.remove();
-        });
-    });
+    return this.setRange(
+      count,
+      this.slides.length - 1,
+    );
   }
 
   /*
@@ -671,31 +669,7 @@ export class getCoralGlide {
    */
 
   async keepFirst(count = 3) {
-    return this.reinit((root) => {
-      const slides = [
-        ...root.querySelectorAll(
-          '.glide__slide:not(.glide__slide--clone)',
-        ),
-      ];
-
-      slides
-        .slice(count)
-        .forEach((slide) => {
-          slide.remove();
-        });
-
-      const bullets = [
-        ...this.container.querySelectorAll(
-          '.glide__bullet',
-        ),
-      ];
-
-      bullets
-        .slice(count)
-        .forEach((bullet) => {
-          bullet.remove();
-        });
-    });
+    return this.setRange(0, count - 1);
   }
 
   /*
@@ -751,4 +725,22 @@ export class getCoralGlide {
       ),
     ];
   }
+
+  /*
+   * Слайды-клоны. Полезны для отладки: по ним видно,
+   * пересобрал ли Glide набор под новое количество слайдов.
+   */
+  get clones() {
+    if (!this.root) {
+      return [];
+    }
+
+    return [
+      ...this.root.querySelectorAll(
+        '.glide__slide--clone' +
+        ':not([data-coral-glide-excluded])',
+      ),
+    ];
+  }
+
 }
