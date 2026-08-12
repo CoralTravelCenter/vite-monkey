@@ -1,0 +1,9 @@
+{
+  "name": "slider-fix",
+  "entry": "src/main.js",
+  "brand": "both",
+  "match": [
+    "https://www.coral.ru/*",
+    "https://www.sunmar.ru/*"
+  ]
+}
