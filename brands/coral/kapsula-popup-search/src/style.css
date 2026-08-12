@@ -127,9 +127,20 @@
 
 #kapsula-popup-search .visual {
     width: 100%;
+    position: relative;
 }
 
 #kapsula-popup-search .content {
     width: 100%;
     min-height: unset;
+}
+
+[data-personalized-erid] {
+    font-size: 8px;
+    text-align: center;
+    width: 100%;
+    display: inline-block;
+    position: absolute;
+    bottom: 8px;
+    color: #fff;
 }
