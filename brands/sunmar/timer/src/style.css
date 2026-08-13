@@ -1,0 +1,300 @@
+.wrapper--timer {
+    @media screen and (max-width: 768px) {
+        display: flex;
+        justify-content: center;
+    }
+}
+
+.ny-timer {
+    display: flex;
+    gap: 20px;
+    width: 100%;
+    position: relative;
+    padding-inline: 24px;
+    border-radius: 24px;
+    overflow: hidden;
+    background-image: url("https://b2ccdn.sunmar.ru/content/Countdown%20desktop.webp");
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center, right;
+    height: 140px;
+
+    @media screen and (max-width: 1340px) {
+        background-image: url("https://b2ccdn.sunmar.ru/content/countdown-tablet.jpg");
+        height: 264px;
+        justify-content: center;
+        flex-direction: column;
+    }
+
+    @media screen and (max-width: 1024px) {
+        flex-wrap: wrap;
+        height: unset;
+        padding-block: 24px;
+    }
+
+    @media screen and (max-width: 515px) {
+        flex-direction: column;
+        background: url("https://b2ccdn.sunmar.ru/content/countdown-mob.jpg"), #ffffff;
+        background-size: 93%, contain;
+        background-position: bottom;
+        background-repeat: no-repeat;
+        max-width: 343px;
+        min-height: 343px;
+        justify-content: flex-start;
+    }
+}
+
+/*.ny-timer::before {*/
+/*    position: absolute;*/
+/*    content: '';*/
+/*    background-image: url("https://b2ccdn.coral.ru/content/landing-pages/calendar/timer.webp");*/
+/*    width: 258px;*/
+/*    height: 140px;*/
+/*    bottom: 0;*/
+/*    left: 41%;*/
+
+/*    @media screen and (max-width: 1400px) {*/
+/*        background-image: none;*/
+/*    }*/
+/*}*/
+
+/*.ny-timer::after {*/
+/*    position: absolute;*/
+/*    content: '';*/
+/*    background-image: url("https://b2ccdn.coral.ru/content/landing-pages/new-rb-timer/bg_orange.webp");*/
+/*    width: 323px;*/
+/*    height: 70px;*/
+/*    top: 0;*/
+/*    right: 0;*/
+/*}*/
+
+.ny-timer__label {
+    position: absolute;
+    font-size: 10px;
+    right: 15px;
+    bottom: 5px;
+    color: #fff;
+}
+
+.ny-timer .title-2 {
+    color: black;
+}
+
+.ny-timer__block {
+    display: flex;
+    padding-inline: 30px;
+    padding-block: 15px;
+    /*background-color: #fff;*/
+    border-radius: 96px;
+    align-items: center;
+
+     @media screen and (max-width: 1340px) {
+    padding-left: 0;
+    }
+
+    @media screen and (max-width: 1340px) {
+        padding-block: 7px;
+    }
+
+    @media screen and (max-width: 515px) {
+        border: unset;
+        background: unset;
+        box-shadow: unset;
+        backdrop-filter: unset;
+        padding: 0;
+    }
+}
+
+.ny-timer__button {
+    display: flex;
+    align-items: center;
+    border-radius: 25px;
+    flex-shrink: 0;
+    z-index: 2;
+
+    @media screen and (max-width: 1340px) {
+        order: 3;
+    }
+
+    @media screen and (max-width: 768px) {
+        order: 3;
+    }
+}
+
+.ny-timer a.ny-timer__link {
+    background: linear-gradient(225deg, #E7317D 0%, #D8242A 100%);
+    color: white;
+    padding-inline: 24px;
+    height: 48px;
+    border-radius: 48px;
+    display: flex;
+    align-items: center;
+    text-decoration: none;
+    justify-content: center;
+    text-align: center;
+    font-weight: 600;
+}
+
+.ny-timer__column {
+    display: flex;
+    align-items: center;
+    position: relative;
+    justify-content: center;
+    z-index: 2;
+    gap: 16px;
+    width: auto;
+
+    @media screen and (max-width: 1340px) {
+        justify-content: flex-start;
+        order: 2;
+        max-width: unset;
+    }
+
+    @media screen and (max-width: 768px) {
+        order: 2;
+        padding-left: 0;
+        justify-content: flex-start;
+    }
+}
+
+.ny-timer__box {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 75px;
+    position: relative;
+    padding-right: 14px;
+}
+
+.ny-timer__box:last-child::after {
+    display: none;
+}
+
+.ny-timer__box::after {
+    position: absolute;
+    content: ':';
+    font-size: 47px;
+    font-weight: 600;
+    color: #E9292C;
+    right: 0;
+    top: -6px;
+}
+
+.ny-timer__text {
+    font-size: 20px;
+    color: black;
+    line-height: 24px;
+
+    @media screen and (max-width: 768px) {
+        color: black;
+    }
+}
+
+.ny-timer__subtext {
+    font-size: 20px;
+    line-height: 32px;
+    color: #535353;
+}
+
+.ny-timer__number {
+    font-size: 48px;
+    font-weight: 600;
+    color: #E9292C;
+    line-height: 55px;
+
+    @media screen and (max-width: 768px) {
+        color: #E9292C;
+    }
+}
+
+.ny-timer__subtitle {
+    color: white;
+    font-size: 16px;
+    line-height: 24px;
+    margin: 0;
+}
+
+.ny-timer__title {
+    font-size: 28px;
+    color: black;
+    line-height: 36px;
+    font-weight: 600;
+    margin: 0;
+
+    @media screen and (max-width: 1154px) {
+        font-size: 30px;
+        line-height: 36px;
+    }
+
+    @media screen and (max-width: 768px) {
+        font-size: 20px;
+        line-height: 28px;
+        max-width: 240px;
+    }
+}
+
+.ny-timer__clock {
+    padding-right: 16px;
+
+    @media screen and (max-width: 515px) {
+        display: none;
+    }
+}
+
+.ny-timer__wrapper {
+    display: flex;
+    flex-direction: column;
+    z-index: 2;
+    justify-content: center;
+    margin-left: auto;
+    position: relative;
+
+    @media screen and (max-width: 1340px) {
+        width: fit-content;
+        margin-left: 0;
+        order: 1;
+    }
+
+    @media screen and (max-width: 768px) {
+        margin-right: auto;
+        margin-left: 0;
+        padding-bottom: 30px;
+    }
+}
+
+@media screen and (max-width: 768px) {
+    .ny-timer::before {
+        display: none;
+    }
+}
+
+
+
+
+ .coral .title-2 {
+     font-size: 26px;
+     line-height: 30px;
+     margin: 0;
+     max-width: 90%;
+
+     @media screen and (max-width: 1024px) {
+         font-size: 26px;
+         line-height: 32px;
+     }
+ }
+
+section > article {
+    max-width: 1528px;
+    margin: auto;
+}
+
+section > article .wrapper {
+    padding-inline: 80px;
+    padding-block: 40px;
+    position: relative;
+
+    @media screen and (max-width: 768px) {
+        padding-inline: 16px;
+        padding-block: 30px;
+    }
+}

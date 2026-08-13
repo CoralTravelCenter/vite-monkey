@@ -1,4 +1,4 @@
-import {reactDomObserver} from '../../../../../utils/index.js';
+import {reactDomObserver} from '@utils';
 
 import markup from '../markup.html?raw';
 import popupMarkup from '../popup.html?raw';

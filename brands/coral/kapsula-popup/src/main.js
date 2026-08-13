@@ -28,7 +28,7 @@ async function init() {
   const popup = document.getElementById('kapsula-popup-home');
   const triggerBtn = createTrigger(popup);
   const host = document.querySelector('[class*="HeaderMobile_rightGroup__"]');
-  if (host) {
+  if (host && !triggerBtn) {
     host.appendChild(triggerBtn)
   }
 }
