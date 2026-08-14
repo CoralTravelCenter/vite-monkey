@@ -1,0 +1,9 @@
+section.hero {
+  background-color: #F1F7FB !important;
+}
+
+article.kv__outer {
+  width: 100vw !important;
+  margin-left: calc(50% - 50vw) !important;
+  margin-right: calc(50% - 50vw) !important;
+}
