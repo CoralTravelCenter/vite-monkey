@@ -2,8 +2,26 @@ section.hero {
   background-color: #F1F7FB !important;
 }
 
-article.kv__outer {
+section.hero.kv {
+  position: relative !important;
   width: 100vw !important;
-  margin-left: calc(50% - 50vw) !important;
-  margin-right: calc(50% - 50vw) !important;
+  left: 50% !important;
+  transform: translateX(-50%) !important;
+  background-repeat: no-repeat !important;
+  background-size: cover !important;
+  background-position: center !important;
+}
+
+@media (min-width: 1920px) {
+  section.hero.kv {
+    max-width: 1920px !important;
+    left: 50% !important;
+    transform: translateX(-50%) !important;
+  }
+}
+
+@media (max-width: 768px) {
+  section.kv .kv__outer {
+    background-position: 46% 50% !important;
+  }
 }
