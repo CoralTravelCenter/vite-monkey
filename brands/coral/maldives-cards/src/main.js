@@ -1,33 +1,18 @@
-import { markup } from "./scripts/includeImages.js";
 import './style.css';
+import {initProdWidget} from "./scripts/prodWidget/initProdWidget.js";
+import {initDevWidget} from "./scripts/devWidget/initDevWidget.js";
+import {outputErrorMessage} from "./scripts/utils/errorMessage.js";
 
-if (import.meta.env.DEV) {
-    async function initWidget() {
-        if (typeof hostReactAppReady === 'function') {
-            await hostReactAppReady();
-            const devContainer = document.getElementById('monkey-app');
-
-            if (devContainer && !devContainer.dataset.injected) {
-                devContainer.innerHTML = markup;
-                devContainer.dataset.injected = 'true';
-                return;
-            }
-            console.error('Failed to load monkey-app');
+;(async function startInject() {
+    try {
+        if(!import.meta.env.DEV){
+            initProdWidget();
+        }
+        else {
+            await initDevWidget();
         }
     }
-
-    initWidget();
-}
-
-function onProdContainer() {
-    const prodContainer = document.getElementById('widget-maldives-cards');
-
-    if (prodContainer && !prodContainer.dataset.injected) {
-        prodContainer.innerHTML = markup;
-        prodContainer.dataset.injected = 'true';
+    catch (error) {
+        outputErrorMessage("Ошибка инициализации компонентов: ", error);
     }
-}
-
-if (!import.meta.env.DEV) {
-    onProdContainer();
-}
+})();

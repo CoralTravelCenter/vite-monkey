@@ -1,9 +1,18 @@
-import { markup } from "./scripts/includeImages.js";
 import './style.css';
+import {initProdWidget} from "./scripts/ProdWidget/initProdWidget.js";
+import {initDevWidget} from "./scripts/DevWidget/initDevWidget.js";
+import {outputErrorMessage} from "./scripts/utils/errorMessage.js";
 
-const container = document.getElementById('widget-china-cards');
-
-if (container && !container.dataset.injected) {
-    container.insertAdjacentHTML('afterbegin', markup);
-    container.dataset.injected = 'true';
-}
+;(async function startInject() {
+    try {
+        if(!import.meta.env.DEV) {
+            initProdWidget();
+        }
+        else {
+            await initDevWidget();
+        }
+    }
+    catch(error) {
+        outputErrorMessage("Ошибка инициализации китайских карточек", error);
+    }
+})();
