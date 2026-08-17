@@ -3,6 +3,6 @@ export function outputErrorMessage(message, error) {
     const errMessage = error?.message || String(error);
     console.error(
         `${message}\nИмя ошибки: ${errName}\nОписание ошибки: ${errMessage}`,
-        `\nРазбор ошибки: `, error
+        error
     );
 }

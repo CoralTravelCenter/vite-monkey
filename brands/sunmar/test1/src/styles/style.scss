@@ -1,3 +1,46 @@
-@use "abstracts";
+.new-div-element {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  width: 100px;
+  height: 50px;
+  gap: 20px;
+  border-radius: 10px;
+  border: solid 1px black;
+}
 
-@use "components";
+.id-element {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+}
+
+.id-element {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+}
+
+.abobchik {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.gradient-one {
+  background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+}
+
+.gradient-two {
+  background: linear-gradient(135deg, #00F2FE 0%, #4FACFE 100%);
+}
+
+.gradient-three {
+  background: linear-gradient(215deg, #7928CA 0%, #FF0080 100%);
+}

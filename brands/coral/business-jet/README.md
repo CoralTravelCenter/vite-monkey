@@ -12,8 +12,8 @@ Mindbox experiment based on Vite and vite-plugin-monkey.
 ## Commands
 
 ```bash
-npm run dev:experiment -- brands/coral/brands-coral-business-jet
-npm run build:experiment -- brands/coral/brands-coral-business-jet
+npm run dev:experiment -- brands/coral/business-jet
+npm run build:experiment -- brands/coral/business-jet
 ```
 
 ## Files

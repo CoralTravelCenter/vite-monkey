@@ -8,7 +8,7 @@ export async function parseHotelWidget() {
     try {
         currentHotelId = await waitForHotelID();
     } catch (error) {
-        throw new Error("Не удалось получить ID текущего отеля", {cause: error});
+        throw new Error("Не удалось получить ID текущего отеля" + {cause: error});
     }
     if (currentHotelId && TARGET_HOTEL_IDS.includes(currentHotelId)) {
         await initProdWidget();

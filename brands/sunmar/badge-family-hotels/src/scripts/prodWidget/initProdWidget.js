@@ -1,9 +1,9 @@
 import {waitForElement} from "@utils";
-import markup from "../../markup.html?raw";
+import {markup} from "../utils/keys.js";
 
 export async function initProdWidget() {
+    const selector = '[class*="PhotoGalleryMainCarousel_mainSwiperContainer__"]';
     try {
-        const selector = '[class*="PhotoGalleryMainCarousel_mainSwiperContainer__"]';
         const galleryTarget = await waitForElement(selector);
 
         if (!galleryTarget) return;
@@ -15,6 +15,6 @@ export async function initProdWidget() {
 
         galleryTarget.insertAdjacentElement('beforeend', badgeWrapper);
     } catch (error) {
-        throw new Error("Ошибка поиска галереи или вставки бейджа", {cause: error});
+        throw new Error("Ошибка поиска галереи или вставки бейджа" + {cause: error});
     }
 }
