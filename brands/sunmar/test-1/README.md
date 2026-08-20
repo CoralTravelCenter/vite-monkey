@@ -12,8 +12,8 @@ Mindbox experiment based on Vite and vite-plugin-monkey.
 ## Commands
 
 ```bash
-npm run dev:experiment -- brands/sunmar/test1
-npm run build:experiment -- brands/sunmar/test1
+npm run dev:experiment -- brands/sunmar/test-1
+npm run build:experiment -- brands/sunmar/test-1
 ```
 
 ## Files

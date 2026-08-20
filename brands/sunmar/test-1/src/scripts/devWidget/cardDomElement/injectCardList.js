@@ -1,18 +1,15 @@
-import {moreElements} from "./moreElements.js";
+import {injectMainElement} from "./injectMainElement.js";
 
-
-export function newDiv() {
+export function initCardList() {
     return new Promise((resolve, reject) => {
         setTimeout(() => {
             const injectedParent = document.querySelector(".experiment-div");
-            if(injectedParent) {
-                injectedParent.classList.add("abobchik");
-                const finalDiv = moreElements(injectedParent);
-                resolve(finalDiv);
+            if (injectedParent) {
+                resolve(injectMainElement(injectedParent));
             }
             else {
                 reject(new Error("Ёмаё промис пал милорд"));
             }
-        }, 5000)
+        }, 5000);
     })
 }
