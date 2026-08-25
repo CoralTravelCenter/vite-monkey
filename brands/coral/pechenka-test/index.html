@@ -1,0 +1,57 @@
+<div class="scene">
+  <!-- Акварельный фон и декор -->
+  <div class="bg-wash" aria-hidden="true"></div>
+  <img src="./assets/landscape.webp" alt="" class="bg-landscape" aria-hidden="true" />
+  <img src="./assets/temple.webp" alt="" class="deco deco-temple" aria-hidden="true" />
+  <img src="./assets/elephant.webp" alt="" class="deco deco-elephant" aria-hidden="true" />
+  <img src="./assets/boat.webp" alt="" class="deco deco-boat" aria-hidden="true" />
+
+  <!-- Падающие лепестки сакуры (создаются скриптом) -->
+  <div class="petals" id="petals" aria-hidden="true"></div>
+
+  <main class="stage idle" id="stage">
+    <header class="head">
+      <div class="seal" aria-hidden="true">福</div>
+      <h1>Печенье судьбы</h1>
+      <p class="sub">Разломи печенье — и узнай, какая страна Азии зовёт тебя в путь</p>
+    </header>
+
+    <div class="cookie-stage idle" id="cookieStage">
+      <button
+        type="button"
+        class="cookie-btn"
+        id="cookieBtn"
+        aria-label="Разломить печенье с предсказанием"
+      >
+        <img src="./assets/cookie_start.svg" alt="Печенье с предсказанием" class="cookie-img img-start" />
+        <img src="./assets/cookie_finish.svg" alt="" class="cookie-img img-finish" aria-hidden="true" />
+      </button>
+      <div class="shadow" aria-hidden="true"></div>
+    </div>
+    <p class="hint" id="hint">нажми на печенье</p>
+
+    <section class="fortune-card" id="fortuneCard" hidden aria-live="polite">
+      <div class="card-inner">
+        <p class="fortune-text" id="fortuneText"></p>
+        <div class="country-row">
+          <span class="flag" id="countryFlag" aria-hidden="true"></span>
+          <div class="country-names">
+            <span class="country-name" id="countryName"></span>
+            <span class="country-tagline" id="countryTagline"></span>
+          </div>
+        </div>
+        <div class="actions">
+          <button type="button" class="btn-tour" id="tourBtn">
+            Подобрать тур
+            <span class="btn-tour-arrow" aria-hidden="true">→</span>
+          </button>
+          <button type="button" class="btn-again" id="againBtn">Открыть ещё одно</button>
+        </div>
+      </div>
+    </section>
+
+    <footer class="foot">Китай · Таиланд · Вьетнам — 30 предсказаний судьбы</footer>
+  </main>
+</div>
+<script src="./app.js"></script>
+
