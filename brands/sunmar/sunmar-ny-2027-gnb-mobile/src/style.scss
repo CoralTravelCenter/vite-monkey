@@ -1,0 +1,54 @@
+.sunmar-ny-2027-gnb-mobile {
+  box-sizing: border-box;
+  padding: 8px;
+  order: 1;
+}
+
+[class*="HeaderMobileMenuList_headerMobileMenuList__"] {
+  > [class*="HeaderMobileMenuListItem_headerMobileMenuListItem__"]:has([class*="HeaderMobileMenuListItem_toggleButton__"]) {
+    order: 2;
+  }
+}
+
+.sunmar-ny-2027-gnb__button-mobile {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: #000;
+  font-family: var(--theme-font-family, "Museo_Sans", "Museo_Sans_Cyrill", sans-serif);
+  font-size: 16px;
+  font-weight: 600;
+  line-height: 24px;
+  letter-spacing: 0;
+  text-decoration: none;
+  white-space: nowrap;
+}
+
+.sunmar-ny-2027-gnb__button-mobile:hover,
+.sunmar-ny-2027-gnb__button-mobile:focus,
+.sunmar-ny-2027-gnb__button-mobile:active,
+.sunmar-ny-2027-gnb__button-mobile:visited {
+  color: #000;
+  text-decoration: none;
+}
+
+.sunmar-ny-2027-gnb__picture-mobile {
+  display: block;
+  flex: 0 0 24px;
+  width: 24px;
+  height: 24px;
+  order: 2;
+}
+
+.sunmar-ny-2027-gnb__icon-mobile {
+  display: block;
+  width: 24px;
+  height: 24px;
+  object-fit: contain;
+}
+
+.sunmar-ny-2027-gnb__label-mobile {
+  display: block;
+  font: inherit;
+  order: 1;
+}
