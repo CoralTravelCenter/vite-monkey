@@ -1,1 +1,1 @@
-export {default, markup} from "../../markup.html?raw";
+export {default as markup} from "../../markup.html?raw";

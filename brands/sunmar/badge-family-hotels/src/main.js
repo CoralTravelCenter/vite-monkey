@@ -3,7 +3,7 @@ import {initDevWidget} from "./scripts/devWidget/initDevWidget.js";
 import {parseHotelWidget} from "./scripts/prodWidget/parseHotelWidget.js";
 import {outputErrorMessage} from "./scripts/utils/errorMessage.js";
 
-(async function installWidget() {
+;(async function injectBadgeFamilyHotels() {
   try {
     if (import.meta.env.DEV) {
       await initDevWidget();
