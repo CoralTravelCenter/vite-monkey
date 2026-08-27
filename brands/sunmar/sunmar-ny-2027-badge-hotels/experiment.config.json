@@ -1,0 +1,8 @@
+{
+  "name": "sunmar-ny-2027-badge-hotels",
+  "entry": "src/main.js",
+  "brand": "sunmar",
+  "match": [
+    "https://www.sunmar.ru/*"
+  ]
+}

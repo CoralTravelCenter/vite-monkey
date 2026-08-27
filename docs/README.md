@@ -138,7 +138,7 @@ npm run build:experiment -- experiment-name
 
 ```javascript
 import { markup } from "./scripts/includeImages.js";
-import "./style.css";
+import "./style.scss";
 
 // Ждем, пока React полностью построит DOM-дерево
 await hostReactAppReady();
@@ -155,7 +155,7 @@ document.getElementById("monkey-app").insertAdjacentHTML("afterbegin", markup);
 
 ```javascript
 import { markup } from "./scripts/includeImages.js";
-import "./style.css";
+import "./style.scss";
 
 // Ищем уникальный контейнер текущего виджета
 const container = document.getElementById("widget-china-cards");
@@ -175,7 +175,7 @@ if (container && !container.dataset.injected) {
 
 ```javascript
 import { markup } from "./markup.html?raw";
-import "./style.css";
+import "./style.scss";
 
 if (import.meta.env.DEV) {
   async function initWidget() {
@@ -213,7 +213,7 @@ if (!import.meta.env.DEV) {
 
 - **Уникальность ID:** Никогда не используй базовые идентификаторы вроде `id="app"`, `id="root"` или `id="container"` для боевого контейнера виджета. В CRM они уже заняты главным React-приложением. Использование дублей сломает верстку сайта.
 - **Строгий нейминг:** Имя контейнера должно четко соответствовать имени, генерируемому сборщиком (например, `widget-название_проекта`). Опечатка даже в одной букве (например, `card` вместо `cards`) приведет к тому, что скрипт не найдет контейнер и виджет останется пустым.
-- **Изоляция стилей:** Все классы в `style.css` должны иметь уникальный префикс, связанный с виджетом (например, `.china-cards-title`, а не просто `.title`). Иначе ваши стили переопределят глобальные стили CRM.
+- **Изоляция стилей:** Все классы в `style.scss` должны иметь уникальный префикс, связанный с виджетом (например, `.china-cards-title`, а не просто `.title`). Иначе ваши стили переопределят глобальные стили CRM.
 - **Отсутствие комментариев в итоговой верстке:** Сборщик Vite минифицирует код, но если вы правите HTML вручную, избегайте HTML-комментариев `<!-- -->` внутри боевого кода, чтобы не увеличивать вес страницы.
 - **Защита от сбоев (`if (container)`):** Всегда проверяйте, найден ли целевой элемент в DOM, прежде чем использовать `insertAdjacentHTML` или `innerHTML`. Это защитит CRM от фатальных JS-ошибок (`Uncaught TypeError: Cannot read properties of null`), если кто-то случайно удалит обертку виджета.
 

@@ -1,5 +1,5 @@
 // import markup from './markup.html?raw'
-// import './style.css'
+// import './style.scss'
 //
 // document.body.insertAdjacentHTML('beforeend', markup)
 

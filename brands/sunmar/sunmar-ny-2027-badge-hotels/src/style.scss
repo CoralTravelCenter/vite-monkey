@@ -1,0 +1,136 @@
+.sunmar-ny-2027-badge {
+  position: relative;
+  width: 377px;
+  height: 89px;
+  color: #FFFFFF;
+  font-family: 'Manrope', system-ui, -apple-system, sans-serif;
+}
+
+.sunmar-ny-2027-badge__ribbon {
+  position: absolute;
+  top: 12px;
+  left: 0;
+  width: 339px;
+  height: 65px;
+  border-radius: 12px;
+  background: linear-gradient(78deg, #4E76BD -0.63%, #183C79 117.6%), linear-gradient(88deg, #284B89 -14.14%, #183C79 98.54%), linear-gradient(90deg, #0E2855 0%, #183C79 100%), linear-gradient(229deg, #6484A9 -18.6%, #5E759F 86.51%), linear-gradient(229deg, #6484A9 -18.6%, #B6C2D7 86.51%);
+}
+
+.sunmar-ny-2027-badge__content {
+  position: absolute;
+  top: 12px;
+  left: 16px;
+  display: flex;
+  align-items: center;
+  width: 280px;
+  height: 65px;
+  font-size: 18px;
+  font-weight: 600;
+  line-height: 21px;
+  white-space: nowrap;
+}
+
+.sunmar-ny-2027-badge__medallion {
+  position: absolute;
+  top: 44.5px;
+  right: 0;
+  display: grid;
+  place-items: center;
+  width: 72px;
+  height: 72px;
+  transform: translateY(-50%);
+}
+
+.sunmar-ny-2027-badge__medallion::before {
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  background: linear-gradient(51deg, #DAC1A7 8.54%, #A08158 168.59%);
+  box-shadow: -30px 0 19px 0 rgba(0, 0, 0, 0), -19px 0 17px 0 rgba(0, 0, 0, 0.01), -11px 0 14px 0 rgba(0, 0, 0, 0.05), -5px 0 11px 0 rgba(0, 0, 0, 0.09), -1px 0 6px 0 rgba(0, 0, 0, 0.1);
+  content: '';
+}
+
+.sunmar-ny-2027-badge__medallion img {
+  position: relative;
+  display: block;
+  width: 56px;
+  height: 56px;
+  object-fit: contain;
+}
+
+.sunmar-ny-2027-badge-gallery {
+  position: relative;
+}
+
+.sunmar-ny-2027-badge-root {
+  position: absolute;
+  top: 16px;
+  left: 16px;
+  z-index: 100;
+  pointer-events: auto;
+}
+
+@media (max-width: 768px) {
+  .sunmar-ny-2027-badge {
+    width: 242px;
+    height: 92px;
+  }
+
+  .sunmar-ny-2027-badge__ribbon {
+    top: 16px;
+    width: 208px;
+    height: 64px;
+  }
+
+  .sunmar-ny-2027-badge__content {
+    top: 16px;
+    left: 10px;
+    width: 167px;
+    height: 64px;
+    font-size: 16px;
+    line-height: 18px;
+    white-space: normal;
+  }
+
+  .sunmar-ny-2027-badge__medallion {
+    top: 48px;
+  }
+}
+
+@media (max-width: 480px) {
+  .sunmar-ny-2027-badge-root {
+    top: 8px;
+  }
+
+  .sunmar-ny-2027-badge {
+    width: 188px;
+    height: 70px;
+  }
+
+  .sunmar-ny-2027-badge__ribbon {
+    top: 12px;
+    width: 164px;
+    height: 46px;
+    border-radius: 9px;
+  }
+
+  .sunmar-ny-2027-badge__content {
+    top: 12px;
+    left: 9px;
+    width: 118px;
+    height: 46px;
+    font-size: 13px;
+    line-height: 15px;
+  }
+
+  .sunmar-ny-2027-badge__medallion {
+    top: 35px;
+    width: 52px;
+    height: 52px;
+  }
+
+  .sunmar-ny-2027-badge__medallion img {
+    width: 42px;
+    height: 42px;
+  }
+}
