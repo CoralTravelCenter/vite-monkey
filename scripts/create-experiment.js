@@ -2,223 +2,148 @@
 
 import fs from "node:fs";
 import path from "node:path";
-import readline from "node:readline/promises";
-import { stdin as input, stdout as output } from "node:process";
+import * as p from "@clack/prompts";
 
-import { ROOT_DIR, buildProjectDir } from "./lib/projects.js";
+import {
+  BRAND_OPTIONS,
+  ENTRY_OPTIONS,
+  STYLE_OPTIONS,
+  createExperimentFiles,
+  resolveExperimentOptions,
+} from "./lib/experiment-creator.js";
+import { ROOT_DIR, buildProjectDir, normalizePath } from "./lib/projects.js";
+
 const TEMPLATE_DIR = path.join(ROOT_DIR, "templates", "monkey-experiment");
 
-const MATCH_PRESETS = {
-  coral: "https://www.coral.ru/*",
-  sunmar: "https://www.sunmar.ru/*",
-  both: "https://www.coral.ru/*,https://www.sunmar.ru/*",
-  custom: "",
-};
-
 function parseArgs(argv) {
-  const result = {
-    name: "",
-    brand: "",
-    match: "",
-    entry: "",
-    style: "",
-  };
+  const result = { name: "", brand: "", match: "", entry: "", style: "" };
 
   for (let i = 0; i < argv.length; i++) {
     const arg = argv[i];
+    const optionName = {
+      "--brand": "brand",
+      "--match": "match",
+      "--entry": "entry",
+      "--style": "style",
+    }[arg];
 
-    if (arg === "--brand") {
-      result.brand = argv[++i] || "";
-      continue;
-    }
-
-    if (arg === "--match") {
-      result.match = argv[++i] || "";
-      continue;
-    }
-
-    if (arg === "--entry") {
-      result.entry = argv[++i] || "";
-      continue;
-    }
-
-    if (arg === "--style") {
-      result.style = argv[++i] || "";
-      continue;
-    }
-
-    if (!result.name) {
-      result.name = arg;
-    }
+    if (optionName) result[optionName] = argv[++i] || "";
+    else if (!result.name) result.name = arg;
   }
 
   return result;
 }
 
-function toKebabCase(value) {
-  return value
-    .trim()
-    .toLowerCase()
-    .replace(/[^a-z0-9а-яё]+/gi, "-")
-    .replace(/^-+|-+$/g, "");
-}
-
-function assertValidProjectName(name) {
-  if (!name) {
-    throw new Error("Имя проекта не может быть пустым.");
+function unwrapPrompt(value) {
+  if (p.isCancel(value)) {
+    p.cancel("Создание эксперимента отменено.");
+    return null;
   }
-
-  if (!/^[a-z0-9][a-z0-9-]*[a-z0-9]$|^[a-z0-9]$/.test(name)) {
-    throw new Error(
-      "Имя проекта должно быть в kebab-case: только латиница, цифры и дефисы.",
-    );
-  }
-}
-
-function resolveTemplateFileName(fileName, replacements) {
-  return fileName
-    .replaceAll("__ENTRY_FILE__", replacements.ENTRY_FILE)
-    .replaceAll("__STYLE_FILE__", replacements.STYLE_FILE);
-}
-
-function copyTemplate(sourceDir, targetDir, replacements) {
-  for (const entry of fs.readdirSync(sourceDir, { withFileTypes: true })) {
-    const sourcePath = path.join(sourceDir, entry.name);
-    const targetPath = path.join(
-      targetDir,
-      resolveTemplateFileName(entry.name, replacements),
-    );
-
-    if (entry.isDirectory()) {
-      fs.mkdirSync(targetPath, { recursive: true });
-      copyTemplate(sourcePath, targetPath, replacements);
-      continue;
-    }
-
-    let content = fs.readFileSync(sourcePath, "utf8");
-
-    for (const [token, value] of Object.entries(replacements)) {
-      content = content.replaceAll(`__${token}__`, value);
-    }
-
-    fs.writeFileSync(targetPath, content);
-  }
-}
-
-function formatJsonArray(value) {
-  return JSON.stringify(
-    value
-      .split(",")
-      .map((item) => item.trim())
-      .filter(Boolean),
-    null,
-    2,
-  )
-    .split("\n")
-    .map((line, index) => (index === 0 ? line : `  ${line}`))
-    .join("\n");
-}
-
-async function resolveOption(
-  rl,
-  currentValue,
-  question,
-  allowedValues,
-  fallbackValue,
-) {
-  const rawValue = currentValue || (await rl.question(question));
-  const value = rawValue.trim().toLowerCase() || fallbackValue;
-
-  if (!allowedValues.includes(value)) {
-    throw new Error(`Допустимые значения: ${allowedValues.join(", ")}.`);
-  }
-
   return value;
 }
 
+async function collectOptions(args) {
+  const name =
+    args.name ||
+    unwrapPrompt(
+      await p.text({
+        message: "Имя эксперимента",
+        placeholder: "promo-banner",
+        validate: (value) =>
+          !value.trim() ? "Укажи имя эксперимента." : undefined,
+      }),
+    );
+  if (name === null) return null;
+
+  const brand =
+    args.brand ||
+    unwrapPrompt(
+      await p.select({
+        message: "Площадка",
+        initialValue: "coral",
+        options: BRAND_OPTIONS.map((value) => ({ value, label: value })),
+      }),
+    );
+  if (brand === null) return null;
+
+  const entry =
+    args.entry ||
+    unwrapPrompt(
+      await p.select({
+        message: "Entry file",
+        initialValue: "main",
+        options: ENTRY_OPTIONS.map((value) => ({
+          value,
+          label: value,
+          hint: value === "main" ? "по умолчанию" : undefined,
+        })),
+      }),
+    );
+  if (entry === null) return null;
+
+  const style =
+    args.style ||
+    unwrapPrompt(
+      await p.select({
+        message: "Формат стилей",
+        initialValue: "css",
+        options: STYLE_OPTIONS.map((value) => ({ value, label: value })),
+      }),
+    );
+  if (style === null) return null;
+
+  return resolveExperimentOptions({
+    name,
+    brand,
+    match: args.match,
+    entry,
+    style,
+  });
+}
+
 async function main() {
-  const args = parseArgs(process.argv.slice(2));
-  const rl = readline.createInterface({ input, output });
+  p.intro("Создание Vite Monkey эксперимента");
 
-  try {
-    const rawName =
-      args.name || (await rl.question("Имя эксперимента в kebab-case: "));
-    const projectName = toKebabCase(rawName);
-    assertValidProjectName(projectName);
+  const options = await collectOptions(parseArgs(process.argv.slice(2)));
+  if (!options) return;
 
-    const rawBrand =
-      args.brand ||
-      (await rl.question("Площадка [coral/sunmar/both/custom]: "));
-    const brand = rawBrand.trim().toLowerCase() || "coral";
+  const projectDir = buildProjectDir(options.projectName, options.brand);
+  const projectPath = normalizePath(path.relative(ROOT_DIR, projectDir));
 
-    if (!Object.hasOwn(MATCH_PRESETS, brand)) {
-      throw new Error(
-        "Площадка должна быть одной из: coral, sunmar, both, custom.",
-      );
-    }
-
-    let match = args.match || MATCH_PRESETS[brand];
-
-    if (brand === "custom" && !match) {
-      match = await rl.question("match URL, можно несколько через запятую: ");
-    }
-
-    if (!match.trim()) {
-      throw new Error("match URL не может быть пустым.");
-    }
-
-    const projectDir = buildProjectDir(projectName, brand);
-
-    if (fs.existsSync(projectDir)) {
-      throw new Error(
-        `Папка ${path.relative(ROOT_DIR, projectDir)} уже существует.`,
-      );
-    }
-
-    const entry = await resolveOption(
-      rl,
-      args.entry,
-      "Entry file [main/home]: ",
-      ["main", "home"],
-      "main",
-    );
-    const style = await resolveOption(
-      rl,
-      args.style,
-      "Style format [css/scss]: ",
-      ["css", "scss"],
-      "css",
-    );
-
-    fs.mkdirSync(projectDir, { recursive: true });
-    const projectPath = path
-      .relative(ROOT_DIR, projectDir)
-      .split(path.sep)
-      .join("/");
-    copyTemplate(TEMPLATE_DIR, projectDir, {
-      PROJECT_NAME: projectName,
-      PROJECT_PATH: projectPath,
-      ENTRY_NAME: entry,
-      ENTRY_FILE: `${entry}.js`,
-      STYLE_FILE: `style.${style}`,
-      BRAND: brand,
-      MATCH: match,
-      MATCH_JSON: formatJsonArray(match),
-    });
-
-    console.log(`\nСоздан эксперимент: ${projectName}`);
-    console.log(`Папка: ${projectDir}`);
-    console.log(`Entry: src/${entry}.js`);
-    console.log(`Style: src/style.${style}`);
-    console.log("\nСледующие команды:");
-    console.log(`  npm run dev:experiment -- ${projectPath}`);
-    console.log(`  npm run build:experiment -- ${projectPath}`);
-  } finally {
-    rl.close();
+  if (fs.existsSync(projectDir)) {
+    throw new Error(`Папка ${projectPath} уже существует.`);
   }
+
+  const progress = p.spinner();
+  progress.start("Создаю структуру проекта");
+  try {
+    createExperimentFiles({
+      options,
+      projectDir,
+      projectPath,
+      templateDir: TEMPLATE_DIR,
+    });
+    progress.stop("Структура проекта создана");
+  } catch (error) {
+    progress.error("Не удалось создать проект");
+    throw error;
+  }
+
+  p.note(
+    [
+      `Папка: ${projectPath}`,
+      `Entry: src/${options.entry}.js`,
+      `Style: src/style.${options.style}`,
+      "",
+      `npm run dev:experiment -- ${projectPath}`,
+      `npm run build:experiment -- ${projectPath}`,
+    ].join("\n"),
+    options.projectName,
+  );
+  p.outro("Эксперимент готов");
 }
 
 main().catch((error) => {
-  console.error(`\nОшибка: ${error.message}`);
+  p.log.error(error.message);
   process.exitCode = 1;
 });

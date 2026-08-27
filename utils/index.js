@@ -17,7 +17,26 @@ export { generateRandomId } from "./id.js";
 export { doRequestToServer, requestJson } from "./network.js";
 export { filterUniqueMatchingHotels } from "./hotels.js";
 
-export * from "./dom/index.js";
-export * from "./analytics/index.js";
-export * from "./media/index.js";
-export * from "./cookies/index.js";
+export {
+  ClickOutside,
+  appendOnce,
+  arrayOfNodesWith,
+  insertAfter,
+  insertOnce,
+  prependOnce,
+  reactDomObserver,
+  spyMainCarousel,
+  waitForElement,
+  waitForIntersection,
+  waitForMutation,
+  waitUntilElementsGone,
+  watchIntersection,
+  watchMainCarouselSlides,
+} from "./dom/index.js";
+export {
+  createDataLayerWatcher,
+  sendYandexEventOnce,
+  setYMTarget,
+} from "./analytics/index.js";
+export { loadScript } from "./media/index.js";
+export { CoralCookieObserver } from "./cookies/index.js";

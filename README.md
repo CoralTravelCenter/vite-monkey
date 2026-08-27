@@ -80,7 +80,6 @@ npm run create:experiment -- promo-banner --brand coral
 - `--brand coral` -> `brands/coral/promo-banner`
 - `--brand sunmar` -> `brands/sunmar/promo-banner`
 - `--brand both` -> `special/promo-banner`
-- `--brand custom` -> `special/promo-banner`
 
 Дополнительные примеры:
 
@@ -88,7 +87,6 @@ npm run create:experiment -- promo-banner --brand coral
 npm run create:experiment -- promo-banner --brand sunmar
 npm run create:experiment -- promo-banner --brand coral --entry home
 npm run create:experiment -- promo-banner --brand coral --style scss
-npm run create:experiment -- promo-banner --brand custom --match "https://example.com/*"
 ```
 
 ## Какие скрипты есть
@@ -100,10 +98,25 @@ npm run create:experiment -- promo-banner --brand custom --match "https://exampl
 ### `npm run dev:experiment -- <path-or-name>`
 
 Генерирует временный Vite config и запускает dev server для выбранного эксперимента.
+Если проект не указан, предлагает выбрать площадку и эксперимент в терминале.
 
 ### `npm run build:experiment -- <path-or-name>`
 
 Генерирует временный Vite config и собирает userscript в `dist/` внутри конкретного эксперимента.
+Если проект не указан, предлагает выбрать площадку и эксперимент в терминале.
+
+### `npm run clean:runner`
+
+Показывает stale workspace и файлы прежнего runner, затем запрашивает
+подтверждение перед удалением. Активные процессы не затрагиваются.
+
+### `npm run check:pipeline`
+
+Собирает и валидирует representative-проекты Coral, Sunmar и Both/Special.
+
+### `npm run check:ci`
+
+Запускает lint, typecheck, unit-тесты, проверку конфигураций и полную pipeline matrix.
 
 ### `npm run check:hygiene`
 
@@ -135,9 +148,26 @@ npm run create:experiment -- promo-banner --brand custom --match "https://exampl
 
 1. `scripts/run-experiment.js` находит проект по пути или короткому имени.
 2. Читает `experiment.config.json`.
-3. Генерирует временный config в `.vite-monkey-runner/`.
-4. Запускает корневой `vite` с `vite-plugin-monkey`.
-5. Готовый `dist` попадает в папку самого эксперимента.
+3. Создаёт изолированный workspace запуска в `.vite-monkey-runner/`.
+4. Передаёт управление отдельному dev или build pipeline.
+5. Полностью удаляет workspace после завершения или ошибки.
+
+Dev pipeline запускает Vite server с HMR и не создаёт staging или build-артефакты.
+Для него генерируется Vite config только с server-настройками.
+Первый сервер использует порт `5173`; если он занят, Vite автоматически и
+безопасно выбирает следующий свободный порт (`5174`, `5175` и далее).
+
+Build pipeline:
+
+1. Собирает userscript во временный staging через `vite-plugin-monkey` и Oxc.
+2. Финализирует JavaScript и проверяет metadata, match, имя и синтаксис.
+3. Атомарно публикует файл в `dist`, сохраняя предыдущую сборку при ошибке.
+
+Build использует отдельный Vite config со staging, Oxc и CSS-минификацией;
+настройки dev server в него не попадают.
+
+В dev-режиме `Ctrl+C` считается штатной остановкой сервера. В build-режиме
+прерывание считается ошибкой, и userscript не публикуется.
 
 ## Конфиг эксперимента
 
