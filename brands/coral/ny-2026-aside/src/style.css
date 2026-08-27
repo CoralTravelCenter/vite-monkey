@@ -1,0 +1,39 @@
+#ny-2026-aside::part(trigger) {
+    overflow: clip;
+    background: url("https://b2ccdn.coral.ru/content/ny-26-popup.png");
+    background-repeat: no-repeat;
+    background-position: top center;
+    background-size: cover;
+}
+
+#ny-2026-aside [slot="trigger"] video {
+    position: absolute;
+    inset: 0;
+    transform: translateY(-25%);
+    width: 100%;
+    height: 135%;
+    z-index: 1;
+    object-fit: cover;
+    display: block;
+}
+
+#ny-2026-aside [slot="trigger"] span {
+    position: relative;
+    z-index: 2;
+}
+
+#ny-2026-aside a {
+    background: var(--ant-color-primary);
+    color: #fff
+}
+
+@media (hover: hover) {
+    #ny-2026-aside a:hover {
+        background: var(--ant-color-primary-hover);
+    }
+}
+
+
+#ny-2026-aside a:active {
+    background: var(--ant-color-primary-active);
+}

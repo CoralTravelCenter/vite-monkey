@@ -117,3 +117,39 @@
     color: #0092D0;
   }
 }
+
+@media (max-width: 768px) {
+  #kapsula-popup-home::part(popup-dialog) {
+    min-width: unset;
+  }
+
+  #kapsula-popup-home::part(popup-content) {
+    flex-direction: column-reverse;
+  }
+
+  #kapsula-popup-home .visual {
+    width: 100%;
+  }
+
+  #kapsula-popup-home .content {
+    width: 100%;
+    min-height: unset;
+    justify-content: start;
+  }
+
+  .kapsula-popup-trigger {
+    width: 40px;
+    height: 40px;
+    border: none;
+    border-radius: 100%;
+    position: relative;
+    overflow: clip;
+
+    .bg-video {
+      width: 100%;
+      height: 100%;
+      position: absolute;
+      inset: 0;
+    }
+  }
+}

@@ -81,27 +81,41 @@ const htmlTypograf = {
 export default defineConfig({
   root: ${JSON.stringify(config.projectDir)},
   publicDir: false,
+
+  server: {
+    open: '/__vite-plugin-monkey.install.user.js',
+  },
+
   resolve: {
     alias: {
       '@utils': ${JSON.stringify(path.join(ROOT_DIR, "utils"))},
     },
   },
+
   build: {
     outDir: 'dist',
     emptyOutDir: true,
     minify: 'oxc',
     cssMinify: true,
   },
+
   plugins: [
     htmlTypograf,
+
     monkey({
       entry: ${JSON.stringify(entryPath)},
+
       userscript: {
         name: ${JSON.stringify(config.name)},
         icon: 'https://vitejs.dev/logo.svg',
         namespace: 'mindbox/vite-monkey',
         match: ${JSON.stringify(config.match, null, 8)},
       },
+
+      server: {
+        open: false,
+      },
+
       build: {
         fileName: ${JSON.stringify(`${config.name}.user.js`)},
       },

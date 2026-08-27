@@ -1,0 +1,8 @@
+{
+  "name": "ny-2026-bubble",
+  "entry": "src/main.js",
+  "brand": "coral",
+  "match": [
+    "https://www.coral.ru/*"
+  ]
+}
