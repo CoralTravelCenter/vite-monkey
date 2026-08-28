@@ -1,4 +1,4 @@
-export function getIdForColor(id) {
+export function getIdForColor(id: number): string {
     let color;
     if (id % 3 === 0 && id % 5 !== 0) {
         color = "gradient-two";

@@ -1,4 +1,4 @@
-import {CARDS_LIST} from "../cardLogic/CARDS_LIST.js";
+import {CARDS_LIST} from "../cardLogic/CARDS_LIST.ts";
 import {cardDom} from "./cardDom.js";
 
 export function parseCards(parentElement) {
