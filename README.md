@@ -186,3 +186,4 @@ Build использует отдельный Vite config со staging, Oxc и C
 
 - [Единая документация](./docs/README.md)
 - [Каталог проектов](./docs/projects-catalog.md)
+- [Граф-схемы проекта](./docs/diagrams/README.md)
