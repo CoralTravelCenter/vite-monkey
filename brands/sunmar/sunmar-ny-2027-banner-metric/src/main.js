@@ -1,19 +1,11 @@
-import {waitForElement} from "@utils";
 import {outputErrorMessage} from "./scripts/utils/errorMessage.js";
+import {injectMetric} from "./scripts/injectMetric.js";
 
-(async function injectMetric(){
-  const selector = '.hero.hello-bar .contenu > a';
-  const metric = "ym(215233, 'reachGoal', 'entry_point', {name_stock: {NY_26_27: {name_point: 'banner',},},});";
+;(async function injectMetricBannerNY(){
   try {
-    const container = await waitForElement(selector);
-    if (container) {
-      container.setAttribute("onclick", metric);
-    }
-    else {
-      console.error(`Элемент ${container} не найден`);
-    }
+    await injectMetric();
   }
-  catch(error) {
-    outputErrorMessage("Не удалось инициализировать метрику баннера: ", error);
+  catch(error){
+    outputErrorMessage("Не удалось вставить метрику в баннер: ", error);
   }
 })();
