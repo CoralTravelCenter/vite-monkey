@@ -1,13 +1,13 @@
 import assert from "node:assert/strict";
 import test from "node:test";
 
-import { requestJson } from "../utils/network.js";
+import { requestJson } from "../utils/network/request.js";
 import {
   getLocalStorageWithExpiry,
-  runOncePerSession,
   setLocalStorageWithExpiry,
-} from "../utils/storage.js";
-import { params2query, queryParam } from "../utils/url.js";
+} from "../utils/storage/local.js";
+import { runOncePerSession } from "../utils/storage/session.js";
+import { params2query, queryParam } from "../utils/network/url.js";
 
 function createStorage() {
   const values = new Map();

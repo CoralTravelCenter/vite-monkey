@@ -15,10 +15,14 @@
     "utils/globals.d.ts",
     "utils/dom/mutation.js",
     "utils/dom/intersection.js",
-    "utils/lifecycle.js",
+    "utils/lifecycle/dom-ready.js",
+    "utils/lifecycle/polling.js",
+    "utils/lifecycle/react-ready.js",
+    "utils/lifecycle/timing.js",
     "utils/media/script-loader.js",
-    "utils/network.js",
-    "utils/storage.js",
-    "utils/url.js"
+    "utils/network/request.js",
+    "utils/network/url.js",
+    "utils/storage/local.js",
+    "utils/storage/session.js"
   ]
 }

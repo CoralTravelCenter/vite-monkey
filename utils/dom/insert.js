@@ -1,4 +1,4 @@
-import { generateRandomId } from "../id.js";
+import { generateRandomId } from "../data/id.js";
 
 export function appendOnce(target, element, id = generateRandomId()) {
   if (!target || !element) return;

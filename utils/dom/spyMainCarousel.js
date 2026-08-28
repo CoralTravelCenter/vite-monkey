@@ -1,4 +1,4 @@
-import { reactDomObserver } from "./reactDomObserver.js";
+import { reactDomObserver } from "./observation/selector.js";
 
 const DEFAULT_SLIDE_SELECTOR =
   '.swiper-slide, .slick-slide, [data-swiper-slide-index], [class*="slide"]';

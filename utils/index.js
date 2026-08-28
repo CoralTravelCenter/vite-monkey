@@ -1,21 +1,20 @@
 export {
   setLocalStorageWithExpiry,
   getLocalStorageWithExpiry,
-  runOncePerSession,
-} from "./storage.js";
-export {
-  asap,
-  debounce,
-  hostReactAppReady,
-  waitForCondition,
-} from "./lifecycle.js";
-export { getMobileOS, getBrand, mediaMatcher } from "./environment.js";
-export { copyToClipboard } from "./clipboard.js";
-export { queryParam, endpointUrl, params2query } from "./url.js";
-export { getNextData } from "./next.js";
-export { generateRandomId } from "./id.js";
-export { doRequestToServer, requestJson } from "./network.js";
-export { filterUniqueMatchingHotels } from "./hotels.js";
+} from "./storage/local.js";
+export { runOncePerSession } from "./storage/session.js";
+export { asap } from "./lifecycle/dom-ready.js";
+export { debounce } from "./lifecycle/timing.js";
+export { hostReactAppReady } from "./lifecycle/react-ready.js";
+export { waitForCondition } from "./lifecycle/polling.js";
+export { getMobileOS } from "./browser/device.js";
+export { getBrand } from "./browser/brand.js";
+export { mediaMatcher } from "./browser/media-query.js";
+export { copyToClipboard } from "./browser/clipboard.js";
+export { queryParam, endpointUrl, params2query } from "./network/url.js";
+export { doRequestToServer, requestJson } from "./network/request.js";
+export { getNextData } from "./platform/next.js";
+export { generateRandomId } from "./data/id.js";
 
 export {
   ClickOutside,

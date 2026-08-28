@@ -12,7 +12,6 @@ const EXPECTED_EXPORTS = [
   "debounce",
   "doRequestToServer",
   "endpointUrl",
-  "filterUniqueMatchingHotels",
   "generateRandomId",
   "getBrand",
   "getLocalStorageWithExpiry",

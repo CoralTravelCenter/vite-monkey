@@ -6,7 +6,6 @@ export function filterUniqueMatchingHotels(responses, requestedNames) {
   const requestedSet = new Set(
     requestedNames.map((name) => name.trim().toUpperCase()).filter(Boolean),
   );
-
   const uniqueMap = new Map();
 
   responses.forEach((response) => {

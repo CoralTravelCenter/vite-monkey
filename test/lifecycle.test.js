@@ -1,7 +1,7 @@
 import assert from "node:assert/strict";
 import test from "node:test";
 
-import { waitForCondition } from "../utils/lifecycle.js";
+import { waitForCondition } from "../utils/lifecycle/polling.js";
 
 test("waitForCondition resolves the first matching value", async () => {
   let calls = 0;

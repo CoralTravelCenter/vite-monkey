@@ -1,6 +1,5 @@
 import { endpointUrl } from "./url.js";
 
-/** @param {string | URL} url @param {RequestInit} [options] */
 export async function requestJson(url, options = {}) {
   const response = await fetch(url, options);
   if (!response.ok) {
