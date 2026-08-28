@@ -1,18 +1,15 @@
-import './style.scss';
-import {initDevWidget} from "./scripts/devWidget/initDevWidget.js";
-import {parseHotelWidget} from "./scripts/prodWidget/parseHotelWidget.js";
-import {outputErrorMessage} from "./scripts/utils/errorMessage.js";
+import "./style.scss";
+import { initDevWidget } from "./scripts/devWidget/initDevWidget.js";
+import { parseHotelWidget } from "./scripts/prodWidget/parseHotelWidget.js";
 
-;(async function injectBadgeFamilyHotels() {
+(async function injectBadgeHotels() {
   try {
     if (import.meta.env.DEV) {
       await initDevWidget();
-    }
-    else {
+    } else {
       await parseHotelWidget();
     }
-  }
-  catch (error) {
-    outputErrorMessage("Ошибка загрузки главной функции бейджа отеля", error);
+  } catch (error) {
+    console.error("Ошибка загрузки бейджа отеля", error);
   }
 })();
