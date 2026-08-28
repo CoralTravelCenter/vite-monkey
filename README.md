@@ -156,3 +156,4 @@ npm run create:experiment -- promo-banner --brand custom --match "https://exampl
 
 - [Единая документация](./docs/README.md)
 - [Каталог проектов](./docs/projects-catalog.md)
+- [Граф-схемы проекта](./docs/diagrams/README.md)
