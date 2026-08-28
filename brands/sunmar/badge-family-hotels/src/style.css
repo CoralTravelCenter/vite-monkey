@@ -7,10 +7,6 @@
 
 .promo-badge__bg {
   display: block;
-}
-
-.promo-badge__bg img {
-  display: block;
   max-width: 100%;
   height: auto;
 }
@@ -39,10 +35,6 @@
   font-size: 15px;
   font-weight: 500;
   line-height: 1.1;
-}
-
-.PhotoGalleryMainCarousel_mainSwiperContainer__CDJDk {
-  position: relative;
 }
 
 .custom-injected-widget-wrapper {
