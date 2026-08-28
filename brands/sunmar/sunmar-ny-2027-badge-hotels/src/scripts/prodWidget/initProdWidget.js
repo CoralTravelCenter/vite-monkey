@@ -13,7 +13,7 @@ export async function initProdWidget() {
     galleryTarget.classList.add("sunmar-ny-2027-badge-gallery");
     galleryTarget.append(badgeWrapper);
   } catch (error) {
-    throw new Error("Ошибка поиска галереи или вставки бейджа", {
+    throw new Error("Ошибка поиска галереи или вставки бейджа: ", {
       cause: error,
     });
   }

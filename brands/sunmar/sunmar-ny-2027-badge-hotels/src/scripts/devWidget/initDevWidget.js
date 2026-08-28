@@ -9,6 +9,8 @@ export async function initDevWidget() {
     devContainer.insertAdjacentHTML("afterbegin", markup);
     devContainer.dataset.injected = "true";
   } catch (error) {
-    throw new Error("Ошибка инициализации dev-widget", { cause: error });
+    throw new Error("Ошибка инициализации dev-widget: ", {
+      cause: error,
+    });
   }
 }
