@@ -1,0 +1,1 @@
+export {default as markup} from "../markup.html?raw";

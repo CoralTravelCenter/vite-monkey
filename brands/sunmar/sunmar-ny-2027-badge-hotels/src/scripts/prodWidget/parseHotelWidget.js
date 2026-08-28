@@ -1,5 +1,5 @@
 import { initProdWidget } from "./initProdWidget.js";
-import { TARGET_HOTEL_IDS } from "./getHotelsID.js";
+import { TARGET_HOTEL_IDS } from "./getHotelsID.ts";
 import { waitForHotelID } from "./waitForHotelID.js";
 
 export async function parseHotelWidget() {
@@ -11,6 +11,8 @@ export async function parseHotelWidget() {
       await initProdWidget();
     }
   } catch (error) {
-    throw new Error("Не удалось получить ID текущего отеля", { cause: error });
+    throw new Error("Не удалось получить ID текущего отеля", {
+      cause: error,
+    });
   }
 }

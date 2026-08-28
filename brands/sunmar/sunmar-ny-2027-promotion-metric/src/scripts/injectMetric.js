@@ -10,7 +10,7 @@ export async function injectMetric(){
         }
     }
     catch(error) {
-        throw new Error("Не удалось найти баннер NY-2027", {
+        throw new Error("Не удалось найти баннер NY-2027: ", {
             cause: error,
         });
     }
