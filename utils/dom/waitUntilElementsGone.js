@@ -1,4 +1,4 @@
-import { waitForMutation } from "./mutation.js";
+import { waitForMutation } from "./observation/mutation.js";
 
 export async function waitUntilElementsGone(config, callback) {
   const requiredSelectors = config.required || [];

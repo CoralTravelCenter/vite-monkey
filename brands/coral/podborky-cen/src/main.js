@@ -1,4 +1,5 @@
-import {doRequestToServer, filterUniqueMatchingHotels, getNextData} from "../../utils.js";
+import { doRequestToServer, getNextData } from "@utils";
+import { filterUniqueMatchingHotels } from "./lib/hotels.js";
 import {HOTELS_OBJ, PACKAGE_ENDPOINTS} from "./constants.js";
 
 const departureId = getNextData().props.pageProps.departure;

@@ -1,8 +1,8 @@
 #!/usr/bin/env node
 
-import fs from "node:fs";
 import path from "node:path";
 
+import { validateExperimentConfig } from "./lib/experiment-config.js";
 import {
   ROOT_DIR,
   listProjectDirs,
@@ -18,12 +18,9 @@ for (const projectDir of listProjectDirs()) {
   const relative = normalizePath(path.relative(ROOT_DIR, configPath));
   try {
     const config = readJson(configPath);
-    if (!config.name || !/^[a-z0-9][a-z0-9-]*$/.test(config.name))
-      errors.push(`${relative}: invalid name`);
-    if (!config.entry || !fs.existsSync(path.join(projectDir, config.entry)))
-      errors.push(`${relative}: entry not found`);
-    if (!Array.isArray(config.match) || config.match.length === 0)
-      errors.push(`${relative}: match must be non-empty`);
+    for (const error of validateExperimentConfig(config, projectDir)) {
+      errors.push(`${relative}: ${error}`);
+    }
   } catch (error) {
     errors.push(`${relative}: ${error.message}`);
   }

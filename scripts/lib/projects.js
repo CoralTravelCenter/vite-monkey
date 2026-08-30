@@ -174,11 +174,12 @@ function inferBrandFromPath(projectPath) {
   return "unknown";
 }
 
-export function inferBrand(projectDir) {
-  const experimentConfigPath = path.join(projectDir, "experiment.config.json");
-
-  if (pathExists(experimentConfigPath)) {
-    const experimentConfig = readJson(experimentConfigPath);
+function inferBrandFromSources(
+  projectDir,
+  experimentConfig,
+  viteConfigContent,
+) {
+  if (experimentConfig) {
     const fromMatch = inferBrandFromMatch(experimentConfig.match || []);
 
     if (fromMatch !== "unknown") {
@@ -189,8 +190,6 @@ export function inferBrand(projectDir) {
       return experimentConfig.brand;
     }
   }
-
-  const viteConfigContent = readLegacyViteConfig(projectDir);
 
   if (viteConfigContent) {
     const fromMatch = inferBrandFromMatch(
@@ -203,6 +202,19 @@ export function inferBrand(projectDir) {
   }
 
   return inferBrandFromPath(normalizePath(path.relative(ROOT_DIR, projectDir)));
+}
+
+export function inferBrand(projectDir) {
+  const experimentConfigPath = path.join(projectDir, "experiment.config.json");
+  const experimentConfig = pathExists(experimentConfigPath)
+    ? readJson(experimentConfigPath)
+    : null;
+
+  return inferBrandFromSources(
+    projectDir,
+    experimentConfig,
+    readLegacyViteConfig(projectDir),
+  );
 }
 
 function inferEntry(projectDir, experimentConfig, viteConfigContent) {
@@ -279,7 +291,11 @@ export function getProjectMetadata(projectDir) {
     ? readJson(packageJsonPath)
     : null;
   const viteConfigContent = readLegacyViteConfig(projectDir);
-  const brand = inferBrand(projectDir);
+  const brand = inferBrandFromSources(
+    projectDir,
+    experimentConfig,
+    viteConfigContent,
+  );
   const entry = inferEntry(projectDir, experimentConfig, viteConfigContent);
   const match = inferMatch(
     projectDir,
@@ -329,23 +345,30 @@ export function buildProjectDir(projectName, brand) {
   return path.join(BRANDS_DIR, area, projectName);
 }
 
-export function resolveProjectDir(projectInput) {
-  const normalizedInput = normalizePath(projectInput.trim());
-  const candidates = listProjectDirs();
-  const exactPath = path.join(ROOT_DIR, normalizedInput);
+export function findProjectMatches(
+  projectInput,
+  candidates,
+  rootDir = ROOT_DIR,
+) {
+  const normalizedInput = normalizePath(projectInput.trim()).replace(
+    /^\.\/+/,
+    "",
+  );
 
-  if (isProjectDir(exactPath)) {
-    return exactPath;
-  }
+  return candidates.filter((projectDir) => {
+    const relativePath = normalizePath(path.relative(rootDir, projectDir));
 
-  const matches = candidates.filter((projectDir) => {
-    const relativePath = normalizePath(path.relative(ROOT_DIR, projectDir));
     return (
       relativePath === normalizedInput ||
       path.basename(projectDir) === normalizedInput ||
       relativePath.endsWith(`/${normalizedInput}`)
     );
   });
+}
+
+export function resolveProjectDir(projectInput) {
+  const candidates = listProjectDirs();
+  const matches = findProjectMatches(projectInput, candidates);
 
   if (matches.length === 1) {
     return matches[0];

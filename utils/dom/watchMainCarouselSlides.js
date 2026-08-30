@@ -1,29 +1,11 @@
-import {
-  Observable,
-  Subscription,
-  animationFrameScheduler,
-  auditTime,
-} from "rxjs";
+import { Subscription, animationFrameScheduler, auditTime } from "rxjs";
 
-import { reactDomObserver } from "./reactDomObserver.js";
+import { observeMutations$ } from "./observation/mutation.js";
+import { reactDomObserver } from "./observation/selector.js";
 
 const DEFAULT_RENDER_TRIGGER_SELECTOR =
   '[class*="BannerLinkWrapper_bannerLinkWrapper"]';
 const DEFAULT_SLIDE_SELECTOR = ".glide__slide.swiper-slide";
-
-const createMutations$ = (target, options) => {
-  return new Observable((subscriber) => {
-    const mutationObserver = new MutationObserver((mutations) => {
-      subscriber.next(mutations);
-    });
-
-    mutationObserver.observe(target, options);
-
-    return () => {
-      mutationObserver.disconnect();
-    };
-  }).pipe(auditTime(0, animationFrameScheduler));
-};
 
 const defaultHasContent = (slide) => {
   return slide.children.length > 0 || Boolean(slide.textContent?.trim());
@@ -160,15 +142,17 @@ export function watchMainCarouselSlides(options = {}) {
     };
 
     controller.subscription.add(
-      createMutations$(slide, {
+      observeMutations$(slide, {
         childList: true,
         subtree: observeSubtree,
         characterData: true,
-      }).subscribe(() => {
-        if (!syncSlideState(controller)) {
-          rootState.slides.delete(slide);
-        }
-      }),
+      })
+        .pipe(auditTime(0, animationFrameScheduler))
+        .subscribe(() => {
+          if (!syncSlideState(controller)) {
+            rootState.slides.delete(slide);
+          }
+        }),
     );
 
     rootState.slides.set(slide, controller);
@@ -239,17 +223,19 @@ export function watchMainCarouselSlides(options = {}) {
     };
 
     rootState.subscription.add(
-      createMutations$(root, {
+      observeMutations$(root, {
         childList: true,
         subtree: true,
-      }).subscribe(() => {
-        if (!root.isConnected) {
-          destroyRootState(root);
-          return;
-        }
+      })
+        .pipe(auditTime(0, animationFrameScheduler))
+        .subscribe(() => {
+          if (!root.isConnected) {
+            destroyRootState(root);
+            return;
+          }
 
-        syncRootSlides(rootState);
-      }),
+          syncRootSlides(rootState);
+        }),
     );
 
     roots.set(root, rootState);

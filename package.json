@@ -1,7 +1,7 @@
 {
   "type": "module",
   "scripts": {
-    "test": "node --test",
+    "test": "node --test \"test/*.test.js\"",
     "lint": "eslint utils scripts test eslint.config.js",
     "format": "prettier --write \"{utils,scripts,test}/**/*.js\" \"*.{js,json}\" \"docs/*.md\"",
     "format:check": "prettier --check \"{utils,scripts,test}/**/*.js\" \"*.{js,json}\" \"docs/*.md\"",
@@ -10,13 +10,17 @@
     "check:deprecated-utils": "node scripts/check-deprecated-utils.js",
     "migrate:utils": "node scripts/migrate-utils-imports.js",
     "create:experiment": "node scripts/create-experiment.js",
+    "clean:runner": "node scripts/clean-runner.js",
     "check:hygiene": "node scripts/check-hygiene.js",
+    "check:pipeline": "node scripts/check-pipeline.js",
+    "check:ci": "npm run lint && npm run typecheck && npm test && npm run validate:configs && npm run check:pipeline",
+    "graph:audit": "graphify extract . --code-only --force",
+    "graph:project": "node scripts/analyze-architecture.js project",
+    "graph:experiment": "node scripts/analyze-architecture.js experiment",
     "dev:experiment": "node scripts/run-experiment.js dev",
     "build:experiment": "node scripts/run-experiment.js build",
     "update:catalog": "node scripts/update-projects-catalog.js",
-    "migrate:structure": "node scripts/migrate-repository-structure.js",
-    "ultimate-dev:html": "node scripts/ultimate-crm-build-production.js dev",
-    "ultimate-crm-build-production:html": "node scripts/ultimate-crm-build-production.js build"
+    "migrate:structure": "node scripts/migrate-repository-structure.js"
   },
   "dependencies": {
     "@emailjs/browser": "^4.4.1",
@@ -29,9 +33,11 @@
     "tippy.js": "^6.3.7"
   },
   "devDependencies": {
+    "@clack/prompts": "^1.7.0",
     "@eslint/js": "^10.0.1",
     "@types/node": "^26.1.1",
     "@types/punycode": "^2.1.4",
+    "acorn": "^8.18.0",
     "eslint": "^10.7.0",
     "globals": "^17.7.0",
     "prettier": "^3.9.5",
@@ -39,7 +45,6 @@
     "typescript": "^7.0.2",
     "typograf": "^7.7.0",
     "vite": "^8.1.4",
-    "vite-plugin-monkey": "^8.1.0",
-    "vite-plugin-singlefile": "^2.3.3"
+    "vite-plugin-monkey": "^8.1.0"
   }
 }

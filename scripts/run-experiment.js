@@ -1,16 +1,17 @@
 #!/usr/bin/env node
 
-import fs from "node:fs";
-import path from "node:path";
-import { minifySync } from "vite";
+import * as p from "@clack/prompts";
 
 import {
-  ROOT_DIR,
-  getProjectMetadata,
-  pathExists,
-  resolveProjectDir,
-} from "./lib/projects.js";
-import { createRunnerViteConfig, runVite } from "./lib/vite.js";
+  assertExperimentCommand,
+  executeExperiment,
+  prepareExperiment,
+} from "./lib/experiment-runner.js";
+import {
+  PROJECT_AREA_OPTIONS,
+  listProjectOptions,
+} from "./lib/experiment-selector.js";
+import { createTerminalReporter } from "./lib/terminal.js";
 
 function parseArgs(argv) {
   const [command, projectPath] = argv;
@@ -21,92 +22,60 @@ function parseArgs(argv) {
   };
 }
 
-function resolveProjectConfig(projectPath) {
-  const projectDir = resolveProjectDir(projectPath);
-  return getProjectMetadata(projectDir);
-}
-
-function assertConfig(config) {
-  const entryPath = path.join(config.projectDir, config.entry);
-
-  if (!pathExists(entryPath)) {
-    throw new Error(
-      `Entry file не найден: ${path.relative(ROOT_DIR, entryPath)}`,
-    );
+function unwrapPrompt(value) {
+  if (p.isCancel(value)) {
+    p.cancel("Запуск эксперимента отменён.");
+    return null;
   }
 
-  if (!Array.isArray(config.match) || config.match.length === 0) {
-    throw new Error(
-      "В experiment.config.json поле match должно быть непустым массивом.",
-    );
-  }
+  return value;
 }
 
-function minifyUserscriptOutput(config) {
-  const outputPath = path.join(
-    config.projectDir,
-    "dist",
-    `${config.name}.user.js`,
-  );
+async function selectProjectPath() {
+  p.intro("Запуск Vite Monkey эксперимента");
 
-  if (!pathExists(outputPath)) {
-    throw new Error(
-      `Собранный userscript не найден: ${path.relative(ROOT_DIR, outputPath)}`,
-    );
+  const area = unwrapPrompt(
+    await p.select({
+      message: "Площадка",
+      initialValue: "coral",
+      options: PROJECT_AREA_OPTIONS.map((value) => ({ value, label: value })),
+    }),
+  );
+  if (area === null) return null;
+
+  const options = listProjectOptions(area);
+
+  if (options.length === 0) {
+    throw new Error(`Для площадки ${area} эксперименты не найдены.`);
   }
 
-  const source = fs.readFileSync(outputPath, "utf8");
-  const headerMatch = source.match(
-    /^(\/\/ ==UserScript==[\s\S]*?\/\/ ==\/UserScript==\s*)([\s\S]*)$/,
+  return unwrapPrompt(
+    await p.autocomplete({
+      message: "Эксперимент",
+      options,
+      placeholder: "Начните вводить название",
+    }),
   );
-  const scriptBody = headerMatch?.[2] || source;
-  const minifiedBody = minifySync("userscript.js", scriptBody, {
-    compress: {
-      target: "es2018",
-      dropConsole: true,
-    },
-    mangle: true,
-    codegen: { legalComments: "none" },
-  }).code.replace(/\\u(0[4-5][0-9a-f]{2})/gi, (_match, code) =>
-    String.fromCharCode(Number.parseInt(code, 16)),
-  );
-
-  fs.writeFileSync(outputPath, `${minifiedBody}\n`);
 }
 
-function main() {
+async function main() {
   const { command, projectPath } = parseArgs(process.argv.slice(2));
+  assertExperimentCommand(command);
 
-  if (!["dev", "build"].includes(command)) {
-    throw new Error("Команда должна быть dev или build.");
-  }
+  const selectedProjectPath = projectPath || (await selectProjectPath());
+  if (selectedProjectPath === null) return;
 
-  if (!projectPath) {
-    throw new Error(
-      `Укажи проект: npm run ${command}:experiment -- project-name`,
-    );
-  }
-
-  const config = resolveProjectConfig(projectPath);
-  assertConfig(config);
-  const configPath = createRunnerViteConfig(config);
-
-  console.log(`Experiment: ${config.name}`);
-  console.log(
-    `Entry: ${path.relative(ROOT_DIR, path.join(config.projectDir, config.entry))}`,
-  );
-  console.log(`Match: ${config.match.join(", ")}`);
-
-  const isSuccess = runVite(command, configPath);
-
-  if (isSuccess && command === "build") {
-    minifyUserscriptOutput(config);
-  }
+  const reporter = createTerminalReporter();
+  const experiment = prepareExperiment(command, selectedProjectPath);
+  reporter.start(experiment);
+  const result = await executeExperiment(experiment, {
+    onStage: reporter.stage,
+  });
+  if (result.validation) reporter.validation(result.validation);
+  reporter.success(command);
 }
 
-try {
-  main();
-} catch (error) {
-  console.error(`\nОшибка: ${error.message}`);
-  process.exitCode = 1;
-}
+main().catch((error) => {
+  createTerminalReporter().error(error);
+  process.exitCode = error.exitCode || 1;
+});
