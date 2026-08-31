@@ -38,3 +38,7 @@
     color: #fff;
   }
 }
+
+.tippy-box[data-placement^=top]>.tippy-arrow {
+  bottom: 2px;
+}
