@@ -1,0 +1,43 @@
+.coral-shild-rak {
+  position: absolute;
+  top: 16px;
+  left: 16px;
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  box-sizing: border-box;
+  width: 232.951px;
+  height: 32px;
+  padding: 2px 6px;
+  border-radius: 8px;
+  background:
+    linear-gradient(-81.726deg, #ac0341 5.451%, #ea5c18 113.32%),
+    linear-gradient(90deg, #ac0341 0%, #ea5c18 100%);
+  color: #fff;
+  font-family: "Manrope", Arial, sans-serif;
+
+  .RAK-guarantee__img {
+    flex: 0 0 auto;
+    width: 25.525px;
+    height: 27.374px;
+    object-fit: cover;
+    box-shadow: 0 1.061px 5.304px rgba(0, 0, 0, 0.1);
+  }
+
+  .rak-text {
+    flex: 0 0 168px;
+    margin-left: 7.426px;
+    font-size: 14px;
+    font-weight: 600;
+    line-height: 14px;
+    white-space: nowrap;
+  }
+
+  .check-rak-information-img {
+    flex: 0 0 auto;
+    width: 14px;
+    height: 14px;
+    margin-left: 6px;
+    cursor: pointer;
+  }
+}

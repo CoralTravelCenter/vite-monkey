@@ -30,7 +30,8 @@
     "selector-observer": "^2.1.6",
     "survey-core": "^2.5.33",
     "survey-js-ui": "^2.5.33",
-    "tippy.js": "^6.3.7"
+    "tippy.js": "^6.3.7",
+    "tooltip": "^1.6.1"
   },
   "devDependencies": {
     "@clack/prompts": "^1.7.0",
