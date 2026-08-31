@@ -1,0 +1,112 @@
+import './config.js';
+import './style.scss';
+
+import {take} from "rxjs";
+
+import {createDataLayerWatcher, reactDomObserver} from "@utils";
+
+
+import {getCurrentRoute, route$} from "./route/route-watcher.js";
+import {SELECTORS} from "./selectors.js";
+import {renderShield} from "./shield/render-shield.js";
+import {isTargetHotel} from "./hotel/is-target-hotel.js";
+import {ROUTES} from "./constants.js";
+
+
+const dataLayerWatcher = createDataLayerWatcher();
+const domWatcher = reactDomObserver();
+
+
+let matchesTargetHotel = false;
+let hostSubscription = null;
+const hotelMatchByRoute = new Map();
+
+
+// Replay позволяет выполнить первичную проверку уже заполненного dataLayer.
+dataLayerWatcher
+  .event$("view_item")
+  .subscribe((event) => updateHotel(event, ROUTES.HOTEL));
+
+
+dataLayerWatcher
+  .event$("begin_checkout")
+  .subscribe((event) => updateHotel(event, ROUTES.BOOKING_STEP_0));
+
+
+function updateHotel(event, eventRoute) {
+  const hotelName = event?.ecommerce?.items?.[0]?.item_name;
+
+
+  if (!hotelName) {
+    return;
+  }
+
+
+  const matchesHotel = isTargetHotel(hotelName);
+  hotelMatchByRoute.set(eventRoute, matchesHotel);
+
+
+  if (getCurrentRoute() !== eventRoute) {
+    return;
+  }
+
+
+  matchesTargetHotel = matchesHotel;
+
+
+  if (!matchesTargetHotel) {
+    removeShield();
+  }
+
+
+  renderCurrentPage();
+}
+
+
+// реагируем только на смену страниц
+route$.subscribe((route) => {
+  if (hotelMatchByRoute.has(route)) {
+    matchesTargetHotel = hotelMatchByRoute.get(route);
+  }
+
+
+  renderCurrentPage();
+
+});
+
+
+function renderCurrentPage() {
+  hostSubscription?.unsubscribe();
+  hostSubscription = null;
+
+
+  if (!matchesTargetHotel) {
+    removeShield();
+    return;
+  }
+
+  const route = getCurrentRoute();
+
+  const selector = SELECTORS[route];
+
+
+  if (!selector) {
+    removeShield();
+    return;
+  }
+
+
+  hostSubscription = domWatcher
+    .observeSelector$(selector, {emitRemove: false})
+    .pipe(take(1))
+    .subscribe(({element}) => {
+      if (route === getCurrentRoute() && matchesTargetHotel) {
+        renderShield(element, route);
+      }
+    });
+}
+
+
+function removeShield() {
+  document.querySelector('[data-chain-cb-shield]')?.remove();
+}

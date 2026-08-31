@@ -1,0 +1,13 @@
+#chainCB[data-page="hotel"] {
+  border-radius: 8px;
+  min-height: 50px;
+
+  .chain-cb__hotel-text {
+    display: inline-block;
+    padding-inline-start: 45px;
+    width: fit-content;
+    font-size: 14px;
+    font-style: normal;
+    line-height: 16px;
+  }
+}
