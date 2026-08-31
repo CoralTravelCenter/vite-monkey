@@ -1,5 +1,6 @@
 window._coralBonusChains = {
   hotels: [
+    'LADONIA HOTELS ADAKULE',
     'SHERWOOD EXCLUSIVE KEMER',
     'SHERWOOD EXCLUSIVE LARA',
     'SHERWOOD DREAMS RESORT',

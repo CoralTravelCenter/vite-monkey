@@ -1,0 +1,28 @@
+.hot-deals-block .hotel-showcase {
+  .hotel-badges {
+    &::before {
+      content: var(--chain-cb-hot-deal-badge-text, '');
+      display: var(--chain-cb-hot-deal-badge-display, none);
+      align-items: center;
+      min-height: 28px;
+      padding: 6px 10px 6px 24px;
+      border-radius: 72px;
+      background-image: url("https://b2ccdn.coral.ru/content/desktop-cb-coin.png"),
+      linear-gradient(90deg, #EE762D 0.27%, #EA5900 78.95%);
+      background-repeat: no-repeat;
+      background-position: left center, center;
+      background-size: contain, cover;
+      box-sizing: border-box;
+      color: #FFFFFF;
+      font-size: 12px;
+      font-weight: 600;
+      line-height: 16px;
+      pointer-events: none;
+      margin-bottom: 10px;
+    }
+  }
+}
+
+.hot-deals-block .hotel-showcase .hotel-badges div:nth-child(n+3) {
+  display: none;
+}

@@ -56,6 +56,9 @@ function createShield(value, url, route) {
   shield.id = 'chainCB';
   shield.dataset.chainCbShield = '';
   shield.dataset.page = route;
+  shield.onClick = () => {
+    ym(96674199, 'reachGoal', 'coral_bonus_tooltip_click')
+  }
 
   const content = route === ROUTES.BOOKING_STEP_0
     ? createBookingContent(value)

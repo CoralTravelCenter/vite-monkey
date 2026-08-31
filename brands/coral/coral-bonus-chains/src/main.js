@@ -1,9 +1,9 @@
-import './config.js';
+// import './config.js';
 import './style.scss';
 
 import {take} from "rxjs";
 
-import {createDataLayerWatcher, reactDomObserver} from "@utils";
+import {createDataLayerWatcher, mediaMatcher, reactDomObserver} from "@utils";
 
 
 import {getCurrentRoute, route$} from "./route/route-watcher.js";
@@ -11,6 +11,10 @@ import {SELECTORS} from "./selectors.js";
 import {renderShield} from "./shield/render-shield.js";
 import {isTargetHotel} from "./hotel/is-target-hotel.js";
 import {ROUTES} from "./constants.js";
+import {applyHotelBadgeStyles} from "./hot-deals/apply-hotel-badge-styles.js";
+
+
+applyHotelBadgeStyles(window._coralBonusChains);
 
 
 const dataLayerWatcher = createDataLayerWatcher();
@@ -18,8 +22,18 @@ const domWatcher = reactDomObserver();
 
 
 let matchesTargetHotel = false;
+let matchesDesktopViewport = false;
 let hostSubscription = null;
 const hotelMatchByRoute = new Map();
+
+
+mediaMatcher(992, (matches) => {
+  matchesDesktopViewport = matches;
+
+  if (getCurrentRoute() === ROUTES.HOTEL) {
+    renderCurrentPage();
+  }
+});
 
 
 // Replay позволяет выполнить первичную проверку уже заполненного dataLayer.
@@ -87,7 +101,9 @@ function renderCurrentPage() {
 
   const route = getCurrentRoute();
 
-  const selector = SELECTORS[route];
+  const selector = route === ROUTES.HOTEL
+    ? SELECTORS[route][matchesDesktopViewport ? 'desktop' : 'mobile']
+    : SELECTORS[route];
 
 
   if (!selector) {

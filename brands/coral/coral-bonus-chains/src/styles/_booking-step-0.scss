@@ -1,58 +1,55 @@
+div[class*="ReservationStepper_reservationStepper__"] {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
 #chainCB[data-page="booking-step-0"] {
-  border-radius: clamp(20px, 1.8vw, 36px);
-  min-height: clamp(110px, 7.7vw, 156px);
-  padding-inline: clamp(140px, 11.5vw, 230px) clamp(32px, 3.3vw, 66px);
-  gap: 32px;
+  font-size: 16px;
+  padding-right: 8px;
+  padding-left: 70px;
+  padding-block: 12px;
+  justify-content: space-between;
+  order: 1;
+  border-radius: 8px;
+
+  @media (max-width: 993px) {
+    flex-direction: column;
+    padding-left: 90px;
+    align-items: start;
+    position: relative;
+    top: unset;
+    left: unset;
+    margin: 0 auto;
+    width: calc(100% - 24px) !important;
+  }
 
   .chain-cb__booking-content {
     display: flex;
-    flex: 1;
     flex-direction: column;
-    min-width: 0;
   }
 
+
   .chain-cb__title {
-    font-size: clamp(26px, 2.35vw, 48px);
-    font-weight: 500;
-    line-height: 1.15;
+    font-size: 24px;
+
+    @media (max-width: 993px) {
+      font-size: 16px;
+      max-width: 26ch;
+    }
   }
 
   .chain-cb__description {
-    margin-block-start: 10px;
-    font-size: clamp(18px, 1.5vw, 31px);
-    line-height: 1.2;
+    @media (max-width: 993px) {
+      font-size: 14px;
+      margin-top: 2px;
+    }
   }
 
   .chain-cb__details {
-    flex: 0 0 auto;
-    font-size: clamp(18px, 1.4vw, 29px);
-    line-height: 1.2;
-  }
-
-  @media (max-width: 900px) {
-    min-height: 96px;
-    padding-inline: 112px 24px;
-    gap: 20px;
-
-    .chain-cb__title {
-      font-size: 20px;
-    }
-
-    .chain-cb__description,
-    .chain-cb__details {
-      font-size: 15px;
-    }
-  }
-
-  @media (max-width: 600px) {
-    align-items: flex-start;
-    flex-direction: column;
-    justify-content: center;
-    padding: 16px 16px 16px 96px;
-    gap: 6px;
-
-    .chain-cb__description {
-      margin-block-start: 4px;
+    @media (max-width: 993px) {
+      font-size: 14px;
+      margin-top: 8px;
     }
   }
 }

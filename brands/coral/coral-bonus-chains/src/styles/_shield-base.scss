@@ -1,18 +1,18 @@
 #chainCB {
   --chain-cb-gradient: linear-gradient(90deg, #EE762D 0.27%, #EA5900 78.95%);
 
-  background-image:
-    url("https://b2ccdn.coral.ru/content/desktop-cb-coin.png"),
-    var(--chain-cb-gradient);
+  background-image: url("https://b2ccdn.coral.ru/content/desktop-cb-coin.png"),
+  var(--chain-cb-gradient);
   background-repeat: no-repeat;
   background-position: left center, center;
   background-size: contain, cover;
   box-sizing: border-box;
+  border-radius: 8px;
   display: flex;
   align-items: center;
   color: #FFFFFF;
   text-decoration: none;
-  width: 100%;
+  width: 100% !important;
   transition: box-shadow 300ms ease, transform 300ms ease;
   cursor: pointer;
   will-change: transform;
@@ -20,9 +20,8 @@
   @media (hover: hover) {
     &:hover {
       transform: translateY(-1px);
-      box-shadow:
-        0 0 12px rgba(238, 118, 45, 0.25),
-        0 0 32px rgba(238, 118, 45, 0.18);
+      box-shadow: 0 0 12px rgba(238, 118, 45, 0.25),
+      0 0 32px rgba(238, 118, 45, 0.18);
     }
   }
 
@@ -31,7 +30,21 @@
     outline-offset: 2px;
   }
 
-  @media (prefers-reduced-motion: reduce) {
-    transition: none;
+  @media (max-width: 991px) {
+    position: absolute;
+    z-index: 2;
+    top: 16px;
+    left: 16px;
+    width: fit-content !important;
+    padding: 8px;
+    border-radius: 72px;
+
+    .chain-cb__hotel-text br {
+      display: none;
+    }
   }
+}
+
+div[class*="PhotoGalleryMainCarousel_mainSwiperContainer__"] {
+  position: relative;
 }
