@@ -4,6 +4,10 @@ import { TIPPY_CONTENT } from "../keys.js";
 import "./tippy.scss";
 
 export function injectTippy() {
+  const usesTouchInteraction = window.matchMedia(
+    "(hover: none), (pointer: coarse)",
+  ).matches;
+
   tippy("#check-rak-information-img", {
     content: TIPPY_CONTENT,
     allowHTML: true,
@@ -15,5 +19,6 @@ export function injectTippy() {
       modifiers: [{ name: "flip", enabled: false }],
     },
     theme: "coral-shild-rak",
+    trigger: usesTouchInteraction ? "click" : "mouseenter focus",
   });
 }
