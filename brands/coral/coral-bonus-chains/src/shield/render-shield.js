@@ -74,8 +74,8 @@ export function renderShield(host, route) {
   const shield = currentShield?.dataset.page === route
     ? currentShield
     : createShield(
-      window._coralBonusChains.value,
-      window._coralBonusChains.url,
+      window._coralBonusChainsSherwood.value,
+      window._coralBonusChainsSherwood.url,
       route
     );
 

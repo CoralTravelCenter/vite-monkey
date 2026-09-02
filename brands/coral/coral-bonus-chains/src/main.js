@@ -14,7 +14,7 @@ import {ROUTES} from "./constants.js";
 import {applyHotelBadgeStyles} from "./hot-deals/apply-hotel-badge-styles.js";
 
 
-applyHotelBadgeStyles(window._coralBonusChains);
+applyHotelBadgeStyles(window._coralBonusChainsSherwood);
 
 
 const dataLayerWatcher = createDataLayerWatcher();

@@ -2,7 +2,7 @@ import {normalizeHotelName} from "./normalize-hotel-name.js";
 
 
 const TARGET_HOTELS = new Set(
-  window._coralBonusChains.hotels.map(normalizeHotelName)
+  window._coralBonusChainsSherwood.hotels.map(normalizeHotelName)
 );
 
 
