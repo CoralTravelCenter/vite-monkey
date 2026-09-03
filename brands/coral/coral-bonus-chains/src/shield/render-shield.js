@@ -69,13 +69,13 @@ function createShield(value, url, route) {
 }
 
 
-export function renderShield(host, route) {
+export function renderShield(host, route, config) {
   const currentShield = document.querySelector('[data-chain-cb-shield]');
   const shield = currentShield?.dataset.page === route
     ? currentShield
     : createShield(
-      window._coralBonusChainsSherwood.value,
-      window._coralBonusChainsSherwood.url,
+      config.value,
+      config.url,
       route
     );
 
