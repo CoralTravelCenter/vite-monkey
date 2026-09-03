@@ -12,9 +12,5 @@ export async function initWidget() {
             devContainer.dataset.CoralShildRakInject = "true";
         }
     }
-    catch (error) {
-        throw new Error("Ошибка инициализации dev-widget RAK: ", {
-            cause: error
-        });
-    }
+    catch {}
 }

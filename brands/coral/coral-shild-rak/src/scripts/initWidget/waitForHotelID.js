@@ -36,7 +36,7 @@ export function waitForHotelID(timeoutMs = 10000) {
                 const dataLayer = window.dataLayer || [];
 
                 if (!Array.isArray(dataLayer)) {
-                    throw new TypeError("window.dataLayer должен быть массивом");
+                    return;
                 }
 
                 for(;checkedItems < dataLayer.length; checkedItems += 1) {

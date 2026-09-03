@@ -9,7 +9,6 @@ function getHotelsID(): string[] {
         return targetHotelsJson as string[];
     }
 
-    console.error("Массив с ID пуст или содержит некорректные данные!");
     return [];
 }
 
