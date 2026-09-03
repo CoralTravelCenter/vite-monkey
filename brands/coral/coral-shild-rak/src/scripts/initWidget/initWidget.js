@@ -1,6 +1,6 @@
 import {waitForElement} from "@utils";
-import {MARKUP} from "./utils/keys.js";
-import {injectTippy} from "./utils/tippy/injectTippy.js";
+import {MARKUP} from "../utils/keys.js";
+import {injectTippy} from "../utils/tippy/injectTippy.js";
 
 export async function initWidget() {
     const selector = '[class*="PhotoGalleryMainCarousel_mainSwiperContainer__"]';

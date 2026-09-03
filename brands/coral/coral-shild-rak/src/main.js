@@ -1,9 +1,9 @@
 import "./style.scss";
-import {initWidget} from "./scripts/initWidget.js";
 import {outputErrorMessage} from "./scripts/utils/errorMessage.js";
+import {parseHotelWidget} from "./scripts/initWidget/parseHotelWidget.js";
 ;(async function injectCoralShildRak() {
   try {
-    await initWidget();
+    await parseHotelWidget();
   }
   catch (error) {
     outputErrorMessage("Ошибка вставки шильдика RAK: ", error);
