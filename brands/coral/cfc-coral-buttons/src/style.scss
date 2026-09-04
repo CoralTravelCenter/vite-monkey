@@ -1,0 +1,138 @@
+.cfc-coral-buttons {
+  box-sizing: border-box;
+  width: min(calc(100% - 48px), 1368px);
+  margin: 0 auto;
+  padding: 67px 0;
+  color: #000;
+  font-family: "Manrope", Arial, sans-serif;
+
+  *,
+  *::before,
+  *::after {
+    box-sizing: border-box;
+  }
+
+  .header-text-cfc {
+    margin: 0 0 32px;
+    font-size: 32px;
+    font-weight: 600;
+    line-height: 40px;
+    letter-spacing: 0;
+  }
+
+  .buttons {
+    display: flex;
+    align-items: stretch;
+    gap: 24px;
+    width: 100%;
+  }
+
+  .container {
+    display: flex;
+    flex: 1 1 0;
+    align-items: center;
+    min-width: 0;
+    padding: 24px;
+    overflow: hidden;
+    background: #fff;
+    border: 1px solid rgba(0, 0, 0, 0.06);
+    border-radius: 16px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.01);
+  }
+
+  .container-img {
+    display: flex;
+    flex: 0 0 56px;
+    align-items: center;
+    justify-content: center;
+    width: 56px;
+    height: 56px;
+    margin-right: 16px;
+    background: #eaf7fc;
+    border-radius: 50%;
+  }
+
+  .img {
+    display: block;
+    max-width: 100%;
+    max-height: 100%;
+  }
+
+  .text {
+    flex: 1 1 auto;
+    min-width: 0;
+    color: #0092d0;
+    font-size: 20px;
+    font-weight: 600;
+    line-height: 28px;
+    overflow-wrap: anywhere;
+  }
+
+  .link-btn {
+    display: inline-flex;
+    flex: 0 0 auto;
+    align-items: center;
+    justify-content: center;
+    min-height: 48px;
+    margin-left: 24px;
+    padding: 12px 20px;
+    color: #fff;
+    font-size: 16px;
+    font-weight: 600;
+    line-height: 20px;
+    white-space: nowrap;
+    text-decoration: none;
+    background: #0092d0;
+    border-radius: 48px;
+    transition: background-color 0.2s ease;
+
+    &:hover {
+      background: #007eb5;
+    }
+
+    &:focus-visible {
+      outline: 3px solid rgba(0, 146, 208, 0.35);
+      outline-offset: 3px;
+    }
+  }
+
+  @media (max-width: 900px) {
+    .buttons {
+      flex-direction: column;
+    }
+  }
+
+  @media (max-width: 600px) {
+    width: min(calc(100% - 32px), 1368px);
+    padding: 40px 0;
+
+    .header-text-cfc {
+      margin-bottom: 24px;
+      font-size: 26px;
+      line-height: 34px;
+    }
+
+    .container {
+      padding: 20px;
+    }
+
+    .link-btn {
+      margin-left: 16px;
+    }
+  }
+
+  @media (max-width: 420px) {
+    .container {
+      flex-wrap: wrap;
+    }
+
+    .text {
+      flex-basis: calc(100% - 72px);
+    }
+
+    .link-btn {
+      width: 100%;
+      margin: 16px 0 0;
+    }
+  }
+}
