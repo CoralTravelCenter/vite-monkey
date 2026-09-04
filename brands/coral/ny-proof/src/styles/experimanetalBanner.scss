@@ -1,0 +1,104 @@
+[data-testid="select-room-list"] {
+  --ny-banner-height: 82px;
+  --ny-banner-image-width: 216px;
+  --ny-banner-gap: 15px;
+
+  position: relative;
+
+  padding-top: calc(var(--ny-banner-height) + 12px);
+}
+
+[data-testid="select-room-list"]::before {
+  content: "Высокий спрос на Новый год";
+
+  position: absolute;
+  inset: 0 0 auto;
+
+  box-sizing: border-box;
+  width: 100%;
+  height: var(--ny-banner-height);
+
+  padding: 15px 20px 15px calc(var(--ny-banner-image-width) + var(--ny-banner-gap));
+
+  border-radius: 12px;
+
+  background: url("https://b2ccdn.coral.ru/content/bengal-2.png") no-repeat left center / contain,
+  linear-gradient(
+          184deg,
+          #cf294a 3.2%,
+          #ea7f46 102.34%
+  );
+
+  color: #fff;
+
+  font-size: 24px;
+  font-weight: 600;
+  line-height: 1;
+  z-index: 0;
+  pointer-events: none;
+}
+
+[data-testid="select-room-list"]::after {
+  content: "Номеров осталось мало — успейте забронировать";
+
+  position: absolute;
+  top: 51px;
+  left: calc(var(--ny-banner-image-width) + var(--ny-banner-gap));
+
+  color: #fff;
+
+  font-size: 16px;
+  line-height: 1;
+  z-index: 1;
+  pointer-events: none;
+}
+
+@media (max-width: 767px) {
+  [data-testid="select-room-list"] {
+    --ny-banner-height: 76px;
+    --ny-banner-image-width: 72px;
+    --ny-banner-content-offset: 128px;
+
+    padding-top: calc(var(--ny-banner-height) + 12px);
+
+    &::before {
+      content: "Высокий спрос на Новый год";
+
+      top: 0;
+      left: 0;
+
+      width: 100%;
+      height: var(--ny-banner-height);
+
+      padding: 10px 12px 10px var(--ny-banner-content-offset);
+
+      border-radius: 12px;
+
+      background: url("https://b2ccdn.coral.ru/content/bengal-2.png") no-repeat -50px center / contain,
+      linear-gradient(
+              184deg,
+              #cf294a 3.2%,
+              #ea7f46 102.34%
+      );
+
+      font-size: 16px;
+      font-weight: 600;
+      line-height: 1;
+
+      white-space: nowrap;
+    }
+
+    &::after {
+      content: "Номеров осталось мало — успейте забронировать";
+
+      top: 36px;
+      left: var(--ny-banner-content-offset);
+
+
+      font-size: 14px;
+      word-wrap: break-word;
+      max-width: 21ch;
+      line-height: 1;
+    }
+  }
+}

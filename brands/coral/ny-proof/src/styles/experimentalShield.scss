@@ -1,0 +1,97 @@
+$desktop-host: 'div[class*="PhotoGalleryMainCarousel_mainSwiperContainer__"]';
+$mobile-host: 'div[class*="HotelDetailBlock_hotelDetailGalleryWrapper__"]';
+
+:is(#{$desktop-host}, #{$mobile-host}) {
+  --ny-proof-offset: 16px;
+  --ny-proof-height: 50px;
+  --ny-proof-image-width: 60px;
+  --ny-proof-content-offset: 58px;
+
+  position: relative;
+
+  &::before {
+    content: "Высокий спрос на Новый год";
+
+    position: absolute;
+    top: calc(var(--ny-proof-offset) + 10px);
+    left: calc(var(--ny-proof-offset) + var(--ny-proof-content-offset));
+    z-index: 6;
+
+    color: #fff;
+    font-size: 14px;
+    font-weight: 600;
+    line-height: 1;
+
+    white-space: nowrap;
+    pointer-events: none;
+  }
+
+  &::after {
+    content: "Номеров осталось мало — успейте забронировать";
+
+    position: absolute;
+    top: var(--ny-proof-offset);
+    left: var(--ny-proof-offset);
+    z-index: 5;
+
+    box-sizing: border-box;
+    width: fit-content;
+    height: var(--ny-proof-height);
+
+    padding: 29px 20px 9px var(--ny-proof-content-offset);
+
+    border-radius: calc(var(--ny-proof-height) / 2);
+
+    background: url("https://b2ccdn.coral.ru/content/bengal.png") no-repeat left center / var(--ny-proof-image-width) 100%,
+    linear-gradient(
+            184deg,
+            #cf294a 3.2%,
+            #ea7f46 102.34%
+    );
+
+    color: #fff;
+    font-size: 12px;
+    line-height: 1;
+
+    white-space: nowrap;
+    pointer-events: none;
+  }
+}
+
+#{$mobile-host} {
+  &::before,
+  &::after {
+    display: none;
+  }
+}
+
+@media (max-width: 767px) {
+  #{$desktop-host} {
+    &::before,
+    &::after {
+      display: none;
+    }
+  }
+
+  #{$mobile-host} {
+    --ny-proof-offset: 16px;
+
+    padding-top: calc(
+            var(--ny-proof-height) +
+            var(--ny-proof-offset)
+    );
+
+    &::before {
+      display: block;
+      top: 10px;
+      left: var(--ny-proof-content-offset);
+    }
+
+    &::after {
+      display: block;
+      width: 100%;
+      top: 0;
+      left: 0;
+    }
+  }
+}
