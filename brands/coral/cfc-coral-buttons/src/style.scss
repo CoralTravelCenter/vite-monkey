@@ -1,8 +1,9 @@
 .cfc-coral-buttons {
   box-sizing: border-box;
-  width: min(calc(100% - clamp(32px, 2.5vw, 48px)), 1368px);
+  width: 100%;
+  max-width: 1528px;
   margin: 0 auto;
-  padding: clamp(40px, 3.49vw, 67px) 0;
+  padding: 67px 80px;
   color: #000;
   font-family: "Manrope", Arial, sans-serif;
 
@@ -13,93 +14,102 @@
   }
 
   .header-text-cfc {
-    margin: 0 0 clamp(24px, 1.67vw, 32px);
-    font-size: clamp(24px, 1.67vw, 32px);
+    margin: 0 0 32px;
+    font-size: 32px;
     font-weight: 600;
-    line-height: clamp(32px, 2.08vw, 40px);
-    letter-spacing: 0;
+    line-height: 40px;
   }
 
   .buttons {
     display: flex;
     flex-wrap: wrap;
-    align-items: stretch;
     justify-content: center;
-    gap: clamp(16px, 1.25vw, 24px);
-    width: 100%;
+    gap: 24px;
   }
 
   .container {
     display: flex;
     flex: 1 1 420px;
     align-items: center;
-    min-width: 0;
     max-width: 672px;
-    padding: clamp(12px, calc(1.79vw - 1px), 24px);
+    padding: 24px;
     overflow: hidden;
     background: #fff;
     border: 1px solid rgba(0, 0, 0, 0.06);
-    border-radius: clamp(10px, calc(1.19vw - 1px), 16px);
-    box-shadow: 0 clamp(2px, 0.21vw, 4px) clamp(4px, 0.42vw, 8px)
-      rgba(0, 0, 0, 0.01);
-    container-type: inline-size;
+    border-radius: 16px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.01);
   }
 
   .container-img {
     display: flex;
-    flex: 0 0 clamp(36px, 9cqi, 56px);
+    flex: 0 0 56px;
     align-items: center;
     justify-content: center;
-    width: clamp(36px, 9cqi, 56px);
-    height: clamp(36px, 9cqi, 56px);
-    margin-right: clamp(8px, 2.57cqi, 16px);
+    width: 56px;
+    height: 56px;
+    margin-right: 16px;
     background: #eaf7fc;
     border-radius: 50%;
   }
 
   .img {
     display: block;
-    width: 66.07%;
+    width: 37px;
     height: auto;
     max-width: 100%;
-    max-height: 100%;
   }
 
   .text {
     flex: 1 1 auto;
     min-width: 0;
     color: #0092d0;
-    font-size: clamp(13px, 3.22cqi, 20px);
+    font-size: 20px;
     font-weight: 600;
-    line-height: clamp(18px, 4.5cqi, 28px);
-    overflow-wrap: anywhere;
+    line-height: 28px;
   }
 
-  .link-btn {
-    display: inline-flex;
-    flex: 0 0 auto;
-    align-items: center;
-    justify-content: center;
-    min-height: clamp(34px, 7.72cqi, 48px);
-    margin-left: clamp(8px, 3.86cqi, 24px);
-    padding: clamp(7px, 1.93cqi, 12px) clamp(12px, 3.22cqi, 20px);
-    color: #fff;
-    font-size: clamp(12px, 2.57cqi, 16px);
-    font-weight: 600;
-    line-height: clamp(16px, 3.22cqi, 20px);
-    white-space: nowrap;
-    text-decoration: none;
-    background: #0092d0;
-    border-radius: 48px;
-    transition: background-color 0.2s ease;
+  @media (max-width: 1279px) {
+    padding-right: 24px;
+    padding-left: 24px;
+  }
 
-    &:hover {
-      background: #007eb5;
+  @media (max-width: 767px) {
+    padding-right: 16px;
+    padding-left: 16px;
+  }
+
+  @media (max-width: 600px) {
+    padding-top: 24px;
+    padding-bottom: 24px;
+
+    .header-text-cfc {
+      margin-bottom: 24px;
+      font-size: 24px;
+      line-height: 30px;
     }
 
-    &:focus-visible {
-      outline: 3px solid rgba(0, 146, 208, 0.35);
-      outline-offset: 3px;
+    .buttons {
+      gap: 16px;
+    }
+
+    .container {
+      padding: 16px;
+    }
+
+    .container-img {
+      flex-basis: 42px;
+      width: 42px;
+      height: 42px;
+      margin-right: 12px;
+    }
+
+    .img {
+      width: 28px;
+    }
+
+    .text {
+      font-size: 15px;
+      line-height: 21px;
     }
   }
 }
