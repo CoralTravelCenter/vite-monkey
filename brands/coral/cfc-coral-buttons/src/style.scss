@@ -1,8 +1,8 @@
 .cfc-coral-buttons {
   box-sizing: border-box;
-  width: min(calc(100% - 48px), 1368px);
+  width: min(calc(100% - clamp(32px, 2.5vw, 48px)), 1368px);
   margin: 0 auto;
-  padding: 67px 0;
+  padding: clamp(40px, 3.49vw, 67px) 0;
   color: #000;
   font-family: "Manrope", Arial, sans-serif;
 
@@ -13,47 +13,54 @@
   }
 
   .header-text-cfc {
-    margin: 0 0 32px;
-    font-size: 32px;
+    margin: 0 0 clamp(24px, 1.67vw, 32px);
+    font-size: clamp(24px, 1.67vw, 32px);
     font-weight: 600;
-    line-height: 40px;
+    line-height: clamp(32px, 2.08vw, 40px);
     letter-spacing: 0;
   }
 
   .buttons {
     display: flex;
+    flex-wrap: wrap;
     align-items: stretch;
-    gap: 24px;
+    justify-content: center;
+    gap: clamp(16px, 1.25vw, 24px);
     width: 100%;
   }
 
   .container {
     display: flex;
-    flex: 1 1 0;
+    flex: 1 1 420px;
     align-items: center;
     min-width: 0;
-    padding: 24px;
+    max-width: 672px;
+    padding: clamp(12px, calc(1.79vw - 1px), 24px);
     overflow: hidden;
     background: #fff;
     border: 1px solid rgba(0, 0, 0, 0.06);
-    border-radius: 16px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.01);
+    border-radius: clamp(10px, calc(1.19vw - 1px), 16px);
+    box-shadow: 0 clamp(2px, 0.21vw, 4px) clamp(4px, 0.42vw, 8px)
+      rgba(0, 0, 0, 0.01);
+    container-type: inline-size;
   }
 
   .container-img {
     display: flex;
-    flex: 0 0 56px;
+    flex: 0 0 clamp(36px, 9cqi, 56px);
     align-items: center;
     justify-content: center;
-    width: 56px;
-    height: 56px;
-    margin-right: 16px;
+    width: clamp(36px, 9cqi, 56px);
+    height: clamp(36px, 9cqi, 56px);
+    margin-right: clamp(8px, 2.57cqi, 16px);
     background: #eaf7fc;
     border-radius: 50%;
   }
 
   .img {
     display: block;
+    width: 66.07%;
+    height: auto;
     max-width: 100%;
     max-height: 100%;
   }
@@ -62,9 +69,9 @@
     flex: 1 1 auto;
     min-width: 0;
     color: #0092d0;
-    font-size: 20px;
+    font-size: clamp(13px, 3.22cqi, 20px);
     font-weight: 600;
-    line-height: 28px;
+    line-height: clamp(18px, 4.5cqi, 28px);
     overflow-wrap: anywhere;
   }
 
@@ -73,13 +80,13 @@
     flex: 0 0 auto;
     align-items: center;
     justify-content: center;
-    min-height: 48px;
-    margin-left: 24px;
-    padding: 12px 20px;
+    min-height: clamp(34px, 7.72cqi, 48px);
+    margin-left: clamp(8px, 3.86cqi, 24px);
+    padding: clamp(7px, 1.93cqi, 12px) clamp(12px, 3.22cqi, 20px);
     color: #fff;
-    font-size: 16px;
+    font-size: clamp(12px, 2.57cqi, 16px);
     font-weight: 600;
-    line-height: 20px;
+    line-height: clamp(16px, 3.22cqi, 20px);
     white-space: nowrap;
     text-decoration: none;
     background: #0092d0;
@@ -93,46 +100,6 @@
     &:focus-visible {
       outline: 3px solid rgba(0, 146, 208, 0.35);
       outline-offset: 3px;
-    }
-  }
-
-  @media (max-width: 900px) {
-    .buttons {
-      flex-direction: column;
-    }
-  }
-
-  @media (max-width: 600px) {
-    width: min(calc(100% - 32px), 1368px);
-    padding: 40px 0;
-
-    .header-text-cfc {
-      margin-bottom: 24px;
-      font-size: 26px;
-      line-height: 34px;
-    }
-
-    .container {
-      padding: 20px;
-    }
-
-    .link-btn {
-      margin-left: 16px;
-    }
-  }
-
-  @media (max-width: 420px) {
-    .container {
-      flex-wrap: wrap;
-    }
-
-    .text {
-      flex-basis: calc(100% - 72px);
-    }
-
-    .link-btn {
-      width: 100%;
-      margin: 16px 0 0;
     }
   }
 }
