@@ -1,12 +1,16 @@
 export function initFaq(faqContainer) {
   faqContainer.addEventListener("click", (event) => {
-    const question = event.target.closest?.("[data-sunmar-faq-question]");
+    const question = event.target.closest?.(
+      "[data-sunmar-faq-hotel-reservation-customer-question]",
+    );
     if (!question || !faqContainer.contains(question)) return;
 
     const answer = document.getElementById(
       question.getAttribute("aria-controls"),
     );
-    const item = question.closest(".Sunmar-FAQ-hotel-reservation__item");
+    const item = question.closest(
+      ".Sunmar-FAQ-hotel-reservation-customer__item",
+    );
     if (!answer || !item) return;
 
     const isOpen = question.getAttribute("aria-expanded") === "true";

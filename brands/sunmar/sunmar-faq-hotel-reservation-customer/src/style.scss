@@ -1,4 +1,4 @@
-.Sunmar-FAQ-hotel-reservation {
+.Sunmar-FAQ-hotel-reservation-customer {
   box-sizing: border-box;
   width: calc(
     100% - var(--sunmar-margin-n, 16px) - var(--sunmar-margin-n, 16px)
@@ -128,14 +128,8 @@
   }
 }
 
-@media (min-width: 768px) {
-  .Sunmar-FAQ-hotel-reservation {
-    max-width: var(--sunmar-grid-tablet-v-content, 608px);
-  }
-}
-
 @media (min-width: 1024px) {
-  .Sunmar-FAQ-hotel-reservation {
+  .Sunmar-FAQ-hotel-reservation-customer {
     width: 100%;
     max-width: 324px;
     margin-left: 0;
@@ -143,7 +137,7 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .Sunmar-FAQ-hotel-reservation__icon {
+  .Sunmar-FAQ-hotel-reservation-customer__icon {
     transition: none;
   }
 }

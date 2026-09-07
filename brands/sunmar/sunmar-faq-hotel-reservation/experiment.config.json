@@ -1,8 +1,0 @@
-{
-  "name": "sunmar-faq-hotel-reservation",
-  "entry": "src/main.js",
-  "brand": "sunmar",
-  "match": [
-    "https://www.sunmar.ru/*"
-  ]
-}

@@ -6,13 +6,17 @@ export async function initWidget() {
   try {
     const productSummary = await waitForElement(SELECTOR);
     const container = productSummary?.closest("#section-column-1");
-    if (!container || container.dataset.SunmarFaqHotelReservation) return;
+    if (
+      !container ||
+      container.dataset.SunmarFaqHotelReservationAdditionalService
+    )
+      return;
 
     container.insertAdjacentHTML("beforeend", MARKUP);
-    container.dataset.SunmarFaqHotelReservation = "true";
+    container.dataset.SunmarFaqHotelReservationAdditionalService = "true";
 
     const faqContainer = container.querySelector(
-      ".Sunmar-FAQ-hotel-reservation",
+      ".Sunmar-FAQ-hotel-reservation-additional-service",
     );
     if (faqContainer) initFaq(faqContainer);
   } catch {}

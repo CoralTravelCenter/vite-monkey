@@ -1,4 +1,4 @@
-# sunmar-faq-hotel-reservation
+# sunmar-faq-hotel-reservation-customer
 
 Mindbox experiment based on Vite and vite-plugin-monkey.
 
@@ -12,8 +12,8 @@ Mindbox experiment based on Vite and vite-plugin-monkey.
 ## Commands
 
 ```bash
-npm run dev:experiment -- brands/sunmar/sunmar-faq-hotel-reservation
-npm run build:experiment -- brands/sunmar/sunmar-faq-hotel-reservation
+npm run dev:experiment -- brands/sunmar/sunmar-faq-hotel-reservation-customer
+npm run build:experiment -- brands/sunmar/sunmar-faq-hotel-reservation-customer
 ```
 
 ## Files
