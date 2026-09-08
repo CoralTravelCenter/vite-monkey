@@ -1,6 +1,6 @@
 const goalByStep = {
   "additional-service": "faq_add_passenger_group_B_click",
-  "customer": "faq_add_passenger_customer",
+  "customer": "faq_add_passenger_group_B_click",
 };
 
 export function metric(container_faq_metric) {
