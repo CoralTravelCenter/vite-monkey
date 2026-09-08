@@ -1,4 +1,4 @@
-// import markup from './markup.html?raw'
+// import markup from './markup1.html?raw'
 // import './style.scss'
 import css from './quiz-inside.css?inline'
 import {SimpleReactDomObserver} from "../../utils.js";

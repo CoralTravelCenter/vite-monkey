@@ -1,4 +1,4 @@
-export function initFaq(faqContainer) {
+export function openFaqElement(faqContainer) {
   faqContainer.addEventListener("click", (event) => {
     const question = event.target.closest?.(
       "[data-sunmar-faq-hotel-reservation-additional-service-question]",

@@ -1,23 +1,21 @@
-import { waitForElement } from "@utils";
-import { MARKUP, SELECTOR } from "./keys.js";
-import { initFaq } from "./initFaq.js";
+import { reactDomObserver } from "@utils";
+import { WATCH_SELECTOR } from "./utils/keys.js";
+import { removeFaq } from "./targetingBlock/removeFaq.js";
+import {
+  cancelScheduledRender,
+  scheduleRender,
+} from "./targetingBlock/scheduleRender.js";
 
-export async function initWidget() {
-  try {
-    const productSummary = await waitForElement(SELECTOR);
-    const container = productSummary?.closest("#section-column-1");
-    if (
-      !container ||
-      container.dataset.SunmarFaqHotelReservationAdditionalService
-    )
-      return;
+export function initWidget() {
+  const observer = reactDomObserver();
 
-    container.insertAdjacentHTML("beforeend", MARKUP);
-    container.dataset.SunmarFaqHotelReservationAdditionalService = "true";
+  const subscription = observer
+    .observeSelector$(WATCH_SELECTOR)
+    .subscribe(scheduleRender);
 
-    const faqContainer = container.querySelector(
-      ".Sunmar-FAQ-hotel-reservation-additional-service",
-    );
-    if (faqContainer) initFaq(faqContainer);
-  } catch {}
+  return () => {
+    subscription.unsubscribe();
+    cancelScheduledRender();
+    removeFaq();
+  };
 }

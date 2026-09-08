@@ -1,5 +1,5 @@
 import './style.scss';
-// import markup from './markup.html?raw';
+// import markup from './markup1.html?raw';
 import {hostReactAppReady, loadScript} from "../../utils.js";
 
 // document.getElementById('monkey-app').innerHTML = markup;

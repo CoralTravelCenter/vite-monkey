@@ -19,6 +19,8 @@ npm run build:experiment -- brands/sunmar/sunmar-faq-hotel-reservation-additiona
 ## Files
 
 - `src/main.js` - entry point.
-- `src/markup.html` - experiment markup.
+- `src/markup1.html` - FAQ for the additional services step.
+- `src/markup2.html` - FAQ for the customer step.
+- `src/scripts/targetingBlock/checkStep.js` - active booking step detection.
 - `src/style.scss` - experiment styles.
 - `experiment.config.json` - config for root-level `dev:experiment` and `build:experiment`.
