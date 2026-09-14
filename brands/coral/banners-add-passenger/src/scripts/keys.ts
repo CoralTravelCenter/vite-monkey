@@ -1,6 +1,7 @@
 import {transferObject} from "./transferObject.ts";
 
 export {default as MARKUP} from "../markup.html?raw";
+export {default as MARKUP_INSURANCE} from "../markup-insurance.html?raw";
 export const HOST_SELECTOR: string = 'div[class*="ReservationWidgetV2_reservationWidgetContainer__"]';
 export const TRANSFER_LIST: string = 'div[class*="ListAdvanced_listItemsContainer__"]';
 export const BUTTON_CONTAINER: string = ".basic-button-container";
