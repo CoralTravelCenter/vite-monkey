@@ -4,9 +4,11 @@ import { renderFaq } from "./renderFaq.js";
 let renderFrame = null;
 let renderRevision = 0;
 
-const isCurrentRevision = (revision) => revision === renderRevision;
+function isCurrentRevision(revision) {
+  return revision === renderRevision;
+}
 
-export const scheduleRender = () => {
+export function scheduleRender() {
   renderRevision += 1;
   const revision = renderRevision;
 
@@ -20,11 +22,11 @@ export const scheduleRender = () => {
   });
 };
 
-export const cancelScheduledRender = () => {
+export function cancelScheduledRender() {
   renderRevision += 1;
 
   if (renderFrame === null) return;
 
   cancelAnimationFrame(renderFrame);
   renderFrame = null;
-};
+}
