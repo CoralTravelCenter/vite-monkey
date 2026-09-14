@@ -1,4 +1,4 @@
-import { HOST_SELECTOR } from "./keys.ts";
+import {HOST_SELECTOR} from "./keys.ts";
 import {waitForElement} from "../../../../../utils/index.js";
 
 async function getHostElement() {
