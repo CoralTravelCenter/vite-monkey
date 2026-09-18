@@ -1,4 +1,12 @@
 #only-flight-765576 {
+  @font-face {
+    font-family: 'Trajan Pro 3 Regular';
+    src: url('https://b2ccdn.coral.ru/content/TrajanPro3Regular.woff2') format('woff2'),
+    url('https://b2ccdn.coral.ru/content/TrajanPro3Regular.woff2') format('woff');
+    font-weight: 400;
+    font-style: normal;
+  }
+
   &::part(popup-body) {
     align-items: center;
   }
@@ -30,7 +38,7 @@
   [slot="headline"] {
     margin: 24px 24px 0;
     color: #575757 !important;
-    font-family: "Trajan Pro 3 Regular", serif !important;
+    font-family: "Trajan Pro 3 Regular", sans-serif !important;
     font-size: clamp(22px, 6.64vw, 28px) !important;
     font-style: normal;
     font-weight: 400;
