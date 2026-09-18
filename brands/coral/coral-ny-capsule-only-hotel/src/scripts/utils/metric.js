@@ -1,4 +1,4 @@
-export function metric() {
+export function metricButton() {
   if (typeof window.ym === "function") {
     window.ym(96674199, "reachGoal", "entry-point", {
       name_stock: {
@@ -7,5 +7,11 @@ export function metric() {
         },
       },
     });
+  }
+}
+
+export function metricShow() {
+  if (typeof window.ym === "function") {
+    window.ym(96674199,'reachGoal','ny_capsule_pop_up_search_show')
   }
 }

@@ -5,7 +5,7 @@ import {
   MARKUP,
   SELECTOR,
 } from "./utils/keys.ts";
-import { metric } from "./utils/metric.js";
+import {metricButton, metricShow} from "./utils/metric.js";
 
 export async function initWidget() {
   try {
@@ -24,8 +24,9 @@ export async function initWidget() {
     const action = popup?.querySelector(BUTTON_CONTAINER);
 
     if (action) {
-      action.addEventListener("click", metric);
+      action.addEventListener("click", metricButton);
     }
+    metricShow();
 
     popup?.show?.();
 
