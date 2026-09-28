@@ -72,7 +72,7 @@ async function main() {
     onStage: reporter.stage,
   });
   if (result.validation) reporter.validation(result.validation);
-  reporter.success(command);
+  reporter.success();
 }
 
 main().catch((error) => {

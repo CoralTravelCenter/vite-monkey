@@ -40,6 +40,7 @@ test("run workspace stores lifecycle manifest", (t) => {
   assert.equal(fs.existsSync(path.join(workspaceDir, RUN_MANIFEST)), true);
   assert.deepEqual(manifest, {
     pid: 123,
+    runId: "manifest-test",
     startedAt: "2026-08-28T00:00:00.000Z",
     command: "build",
     projectDir: config.projectDir,

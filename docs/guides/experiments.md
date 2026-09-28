@@ -56,11 +56,11 @@ npm run validate:configs
 ## Запуск и сборка
 
 ```bash
-npm run dev:experiment -- brands/coral/comment-injection
-npm run build:experiment -- brands/coral/comment-injection
+npm run dev -- brands/coral/comment-injection
+npm run build -- brands/coral/comment-injection
 ```
 
-Можно использовать короткое имя, если оно уникально.
+Можно использовать короткое имя, если оно уникально. Команды `dev:experiment` и `build:experiment` также поддерживаются для обратной совместимости.
 
 В эксперименте не создаются локальные `node_modules`, `package.json` или `vite.config.*`. Общие зависимости и pipeline находятся в корне репозитория.
 

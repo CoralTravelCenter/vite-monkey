@@ -6,8 +6,8 @@
 
 ```bash
 npm install
-npm run dev:experiment -- brands/coral/comment-injection
-npm run build:experiment -- brands/coral/comment-injection
+npm run dev -- brands/coral/comment-injection
+npm run build -- brands/coral/comment-injection
 ```
 
 Проект можно указать полным путём или уникальным коротким именем. Без аргумента терминал предложит выбрать площадку и эксперимент.
@@ -55,8 +55,8 @@ npm run create:experiment -- promo-banner --brand both --style scss
 
 | Команда                                | Назначение                                   |
 | -------------------------------------- | -------------------------------------------- |
-| `npm run dev:experiment -- <проект>`   | Запустить Vite dev server с HMR              |
-| `npm run build:experiment -- <проект>` | Собрать и проверить userscript               |
+| `npm run dev -- <проект>`              | Запустить Vite dev server с HMR              |
+| `npm run build -- <проект>`            | Собрать `dist/<name>.html`                   |
 | `npm run clean:runner`                 | Показать и удалить выбранные stale workspace |
 | `npm run check:pipeline`               | Проверить Coral, Sunmar и Both pipeline      |
 | `npm run check:ci`                     | Запустить полный набор CI-проверок           |
@@ -66,7 +66,7 @@ npm run create:experiment -- promo-banner --brand both --style scss
 | `npm run graph:experiment -- <проект>` | Построить карту эксперимента                 |
 | `npm run graph:audit`                  | Выполнить полный Graphify-аудит              |
 
-Dev и build используют отдельные Vite-конфигурации. Build проходит через изолированный staging, валидацию и атомарную публикацию в `dist`.
+Старые команды `dev:experiment` и `build:experiment` сохранены как совместимые алиасы. Dev и build используют отдельные Vite-конфигурации. Build проходит через изолированный staging, валидацию и атомарную публикацию HTML в `dist`.
 
 Подробности: [архитектура dev/build pipeline](./docs/architecture/dev-build-pipeline.md).
 

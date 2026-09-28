@@ -17,6 +17,8 @@
     "graph:audit": "graphify extract . --code-only --force",
     "graph:project": "node scripts/analyze-architecture.js project",
     "graph:experiment": "node scripts/analyze-architecture.js experiment",
+    "dev": "node scripts/run-experiment.js dev",
+    "build": "node scripts/run-experiment.js build",
     "dev:experiment": "node scripts/run-experiment.js dev",
     "build:experiment": "node scripts/run-experiment.js build",
     "update:catalog": "node scripts/update-projects-catalog.js",

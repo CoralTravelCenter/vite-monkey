@@ -3,6 +3,7 @@ import test from "node:test";
 import vm from "node:vm";
 
 import {
+  createHtmlArtifact,
   finalizeUserscriptSource,
   parseUserscriptMetadata,
   validateUserscriptArtifact,
@@ -30,6 +31,18 @@ test("userscript finalization preserves metadata and valid JavaScript", () => {
   const finalizedBody = result.slice(metadata.length).trim();
   assert.equal(finalizedBody, scriptBody);
   assert.doesNotThrow(() => new vm.Script(finalizedBody));
+});
+
+test("HTML artifact removes metadata and wraps escaped JavaScript", () => {
+  const source = `${metadata}\nconst closingTag = "</script>";\n`;
+  const result = createHtmlArtifact(source);
+
+  assert.equal(
+    result,
+    '<script>\nconst closingTag = "<\\/script>";\n</script>\n',
+  );
+  assert.doesNotMatch(result, /==UserScript==/);
+  assert.equal(result.match(/<\/script>/g)?.length, 1);
 });
 
 test("userscript validation checks metadata, syntax and size", () => {

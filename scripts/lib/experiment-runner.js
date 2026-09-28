@@ -15,6 +15,7 @@ import {
 } from "./runner-workspace.js";
 import { createRunnerViteConfig, runVite } from "./vite.js";
 import {
+  createHtmlArtifact,
   finalizeUserscriptSource,
   validateUserscriptArtifact,
 } from "./userscript.js";
@@ -25,13 +26,13 @@ export function assertExperimentCommand(command) {
   }
 }
 
-export function getUserscriptOutputPath(config) {
-  return path.join(config.projectDir, "dist", `${config.name}.user.js`);
+export function getHtmlOutputPath(config) {
+  return path.join(config.projectDir, "dist", `${config.name}.html`);
 }
 
-export function publishUserscriptBuild(config, stagingDir) {
+export function publishHtmlBuild(config, stagingDir) {
   const stagedPath = path.join(stagingDir, `${config.name}.user.js`);
-  const outputPath = getUserscriptOutputPath(config);
+  const outputPath = getHtmlOutputPath(config);
 
   if (!pathExists(stagedPath)) {
     throw new Error(
@@ -42,6 +43,7 @@ export function publishUserscriptBuild(config, stagingDir) {
   const source = fs.readFileSync(stagedPath, "utf8");
   const finalizedSource = finalizeUserscriptSource(source);
   const validation = validateUserscriptArtifact(finalizedSource, config);
+  const htmlSource = createHtmlArtifact(finalizedSource);
   const outputDir = path.dirname(outputPath);
   const pendingPath = path.join(
     outputDir,
@@ -51,13 +53,21 @@ export function publishUserscriptBuild(config, stagingDir) {
   fs.mkdirSync(outputDir, { recursive: true });
 
   try {
-    fs.writeFileSync(pendingPath, finalizedSource);
+    fs.writeFileSync(pendingPath, htmlSource);
     fs.renameSync(pendingPath, outputPath);
+    fs.rmSync(path.join(outputDir, `${config.name}.user.js`), { force: true });
   } finally {
     fs.rmSync(pendingPath, { force: true });
   }
 
-  return { outputPath, validation };
+  return {
+    outputPath,
+    validation: {
+      ...validation,
+      html: true,
+      sizeBytes: Buffer.byteLength(htmlSource),
+    },
+  };
 }
 
 export function prepareExperiment(command, projectPath) {
@@ -74,7 +84,7 @@ export function prepareExperiment(command, projectPath) {
   return {
     command,
     config,
-    outputPath: path.relative(ROOT_DIR, getUserscriptOutputPath(config)),
+    outputPath: path.relative(ROOT_DIR, getHtmlOutputPath(config)),
   };
 }
 
@@ -114,7 +124,7 @@ export async function executeExperiment(
     createWorkspace = createRunWorkspace,
     createConfig = createRunnerViteConfig,
     run = runVite,
-    publishBuild = publishUserscriptBuild,
+    publishBuild = publishHtmlBuild,
     removeWorkspace = removeRunWorkspace,
   } = {},
 ) {
