@@ -1,0 +1,8 @@
+{
+  "name": "short-search-card",
+  "entry": "src/main.js",
+  "brand": "coral",
+  "match": [
+    "https://www.coral.ru/*"
+  ]
+}

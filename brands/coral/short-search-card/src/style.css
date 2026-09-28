@@ -1,0 +1,124 @@
+@media (min-width: 900px) {
+    #hotelListCard30347 [data-testid="hc-container"] {
+        display: grid !important;
+        grid-template-columns: 26% minmax(0, 1fr) 1px 26% !important;
+        gap: 12px 16px !important;
+        min-height: 298px;
+        align-items: start !important;
+    }
+
+    #hotelListCard30347 [data-testid="hc-slider"] {
+        grid-column: 1 !important;
+        grid-row: 1 / 6 !important;
+        width: 100% !important;
+    }
+
+    #hotelListCard30347 [data-testid="hc-info"] {
+        grid-column: 2 !important;
+        grid-row: 1 !important;
+        min-width: 0;
+        height: auto !important;
+        gap: 8px !important;
+        align-self: start !important;
+    }
+
+    #hotelListCard30347 [data-testid="hc-price"],
+    #hotelListCard30347 [class*="HotelCardPrice_hotelCardPriceWrapper__"],
+    #hotelListCard30347 [class*="HotelCardPrice_hotelCardPriceContainer__"] {
+        display: contents !important;
+    }
+
+    #hotelListCard30347 [class*="HotelCardPrice_travelInfo__"] {
+        grid-column: 2 !important;
+        grid-row: 2 !important;
+        display: flex !important;
+        justify-content: flex-start !important;
+        gap: 12px !important;
+        margin: 0 !important;
+        font-size: 16px !important;
+    }
+
+    #hotelListCard30347 [class*="RoomMealInformation_roomMealInformation__"] {
+        grid-column: 2 !important;
+        grid-row: 3 !important;
+        margin: 0 !important;
+        min-width: 0;
+        white-space: normal !important;
+        font-size: 16px !important;
+        line-height: 1.45 !important;
+        overflow-wrap: anywhere;
+    }
+
+    #hotelListCard30347 .separator {
+        grid-column: 3 !important;
+        grid-row: 1 / 6 !important;
+        height: 100% !important;
+        align-self: stretch !important;
+    }
+
+    #hotelListCard30347 [class*="HotelCardPrice_priceInfo__"] {
+        grid-column: 4 !important;
+        grid-row: 1 / 3 !important;
+        align-self: end !important;
+        width: 100% !important;
+    }
+
+    #hotelListCard30347 [class*="CoralBonusInformation_coralBonusInformation__"] {
+        grid-column: 4 !important;
+        grid-row: 3 / 5 !important;
+        align-self: start !important;
+        background: #ffefcc !important;
+        border-radius: 8px;
+        padding: 12px !important;
+        margin: 0 !important;
+    }
+
+    #hotelListCard30347 #SelectHotelButton-link {
+        grid-column: 4 !important;
+        grid-row: 5 !important;
+        width: 100% !important;
+        align-self: end !important;
+    }
+
+    #hotelListCard30347 [data-testid="hc-select-hotel-btn"] {
+        width: 100% !important;
+        height: 48px !important;
+    }
+
+    #hotelListCard30347 .meal-room-type-information,
+    #hotelListCard30347 .hotel-card-about,
+    #hotelListCard30347 .hotel-features-icon,
+    #hotelListCard30347 .hotel-card-distance-information,
+    #hotelListCard30347 .installment-credit-information,
+    #hotelListCard30347 [class*="HotelCardPrice_hrGray__"],
+    #hotelListCard30347 [class*="HotelCardPrice_hotelCardShortviewFlightIncluded__"],
+    #hotelListCard30347 #hotelCardPriceSurcharges,
+    #hotelListCard30347 .price-calendar,
+    #hotelListCard30347 .add-to-compare-list {
+        display: none !important;
+    }
+
+
+    #hotelListCard30347 [data-testid="hc-slider"] {
+        grid-row: span 6;
+    }
+
+    #hotelListCard30347 [data-testid="hc-container"] {
+        display: grid !important;
+        grid-template-columns: 26% minmax(0, 1fr) 1px 26% !important;
+        grid-template-rows: none !important;
+        grid-auto-rows: auto !important;
+        gap: 12px 16px !important;
+        min-height: 298px;
+        align-items: start !important;
+        align-content: start !important;
+    }
+
+    #hotelListCard30347 [data-testid="hc-slider"] {
+        grid-column: 1 !important;
+        grid-row: 1 / 6 !important;
+        width: 100% !important;
+        height: 100% !important;
+        align-self: stretch !important;
+    }
+}
