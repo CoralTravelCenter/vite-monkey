@@ -1,0 +1,6 @@
+{
+  "name": "sunmar-faq-hotel-reservation-additional-service",
+  "entry": "src/main.js",
+  "brand": "sunmar",
+  "match": ["https://www.sunmar.ru/*"]
+}
