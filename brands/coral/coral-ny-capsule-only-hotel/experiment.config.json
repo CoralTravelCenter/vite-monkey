@@ -1,0 +1,6 @@
+{
+  "name": "coral-ny-capsule-only-hotel",
+  "entry": "src/main.js",
+  "brand": "coral",
+  "match": ["https://www.coral.ru/*"]
+}
