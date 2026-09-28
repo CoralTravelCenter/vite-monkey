@@ -7,8 +7,8 @@ import test from "node:test";
 import {
   assertExperimentCommand,
   executeExperiment,
-  getUserscriptOutputPath,
-  publishUserscriptBuild,
+  getHtmlOutputPath,
+  publishHtmlBuild,
 } from "../scripts/lib/experiment-runner.js";
 import {
   createRunWorkspace,
@@ -25,9 +25,9 @@ test("rejects unsupported commands", () => {
   assert.throws(() => assertExperimentCommand("preview"), /dev или build/);
 });
 
-test("resolves the final userscript output path", () => {
+test("resolves the final HTML output path", () => {
   assert.equal(
-    getUserscriptOutputPath({
+    getHtmlOutputPath({
       name: "timer",
       projectDir: path.join(path.sep, "repository", "brands", "coral", "timer"),
     }),
@@ -38,7 +38,7 @@ test("resolves the final userscript output path", () => {
       "coral",
       "timer",
       "dist",
-      "timer.user.js",
+      "timer.html",
     ),
   );
 });
@@ -57,40 +57,47 @@ function createBuildFixture(t, previousOutput = "previous build") {
 
   fs.mkdirSync(stagingDir);
   fs.mkdirSync(outputDir);
-  fs.writeFileSync(getUserscriptOutputPath(config), previousOutput);
+  fs.writeFileSync(getHtmlOutputPath(config), previousOutput);
   t.after(() => fs.rmSync(projectDir, { recursive: true, force: true }));
 
   return { config, stagingDir };
 }
 
-test("publishes a verified userscript over the previous build", (t) => {
+test("publishes a verified userscript as HTML over the previous build", (t) => {
   const { config, stagingDir } = createBuildFixture(t);
+  const legacyPath = path.join(config.projectDir, "dist", "timer.user.js");
+  fs.writeFileSync(legacyPath, "legacy build");
   fs.writeFileSync(
     path.join(stagingDir, "timer.user.js"),
     "// ==UserScript==\n// @name timer\n// @namespace mindbox/vite-monkey\n// @match https://example.com/*\n// ==/UserScript==\n\n'use strict';(()=>{})();",
   );
 
-  publishUserscriptBuild(config, stagingDir);
+  const result = publishHtmlBuild(config, stagingDir);
 
-  const output = fs.readFileSync(getUserscriptOutputPath(config), "utf8");
-  assert.equal(
-    output,
-    "// ==UserScript==\n// @name timer\n// @namespace mindbox/vite-monkey\n// @match https://example.com/*\n// ==/UserScript==\n\n'use strict';(()=>{})();\n",
-  );
+  const output = fs.readFileSync(getHtmlOutputPath(config), "utf8");
+  assert.equal(output, "<script>\n'use strict';(()=>{})();\n</script>\n");
+  assert.equal(result.validation.metadata, true);
+  assert.equal(result.validation.javascript, true);
+  assert.equal(result.validation.html, true);
+  assert.equal(result.validation.sizeBytes, Buffer.byteLength(output));
+  assert.equal(fs.existsSync(legacyPath), false);
 });
 
 test("keeps the previous build when staged userscript is invalid", (t) => {
   const { config, stagingDir } = createBuildFixture(t);
+  const legacyPath = path.join(config.projectDir, "dist", "timer.user.js");
+  fs.writeFileSync(legacyPath, "legacy build");
   fs.writeFileSync(path.join(stagingDir, "timer.user.js"), "invalid build");
 
   assert.throws(
-    () => publishUserscriptBuild(config, stagingDir),
+    () => publishHtmlBuild(config, stagingDir),
     /metadata block не найден/,
   );
   assert.equal(
-    fs.readFileSync(getUserscriptOutputPath(config), "utf8"),
+    fs.readFileSync(getHtmlOutputPath(config), "utf8"),
     "previous build",
   );
+  assert.equal(fs.readFileSync(legacyPath, "utf8"), "legacy build");
 });
 
 test("keeps the previous build when staged JavaScript has invalid syntax", (t) => {
@@ -102,11 +109,11 @@ test("keeps the previous build when staged JavaScript has invalid syntax", (t) =
   config.match = ["https://example.com/*"];
 
   assert.throws(
-    () => publishUserscriptBuild(config, stagingDir),
+    () => publishHtmlBuild(config, stagingDir),
     /Некорректный JavaScript userscript/,
   );
   assert.equal(
-    fs.readFileSync(getUserscriptOutputPath(config), "utf8"),
+    fs.readFileSync(getHtmlOutputPath(config), "utf8"),
     "previous build",
   );
 });
@@ -230,5 +237,5 @@ test("build interruption fails, cleans workspace and publishes nothing", async (
   );
 
   assert.equal(fs.existsSync(fixture.workspace()), false);
-  assert.equal(fs.existsSync(getUserscriptOutputPath(fixture.config)), false);
+  assert.equal(fs.existsSync(getHtmlOutputPath(fixture.config)), false);
 });

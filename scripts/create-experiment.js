@@ -135,8 +135,8 @@ async function main() {
       `Entry: src/${options.entry}.js`,
       `Style: src/style.${options.style}`,
       "",
-      `npm run dev:experiment -- ${projectPath}`,
-      `npm run build:experiment -- ${projectPath}`,
+      `npm run dev -- ${projectPath}`,
+      `npm run build -- ${projectPath}`,
     ].join("\n"),
     options.projectName,
   );

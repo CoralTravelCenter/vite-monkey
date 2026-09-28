@@ -1,0 +1,55 @@
+div[class*="ReservationStepper_reservationStepper__"] {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+#chainCB[data-page="booking-step-0"] {
+  font-size: 16px;
+  padding-right: 8px;
+  padding-left: 70px;
+  padding-block: 12px;
+  justify-content: space-between;
+  order: 1;
+  border-radius: 8px;
+
+  @media (max-width: 993px) {
+    flex-direction: column;
+    padding-left: 90px;
+    align-items: start;
+    position: relative;
+    top: unset;
+    left: unset;
+    margin: 0 auto;
+    width: calc(100% - 24px) !important;
+  }
+
+  .chain-cb__booking-content {
+    display: flex;
+    flex-direction: column;
+  }
+
+
+  .chain-cb__title {
+    font-size: 24px;
+
+    @media (max-width: 993px) {
+      font-size: 16px;
+      max-width: 26ch;
+    }
+  }
+
+  .chain-cb__description {
+    @media (max-width: 993px) {
+      font-size: 14px;
+      margin-top: 2px;
+    }
+  }
+
+  .chain-cb__details {
+    @media (max-width: 993px) {
+      font-size: 14px;
+      margin-top: 8px;
+    }
+  }
+}

@@ -16,62 +16,97 @@ export function createTerminalReporter({
   stdout = process.stdout,
   stderr = process.stderr,
   color = Boolean(stdout.isTTY) && !process.env.NO_COLOR,
+  now = () => performance.now(),
 } = {}) {
   const writeLine = (stream, value = "") => stream.write(`${value}\n`);
+  const stageDurations = [];
+  let activeStage;
+  let activeStageStartedAt;
+  let command;
+  let outputPath;
+  let projectPath;
+  let startedAt;
+  let validation;
+
+  const formatDuration = (durationMs) =>
+    durationMs < 1000
+      ? `${Math.max(1, Math.round(durationMs))} ms`
+      : `${(durationMs / 1000).toFixed(2)} s`;
+  const finishActiveStage = (finishedAt) => {
+    if (!activeStage) return;
+    stageDurations.push({
+      label: activeStage,
+      durationMs: finishedAt - activeStageStartedAt,
+    });
+    activeStage = undefined;
+  };
 
   return {
-    start({ command, config, outputPath }) {
+    start(experiment) {
+      const {
+        command: currentCommand,
+        config,
+        outputPath: currentOutputPath,
+      } = experiment;
+      startedAt = now();
+      projectPath = config.relativePath;
+      command = currentCommand;
+      outputPath = currentOutputPath;
       const mode = command.toUpperCase();
       writeLine(
         stdout,
-        `${paint("◆", ["cyan"], color)} ${paint("Vite Monkey", ["bold"], color)} ${paint(`· ${mode}`, ["dim"], color)}`,
-      );
-      writeLine(stdout);
-      writeLine(
-        stdout,
-        `  ${paint("Проект", ["dim"], color)}   ${config.name}`,
+        `${paint("╭─", ["cyan"], color)} ${paint("◆ Vite Monkey", ["bold"], color)} ${paint(`· ${mode}`, ["dim"], color)}`,
       );
       writeLine(
         stdout,
-        `  ${paint("Путь", ["dim"], color)}     ${config.relativePath}`,
+        `${paint("│", ["cyan"], color)}  ${paint("Проект", ["dim"], color)}   ${paint(config.name, ["bold"], color)}`,
       );
       writeLine(
         stdout,
-        `  ${paint("Entry", ["dim"], color)}    ${config.entry}`,
+        `${paint("│", ["cyan"], color)}  ${paint("Путь", ["dim"], color)}     ${config.relativePath}`,
       );
       writeLine(
         stdout,
-        `  ${paint("Match", ["dim"], color)}    ${config.match.join(", ")}`,
+        `${paint("│", ["cyan"], color)}  ${paint("Entry", ["dim"], color)}    ${config.entry}`,
+      );
+      writeLine(
+        stdout,
+        `${paint("│", ["cyan"], color)}  ${paint("Match", ["dim"], color)}    ${config.match.join(", ")}`,
       );
 
       if (command === "build") {
         writeLine(
           stdout,
-          `  ${paint("Output", ["dim"], color)}   ${outputPath}`,
+          `${paint("│", ["cyan"], color)}  ${paint("Output", ["dim"], color)}   ${outputPath}`,
         );
       } else {
         writeLine(
           stdout,
-          `  ${paint("Режим", ["dim"], color)}    Dev server + HMR`,
+          `${paint("│", ["cyan"], color)}  ${paint("Режим", ["dim"], color)}    Dev server + HMR`,
         );
       }
+
+      writeLine(stdout, paint("╰─", ["cyan"], color));
+      writeLine(stdout);
     },
 
     stage(stage) {
+      const stageStartedAt = now();
+      finishActiveStage(stageStartedAt);
       const labels = {
         prepare: "Подготовка",
         dev: "Запуск dev server",
         build: "Сборка",
-        verify: "Проверка userscript",
+        verify: "Проверка и упаковка",
       };
 
-      writeLine(
-        stdout,
-        `${paint("▶", ["cyan"], color)} ${labels[stage] || stage}`,
-      );
+      activeStage = labels[stage] || stage;
+      activeStageStartedAt = stageStartedAt;
     },
 
-    validation({ metadata, javascript, sizeBytes }) {
+    validation(result) {
+      validation = result;
+      const { metadata, javascript, html, sizeBytes } = result;
       const check = paint("✓", ["green"], color);
       writeLine(
         stdout,
@@ -83,17 +118,51 @@ export function createTerminalReporter({
       );
       writeLine(
         stdout,
+        `  ${paint("HTML", ["dim"], color)}       ${html ? check : "—"}`,
+      );
+      writeLine(
+        stdout,
         `  ${paint("Размер", ["dim"], color)}     ${(sizeBytes / 1000).toFixed(2)} kB`,
       );
     },
 
-    success(command) {
+    success() {
+      const finishedAt = now();
+      finishActiveStage(finishedAt);
       const message =
         command === "build"
-          ? "Готово · userscript опубликован"
+          ? "Готово · HTML опубликован"
           : "Dev server остановлен";
       writeLine(stdout);
-      writeLine(stdout, `${paint("✓", ["green"], color)} ${message}`);
+      writeLine(
+        stdout,
+        `${paint("╭─ ✓", ["green", "bold"], color)} ${message}`,
+      );
+      if (command === "build") {
+        writeLine(
+          stdout,
+          `${paint("│", ["green"], color)}  Output   ${outputPath}`,
+        );
+        writeLine(
+          stdout,
+          `${paint("│", ["green"], color)}  Размер   ${(validation.sizeBytes / 1000).toFixed(2)} kB`,
+        );
+      }
+      for (const stage of stageDurations) {
+        writeLine(
+          stdout,
+          `${paint("│", ["green"], color)}  ${stage.label} · ${formatDuration(stage.durationMs)}`,
+        );
+      }
+      writeLine(
+        stdout,
+        `${paint("│", ["green"], color)}  Всего    ${formatDuration(finishedAt - startedAt)}`,
+      );
+      writeLine(
+        stdout,
+        `${paint("│", ["green"], color)}  Повтор   npm run ${command} -- ${JSON.stringify(projectPath)}`,
+      );
+      writeLine(stdout, paint("╰─", ["green"], color));
     },
 
     error(error) {

@@ -16,11 +16,11 @@ scripts/run-experiment.js
 Проект можно передать полным путём или уникальным коротким именем:
 
 ```bash
-npm run dev:experiment -- brands/coral/comment-injection
-npm run build:experiment -- comment-injection
+npm run dev -- brands/coral/comment-injection
+npm run build -- comment-injection
 ```
 
-Без аргумента терминал предлагает выбрать площадку и эксперимент.
+Без аргумента терминал предлагает выбрать площадку и эксперимент. Команды `dev:experiment` и `build:experiment` сохранены как совместимые алиасы.
 
 ## Dev
 
@@ -40,10 +40,11 @@ Build использует отдельную Vite-конфигурацию и �
   → временный staging
   → финализация userscript
   → проверка metadata, match, имени и JavaScript
-  → атомарная публикация в dist
+  → удаление metadata и упаковка JavaScript в `<script>`
+  → атомарная публикация `dist/<name>.html`
 ```
 
-Если сборка, проверка или публикация завершается ошибкой, предыдущий успешный userscript остаётся без изменений.
+Промежуточный userscript используется только для проверки и не публикуется. После успешной публикации HTML legacy-файл `dist/<name>.user.js` удаляется. Если сборка, проверка или публикация завершается ошибкой, предыдущие HTML- и legacy-файлы остаются без изменений.
 
 ## Изоляция запусков
 

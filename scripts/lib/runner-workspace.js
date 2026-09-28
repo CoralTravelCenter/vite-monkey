@@ -90,7 +90,7 @@ export function createRunWorkspace(
   fs.mkdirSync(workspaceDir, { recursive: false });
   fs.writeFileSync(
     path.join(workspaceDir, RUN_MANIFEST),
-    `${JSON.stringify({ pid, startedAt, command, projectDir: config.projectDir }, null, 2)}\n`,
+    `${JSON.stringify({ pid, runId, startedAt, command, projectDir: config.projectDir }, null, 2)}\n`,
   );
   return workspaceDir;
 }

@@ -86,3 +86,10 @@ export function finalizeUserscriptSource(source) {
 
   return `${metadataSource}${normalizedBody.trimEnd()}\n`;
 }
+
+export function createHtmlArtifact(source) {
+  const { scriptBody } = splitUserscriptSource(source);
+  const escapedBody = scriptBody.trim().replace(/<\/script/gi, "<\\/script");
+
+  return `<script>\n${escapedBody}\n</script>\n`;
+}

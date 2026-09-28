@@ -1,0 +1,8 @@
+{
+  "name": "coral-bonus-chains",
+  "entry": "src/main.js",
+  "brand": "coral",
+  "match": [
+    "https://www.coral.ru/*"
+  ]
+}
