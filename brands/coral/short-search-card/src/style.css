@@ -26,7 +26,7 @@
     div[id*="hotelListCard"] [data-testid="hc-container"] {
         padding: 0 8px 0 0;
         display: grid;
-        grid-template-columns: 26% min-content auto 26%;
+        grid-template-columns: 26% min-content auto max(26%, 226px);
         grid-template-areas:
             "slider location location promo"
             "slider name name price"
