@@ -1,5 +1,4 @@
-@media (min-width: 768px) {
-    /* скрытие элементов — без изменений */
+@media (width>=768px) {
     div[id*="hotelListCard"] .meal-room-type-information,
     div[id*="hotelListCard"] .hotel-features-icon,
     div[id*="hotelListCard"] .hotel-card-distance-information,
@@ -10,114 +9,96 @@
     div[id*="hotelListCard"] .price-calendar,
     div[id*="hotelListCard"] .add-to-compare-list,
     div[id*="hotelListCard"] .separator,
-    div[id*="hotelListCard"] [class*="Paragraph_paragraph__"] {
+    div[id*="hotelListCard"] [class*="Paragraph_paragraph__"],
+    div[id*="hotelListCard"] .elite-service-icon-and-tooltip,
+    div[id*="hotelListCard"] [class*="StayNights_stayNights__"] > span {
         display: none;
     }
-
     div[id*="hotelListCard"] [data-testid="hc-price"],
     div[id*="hotelListCard"] [class*="HotelCardPrice_hotelCardPriceWrapper__"],
     div[id*="hotelListCard"] [class*="HotelCardPrice_hotelCardPriceContainer__"],
     div[id*="hotelListCard"] [data-testid="hc-info"],
-    div[id*="hotelListCard"] .hotel-card-about,
+    div[id*="hotelListCard"] .hotel-card-about {
+        display: contents;
+    }
+    div[id*="hotelListCard"] [class*="HotelCardSlider_slider"] {
+        border-radius: 8px 0 0 8px;
+        aspect-ratio: unset;
+        max-height: 260px;
+    }
+    div[id*="hotelListCard"] .elite.badge {background: #000}
     div:has(> #HotelCardInformatiom_HotelName-link) {
         display: contents;
     }
-
     div[id*="hotelListCard"] [data-testid="hc-container"] {
+        grid-template-columns: min(35%, 338px) min-content auto 26%;
+        grid-template-areas: "slider location location promo" "slider name name price" "slider category tripadvizor price" "slider flight-info flight-info price" "slider meal-info meal-info bonus" "slider. .button";
+        gap: 4px 12px;
         padding: 0 8px 0 0;
         display: grid;
-        grid-template-columns: 26% min-content auto max(26%, 226px);
-        grid-template-areas:
-            "slider location location promo"
-            "slider name name price"
-            "slider category tripadvizor price"
-            "slider flight-info flight-info price"
-            "slider meal-info meal-info bonus"
-            "slider . . button";
-        row-gap: 4px;
-        column-gap: 12px;
     }
-
     div[id*="hotelListCard"] [data-testid="hc-slider"] {
         grid-area: slider;
-        width: 100%;
         align-self: stretch;
+        width: 100%;
     }
-
     div[id*="hotelListCard"] .carouselContainer {
         height: 100%;
     }
-
     div[id*="hotelListCard"] .hotel-card-information-heading {
-        grid-area: location;
-        grid-row: 1;
+        grid-area: 1 / location;
         margin-top: 8px;
     }
-
     div[id*="hotelListCard"] #HotelCardInformatiom_HotelName-link {
-        grid-area: name;
-        grid-row: 2;
+        grid-area: 2 / name;
     }
-
     div[id*="hotelListCard"] [class*="HotelCategory_hotelCategory__"] {
-        margin: 0;
+        grid-area: 3 / category;
         align-self: stretch;
-        grid-area: category;
-        grid-row: 3;
+        margin: 0;
     }
-
     div[id*="hotelListCard"] .trip-advisor-rating {
-        margin: 0;
+        grid-area: 3 / tripadvizor;
         align-self: stretch;
-        grid-area: tripadvizor;
-        grid-row: 3;
+        margin: 0;
     }
-
     div[id*="hotelListCard"] div[class*="PromotionArea_promotionArea__"] {
         grid-area: promo;
-        margin: 8px 0 0 0;
+        margin: 8px 0 0;
     }
-
     div[id*="hotelListCard"] [class*="HotelCardPrice_travelInfo__"] {
         grid-area: flight-info;
     }
-
     div[id*="hotelListCard"] [class*="HotelCardPrice_travelInfo__"] * {
         font-size: 14px;
     }
-
     div[id*="hotelListCard"] [class*="RoomMealInformation_roomMealInformation__"] {
         grid-area: meal-info;
-        font-size: 14px;
-        display: flex;
+        align-self: start;
         align-items: center;
         gap: 8px;
-        align-self: start;
+        font-size: 14px;
+        display: flex;
     }
-
     div[id*="hotelListCard"] [class*="RoomMealInformation_roomMealInformation__"]:before {
         content: "";
-        display: block;
+        background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='20' height='20' viewBox='0 0 20 20' fill='none'%3E%3Cpath d='M3.3335 1.66666V5.49999C3.3335 6.60456 4.22893 7.49999 5.3335 7.49999H7.16683C8.2714 7.49999 9.16683 6.60456 9.16683 5.49999V1.66666' stroke='black' stroke-opacity='0.85' stroke-linejoin='round'/%3E%3Cpath d='M12.0835 12.9167V1.66666C14.6148 1.66666 16.6668 3.71868 16.6668 6.24999V12.9167H12.0835Z' stroke='black' stroke-opacity='0.85' stroke-linejoin='round'/%3E%3Cpath d='M6.25 1.66666V18.3333' stroke='black' stroke-opacity='0.85' stroke-linejoin='round'/%3E%3Cpath d='M12.0835 9.16666V18.3333' stroke='black' stroke-opacity='0.85' stroke-linejoin='round'/%3E%3C/svg%3E");
         width: 20px;
         height: 20px;
-        background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='20' height='20' viewBox='0 0 20 20' fill='none'%3E%3Cpath d='M3.3335 1.66666V5.49999C3.3335 6.60456 4.22893 7.49999 5.3335 7.49999H7.16683C8.2714 7.49999 9.16683 6.60456 9.16683 5.49999V1.66666' stroke='black' stroke-opacity='0.85' stroke-linejoin='round'/%3E%3Cpath d='M12.0835 12.9167V1.66666C14.6148 1.66666 16.6668 3.71868 16.6668 6.24999V12.9167H12.0835Z' stroke='black' stroke-opacity='0.85' stroke-linejoin='round'/%3E%3Cpath d='M6.25 1.66666V18.3333' stroke='black' stroke-opacity='0.85' stroke-linejoin='round'/%3E%3Cpath d='M12.0835 9.16666V18.3333' stroke='black' stroke-opacity='0.85' stroke-linejoin='round'/%3E%3C/svg%3E");
+        display: block;
     }
-
     div[id*="hotelListCard"] [class*="HotelCardPrice_priceInfo__"] {
         grid-area: price;
         align-self: end;
-        margin: 0 0 2px 0;
+        margin: 0 0 2px;
     }
-
     div[id*="hotelListCard"] [class*="CoralBonusInformation_coralBonusInformation__"] {
         grid-area: bonus;
     }
-
     div[id*="hotelListCard"] #SelectHotelButton-link {
         grid-area: button;
-        margin: 12px 0 8px 0;
+        margin: 12px 0 8px;
     }
-
     div[id*="hotelListCard"] [data-testid="hc-select-hotel-btn"] {
         width: 100%;
         height: 48px;
