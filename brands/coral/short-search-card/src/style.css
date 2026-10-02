@@ -9,11 +9,24 @@
     div[id*="hotelListCard"] .price-calendar,
     div[id*="hotelListCard"] .add-to-compare-list,
     div[id*="hotelListCard"] .separator,
+<<<<<<< Updated upstream
     div[id*="hotelListCard"] [class*="Paragraph_paragraph__"],
     div[id*="hotelListCard"] .elite-service-icon-and-tooltip,
     div[id*="hotelListCard"] [class*="StayNights_stayNights__"] > span {
         display: none;
     }
+=======
+    div[id*="hotelListCard"] .elite-service-icon-and-tooltip,
+    div[id*="hotelListCard"] [class*="Paragraph_paragraph__"],
+    [class*="SearchResultDisplayOptions_searchResultDisplayOptions__"] .ant-segmented-group {
+        display: none;
+    }
+
+    div[id*="hotelListCard"] .elite.badge {
+        background: #000;
+    }
+
+>>>>>>> Stashed changes
     div[id*="hotelListCard"] [data-testid="hc-price"],
     div[id*="hotelListCard"] [class*="HotelCardPrice_hotelCardPriceWrapper__"],
     div[id*="hotelListCard"] [class*="HotelCardPrice_hotelCardPriceContainer__"],
@@ -36,6 +49,19 @@
         gap: 4px 12px;
         padding: 0 8px 0 0;
         display: grid;
+<<<<<<< Updated upstream
+=======
+        grid-template-columns: min(35%, 338px) min-content auto max(26%, 226px);
+        grid-template-areas:
+            "slider location location promo"
+            "slider name name price"
+            "slider category tripadvizor price"
+            "slider flight-info flight-info price"
+            "slider meal-info meal-info bonus"
+            "slider . . button";
+        row-gap: 4px;
+        column-gap: 12px;
+>>>>>>> Stashed changes
     }
     div[id*="hotelListCard"] [data-testid="hc-slider"] {
         grid-area: slider;
