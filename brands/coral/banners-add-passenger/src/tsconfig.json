@@ -8,5 +8,6 @@
     "skipLibCheck": true,
     "allowImportingTsExtensions": true,
     "allowJs": true,
+    "checkJs": true,
   }
 }
