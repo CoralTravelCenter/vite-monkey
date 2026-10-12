@@ -1,0 +1,8 @@
+{
+  "name": "payment-online-rubles",
+  "entry": "src/main.js",
+  "brand": "coral",
+  "match": [
+    "https://www.coral.ru/*"
+  ]
+}
