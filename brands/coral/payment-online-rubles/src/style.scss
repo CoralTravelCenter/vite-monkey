@@ -90,21 +90,41 @@
     break-after: auto;
   }
 }
-@media (max-width: 767px) {
+@media (max-width: 900px) {
   .payment-online-rubles {
     gap: 16px;
   }
   .payment-online-rubles .banner-1 {
+    position: relative;
     grid-template-columns: minmax(0, 1fr);
     gap: 24px;
     padding: 24px;
   }
+  .payment-online-rubles .banner-1-image {
+    position: absolute;
+    top: 24px;
+    left: 24px;
+  }
+  .payment-online-rubles .banner-1-image svg {
+    width: 64px;
+    height: 64px;
+  }
   .payment-online-rubles .banner-1-header {
+    min-height: 64px;
+    padding-left: 80px;
     font-size: 18px;
     line-height: 26px;
+  }
+  .payment-online-rubles .banner-1-guide-text,
+  .payment-online-rubles .banner-1-guide-text:nth-child(3) {
+    margin-bottom: 12px;
+  }
+  .payment-online-rubles .banner-1-guide-text:last-child {
+    margin-bottom: 0;
   }
   .payment-online-rubles .banner-2-text {
     font-size: 16px;
     line-height: 24px;
+    text-align: left;
   }
 }
