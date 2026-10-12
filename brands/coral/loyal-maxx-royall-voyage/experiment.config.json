@@ -1,0 +1,8 @@
+{
+  "name": "loyal-maxx-royall-voyage",
+  "entry": "src/main.js",
+  "brand": "coral",
+  "match": [
+    "https://www.coral.ru/*"
+  ]
+}

@@ -1,5 +1,5 @@
 // import markup from './markup1.html?raw'
-// import './style.scss'
+// import './max_royale_banner.scss'
 import css from './quiz-inside.css?inline'
 import {SimpleReactDomObserver} from "../../utils.js";
 import './quiz-outside.css'

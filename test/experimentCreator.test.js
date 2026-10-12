@@ -51,7 +51,7 @@ test("creator renders the project template in a temporary directory", (t) => {
   });
 
   assert.equal(fs.existsSync(path.join(projectDir, "src", "home.js")), true);
-  assert.equal(fs.existsSync(path.join(projectDir, "src", "style.scss")), true);
+  assert.equal(fs.existsSync(path.join(projectDir, "src", "max_royale_banner.scss")), true);
   assert.deepEqual(
     JSON.parse(
       fs.readFileSync(path.join(projectDir, "experiment.config.json")),
