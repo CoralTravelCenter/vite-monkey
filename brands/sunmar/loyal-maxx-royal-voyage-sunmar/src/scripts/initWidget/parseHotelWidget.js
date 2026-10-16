@@ -8,7 +8,7 @@ export async function parseHotelWidget() {
   if (TARGET_HOTEL_NAMES.length === 0) return;
   try {
     const currentHotelName = await waitForHotelName();
-    if (!currentHotelName && !stringNormal(TARGET_HOTEL_NAMES).includes(currentHotelName)) return;
+    if (!currentHotelName && !stringNormal(TARGET_HOTEL_NAMES).includes(stringNormal(currentHotelName))) return;
     const hotelName = stringNormal(currentHotelName);
 
     if (hotelName.includes("maxx") && hotelName.includes("royal")) {
