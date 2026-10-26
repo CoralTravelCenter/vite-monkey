@@ -18,10 +18,20 @@ function normalizeDate(value) {
 }
 
 export function matchesSearchDates(startValue, endValue, type) {
-  if (type !== "tour" && type !== "hotel") return false;
-  const start = normalizeDate(startValue);
-  if (!start || start < START_DATE || start > END_DATE) return false;
-  if (type === "hotel") return true;
-  const end = normalizeDate(endValue);
-  return Boolean(end && end >= start && end <= END_DATE);
+  if (type !== "tour" && type !== "hotel") {
+    return false;
+  } else {
+    const start = normalizeDate(startValue);
+    const end = normalizeDate(endValue);
+
+    if (!start || !end) {
+      return false;
+    } else {
+      if (start >= START_DATE && start <= END_DATE && end >= START_DATE && end <= END_DATE && end >= start) {
+        return true;
+      } else {
+        return false;
+      }
+    }
+  }
 }

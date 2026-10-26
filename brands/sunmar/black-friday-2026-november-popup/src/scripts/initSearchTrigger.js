@@ -13,7 +13,9 @@ export async function initSearchTrigger() {
   if (!container || container.dataset.popupbfnv2026injected) return;
 
   function showPopup() {
-    initWidget(container);
+    setTimeout(() => {
+      initWidget(container);
+    }, 5000);
   }
 
   const dispose = watchSearchForm(showPopup);
