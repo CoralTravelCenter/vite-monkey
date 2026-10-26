@@ -1,0 +1,114 @@
+.popup-bf2026-dialog {
+  position: fixed;
+  inset: 0;
+  width: 427px;
+  max-width: calc(100vw - 32px);
+  max-height: calc(100dvh - 32px);
+  margin: auto;
+  padding: 0;
+  border: 0;
+  border-radius: 12px;
+  color: #fff;
+  background: #0d2246;
+  font-family: "Manrope", sans-serif;
+  animation: popup-bf2026-appear 240ms ease-out;
+
+  &::backdrop {
+    background: rgb(0 0 0 / 55%);
+  }
+}
+
+.popup-bf2026-card {
+  position: relative;
+  aspect-ratio: 427 / 203;
+  background: url("https://b2ccdn.sunmar.ru/content/poup-chemodan.webp") center bottom / cover no-repeat;
+}
+
+.popup-bf2026-content {
+  position: absolute;
+  top: 30%;
+  left: 5%;
+  width: 45%;
+  text-align: center;
+}
+
+.popup-bf2026-title {
+  margin: 0;
+  color: inherit;
+  font: 800 18px / 21px "Manrope", sans-serif;
+}
+
+.popup-bf2026-text {
+  margin: 12px 0 24px;
+  color: inherit;
+  font: 400 12px / 14px "Manrope", sans-serif;
+}
+
+.popup-bf2026-link {
+  display: block;
+  padding: 10px;
+  border-radius: 4px;
+  background: #e0102d;
+  color: #fff;
+  font: 500 12px / 14px "Museo Sans Cyrl", "Museo_Sans", "Museo_Sans_Cyrill", sans-serif;
+  text-decoration: none;
+
+  &:hover,
+  &:focus-visible {
+    background: #c70e28;
+    outline: none;
+  }
+}
+
+.popup-bf2026-close {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  display: grid;
+  place-items: center;
+  width: 24px;
+  height: 24px;
+  padding: 0;
+  border: 1px solid rgb(0 0 0 / 15%);
+  border-radius: 5px;
+  background: #d2d6ea;
+  cursor: pointer;
+
+  &:hover,
+  &:focus-visible {
+    background: #fff;
+    outline: none;
+  }
+}
+
+@media (max-width: 440px) {
+  .popup-bf2026-title {
+    font-size: 16px;
+    line-height: 19px;
+  }
+
+  .popup-bf2026-text {
+    margin: 8px 0 12px;
+    font-size: 10px;
+    line-height: 12px;
+  }
+
+  .popup-bf2026-link {
+    padding: 8px;
+    font-size: 10px;
+    line-height: 12px;
+  }
+}
+
+@keyframes popup-bf2026-appear {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .popup-bf2026-dialog {
+    animation: none;
+  }
+}
