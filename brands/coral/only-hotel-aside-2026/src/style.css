@@ -1,0 +1,48 @@
+/*#onl::part(trigger) {*/
+/*    background: url("https://b2ccdn.coral.ru/content/bubble-onl-2026-v2.webp");*/
+/*    background-position: center;*/
+/*    background-size: cover;*/
+/*    background-repeat: no-repeat;*/
+/*    min-height: 84px;*/
+/*    min-width: 64px;*/
+/*    font-size: 11px;*/
+/*    text-align: left;*/
+/*    padding: 4px 8px;*/
+/*    box-sizing: border-box;*/
+/*}*/
+
+/*#onl a {*/
+/*    border-radius: 8px;*/
+/*    color: #ffffff !important;*/
+/*    background: var(--Buttons-color_Btn_Bg_Default, #0092D0) !important;*/
+/*}*/
+
+#onl-trigger {
+    background: url("https://b2ccdn.coral.ru/content/bubble-onl-2026-v2-m.webp");
+    background-position: center;
+    background-size: cover;
+    background-repeat: no-repeat;
+    min-height: 76px;
+    min-width: 72px;
+    font-size: 11px;
+    padding: 4px 8px;
+    box-sizing: border-box;
+    position: fixed;
+    bottom: 16px;
+    left: 16px;
+    z-index: 100;
+    border: none;
+
+    display: flex;
+    justify-content: center;
+    align-items: end;
+    text-align: center;
+    color: #fff;
+
+    border-radius: 12px;
+    box-shadow: 4px 4px 14px 0 rgba(0, 0, 0, 0.15);
+}
+
+#only-h::part(popup-content) {
+    gap: 8px;
+}
