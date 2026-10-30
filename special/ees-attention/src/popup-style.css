@@ -1,0 +1,82 @@
+.ees-attention__card--popup {
+  flex-direction: column;
+}
+
+.ees-attention__title--notice {
+  color: #0092d0;
+}
+
+#ees-attention[data-brand="sunmar"] .ees-attention__title--notice {
+  width: fit-content;
+  background: linear-gradient(
+    245deg,
+    var(
+        --Gradient-color_Gradinet_Primary_Second,
+        var(--sunmar-color-gradient-primary-second, #d8242a)
+      )
+      15.84%,
+    var(
+        --Gradient-color_Gradient_Primary_First,
+        var(--sunmar-color-gradient-primary-first, #e7317d)
+      )
+      84.16%
+  );
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.ees-attention__card--popup > .ees-attention__action {
+  align-self: flex-end;
+}
+
+.ees-attention__date {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  border-radius: 6px;
+  background: #ebf4fa;
+  padding: 10px;
+}
+
+.ees-attention__date img {
+  flex-shrink: 0;
+}
+
+.ees-attention__card--desktop {
+  --ees-attention-plane-size: 130px;
+  position: fixed;
+  bottom: 16px;
+  left: 32px;
+  z-index: 102;
+}
+
+.ees-attention__card--desktop::after {
+  right: calc(var(--ees-attention-plane-size) / -2);
+}
+
+.ees-attention__dialog {
+  position: fixed;
+  inset: auto 0 max(16px, env(safe-area-inset-bottom, 0px));
+  width: fit-content;
+  max-width: calc(100% - 32px);
+  max-height: calc(100dvh - 32px);
+  margin: 0 auto;
+  padding: 0;
+  border: none;
+  border-radius: var(--radius-borderRadiusSM, 8px);
+  background: transparent;
+  overscroll-behavior: contain;
+}
+
+.ees-attention__dialog::backdrop {
+  background: rgb(0 0 0 / 40%);
+}
+
+.ees-attention__dialog .ees-attention__card {
+  min-width: 0;
+}
+
+:root.ees-attention-modal-open {
+  overflow: hidden;
+}

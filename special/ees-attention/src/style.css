@@ -1,0 +1,74 @@
+.ees-attention__card {
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  min-width: 300px;
+  padding: 12px;
+  gap: 12px;
+  border-radius: var(--radius-borderRadiusSM, 8px);
+  background: var(--colorBgContainer, #fff);
+  box-shadow:
+    0 6px 16px 0 rgb(0 0 0 / 8%),
+    0 3px 6px -4px rgb(0 0 0 / 12%),
+    0 9px 28px 8px rgb(0 0 0 / 5%);
+  font-size: 12px;
+  line-height: 1.2;
+}
+
+.ees-attention__card[hidden] {
+  display: none;
+}
+
+.ees-attention__text {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.ees-attention__title {
+  font-size: 16px;
+}
+
+.ees-attention__card--trigger {
+  --ees-attention-plane-size: 80px;
+  position: fixed;
+  bottom: 16px;
+  left: 48px;
+  z-index: 100;
+}
+
+.ees-attention__card--trigger .ees-attention__text {
+  gap: 8px;
+  line-height: 1;
+}
+
+.ees-attention__card--trigger::after,
+.ees-attention__card--desktop::after {
+  content: "";
+  position: absolute;
+  top: calc(var(--ees-attention-plane-size) / -2);
+  width: var(--ees-attention-plane-size);
+  height: var(--ees-attention-plane-size);
+  background: var(--ees-attention-plane) center / cover;
+  pointer-events: none;
+}
+
+.ees-attention__card--trigger::after {
+  left: calc(var(--ees-attention-plane-size) / -2);
+  transform: scaleX(-1);
+}
+
+.ees-attention__action {
+  display: block;
+  flex-shrink: 0;
+  touch-action: manipulation;
+}
+
+.ees-attention__action--sunmar::part(control) {
+  height: 40px;
+  padding: 0 20px;
+  border-radius: 12px;
+  font-size: 12px;
+  font-weight: 400;
+  line-height: 16px;
+}
