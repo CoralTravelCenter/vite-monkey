@@ -20,14 +20,17 @@
 
 .popup-bf2026-card {
   position: relative;
+  display: flow-root;
+  box-sizing: border-box;
   aspect-ratio: 427 / 203;
-  background: url("https://b2ccdn.sunmar.ru/content/poup-chemodan.webp") center bottom / cover no-repeat;
+  padding: 14.26% 0 5%;
+  background: url("https://b2ccdn.sunmar.ru/content/poup-chemodan.webp") center
+    bottom / cover no-repeat;
 }
 
 .popup-bf2026-content {
-  position: absolute;
-  top: 30%;
-  left: 5%;
+  position: relative;
+  margin-left: 5%;
   width: 45%;
   text-align: center;
 }
@@ -35,13 +38,17 @@
 .popup-bf2026-title {
   margin: 0;
   color: inherit;
-  font: 800 18px / 21px "Manrope", sans-serif;
+  font:
+    800 18px / 21px "Manrope",
+    sans-serif;
 }
 
 .popup-bf2026-text {
   margin: 12px 0 24px;
   color: inherit;
-  font: 400 12px / 14px "Manrope", sans-serif;
+  font:
+    400 12px / 14px "Manrope",
+    sans-serif;
 }
 
 .popup-bf2026-link {
@@ -50,7 +57,11 @@
   border-radius: 4px;
   background: #e0102d;
   color: #fff;
-  font: 500 12px / 14px "Museo Sans Cyrl", "Museo_Sans", "Museo_Sans_Cyrill", sans-serif;
+  font:
+    500 12px / 14px "Museo Sans Cyrl",
+    "Museo_Sans",
+    "Museo_Sans_Cyrill",
+    sans-serif;
   text-decoration: none;
 
   &:hover,
