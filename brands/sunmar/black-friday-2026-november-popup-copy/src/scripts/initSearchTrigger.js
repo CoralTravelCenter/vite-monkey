@@ -15,7 +15,7 @@ export async function initSearchTrigger() {
   function showPopup() {
     setTimeout(() => {
       initWidget(container);
-    }, 5000);
+    }, 30000);
   }
 
   const dispose = watchSearchForm(showPopup);
