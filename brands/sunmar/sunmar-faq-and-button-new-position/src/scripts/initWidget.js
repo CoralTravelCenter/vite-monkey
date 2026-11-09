@@ -1,4 +1,4 @@
-import { initReservationLayout } from "./reservationLayout.js";
+import { initReservationLayout } from "./layoutOptions/reservationLayout.js";
 
 let cleanupWidget = null;
 

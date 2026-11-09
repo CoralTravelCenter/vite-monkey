@@ -2,14 +2,7 @@
   margin: var(--sunmar-margin-l, 24px) 0;
 }
 
-body:has([data-testid="cf-surname-input"])
-  .Sunmar-faq-button-position__button-placeholder {
-  display: none;
-}
-
-body:has([data-testid="cf-surname-input"])
-  .Sunmar-faq-button-position__submit
-  > .buttons {
+.Sunmar-faq-button-position__submit > .buttons {
   flex-direction: column-reverse;
   align-items: stretch;
   gap: 12px;
@@ -17,6 +10,10 @@ body:has([data-testid="cf-surname-input"])
   > button {
     width: 100%;
     margin: 0;
+    height: auto;
+    white-space: normal;
+    padding-top: 8px;
+    padding-bottom: 8px;
   }
 }
 
@@ -172,4 +169,26 @@ body:has([data-testid="cf-surname-input"])
   .Sunmar-FAQ-hotel-reservation-additional-service__icon {
     transition: none;
   }
+}
+
+[class*="ReservationSubmitButton_buttons__"] {
+  width: 100%;
+}
+
+#SaveReservation_Button {
+  width: 100%;
+}
+
+[data-widget-type="28"] {
+  position: sticky;
+  top: 0;
+}
+
+.Sunmar-faq-fake-rsb-container {
+  position: sticky;
+  bottom: 0;
+  background-color: #ffffff;
+  padding-top: 16px;
+  padding-bottom: 8px;
+  z-index: 10;
 }

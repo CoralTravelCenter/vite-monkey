@@ -1,0 +1,57 @@
+
+
+.sunmar-toggle {
+    background-color: #fff;
+    border-radius: 20px;
+    flex-direction: column;
+    height: max-content;
+    display: flex
+}
+
+.sunmar--faq .sunmar-toggle + .sunmar-toggle {
+    margin-top: 16px;
+}
+
+.sunmar-toggle__header {
+    cursor: pointer;
+    justify-content: space-between;
+    align-items: center;
+    padding: 16px;
+    display: flex
+}
+
+.sunmar-toggle__header p {
+    color: inherit;
+    font-size: 20px;
+    font-weight: 600;
+    line-height: 28px
+}
+
+.sunmar-toggle__header svg {
+    flex-shrink: 0;
+    margin-left: 8px;
+    transition: transform .3s
+}
+
+.sunmar-toggle__body {
+    max-height: 0;
+    margin-left: 16px;
+    margin-right: 16px;
+    list-style: none;
+    transition: max-height .3s;
+    overflow: hidden
+}
+
+.sunmar-toggle__body li + li {
+    margin-top: 8px
+}
+
+.sunmar-toggle.active .sunmar-toggle__header svg {
+    transform: rotate(180deg)
+}
+
+.sunmar-toggle.active .sunmar-toggle__body {
+    margin-bottom: 16px
+}
+
+ul {margin-left: 30px;}

@@ -7,7 +7,7 @@ Mindbox experiment based on Vite and vite-plugin-monkey.
 - Brand: `sunmar`
 - Match: `https://www.sunmar.ru/*`
 - Entry: `src/main.js`
-- Styles: `src/style.scss`
+- Styles: `src/styles/style.scss`
 
 ## Commands
 
@@ -20,8 +20,8 @@ npm run build:experiment -- brands/sunmar/sunmar-faq-and-button-new-position
 
 - `src/main.js` - entry point.
 - `src/markup.html` - empty div inserted at the original button position.
-- `src/scripts/reservationLayout.js` - submit button placement and insurance carousel visibility.
-- `src/style.scss` - experiment styles.
+- `src/scripts/layoutOptions/reservationLayout.js` - submit button placement and insurance carousel visibility.
+- `src/styles/style.scss` - experiment styles.
 - `experiment.config.json` - config for root-level `dev:experiment` and `build:experiment`.
 
 ## Поведение

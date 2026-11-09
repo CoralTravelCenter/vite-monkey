@@ -1,13 +1,13 @@
-export { default as MARKUP1 } from "../../markup1.html?raw";
-export { default as MARKUP2 } from "../../markup2.html?raw";
+export {default as MARKUP} from "../../markup.html?raw";
 
-export const ADDITIONAL_SERVICE_STEP_SELECTOR = '[data-testid="test-extra-service-widget"]';
-export const CUSTOMER_STEP_SELECTOR = '[data-testid="cf-surname-input"]';
-export const PRODUCT_SUMMARY_SELECTOR = '[data-testid="product-summary"]';
-export const FAQ_SELECTOR = ".Sunmar-FAQ-hotel-reservation-additional-service";
-
-export const WATCH_SELECTOR = [
-  ADDITIONAL_SERVICE_STEP_SELECTOR,
-  CUSTOMER_STEP_SELECTOR,
-  PRODUCT_SUMMARY_SELECTOR,
-].join(", ");
+export const SUMMARY_CARD_SELECTOR = '[class*="ProductSummary_productSummaryCard__"]';
+export const SUBMIT_CONTAINER_SELECTOR = '[data-testid="rsb-container"]';
+export const INSURANCE_TRACK_SELECTOR = '.glide__track[data-glide-el="track"]';
+export const INSURANCE_TITLE_SELECTOR = '[class*="InfoCard_title__"]';
+export const HIDDEN_TRACK_CLASS = "Sunmar-faq-button-position__insurance-hidden";
+export const MOVED_BUTTON_CLASS = "Sunmar-faq-button-position__submit";
+export const INSURANCE_TITLES = [
+    "Медицинская страховка",
+    "Страхование от невыезда",
+    "Условия страхования",
+];
