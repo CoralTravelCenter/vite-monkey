@@ -1,3 +1,5 @@
+import {sendMetric} from "../utils/sendMetric.js";
+
 export async function hostReactAppReadyAccord(
     selector = "#__next > div",
     timeout = 500
@@ -40,6 +42,10 @@ document.addEventListener("click", function(event) {
 function openAccordion(container, body) {
     container.classList.add("active");
     body.style.maxHeight = body.scrollHeight + "px";
+    if (!container.dataset.HEADER_TOGGLE) {
+        sendMetric();
+        container.dataset.HEADER_TOGGLE = "true";
+    }
 }
 
 function closeAccordion(container, body) {

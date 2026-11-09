@@ -1,8 +1,7 @@
-
-
 .sunmar-toggle {
     background-color: #fff;
     border-radius: 20px;
+    border: 1px solid rgba(0, 0, 0, 0.15);
     flex-direction: column;
     height: max-content;
     display: flex
@@ -16,7 +15,7 @@
     cursor: pointer;
     justify-content: space-between;
     align-items: center;
-    padding: 16px;
+    padding: 8px 16px;
     display: flex
 }
 
