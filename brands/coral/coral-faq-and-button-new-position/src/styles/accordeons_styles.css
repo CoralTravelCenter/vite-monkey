@@ -1,0 +1,162 @@
+.Coral-faq-fake-rsb-container.Coral-faq-button-position__submit > .buttons {
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column-reverse;
+    align-items: stretch;
+    width: 100%;
+    max-width: none;
+    margin: 0;
+    padding: 0;
+    gap: 12px;
+}
+
+.Coral-faq-fake-rsb-container.Coral-faq-button-position__submit > .buttons > button {
+    box-sizing: border-box;
+    align-self: stretch;
+    width: 100%;
+    min-width: 0;
+    max-width: none;
+    height: auto;
+    min-height: 48px;
+    margin: 0;
+    padding: 8px 16px;
+    white-space: normal;
+    border-radius: var(--ant-border-radius-lg, 12px);
+    font-family: var(--ant-font-family, "Museo_Sans", "Museo_Sans_Cyrill", sans-serif);
+    font-size: 14px;
+    font-weight: 600;
+    line-height: 1.375;
+    cursor: pointer;
+    transition: all 0.3s ease-in-out;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.Coral-faq-button-position__submit > .buttons > button.ant-btn-primary {
+    background-color: var(--ant-color-primary, #077dad);
+    border: 1px solid var(--ant-color-primary, #077dad);
+    color: #FFFFFF;
+}
+
+.Coral-faq-button-position__submit > .buttons > button.ant-btn-primary:hover,
+.Coral-faq-button-position__submit > .buttons > button.ant-btn-primary:active {
+    background-color: var(--ant-color-primary-hover, #096892);
+    border-color: var(--ant-color-primary-hover, #096892);
+}
+
+.Coral-faq-button-position__submit > .buttons > button.ant-btn-default {
+    background-color: #FFFFFF;
+    border: 1px solid rgba(0, 0, 0, 0.15);
+    color: var(--ant-color-primary, #077dad);
+}
+
+.Coral-faq-button-position__submit > .buttons > button.ant-btn-default:hover,
+.Coral-faq-button-position__submit > .buttons > button.ant-btn-default:active {
+    color: var(--ant-color-primary-hover, #096892);
+    border-color: var(--ant-color-primary-border, #90c9df);
+    background-color: var(--ant-color-primary-bg, #e8f5fb);
+}
+
+.glide__track.Coral-faq-button-position__insurance-hidden {
+    display: none;
+}
+
+[data-testid="rsb-container"] > .Coral-faq-button-position__original {
+    display: none;
+}
+
+.Coral-faq-button-position__button-placeholder {
+    align-self: stretch;
+    min-width: 0;
+    margin-block: var(--coral-margin-l, 24px);
+}
+
+.Coral-faq-button-position__button-placeholder > .coral--faq {
+    box-sizing: border-box;
+    width: 100%;
+    max-width: none;
+}
+
+.Coral-faq-button-position__button-placeholder .Coral-faq-button-position__title {
+    margin: 0 0 8px;
+    color: var(--ant-color-text, rgba(0, 0, 0, 0.85));
+    font-family: var(--ant-font-family, inherit);
+    font-size: var(--ant-font-size-heading3, 24px);
+    font-weight: var(--ant-font-weight-strong, 600);
+    line-height: 32px;
+}
+
+[data-testid="test-extra-service-widget"]:has(~ .Coral-faq-button-position__button-placeholder)
+    [class*="BlockContainer_blockContainer__"]:has(> [class*="InfoCardList_swiperContainer__"]) {
+    display: none;
+}
+
+.Coral-faq-button-position__button-placeholder .coral-toggle {
+    background: #fff;
+    border-radius: var(--ant-border-radius-lg, 12px);
+    overflow: hidden;
+}
+
+.Coral-faq-button-position__button-placeholder .coral-toggle + .coral-toggle {
+    margin-top: var(--coral-margin-n, 16px);
+}
+
+.Coral-faq-button-position__button-placeholder .coral-toggle__header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    padding: 16px;
+    cursor: pointer;
+}
+
+.Coral-faq-button-position__button-placeholder .coral-toggle__header:focus-visible {
+    outline: 2px solid var(--ant-color-primary, #077dad);
+    outline-offset: -2px;
+}
+
+.Coral-faq-button-position__button-placeholder .coral-toggle__header h4,
+.Coral-faq-button-position__button-placeholder .coral-toggle__body p {
+    margin: 0;
+}
+
+.Coral-faq-button-position__button-placeholder .coral-toggle__header svg {
+    flex-shrink: 0;
+}
+
+.Coral-faq-button-position__button-placeholder .coral-toggle__header[aria-expanded="true"] svg {
+    transform: rotate(180deg);
+}
+
+.Coral-faq-button-position__button-placeholder .coral-toggle__body {
+    padding: 0 16px 16px;
+}
+
+.Coral-faq-button-position__button-placeholder .coral-toggle__body[hidden] {
+    display: none;
+}
+
+[data-widget-type="28"]:has(.Coral-faq-fake-rsb-container) {
+    position: sticky;
+    top: 0;
+}
+
+
+.Coral-faq-fake-rsb-container.Coral-faq-button-position__submit {
+    position: sticky;
+    bottom: 0;
+    box-sizing: border-box;
+    align-self: stretch;
+    width: 100%;
+    max-width: none;
+    padding: 8px;
+    background-color: #ffffff;
+    z-index: 10;
+    margin: 0 !important;
+}
+
+[class*="ProductSummary_productSummaryCard__"]:has(> [data-coral-faq-current-buttons])
+    > .Coral-faq-fake-rsb-container:not([data-coral-faq-current-buttons]) {
+    display: none;
+}

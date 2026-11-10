@@ -5,7 +5,11 @@ import {hostReactAppReadyAccord} from "./scripts/faqSettings/accordionElement.js
 import {headerChanges} from "./scripts/headerChanges.js";
 
 (async function StartSunmarFaqHotelReservationAdditionalService() {
-  ym(215233,'reachGoal','faq_add_passenger_group_B');
+  if (!sessionStorage.getItem('faqGroupBSent')) {
+    sessionStorage.setItem('faqGroupBSent', '1');
+    ym(215233, 'reachGoal', 'faq_add_passenger_group_B');
+  }
+
   const cleanupWidget = initWidget();
 
   try {

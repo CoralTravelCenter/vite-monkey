@@ -1,0 +1,244 @@
+[data-testid="rsb-container"].Sunmar-faq-button-position__submit {
+  margin: var(--sunmar-margin-l, 24px) 0;
+}
+
+.Sunmar-faq-button-position__submit > .buttons {
+  flex-direction: column-reverse;
+  align-items: stretch;
+  gap: 12px;
+
+  > button {
+    width: 100%;
+    margin: 0;
+    height: auto;
+    white-space: normal;
+    padding-top: 8px;
+    padding-bottom: 8px;
+  }
+}
+
+.Sunmar-faq-button-position__submit > .buttons > button {
+  width: 100%;
+  height: auto;
+  min-height: 48px;
+  margin: 0;
+  padding: 8px 16px;
+  white-space: normal;
+  border-radius: var(--ant-border-radius-lg, 12px);
+  font-family: var(--ant-font-family, "Museo_Sans", "Museo_Sans_Cyrill", sans-serif);
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 1.375;
+  cursor: pointer;
+  transition: all 0.3s ease-in-out;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.Sunmar-faq-button-position__submit > .buttons > button.ant-btn-primary {
+  background-color: #2E3465;
+  border: 1px solid #2E3465;
+  color: #FFFFFF;
+}
+
+.Sunmar-faq-button-position__submit > .buttons > button.ant-btn-primary:hover,
+.Sunmar-faq-button-position__submit > .buttons > button.ant-btn-primary:active {
+  background-color: #1D1F3B;
+  border-color: #1D1F3B;
+}
+
+.Sunmar-faq-button-position__submit > .buttons > button.ant-btn-default {
+  background-color: #FFFFFF;
+  border: 1px solid rgba(0, 0, 0, 0.15);
+  color: #2E3465;
+}
+
+.Sunmar-faq-button-position__submit > .buttons > button.ant-btn-default:hover,
+.Sunmar-faq-button-position__submit > .buttons > button.ant-btn-default:active {
+  color: #1D1F3B;
+  border-color: #8484A5;
+  background-color: rgba(223, 223, 232, 1);
+}
+
+@media (max-width: 767px) {
+  [data-testid="rsb-container"].Sunmar-faq-button-position__submit {
+    margin-block: var(--sunmar-margin-n, 16px);
+  }
+}
+
+.glide__track.Sunmar-faq-button-position__insurance-hidden {
+  display: none;
+}
+
+.Sunmar-FAQ-hotel-reservation-additional-service {
+  box-sizing: border-box;
+  width: calc(
+    100% - var(--sunmar-margin-n, 16px) - var(--sunmar-margin-n, 16px)
+  );
+  max-width: none;
+  margin: var(--sunmar-margin-l, 24px) 0 0 var(--sunmar-margin-n, 16px);
+  color: #000;
+  font-family: Manrope, sans-serif;
+
+  *,
+  *::before,
+  *::after {
+    box-sizing: border-box;
+  }
+
+  &__title {
+    margin: 0;
+    padding: 8px;
+    font-size: 20px;
+    font-weight: 700;
+    line-height: 24px;
+  }
+
+  &__list {
+    width: 100%;
+  }
+
+  &__item {
+    position: relative;
+    width: 100%;
+
+    &::after {
+      position: absolute;
+      right: 8px;
+      bottom: 0;
+      left: 8px;
+      height: 1px;
+      background: #d9d9d9;
+      content: "";
+    }
+
+    &:last-child::after,
+    &.is-open::after {
+      display: none;
+    }
+
+    &.is-open {
+      margin: -1px 0 0;
+      border: 1px solid rgba(0, 0, 0, 0.06);
+      border-radius: 12px;
+      background: #fff;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.25);
+    }
+
+    &.is-open + & {
+      border-top: 0;
+    }
+  }
+
+  &__question {
+    display: flex;
+    min-height: 64px;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    width: 100%;
+    padding: 8px;
+    border: 0;
+    border-radius: 12px;
+    background: transparent;
+    color: inherit;
+    cursor: pointer;
+    font-family: inherit;
+    font-size: 14px;
+    font-weight: 600;
+    line-height: 24px;
+    text-align: left;
+
+    &:hover {
+      background: rgba(0, 146, 208, 0.05);
+    }
+
+    &:focus-visible {
+      outline: 2px solid #0092d0;
+      outline-offset: -2px;
+    }
+  }
+
+  &__icon {
+    display: flex;
+    width: 10px;
+    height: 10px;
+    align-items: center;
+    justify-content: center;
+    flex: 0 0 10px;
+    transition: transform 160ms ease;
+
+    svg {
+      display: block;
+      width: 6px;
+      height: 11px;
+    }
+  }
+
+  &__item.is-open &__question {
+    min-height: 0;
+    padding: 16px 24px 0 16px;
+
+    &:hover {
+      background: transparent;
+    }
+  }
+
+  &__item.is-open &__icon {
+    transform: rotate(-90deg);
+  }
+
+  &__answer {
+    padding: 8px 24px 16px 16px;
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 24px;
+
+    p {
+      margin: 0;
+    }
+  }
+}
+
+@media (min-width: 1024px) {
+  .Sunmar-FAQ-hotel-reservation-additional-service {
+    width: 100%;
+    max-width: 324px;
+    margin-left: 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .Sunmar-FAQ-hotel-reservation-additional-service__icon {
+    transition: none;
+  }
+}
+
+[class*="ReservationSubmitButton_buttons__"] {
+  width: 100%;
+}
+
+#SaveReservation_Button {
+  width: 100%;
+}
+
+[data-widget-type="28"] {
+  position: sticky;
+  top: 0;
+}
+
+.Sunmar-faq-fake-rsb-container {
+  position: sticky;
+  bottom: 0;
+  padding-block: 8px;
+  background-color: #ffffff;
+  z-index: 10;
+  margin: 0 !important;
+}
+
+
+
+[data-testid="test-extra-service-widget"]:nth-child(2) [class*="BlockContainer_blockHeader__"] {
+  margin: 0 !important;
+}

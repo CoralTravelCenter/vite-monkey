@@ -1,0 +1,8 @@
+{
+  "name": "coral-faq-and-button-new-position",
+  "entry": "src/main.js",
+  "brand": "coral",
+  "match": [
+    "https://www.coral.ru/*"
+  ]
+}
