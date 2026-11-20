@@ -4,15 +4,12 @@ import os from "node:os";
 import path from "node:path";
 import test from "node:test";
 
-import {
-  createExperimentFiles,
-  resolveExperimentOptions,
-} from "../scripts/lib/experiment-creator.js";
-import { ROOT_DIR } from "../scripts/lib/projects.js";
+import {createExperimentFiles, resolveExperimentOptions,} from "../scripts/lib/experiment-creator.js";
+import {ROOT_DIR} from "../scripts/lib/projects.js";
 
 test("creator defaults to main, CSS and the selected brand match", () => {
   assert.deepEqual(
-    resolveExperimentOptions({ name: "Promo Banner", brand: "coral" }),
+    resolveExperimentOptions({name: "Promo Banner", brand: "coral"}),
     {
       projectName: "promo-banner",
       brand: "coral",
@@ -24,17 +21,17 @@ test("creator defaults to main, CSS and the selected brand match", () => {
 });
 
 test("creator supports both brands and rejects custom", () => {
-  const options = resolveExperimentOptions({ name: "banner", brand: "both" });
+  const options = resolveExperimentOptions({name: "banner", brand: "both"});
   assert.equal(options.match, "https://www.coral.ru/*,https://www.sunmar.ru/*");
   assert.throws(
-    () => resolveExperimentOptions({ name: "banner", brand: "custom" }),
+    () => resolveExperimentOptions({name: "banner", brand: "custom"}),
     /coral, sunmar, both/,
   );
 });
 
 test("creator renders the project template in a temporary directory", (t) => {
   const tempDir = fs.mkdtempSync(path.join(os.tmpdir(), "vite-monkey-create-"));
-  t.after(() => fs.rmSync(tempDir, { recursive: true, force: true }));
+  t.after(() => fs.rmSync(tempDir, {recursive: true, force: true}));
   const projectDir = path.join(tempDir, "promo-banner");
   const options = resolveExperimentOptions({
     name: "promo-banner",
@@ -51,7 +48,7 @@ test("creator renders the project template in a temporary directory", (t) => {
   });
 
   assert.equal(fs.existsSync(path.join(projectDir, "src", "home.js")), true);
-  assert.equal(fs.existsSync(path.join(projectDir, "src", "style.scss")), true);
+  assert.equal(fs.existsSync(path.join(projectDir, "src", "style.css")), true);
   assert.deepEqual(
     JSON.parse(
       fs.readFileSync(path.join(projectDir, "experiment.config.json")),

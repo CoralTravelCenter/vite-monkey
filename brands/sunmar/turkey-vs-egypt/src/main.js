@@ -1,5 +1,5 @@
 // import markup from './markup.html?raw'
-// import './style.scss'
+// import './style.css'
 import css from './quiz-inside.css?inline'
 import {SimpleReactDomObserver} from "../../utils.js";
 import './quiz-outside.css'

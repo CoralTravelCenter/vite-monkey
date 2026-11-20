@@ -1,0 +1,24 @@
+.ant-space-item[data-black-friday] {
+    padding: 16px 13px;
+    border-radius: 16px;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    background: radial-gradient(280.59% 237.92% at 83.64% 154.63%, #C399BC 0%, #505576 54.96%, #2C3A58 100%);
+}
+
+.ant-space-item[data-black-friday] .ant-checkbox-label span {
+    color: #FFFFFF;
+    font-weight: 600;
+}
+
+.ant-space-item[data-black-friday] .ant-checkbox-checked {
+    background: #FFFFFF;
+    border-color: #FFFFFF;
+}
+
+.ant-space-item[data-black-friday] :after {
+    --ant-color-white: #000;
+}
+
+.ant-checkbox-wrapper:hover {
+    background: #FFFFFF;
+}
