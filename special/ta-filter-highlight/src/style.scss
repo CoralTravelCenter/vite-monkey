@@ -1,0 +1,68 @@
+html[data-ptff-quick-filter]
+  .ant-drawer:has([data-testid="ptff-reset-filter-btn"]) {
+  opacity: 0 !important;
+  pointer-events: none !important;
+}
+
+html[data-ptff-quick-filter]
+  .ant-drawer:has([data-testid="ptff-reset-filter-btn"])
+  * {
+  pointer-events: none !important;
+}
+
+#ptff-turkish-airlines-btn {
+  --ptff-background: #000;
+  --ptff-hover-background: #262626;
+  --ptff-hover-border: #737373;
+  --ptff-active-background: #404040;
+  --ptff-selected-border: #367dad;
+  --ptff-focus-border: #077dad;
+  --ptff-disabled-background: #6b7280;
+
+  html[data-ptff-brand="sunmar"] & {
+    --ptff-background: #c9001f;
+    --ptff-hover-background: #b5001c;
+    --ptff-hover-border: #9f0019;
+    --ptff-active-background: #9f0019;
+    --ptff-selected-border: #8f0017;
+    --ptff-focus-border: #c9001f;
+    --ptff-disabled-background: #d59aa3;
+  }
+
+  background: var(--ptff-background);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 10px 8px;
+  border: none;
+
+  @media (hover: hover) {
+    &:hover:not(:disabled) {
+      background: var(--ptff-hover-background);
+      box-shadow: inset 0 0 0 1px var(--ptff-hover-border);
+    }
+  }
+
+  &:active:not(:disabled) {
+    background: var(--ptff-active-background);
+  }
+
+  &[aria-pressed="true"] {
+    box-shadow: inset 0 0 0 1px var(--ptff-selected-border);
+  }
+
+  &:focus-visible {
+    outline: 2px solid var(--ptff-focus-border);
+    outline-offset: 3px;
+  }
+
+  &:disabled {
+    background: var(--ptff-disabled-background);
+    box-shadow: none;
+    cursor: not-allowed;
+
+    svg {
+      opacity: 0.55;
+    }
+  }
+}

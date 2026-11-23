@@ -1,0 +1,188 @@
+[data-brand] .ant-space-item[data-black-friday] {
+  --bf-size: 16px;
+  --ant-font-size: var(--bf-size);
+
+  font-size: var(--bf-size);
+  padding: var(--bf-size) calc(var(--bf-size) * 13 / 16);
+  border-radius: var(--bf-size);
+  width: 100%;
+
+  .ant-checkbox-wrapper {
+    font-size: inherit;
+    line-height: 1.5;
+    padding: 0;
+  }
+
+  .ant-checkbox-label span {
+    font-size: inherit;
+  }
+
+  .ant-checkbox-label {
+    font-size: inherit;
+    padding-inline: calc(var(--bf-size) / 2);
+  }
+
+  .ant-checkbox,
+  .ant-checkbox-inner {
+    font-size: inherit;
+    width: 20px;
+    height: 20px;
+  }
+
+  .ant-checkbox {
+    position: relative;
+  }
+
+  .ant-checkbox-inner {
+    border-width: calc(var(--bf-size) / 16);
+  }
+
+  .ant-checkbox::before,
+  .ant-checkbox::after,
+  .ant-checkbox-inner::after {
+    content: none;
+  }
+
+  .ant-checkbox-checked::before {
+    content: "";
+    position: absolute;
+    z-index: 1;
+    pointer-events: none;
+    display: block;
+    box-sizing: border-box;
+    inset: 50% auto auto 50%;
+    width: 13.75px;
+    height: 10px;
+    border: 0;
+    background: url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%2211%22%20height%3D%228%22%20viewBox%3D%220%200%2011%208%22%20fill%3D%22none%22%3E%3Cpath%20d%3D%22M0.1464%204.14645C0.341662%203.95118%200.658245%203.95118%200.853507%204.14645L3.16662%206.45956L9.47973%200.146447C9.67499%20-0.0488152%209.99158%20-0.0488155%2010.1868%200.146447C10.3821%200.341709%2010.3821%200.658292%2010.1868%200.853554L3.52017%207.52022C3.32491%207.71548%203.00833%207.71548%202.81307%207.52022L0.1464%204.85355C-0.0488621%204.65829%20-0.0488621%204.34171%200.1464%204.14645Z%22%20fill-rule%3D%22evenodd%22%20clip-rule%3D%22evenodd%22%20fill%3D%22black%22%2F%3E%3C%2Fsvg%3E") center / contain no-repeat;
+    opacity: 1;
+    transform: translate(-50%, -50%);
+    transition: none;
+  }
+}
+
+@media (max-width: 992px) {
+  [data-brand] .ant-space-item[data-black-friday] {
+    --bf-size: 14px;
+
+    .ant-checkbox,
+    .ant-checkbox-inner {
+      width: 18px;
+      height: 18px;
+    }
+
+    .ant-checkbox-checked::before {
+      width: 12.375px;
+      height: 9px;
+    }
+  }
+}
+
+[data-brand="coral"],
+[data-brand="sunmar"] {
+  h1 {
+    margin-top: 0;
+  }
+
+  .ant-space-item[data-black-friday] {
+    transition: box-shadow 160ms ease,
+    border-color 160ms ease;
+  }
+
+  .ant-space-item[data-black-friday] .ant-checkbox-label span {
+    color: #fff;
+    font-weight: 600;
+  }
+
+  @media (hover: hover) {
+    .ant-space-item[data-black-friday] .ant-checkbox-wrapper:hover {
+      background: transparent !important;
+      border-color: #ffffff !important;
+    }
+  }
+
+  .ant-space-item[data-black-friday] .ant-checkbox-checked,
+  .ant-space-item[data-black-friday] .ant-checkbox-checked .ant-checkbox-inner {
+    background-color: #fff;
+    border-color: #fff;
+  }
+
+  .ant-space-item[data-black-friday] .ant-checkbox-checked::after,
+  .ant-space-item[data-black-friday]
+  .ant-checkbox-checked
+  .ant-checkbox-inner::after {
+    --ant-color-white: #000;
+    border-color: #000;
+  }
+
+  .ant-space-item[data-black-friday]
+  .ant-checkbox-wrapper:not(.ant-checkbox-wrapper-disabled):hover
+  .ant-checkbox-checked:not(.ant-checkbox-disabled) {
+    background-color: #fff;
+    border-color: #fff;
+  }
+
+  .ant-space-item[data-black-friday]
+  .ant-checkbox-wrapper:not(.ant-checkbox-wrapper-disabled):hover
+  .ant-checkbox,
+  .ant-space-item[data-black-friday]
+  .ant-checkbox:not(.ant-checkbox-disabled):hover
+  .ant-checkbox {
+    border-color: #fff;
+  }
+}
+
+[data-brand="coral"] {
+  [data-filter="BF"] {
+    border-radius: 81px;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    color: #ffffff;
+    background: radial-gradient(
+            280.59% 237.92% at 83.64% 154.63%,
+            #c399bc 0%,
+            #505576 54.96%,
+            #2c3a58 100%
+    );
+
+    span {
+      filter: invert(1);
+    }
+  }
+
+  .ant-space-item[data-black-friday] {
+    background: radial-gradient(
+            280.59% 237.92% at 83.64% 154.63%,
+            #c399bc 0%,
+            #505576 54.96%,
+            #2c3a58 100%
+    );
+    border: calc(var(--bf-size) / 16) solid #ffffff14;
+  }
+}
+
+[data-brand="sunmar"] {
+  .ant-space-item[data-black-friday] {
+    border: calc(var(--bf-size) / 16) solid rgba(255, 255, 255, 0.08);
+    background: url("https://b2ccdn.sunmar.ru/content/filter-percent.webp"),
+    radial-gradient(
+            273.46% 257.07% at 86.42% 289.81%,
+            #d62f74 0%,
+            #071e3e 100%
+    );
+    background-repeat: no-repeat;
+    background-position: right center;
+    background-size: contain;
+    overflow: clip;
+  }
+}
+
+[data-brand="sunmar"] {
+  [data-filter=BF] {
+    background: radial-gradient(273.46% 257.07% at 86.42% 289.81%, #D62F74 0%, #071E3E 100%);
+    color: #fff;
+
+    span {
+      filter: invert(1);
+    }
+  }
+}
