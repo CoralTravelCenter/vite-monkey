@@ -1,0 +1,8 @@
+{
+  "name": "bf-filter-replace-2026",
+  "entry": "src/main.js",
+  "brand": "sunmar",
+  "match": [
+    "https://www.sunmar.ru/*"
+  ]
+}

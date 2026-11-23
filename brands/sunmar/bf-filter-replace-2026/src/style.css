@@ -1,0 +1,44 @@
+.ant-space-item[data-black-friday] {
+    padding: 16px 13px;
+    transition: box-shadow 160ms ease, border-color 160ms ease;
+    border-radius: 16px;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    background: url("https://b2ccdn.sunmar.ru/content/filter-percent.webp"), radial-gradient(273.46% 257.07% at 86.42% 289.81%, #D62F74 0%, #071E3E 100%);
+    background-repeat: no-repeat;
+    background-position: right center;
+    background-size: contain;
+    overflow: clip;
+}
+
+.ant-space-item[data-black-friday] .ant-checkbox-label span {
+    color: #fff;
+    font-weight: 600;
+}
+
+@media (hover: hover) {
+    .ant-space-item[data-black-friday] .ant-checkbox-wrapper:hover {
+        background: transparent !important;
+        border-color: #FFFFFF !important;
+    }
+}
+
+.ant-space-item[data-black-friday] .ant-checkbox-checked,
+.ant-space-item[data-black-friday] .ant-checkbox-checked .ant-checkbox-inner {
+    background-color: #fff;
+    border-color: #fff;
+}
+
+.ant-space-item[data-black-friday] .ant-checkbox-checked::after,
+.ant-space-item[data-black-friday] .ant-checkbox-checked .ant-checkbox-inner::after {
+    --ant-color-white: #000;
+    border-color: #000;
+}
+
+.ant-space-item[data-black-friday] .ant-checkbox-wrapper:not(.ant-checkbox-wrapper-disabled):hover .ant-checkbox-checked:not(.ant-checkbox-disabled) {
+    background-color: #fff;
+    border-color: #fff;
+}
+
+.ant-space-item[data-black-friday] .ant-checkbox-wrapper:not(.ant-checkbox-wrapper-disabled):hover .ant-checkbox, .ant-checkbox:not(.ant-checkbox-disabled):hover .ant-checkbox {
+    border-color: #fff;
+}
