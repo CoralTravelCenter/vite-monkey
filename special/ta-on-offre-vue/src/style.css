@@ -1,0 +1,14 @@
+[data-shild] {
+    position: relative;
+}
+
+[data-shild]::after {
+    content: "";
+    display: block;
+    background: url("https://b2ccdn.coral.ru/content/frame_738001342.webp");
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: left center;
+    height: 40px;
+    width: 100%;
+}

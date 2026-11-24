@@ -7,7 +7,7 @@ const brand = window.location.hostname.match(
 )?.[1];
 if (brand) document.documentElement?.setAttribute("data-ptff-brand", brand);
 
-const TARGET_DATE = "2027-04-24";
+const TARGET_DATE = "2027-04-25";
 const dataLayer = (window.dataLayer ??= []);
 
 if (brand && Array.isArray(dataLayer) && typeof dataLayer.push === "function") {
@@ -24,6 +24,6 @@ if (brand && Array.isArray(dataLayer) && typeof dataLayer.push === "function") {
         departureDate >= TARGET_DATE;
       syncButton(isValid);
     },
-    false,
+    true,
   );
 }
